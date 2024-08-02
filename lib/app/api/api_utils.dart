@@ -1,6 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class ApiUtils {
+class AuthUtils {
   static const FlutterSecureStorage storage = FlutterSecureStorage();
 
   static Future<bool> isAccess() async {
