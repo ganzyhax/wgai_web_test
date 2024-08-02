@@ -11,4 +11,22 @@ class AppColors {
   static final Color choiceColor = Color(0xff052DC126);
   static final Color cardOnTheBlue = Color(0xffE5E5EA4D);
   static final Color cardOnTheBlue2 = Color(0xffE5E5EAB2);
+  static final LinearGradient gradientPrimary = const LinearGradient(
+    colors: [Color(0xff052DC1), Color(0xff052DC1)],
+    stops: [0.25, 0.75],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static final LinearGradient gradientWhite = const LinearGradient(
+    colors: [Colors.white, Colors.white],
+    stops: [0.25, 0.75],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+  static final LinearGradient gradientGrey = const LinearGradient(
+    colors: [Color(0xff9fadb9), Color(0xff9fadb9)],
+    stops: [0.25, 0.75],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }

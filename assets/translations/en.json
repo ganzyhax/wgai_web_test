@@ -1,4 +1,8 @@
 {
     "hello":"Hello",
-    "splash_subtitle":"Your personal AI for university admission and career guidance"
+    "splash_subtitle":"Your personal AI for university admission and career guidance",
+    "consultant":"Consultant",
+    "community":"Community",
+    "resources":"Resources",
+    "profile":"Profile"
 }

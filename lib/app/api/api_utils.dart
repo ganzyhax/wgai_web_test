@@ -3,7 +3,29 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class AuthUtils {
   static const FlutterSecureStorage storage = FlutterSecureStorage();
 
-  static Future<bool> isAccess() async {
+  static Future<void> setLanguage(String lang) async {
+    await storage.write(key: 'localLang', value: lang.toString());
+  }
+
+  static Future<String> getLanguage() async {
+    String lang = await storage.read(key: 'localLang') ?? 'null';
+    return lang;
+  }
+
+  static Future<bool> isFirstTime() async {
+    String? res = await storage.read(key: 'isFirstTime');
+    if (res == null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<void> updateFirstTime() async {
+    await storage.write(key: 'isFirstTime', value: 'false');
+  }
+
+  static Future<bool> isLogged() async {
     String? res = await storage.read(key: 'accessToken');
     if (res == null) {
       return false;

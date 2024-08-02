@@ -16,16 +16,28 @@ class CodegenLoader extends AssetLoader{
 
   static const Map<String,dynamic> kk = {
   "hello": "Salem",
-  "splash_subtitle": "Университетке түсу және мансаптық кеңес беру бойынша жеке AI"
+  "splash_subtitle": "Университетке түсу және мансаптық кеңес беру бойынша жеке AI",
+  "consultant": "Консультант",
+  "community": "Қауымдастық",
+  "resources": "Ресурстар",
+  "profile": "Профиль"
 };
 static const Map<String,dynamic> ru = {
   "hello": "Privet",
   "s": "cx",
-  "splash_subtitle": "Ваш личный ИИ для поступления в университет и карьерного консультирования"
+  "splash_subtitle": "Ваш личный ИИ для поступления в университет и карьерного консультирования",
+  "consultant": "Консультант",
+  "community": "Комьюнити",
+  "resources": "Ресурсы",
+  "profile": "Профиль"
 };
 static const Map<String,dynamic> en = {
   "hello": "Hello",
-  "splash_subtitle": "Your personal AI for university admission and career guidance"
+  "splash_subtitle": "Your personal AI for university admission and career guidance",
+  "consultant": "Consultant",
+  "community": "Community",
+  "resources": "Resources",
+  "profile": "Profile"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }
