@@ -2,5 +2,6 @@
 
 abstract class  LocaleKeys {
   static const hello = 'hello';
+  static const splash_subtitle = 'splash_subtitle';
 
 }
