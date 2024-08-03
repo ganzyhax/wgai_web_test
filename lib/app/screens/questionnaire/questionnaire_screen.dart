@@ -3,14 +3,15 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/constants/app_colors.dart';
 
-class QuestionnaireScreen extends StatefulWidget {
-  const QuestionnaireScreen({super.key});
+class QuestionnaireStaticScreen extends StatefulWidget {
+  const QuestionnaireStaticScreen({super.key});
 
   @override
-  State<QuestionnaireScreen> createState() => _QuestionnaireScreenState();
+  State<QuestionnaireStaticScreen> createState() =>
+      _QuestionnaireStaticScreenState();
 }
 
-class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
+class _QuestionnaireStaticScreenState extends State<QuestionnaireStaticScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
