@@ -1,50 +1,33 @@
+import 'dart:developer';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 
 class AuthUtils {
   static const FlutterSecureStorage storage = FlutterSecureStorage();
 
-  static Future<void> setLanguage(String lang) async {
-    await storage.write(key: 'localLang', value: lang.toString());
-  }
+  static Future<bool> login(String login, pass) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: login,
+        password: pass,
+      );
+      String? token = await userCredential.user?.getIdToken();
+      log(token.toString());
 
-  static Future<String> getLanguage() async {
-    String lang = await storage.read(key: 'localLang') ?? 'null';
-    return lang;
-  }
+      if (token != null) {
+        await LocalUtils.setToken(token);
+        return true;
+      } else {
+        return false;
+      }
 
-  static Future<bool> isFirstTime() async {
-    String? res = await storage.read(key: 'isFirstTime');
-    if (res == null) {
-      return true;
-    } else {
+      // You can now use the token as needed
+    } on FirebaseAuthException catch (e) {
       return false;
+      // Handle error
     }
-  }
-
-  static Future<void> updateFirstTime() async {
-    await storage.write(key: 'isFirstTime', value: 'false');
-  }
-
-  static Future<bool> isLogged() async {
-    String? res = await storage.read(key: 'accessToken');
-    if (res == null) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  static Future<void> clearStorage() async {
-    await storage.write(key: 'refreshToken', value: null);
-    await storage.write(key: 'accessToken', value: null);
-  }
-
-  static Future<void> setToken(String rToken, String aToken) async {
-    await storage.write(key: 'refreshToken', value: null);
-    await storage.write(key: 'accessToken', value: null);
-  }
-
-  static Future<String?> getToken(String key) async {
-    return await storage.read(key: key);
   }
 }

@@ -6,6 +6,8 @@ import 'package:wg_app/app/api/api_utils.dart';
 import 'package:wg_app/app/screens/login/login_screen.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
+import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
@@ -26,26 +28,29 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeState() async {
-    isLogged = await AuthUtils.isLogged();
-    isFirstTime = await AuthUtils.isFirstTime();
-    if (isLogged) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => CustomNavigationBar()),
-        (Route<dynamic> route) => false,
-      );
-    } else {
-      if (isFirstTime) {
+    isLogged = await LocalUtils.isLogged();
+    isFirstTime = await LocalUtils.isFirstTime();
+    Future.delayed(Duration(seconds: 2), () {
+      // Code to run after 3 seconds
+      if (isLogged) {
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => SplashChooseLanguagePage()),
+          MaterialPageRoute(builder: (context) => CustomNavigationBar()),
           (Route<dynamic> route) => false,
         );
       } else {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => LoginScreen()),
-          (Route<dynamic> route) => false,
-        );
+        if (isFirstTime) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => SplashChooseLanguagePage()),
+            (Route<dynamic> route) => false,
+          );
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (Route<dynamic> route) => false,
+          );
+        }
       }
-    }
+    });
   }
 
   @override
@@ -79,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen> {
               Text(
                 LocaleKeys.splash_subtitle.tr(),
                 style: TextStyle(fontSize: 16, color: Colors.grey[500]),
-              )
+              ),
             ],
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/components/navigator_item.dart';
+import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class CustomNavigationBar extends StatelessWidget {
@@ -15,7 +16,7 @@ class CustomNavigationBar extends StatelessWidget {
         if (state is MainNavigatorLoaded) {
           return Scaffold(
             resizeToAvoidBottomInset: false,
-            backgroundColor: Theme.of(context).colorScheme.background,
+            backgroundColor: AppColors.background,
             body: Column(
               children: [
                 Expanded(child: state.screens[state.index]),
@@ -23,7 +24,7 @@ class CustomNavigationBar extends StatelessWidget {
                   height: 80,
                   width: double.maxFinite,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: AppColors.whiteForText,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
