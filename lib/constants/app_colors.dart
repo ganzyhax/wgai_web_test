@@ -13,6 +13,7 @@ class AppColors {
   static final Color cardOnTheBlue2 = Color(0xffE5E5EAB2);
   static final Color onTheBlue2 =
       Color.fromRGBO(229, 229, 234, 0.70); // ONTHEBLUE2
+  static const Color grayProgressBar = Color(0xffE5E5EA); // Light/Neutral/gray5
 
   static final LinearGradient gradientPrimary = const LinearGradient(
     colors: [Color(0xff052DC1), Color(0xff052DC1)],
