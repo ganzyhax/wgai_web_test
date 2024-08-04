@@ -20,6 +20,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (isSucces) {
           emit(LoginSuccess());
           isLoading = false;
+        } else {
+          emit(LoginError());
         }
         emit(LoginLoaded(isLoading: isLoading));
       }

@@ -2,8 +2,7 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:wg_app/app/api/api_utils.dart';
-import 'package:wg_app/app/screens/login/login_screen.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
 import 'package:wg_app/app/screens/splash/components/splash_button.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
@@ -109,7 +108,7 @@ class _SplashChooseLanguagePageState extends State<SplashChooseLanguagePage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoginScreen()),
+                                  builder: (context) => SplashStartScreen()),
                             );
                           },
                         )

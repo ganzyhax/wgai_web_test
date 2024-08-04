@@ -35,7 +35,7 @@ class LocalUtils {
   }
 
   static Future<void> clearStorage() async {
-    await storage.write(key: 'token', value: null);
+    await storage.deleteAll();
   }
 
   static Future<void> setToken(String token) async {

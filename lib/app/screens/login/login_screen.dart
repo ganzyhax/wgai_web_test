@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
+import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
 import 'package:wg_app/constants/app_colors.dart';
 
@@ -23,6 +24,9 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
+          if (state is LoginError) {
+            CustomSnackbar().showCustomSnackbar(context, 'Error!', false);
+          }
           if (state is LoginSuccess) {
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => CustomNavigationBar()),
