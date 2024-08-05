@@ -1,6 +1,6 @@
-class QuestionnaireModel {
+class Question {
   final String questionText;
   final List<String> answers;
 
-  QuestionnaireModel(this.questionText, this.answers);
+  Question(this.questionText, this.answers);
 }
