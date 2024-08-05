@@ -21,7 +21,7 @@ void main() async {
   //         messagingSenderId: "879472760468",
   //         appId: "1:879472760468:web:ab83ae3ea4df834faa0681",
   //         measurementId: "G-FML3QDSHMW"));
-  await LocalUtils.clearStorage();
+  // await LocalUtils.clearStorage();
   runApp(EasyLocalization(
       supportedLocales: [
         Locale('ru'),
