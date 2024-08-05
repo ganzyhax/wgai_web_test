@@ -1,13 +1,19 @@
-part of 'questionnaire_bloc_bloc.dart';
+part of 'questionnaire_bloc.dart';
 
 @immutable
-sealed class QuestionnaireBlocEvent {}
+sealed class QuestionnaireEvent {}
 
-class LoadQuestions extends QuestionnaireBlocEvent {}
+class LoadQuestions extends QuestionnaireEvent {}
 
-class AnswersQuestions extends QuestionnaireBlocEvent {
+class AnswersQuestions extends QuestionnaireEvent {
   final String answer;
   AnswersQuestions(this.answer);
 }
 
-class NextQuestion extends QuestionnaireBlocEvent {}
+class NextQuestion extends QuestionnaireEvent {
+  final String selectedAnswer;
+
+  NextQuestion(this.selectedAnswer);
+}
+
+class PreviousQuestion extends QuestionnaireEvent {}

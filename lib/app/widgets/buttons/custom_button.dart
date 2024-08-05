@@ -5,15 +5,21 @@ class CustomButton extends StatelessWidget {
   final bool? isDisabled;
   final String text;
   final Function()? onTap;
+  final double? height;
   const CustomButton(
-      {super.key, this.isDisabled, required this.text, this.onTap});
+      {super.key,
+      this.isDisabled,
+      required this.text,
+      this.onTap,
+      this.height});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(15),
+        height: height,
+        padding: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(7),
             color: (isDisabled == true)
