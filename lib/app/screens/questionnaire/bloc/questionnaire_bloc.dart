@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/screens/questionnaire/model/questionnaire_model.dart';
+import 'package:wg_app/app/screens/questionnaire/model/task_model.dart';
 import 'package:wg_app/app/screens/questionnaire/network/questionnaire_network.dart';
 
 part 'questionnaire_bloc_event.dart';
@@ -18,7 +19,7 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
       LoadQuestions event, Emitter<QuestionnaireState> emit) async {
     emit(QuestionnaireLoadingState());
     try {
-      List<Question> questions = await QuestionnaireNetwork().fetchQuestions();
+      List<Task> questions = await QuestionnaireNetwork().loadTasks();
       emit(QuestionnaireSuccessState(
         questions: questions,
         currentIndex: 0,
