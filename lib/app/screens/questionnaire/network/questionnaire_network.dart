@@ -2,13 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/services.dart';
 import 'package:wg_app/app/screens/questionnaire/model/questionnaire_model.dart';
-import 'package:wg_app/app/screens/questionnaire/model/task_model.dart';
 
 class QuestionnaireNetwork {
-  Future<List<Task>> loadTasks() async {
-    final String responce =
-        await rootBundle.loadString('assets/jsondata/guidanceTasks.json');
-    final List<dynamic> data = json.decode(responce);
-    return data.map((task) => Task.fromJson(task)).toList();
+  Future<QuestionnaireModel> loadTasks() async {
+    try {
+      final String response =
+          await rootBundle.loadString('assets/testingmaterials/mbti.json');
+      final Map<String, dynamic> data = json.decode(response);
+      return QuestionnaireModel.fromJson(data);
+    } catch (e) {
+      print('Error loading quiz data: $e');
+      rethrow;
+    }
   }
 }
