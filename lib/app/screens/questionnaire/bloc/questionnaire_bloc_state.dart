@@ -8,7 +8,7 @@ final class QuestionnaireBlocInitial extends QuestionnaireState {}
 class QuestionnaireLoadingState extends QuestionnaireState {}
 
 class QuestionnaireSuccessState extends QuestionnaireState {
-  final List<Task> questions;
+  final List<Problems> questions;
   final int currentIndex;
   final String? selectedAnswer;
   QuestionnaireSuccessState(
@@ -17,7 +17,7 @@ class QuestionnaireSuccessState extends QuestionnaireState {
       this.selectedAnswer});
 
   QuestionnaireSuccessState copyWith({
-    List<Task>? questions,
+    List<Problems>? questions,
     int? currentIndex,
     String? selectedAnswer,
   }) {

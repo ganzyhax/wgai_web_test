@@ -7,7 +7,8 @@ class LoadQuestions extends QuestionnaireEvent {}
 
 class AnswersQuestions extends QuestionnaireEvent {
   final String answer;
-  AnswersQuestions(this.answer);
+  final bool isMultipleChoice;
+  AnswersQuestions(this.answer, this.isMultipleChoice);
 }
 
 class NextQuestion extends QuestionnaireEvent {
