@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/screens/questionnaire/model/questionnaire_model.dart';
-import 'package:wg_app/app/screens/questionnaire/model/task_model.dart';
 import 'package:wg_app/app/screens/questionnaire/network/questionnaire_network.dart';
 
 part 'questionnaire_bloc_event.dart';
@@ -19,13 +18,14 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
       LoadQuestions event, Emitter<QuestionnaireState> emit) async {
     emit(QuestionnaireLoadingState());
     try {
-      List<Task> questions = await QuestionnaireNetwork().loadTasks();
+      final QuestionnaireModel quizData =
+          await QuestionnaireNetwork().loadTasks();
       emit(QuestionnaireSuccessState(
-        questions: questions,
+        questions: quizData.problems!,
         currentIndex: 0,
       ));
     } catch (e) {
-      emit(QuestionnaireErrorState("Failed to load quiz"));
+      emit(QuestionnaireErrorState("Failed to load quiz ${e.toString()}"));
     }
   }
 
@@ -33,15 +33,22 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
       AnswersQuestions event, Emitter<QuestionnaireState> emit) {
     if (state is QuestionnaireSuccessState) {
       final currentState = state as QuestionnaireSuccessState;
+      final currentAnswers = currentState.selectedAnswer?.split(',') ?? [];
 
-      if (currentState.currentIndex < currentState.questions.length - 1) {
-        emit(QuestionnaireSuccessState(
-          questions: currentState.questions,
-          currentIndex: currentState.currentIndex + 1,
-        ));
+      if (event.isMultipleChoice) {
+        if (currentAnswers.contains(event.answer)) {
+          currentAnswers.remove(event.answer);
+        } else {
+          currentAnswers.add(event.answer);
+        }
       } else {
-        emit(QuestionnaireCompletedState());
+        currentAnswers.clear();
+        currentAnswers.add(event.answer);
       }
+
+      emit(currentState.copyWith(
+        selectedAnswer: currentAnswers.join(','),
+      ));
     }
   }
 
