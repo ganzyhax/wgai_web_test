@@ -38,7 +38,7 @@ class WeGlobalApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           title: 'WeGlobal',
-          home: SplashScreen(),
+          home: QuestionnaireStaticScreen(),
         ));
   }
 }
