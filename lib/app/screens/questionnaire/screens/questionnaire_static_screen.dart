@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
+import 'package:wg_app/app/screens/questionnaire/screens/questionnaire_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/constants/app_colors.dart';

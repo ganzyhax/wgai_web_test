@@ -16,6 +16,7 @@ class QuestionnaireScreen extends StatefulWidget {
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   String? _selectedAnswer;
+  Key _listViewKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                       const SizedBox(height: 24),
                       Expanded(
                         child: ListView(
-                          padding: EdgeInsets.only(bottom: 20),
+                          key: _listViewKey,
+                          padding: EdgeInsets.only(bottom: 232),
                           children: [
                             _buildQuestionWithAnswers(
                                 state.questions[state.currentIndex]),
@@ -110,13 +112,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             color: AppColors.blackForText,
           ),
         ),
-        const SizedBox(height: 8), // Separation between question and answers
+        const SizedBox(height: 37),
         ...question.options!.map((option) {
           final isSelected =
               _selectedAnswer?.split(',').contains(option.answer?.ru) ?? false;
           return Padding(
-            padding: const EdgeInsets.only(
-                bottom: 8.0), // Separation between each answer
+            padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
               title: Text(
                 option.answer?.ru ?? '',
@@ -182,10 +183,11 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             height: 44,
             onTap: _selectedAnswer != null
                 ? () {
-                    context
-                        .read<QuestionnaireBloc>()
-                        .add(NextQuestion(_selectedAnswer!));
                     setState(() {
+                      _listViewKey = UniqueKey();
+                      context
+                          .read<QuestionnaireBloc>()
+                          .add(NextQuestion(_selectedAnswer!));
                       _selectedAnswer = null;
                     });
                   }
