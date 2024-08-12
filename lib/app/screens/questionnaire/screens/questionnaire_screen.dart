@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -24,11 +25,19 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: Text(
-          'MBTI',
-          style: AppTextStyle.titleHeading.copyWith(
-            color: AppColors.blackForText,
-          ),
+        title: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+          builder: (context, state) {
+            if (state is QuestionnaireSuccessState) {
+              return Text(
+                '${state.testId?.tr()}',
+                style: AppTextStyle.titleHeading.copyWith(
+                  color: AppColors.blackForText,
+                ),
+              );
+            } else {
+              return const Text("Loading...");
+            }
+          },
         ),
         automaticallyImplyLeading: false,
         actions: [
@@ -107,20 +116,22 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          question.question?.ru ?? '',
+          question.question!.getLocalizedString(context),
           style: AppTextStyle.heading2.copyWith(
             color: AppColors.blackForText,
           ),
         ),
         const SizedBox(height: 37),
         ...question.options!.map((option) {
-          final isSelected =
-              _selectedAnswer?.split(',').contains(option.answer?.ru) ?? false;
+          final isSelected = _selectedAnswer
+                  ?.split(',')
+                  .contains(option.answer?.getLocalizedString(context)) ??
+              false;
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
               title: Text(
-                option.answer?.ru ?? '',
+                option.answer!.getLocalizedString(context),
                 style: AppTextStyle.bodyText.copyWith(
                   color: AppColors.blackForText,
                 ),
@@ -134,21 +145,25 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               onTap: () {
                 setState(() {
                   if (question.problemType == 'multiple_choice') {
-                    if (_selectedAnswer
-                            ?.split(',')
-                            .contains(option.answer?.ru) ??
+                    if (_selectedAnswer?.split(',').contains(
+                            option.answer!.getLocalizedString(context)) ??
                         false) {
                       _selectedAnswer = _selectedAnswer!
                           .split(',')
-                          .where((element) => element != option.answer?.ru)
+                          .where(
+                            (element) =>
+                                element !=
+                                option.answer!.getLocalizedString(context),
+                          )
                           .join(',');
                     } else {
                       _selectedAnswer = _selectedAnswer != null
-                          ? '${_selectedAnswer!},${option.answer?.ru}'
-                          : option.answer?.ru;
+                          ? '${_selectedAnswer!},${option.answer!.getLocalizedString(context)}'
+                          : option.answer!.getLocalizedString(context);
                     }
                   } else {
-                    _selectedAnswer = option.answer?.ru;
+                    _selectedAnswer =
+                        option.answer!.getLocalizedString(context);
                   }
                 });
               },
@@ -192,7 +207,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                     });
                   }
                 : null,
-            text: 'Next',
+            text: 'Далее',
           ),
         ),
       ],
