@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
+import 'package:wg_app/app/screens/register/register_school_code_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
@@ -22,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginError) {
@@ -122,12 +124,21 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height / 7,
                           ),
-                          Center(
-                            child: Text(
-                              'Регистрация',
-                              style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w500),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegisterSchoolCodePage()),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                'Регистрация',
+                                style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
                         ],

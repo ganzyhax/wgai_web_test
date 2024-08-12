@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
+import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
 import 'package:wg_app/app/screens/questionnaire/screens/description_questionnaire_screen.dart';
 import 'package:wg_app/app/screens/splash/splash_screen.dart';
@@ -13,7 +14,6 @@ class WeGlobalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log('asdadasd');
     // final dashboardBloc = GetIt.instance<DashboardBloc>();
     return MultiBlocProvider(
         providers: [
@@ -38,7 +38,7 @@ class WeGlobalApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           title: 'WeGlobal',
-          home: DescriptionQuestionnaireScreen(),
+          home: SplashScreen(),
         ));
   }
 }
