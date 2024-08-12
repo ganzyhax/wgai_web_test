@@ -21,9 +21,12 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
       final QuestionnaireModel quizData =
           await QuestionnaireNetwork().loadTasks();
       emit(QuestionnaireSuccessState(
-        questions: quizData.problems!,
-        currentIndex: 0,
-      ));
+          questions: quizData.problems!,
+          currentIndex: 0,
+          testId: quizData.testId!.toUpperCase(),
+          timeLimit: quizData.timeLimit!,
+          description: quizData.description!,
+          thumbnail: quizData.thumbnail));
     } catch (e) {
       emit(QuestionnaireErrorState("Failed to load quiz ${e.toString()}"));
     }
