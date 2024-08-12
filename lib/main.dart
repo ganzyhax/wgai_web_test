@@ -12,16 +12,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // await Firebase.initializeApp(
-  //     options: const FirebaseOptions(
-  //         apiKey: "AIzaSyAkf3CJf_KDapHnHwSDTd0FlDBal2alaDc",
-  //         authDomain: "aiweglobal.firebaseapp.com",
-  //         projectId: "aiweglobal",
-  //         storageBucket: "aiweglobal.appspot.com",
-  //         messagingSenderId: "879472760468",
-  //         appId: "1:879472760468:web:ab83ae3ea4df834faa0681",
-  //         measurementId: "G-FML3QDSHMW"));
-  // await LocalUtils.clearStorage();
   runApp(EasyLocalization(
       supportedLocales: [
         Locale('ru'),
