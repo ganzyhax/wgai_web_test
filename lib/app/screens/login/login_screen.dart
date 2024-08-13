@@ -15,11 +15,10 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-bool passwordShow = true;
-TextEditingController login = TextEditingController();
-TextEditingController password = TextEditingController();
-
 class _LoginScreenState extends State<LoginScreen> {
+  bool passwordShow = true;
+  TextEditingController login = TextEditingController();
+  TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +26,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state is LoginError) {
-            CustomSnackbar().showCustomSnackbar(context, 'Error!', false);
+            CustomSnackbar().showCustomSnackbar(context, state.message, false);
           }
           if (state is LoginSuccess) {
             Navigator.of(context).pushAndRemoveUntil(
@@ -73,7 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 10,
                           ),
                           CustomTextField(
-                              hintText: 'Телефон или Email', controller: login),
+                              isEmail: true,
+                              hintText: 'Телефон или Email',
+                              controller: login),
                           SizedBox(
                             height: 15,
                           ),
@@ -103,6 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           CustomButton(
                             text: 'Войти',
+                            isLoading: state.isLoading,
                             onTap: () {
                               BlocProvider.of<LoginBloc>(context)
                                 ..add(LoginLog(

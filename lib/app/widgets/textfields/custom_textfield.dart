@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final bool? isEnabled;
   final FocusNode? focusNode;
+  final bool? isEmail;
   final Function()? onTapIcon;
   final String? Function(String?)? validator;
   final Function(String value)? onChanged;
@@ -22,6 +23,7 @@ class CustomTextField extends StatelessWidget {
       this.passwordShow,
       this.focusNode,
       this.isPassword,
+      this.isEmail,
       this.isEnabled = true,
       this.onTapIcon,
       this.onTapOutside,
@@ -49,8 +51,11 @@ class CustomTextField extends StatelessWidget {
                 : Colors.white,
             enabled: (isEnabled == true) ? true : false,
             // onSubmitted: onSubmit,
-            keyboardType:
-                (isNumber == null) ? TextInputType.text : TextInputType.number,
+            keyboardType: (isNumber == null)
+                ? (isEmail == null)
+                    ? TextInputType.text
+                    : TextInputType.emailAddress
+                : TextInputType.number,
             onChanged: onChanged,
             onTapOutside: onTapOutside,
             validator: validator,
@@ -81,6 +86,7 @@ class CustomTextField extends StatelessWidget {
               hintStyle: TextStyle(color: AppColors.grayForText),
               hintText: hintText, // Display hint text
               border: InputBorder.none, // Remove underline
+
               contentPadding: EdgeInsets.only(
                   left: 20,
                   top: (isPassword == true)

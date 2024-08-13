@@ -4,23 +4,29 @@ import 'package:wg_app/constants/app_colors.dart';
 class CustomButton extends StatelessWidget {
   final bool? isDisabled;
   final String text;
-  final Function()? onTap;
+  final Function() onTap;
   final double? height;
   final Color? bgColor;
   final Color? textColor;
+  final bool? isLoading;
   const CustomButton(
       {super.key,
       this.isDisabled,
       this.bgColor,
+      this.isLoading,
       this.textColor,
       required this.text,
-      this.onTap,
+      required this.onTap,
       this.height});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: (isDisabled != null)
+          ? (isDisabled == true)
+              ? null
+              : onTap
+          : onTap,
       child: Container(
         height: height,
         padding: EdgeInsets.symmetric(vertical: 10),
@@ -34,13 +40,20 @@ class CustomButton extends StatelessWidget {
                     ? Colors.grey[200]
                     : AppColors.whiteForText),
         child: Center(
-          child: Text(
-            text,
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: (textColor == null) ? Colors.white : textColor),
-          ),
+          child: (isLoading == true)
+              ? SizedBox(
+                  width: 23,
+                  height: 23,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ))
+              : Text(
+                  text,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: (textColor == null) ? Colors.white : textColor),
+                ),
         ),
       ),
     );

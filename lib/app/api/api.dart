@@ -16,14 +16,21 @@ class ApiClient {
       'Accept': 'application/json',
       'Authorization': 'Bearer $token',
       // 'Mobapp-Version': mbVer
+      // 'Mobapp-Language': mbLang
     });
-    log(response.body.toString());
-    // await _handleResponse(response);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {}
-
-    return null;
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return {
+        'success': true,
+        'data': jsonDecode(response.body),
+        'status': response.statusCode.toString()
+      };
+    } else {
+      return {
+        'success': false,
+        'data': jsonDecode(response.body),
+        'status': response.statusCode.toString()
+      };
+    }
   }
 
   static Future<dynamic> post(
@@ -45,17 +52,42 @@ class ApiClient {
     );
     log(response.body.toString());
     // await _handleResponse(response);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return {'success': true, 'data': jsonDecode(response.body)};
     } else {
-      return 'Error';
+      return {'success': false, 'data': jsonDecode(response.body)};
+    }
+  }
+
+  static Future<dynamic> postUnAuth(
+    String endpoint,
+    Map<String, dynamic> data,
+  ) async {
+    // String mbVer = await AuthUtils.getIndexMobileVersion();
+    final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
+    final response = await http.post(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+
+        // 'Mobapp-Version': mbVer
+      },
+      body: jsonEncode(data),
+    );
+    log(response.body.toString());
+    // await _handleResponse(response);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return {'success': true, 'data': jsonDecode(response.body)};
+    } else {
+      return {'success': false, 'data': jsonDecode(response.body)};
     }
   }
 
   static Future<dynamic> getUnAuth(String endpoint) async {
     // String mbVer = await AuthUtils.getIndexMobileVersion();
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
-
+    log(AppConstant.baseUrl.toString() + endpoint);
     final token = await AuthUtils.getToken();
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',

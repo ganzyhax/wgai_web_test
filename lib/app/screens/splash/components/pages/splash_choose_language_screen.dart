@@ -105,6 +105,7 @@ class _SplashChooseLanguagePageState extends State<SplashChooseLanguagePage> {
                               context.setLocale(const Locale('kk'));
                             }
                             await LocalUtils.setFirstTime();
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

@@ -22,11 +22,12 @@ class AuthUtils {
           },
           body: jsonEncode({'email': username, 'password': password}));
       final data = jsonDecode(response.body);
+      log(data.toString());
       if (response.statusCode == 200) {
-        log(data.toString());
         await LocalUtils.setToken(data['accessToken']);
         return true;
       } else {
+        log(response.statusCode.toString());
         if (data.containsKey('message')) {
           return data['message'];
         }
