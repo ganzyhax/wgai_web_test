@@ -122,7 +122,7 @@ class _DescriptionQuestionnaireScreenState
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Описание'.tr(),
+                                  'Описание',
                                   style: AppTextStyle.bodyText
                                       .copyWith(color: AppColors.grayForText),
                                 ),
@@ -146,7 +146,7 @@ class _DescriptionQuestionnaireScreenState
                   right: 16,
                   bottom: 86,
                   child: CustomButton(
-                    text: 'Начать Тест'.tr(),
+                    text: 'Начать Тест',
                     onTap: () {
                       Navigator.push(
                         context,
