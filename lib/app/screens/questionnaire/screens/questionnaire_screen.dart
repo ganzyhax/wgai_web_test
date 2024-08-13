@@ -16,7 +16,6 @@ class QuestionnaireScreen extends StatefulWidget {
 }
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
-  String? _selectedAnswer;
   Key _listViewKey = UniqueKey();
 
   @override
@@ -68,7 +67,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                           padding: EdgeInsets.only(bottom: 232),
                           children: [
                             _buildQuestionWithAnswers(
-                                state.questions[state.currentIndex]),
+                                state.questions[state.currentIndex],
+                                state.selectedAnswer),
                           ],
                         ),
                       ),
@@ -106,65 +106,40 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       child: LinearProgressIndicator(
         value: state.currentIndex / state.questions.length,
         backgroundColor: Colors.transparent,
-        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
+        valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
       ),
     );
   }
 
-  Widget _buildQuestionWithAnswers(Problems question) {
+  Widget _buildQuestionWithAnswers(Problems question, String? selectedAnswer) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          question.question!.getLocalizedString(context),
+          question.question?.getLocalizedString(context) ?? '',
           style: AppTextStyle.heading2.copyWith(
             color: AppColors.blackForText,
           ),
         ),
-        const SizedBox(height: 37),
+        const SizedBox(height: 16),
         ...question.options!.map((option) {
-          final isSelected = _selectedAnswer
-                  ?.split(',')
-                  .contains(option.answer?.getLocalizedString(context)) ??
-              false;
+          final isSelected =
+              selectedAnswer == option.answer?.getLocalizedString(context);
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
-              title: Text(
-                option.answer!.getLocalizedString(context),
-                style: AppTextStyle.bodyText.copyWith(
-                  color: AppColors.blackForText,
-                ),
-              ),
+              title: Text(option.answer?.getLocalizedString(context) ?? ''),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
               tileColor:
                   isSelected ? AppColors.primary : AppColors.grayProgressBar,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 16),
               onTap: () {
                 setState(() {
-                  if (question.problemType == 'multiple_choice') {
-                    if (_selectedAnswer?.split(',').contains(
-                            option.answer!.getLocalizedString(context)) ??
-                        false) {
-                      _selectedAnswer = _selectedAnswer!
-                          .split(',')
-                          .where(
-                            (element) =>
-                                element !=
-                                option.answer!.getLocalizedString(context),
-                          )
-                          .join(',');
-                    } else {
-                      _selectedAnswer = _selectedAnswer != null
-                          ? '${_selectedAnswer!},${option.answer!.getLocalizedString(context)}'
-                          : option.answer!.getLocalizedString(context);
-                    }
-                  } else {
-                    _selectedAnswer =
-                        option.answer!.getLocalizedString(context);
-                  }
+                  context.read<QuestionnaireBloc>().add(AnswersQuestions(
+                        option.answer?.getLocalizedString(context) ?? '',
+                        false,
+                      ));
                 });
               },
             ),
@@ -196,18 +171,14 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         Expanded(
           child: CustomButton(
             height: 44,
-            onTap: _selectedAnswer != null
-                ? () {
-                    setState(() {
-                      _listViewKey = UniqueKey();
-                      context
-                          .read<QuestionnaireBloc>()
-                          .add(NextQuestion(_selectedAnswer!));
-                      _selectedAnswer = null;
-                    });
-                  }
-                : null,
-            text: 'Далее',
+            onTap: () {
+              context
+                  .read<QuestionnaireBloc>()
+                  .add(NextQuestion(state.selectedAnswer ?? ''));
+            },
+            text: state.currentIndex == state.questions.length - 1
+                ? "Потвердить"
+                : "Далее",
           ),
         ),
       ],

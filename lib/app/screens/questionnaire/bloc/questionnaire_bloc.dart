@@ -7,6 +7,8 @@ part 'questionnaire_bloc_event.dart';
 part 'questionnaire_bloc_state.dart';
 
 class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
+  List<String> _answers = [];
+
   QuestionnaireBloc() : super(QuestionnaireBlocInitial()) {
     on<LoadQuestions>(_onLoadQuestions);
     on<AnswersQuestions>(_onAnswerQuestion);
@@ -20,6 +22,9 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
     try {
       final QuestionnaireModel quizData =
           await QuestionnaireNetwork().loadTasks();
+
+      _answers = List.filled(quizData.problems!.length, '');
+
       emit(QuestionnaireSuccessState(
           questions: quizData.problems!,
           currentIndex: 0,
@@ -58,12 +63,14 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
   void _onNextQuestion(NextQuestion event, Emitter<QuestionnaireState> emit) {
     final state = this.state as QuestionnaireSuccessState;
     final currentIndex = state.currentIndex;
+    _answers[currentIndex] = event.selectedAnswer;
     if (currentIndex < state.questions.length - 1) {
       emit(state.copyWith(
         currentIndex: currentIndex + 1,
-        selectedAnswer: null,
+        selectedAnswer: _answers[currentIndex + 1],
       ));
     } else {
+      _submitAnswers();
       emit(QuestionnaireCompletedState());
     }
   }
@@ -75,9 +82,20 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
     if (currentIndex > 0) {
       emit(state.copyWith(
         currentIndex: currentIndex - 1,
-        selectedAnswer: null,
+        selectedAnswer: _answers[currentIndex - 1],
       ));
     }
+  }
+
+  void _submitAnswers() {
+    //TODO: submit answers to back
+    print("Answers submitted: $_answers");
+  }
+
+  @override
+  Future<void> close() {
+    _answers.clear(); // Dispose of the answers list
+    return super.close();
   }
 }
 
