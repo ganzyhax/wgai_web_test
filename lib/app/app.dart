@@ -7,6 +7,7 @@ import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
 import 'package:wg_app/app/screens/questionnaire/screens/description_questionnaire_screen.dart';
+import 'package:wg_app/app/screens/register/bloc/register_bloc.dart';
 import 'package:wg_app/app/screens/splash/splash_screen.dart';
 
 class WeGlobalApp extends StatelessWidget {
@@ -19,6 +20,9 @@ class WeGlobalApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => MainNavigatorBloc()..add(MainNavigatorLoad()),
+          ),
+          BlocProvider(
+            create: (context) => RegisterBloc()..add(RegisterLoad()),
           ),
           BlocProvider(
             create: (context) => LoginBloc()..add(LoginLoad()),
@@ -38,7 +42,7 @@ class WeGlobalApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           title: 'WeGlobal',
-          home: DescriptionQuestionnaireScreen(),
+          home: SplashScreen(),
         ));
   }
 }

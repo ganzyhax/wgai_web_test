@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/login_screen.dart';
+import 'package:wg_app/app/screens/register/bloc/register_bloc.dart';
 import 'package:wg_app/app/screens/register/register_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
@@ -68,10 +70,12 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                       CustomButton(
                         text: 'Далее',
                         onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                                builder: (context) => RegisterScreen()),
-                          );
+                          BlocProvider.of<RegisterBloc>(context)
+                            ..add(RegisterCheckClassCode(code: code.text));
+                          // Navigator.of(context).push(
+                          //   MaterialPageRoute(
+                          //       builder: (context) => RegisterScreen()),
+                          // );
                         },
                       ),
                       SizedBox(

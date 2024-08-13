@@ -26,7 +26,7 @@ class LocalUtils {
   }
 
   static Future<bool> isLogged() async {
-    String? res = await storage.read(key: 'accessToken');
+    String? res = await storage.read(key: 'token');
     if (res == null) {
       return false;
     } else {
@@ -40,6 +40,10 @@ class LocalUtils {
 
   static Future<void> setToken(String token) async {
     await storage.write(key: 'token', value: token);
+  }
+
+  static Future<String?> get(String key) async {
+    return await storage.read(key: key);
   }
 
   static Future<String?> getToken(String key) async {
