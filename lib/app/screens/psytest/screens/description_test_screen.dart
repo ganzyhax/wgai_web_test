@@ -1,33 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
-import 'package:wg_app/app/screens/questionnaire/screens/questionnaire_screen.dart';
+import 'package:wg_app/app/screens/psytest/bloc/test_bloc.dart';
+import 'package:wg_app/app/screens/psytest/screens/test_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class DescriptionQuestionnaireScreen extends StatefulWidget {
-  const DescriptionQuestionnaireScreen({super.key});
+class DescriptionTestScreen extends StatefulWidget {
+  const DescriptionTestScreen({super.key});
 
   @override
-  State<DescriptionQuestionnaireScreen> createState() =>
-      _DescriptionQuestionnaireScreenState();
+  State<DescriptionTestScreen> createState() => _DescriptionTestScreenState();
 }
 
-class _DescriptionQuestionnaireScreenState
-    extends State<DescriptionQuestionnaireScreen> {
+class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+        title: BlocBuilder<TestBloc, TestState>(
           builder: (context, state) {
-            if (state is QuestionnaireSuccessState) {
+            if (state is TestSuccessState) {
               return Text(
-                '${state.testId?.tr()}',
+                '${state.testType?.tr()}',
                 style: AppTextStyle.titleHeading.copyWith(
                   color: AppColors.blackForText,
                 ),
@@ -38,9 +36,9 @@ class _DescriptionQuestionnaireScreenState
           },
         ),
       ),
-      body: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+      body: BlocBuilder<TestBloc, TestState>(
         builder: (context, state) {
-          if (state is QuestionnaireSuccessState) {
+          if (state is TestSuccessState) {
             return Stack(
               children: [
                 SingleChildScrollView(
@@ -56,7 +54,7 @@ class _DescriptionQuestionnaireScreenState
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.network(
-                            '${state.thumbnail}',
+                            '${state.thumbnail?.getLocalizedString(context)}',
                             fit: BoxFit.cover,
                             loadingBuilder: (context, child, loadingProgress) {
                               if (loadingProgress == null) {
@@ -77,7 +75,7 @@ class _DescriptionQuestionnaireScreenState
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '${state.testId?.tr()} - тест на тип личности',
+                        '${state.testType?.tr()} - тест на тип личности',
                         style: AppTextStyle.heading2
                             .copyWith(color: AppColors.blackForText),
                       ),
@@ -128,8 +126,9 @@ class _DescriptionQuestionnaireScreenState
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  state.description!
-                                      .getLocalizedString(context),
+                                  state.description
+                                          ?.getLocalizedString(context) ??
+                                      '',
                                   style: AppTextStyle.bodyText
                                       .copyWith(color: AppColors.blackForText),
                                 ),
@@ -151,7 +150,7 @@ class _DescriptionQuestionnaireScreenState
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => QuestionnaireScreen(),
+                          builder: (context) => TestScreen(),
                         ),
                       );
                     },
@@ -159,9 +158,9 @@ class _DescriptionQuestionnaireScreenState
                 ),
               ],
             );
-          } else if (state is QuestionnaireLoadingState) {
+          } else if (state is TestLoadingState) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is QuestionnaireErrorState) {
+          } else if (state is TestErrorState) {
             return Center(child: Text(state.errorMessage));
           } else {
             return const Center(child: Text("Loading..."));

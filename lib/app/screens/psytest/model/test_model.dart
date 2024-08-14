@@ -1,17 +1,42 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class QuestionnaireModel {
-  String? testId;
+class TestModel {
+  String? message;
+  TestingMaterial? testingMaterial;
+
+  TestModel({this.message, this.testingMaterial});
+
+  TestModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
+    testingMaterial = json['testingMaterial'] != null
+        ? TestingMaterial.fromJson(json['testingMaterial'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    if (testingMaterial != null) {
+      data['testingMaterial'] = testingMaterial!.toJson();
+    }
+    return data;
+  }
+}
+
+class TestingMaterial {
+  String? sId;
+  String? testingCode;
   String? testType;
-  String? thumbnail;
+  Thumbnail? thumbnail;
   int? timeLimit;
-  Titles? title;
-  Titles? description;
+  Thumbnail? title;
+  Thumbnail? description;
   List<Problems>? problems;
 
-  QuestionnaireModel(
-      {this.testId,
+  TestingMaterial(
+      {this.sId,
+      this.testingCode,
       this.testType,
       this.thumbnail,
       this.timeLimit,
@@ -19,14 +44,17 @@ class QuestionnaireModel {
       this.description,
       this.problems});
 
-  QuestionnaireModel.fromJson(Map<String, dynamic> json) {
-    testId = json['testId'];
+  TestingMaterial.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    testingCode = json['testingCode'];
     testType = json['testType'];
-    thumbnail = json['thumbnail'];
+    thumbnail = json['thumbnail'] != null
+        ? Thumbnail.fromJson(json['thumbnail'])
+        : null;
     timeLimit = json['timeLimit'];
-    title = json['title'] != null ? Titles.fromJson(json['title']) : null;
+    title = json['title'] != null ? Thumbnail.fromJson(json['title']) : null;
     description = json['description'] != null
-        ? Titles.fromJson(json['description'])
+        ? Thumbnail.fromJson(json['description'])
         : null;
     if (json['problems'] != null) {
       problems = <Problems>[];
@@ -38,9 +66,12 @@ class QuestionnaireModel {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['testId'] = testId;
+    data['_id'] = sId;
+    data['testingCode'] = testingCode;
     data['testType'] = testType;
-    data['thumbnail'] = thumbnail;
+    if (thumbnail != null) {
+      data['thumbnail'] = thumbnail!.toJson();
+    }
     data['timeLimit'] = timeLimit;
     if (title != null) {
       data['title'] = title!.toJson();
@@ -55,24 +86,24 @@ class QuestionnaireModel {
   }
 }
 
-class Titles {
-  String? en;
-  String? ru;
+class Thumbnail {
   String? kk;
+  String? ru;
+  String? en;
 
-  Titles({this.en, this.ru, this.kk});
+  Thumbnail({this.kk, this.ru, this.en});
 
-  Titles.fromJson(Map<String, dynamic> json) {
-    en = json['en'];
-    ru = json['ru'];
+  Thumbnail.fromJson(Map<String, dynamic> json) {
     kk = json['kk'];
+    ru = json['ru'];
+    en = json['en'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['en'] = en;
-    data['ru'] = ru;
     data['kk'] = kk;
+    data['ru'] = ru;
+    data['en'] = en;
     return data;
   }
 
@@ -86,28 +117,21 @@ class Titles {
       return en ?? ru ?? kk ?? '';
     }
   }
+
+  tr() {}
 }
 
 class Problems {
-  Titles? image;
-  Titles? passage;
   String? problemType;
-  Titles? question;
+  Thumbnail? question;
   List<Options>? options;
 
-  Problems(
-      {this.image,
-      this.passage,
-      this.problemType,
-      this.question,
-      this.options});
+  Problems({this.problemType, this.question, this.options});
 
   Problems.fromJson(Map<String, dynamic> json) {
-    image = json['image'] != null ? Titles.fromJson(json['image']) : null;
-    passage = json['passage'] != null ? Titles.fromJson(json['passage']) : null;
     problemType = json['problemType'];
     question =
-        json['question'] != null ? Titles.fromJson(json['question']) : null;
+        json['question'] != null ? Thumbnail.fromJson(json['question']) : null;
     if (json['options'] != null) {
       options = <Options>[];
       json['options'].forEach((v) {
@@ -118,12 +142,6 @@ class Problems {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (image != null) {
-      data['image'] = image!.toJson();
-    }
-    if (passage != null) {
-      data['passage'] = passage!.toJson();
-    }
     data['problemType'] = problemType;
     if (question != null) {
       data['question'] = question!.toJson();
@@ -136,19 +154,19 @@ class Problems {
 }
 
 class Options {
-  int? nextQuestionIdx;
-  Titles? answer;
+  int? nextQuestionIndex;
+  Thumbnail? answer;
 
-  Options({this.nextQuestionIdx, this.answer});
+  Options({this.nextQuestionIndex, this.answer});
 
   Options.fromJson(Map<String, dynamic> json) {
-    nextQuestionIdx = json['nextQuestionIdx'];
-    answer = json['answer'] != null ? Titles.fromJson(json['answer']) : null;
+    nextQuestionIndex = json['nextQuestionIndex'];
+    answer = json['answer'] != null ? Thumbnail.fromJson(json['answer']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['nextQuestionIdx'] = nextQuestionIdx;
+    data['nextQuestionIndex'] = nextQuestionIndex;
     if (answer != null) {
       data['answer'] = answer!.toJson();
     }
