@@ -1,45 +1,45 @@
-part of 'questionnaire_bloc.dart';
+part of 'test_bloc.dart';
 
 @immutable
-sealed class QuestionnaireState {}
+sealed class TestState {}
 
-final class QuestionnaireBlocInitial extends QuestionnaireState {}
+final class TestBlocInitial extends TestState {}
 
-class QuestionnaireLoadingState extends QuestionnaireState {}
+class TestLoadingState extends TestState {}
 
-class QuestionnaireSuccessState extends QuestionnaireState {
+class TestSuccessState extends TestState {
   final List<Problems> questions;
   final int currentIndex;
   final String? selectedAnswer;
-  final String? testId;
+  final String? testType;
   final int? timeLimit;
-  final Titles? description;
-  final String? thumbnail;
+  final Thumbnail? description;
+  final Thumbnail? thumbnail;
 
-  QuestionnaireSuccessState({
+  TestSuccessState({
     required this.questions,
     required this.currentIndex,
     this.selectedAnswer,
-    required this.testId,
+    required this.testType,
     required this.timeLimit,
     required this.description,
     required this.thumbnail,
   });
 
-  QuestionnaireSuccessState copyWith({
+  TestSuccessState copyWith({
     List<Problems>? questions,
     int? currentIndex,
     String? selectedAnswer,
-    String? testId,
+    String? testType,
     int? timeLimit,
-    Titles? description,
-    String? thumbnail,
+    Thumbnail? description,
+    Thumbnail? thumbnail,
   }) {
-    return QuestionnaireSuccessState(
+    return TestSuccessState(
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
       selectedAnswer: selectedAnswer ?? this.selectedAnswer,
-      testId: testId ?? this.testId,
+      testType: testType ?? this.testType,
       timeLimit: timeLimit ?? this.timeLimit,
       description: description ?? this.description,
       thumbnail: thumbnail ?? this.thumbnail,
@@ -47,10 +47,10 @@ class QuestionnaireSuccessState extends QuestionnaireState {
   }
 }
 
-class QuestionnaireErrorState extends QuestionnaireState {
+class TestErrorState extends TestState {
   final String errorMessage;
 
-  QuestionnaireErrorState(this.errorMessage);
+  TestErrorState(this.errorMessage);
 }
 
-class QuestionnaireCompletedState extends QuestionnaireState {}
+class TestCompletedState extends TestState {}
