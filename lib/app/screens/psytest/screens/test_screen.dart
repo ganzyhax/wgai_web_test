@@ -2,20 +2,20 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
-import 'package:wg_app/app/screens/questionnaire/model/questionnaire_model.dart';
+import 'package:wg_app/app/screens/psytest/bloc/test_bloc.dart';
+import 'package:wg_app/app/screens/psytest/model/test_model.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
-class QuestionnaireScreen extends StatefulWidget {
-  const QuestionnaireScreen({super.key});
+class TestScreen extends StatefulWidget {
+  const TestScreen({super.key});
 
   @override
-  State<QuestionnaireScreen> createState() => _QuestionnaireScreenState();
+  State<TestScreen> createState() => _TestScreenState();
 }
 
-class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
+class _TestScreenState extends State<TestScreen> {
   Key _listViewKey = UniqueKey();
 
   @override
@@ -24,11 +24,11 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+        title: BlocBuilder<TestBloc, TestState>(
           builder: (context, state) {
-            if (state is QuestionnaireSuccessState) {
+            if (state is TestSuccessState) {
               return Text(
-                '${state.testId?.tr()}',
+                '${state.testType?.tr()}',
                 style: AppTextStyle.titleHeading.copyWith(
                   color: AppColors.blackForText,
                 ),
@@ -48,11 +48,11 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           ),
         ],
       ),
-      body: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+      body: BlocBuilder<TestBloc, TestState>(
         builder: (context, state) {
-          if (state is QuestionnaireLoadingState) {
+          if (state is TestLoadingState) {
             return const Center(child: CircularProgressIndicator());
-          } else if (state is QuestionnaireSuccessState) {
+          } else if (state is TestSuccessState) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Stack(
@@ -83,9 +83,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                 ],
               ),
             );
-          } else if (state is QuestionnaireCompletedState) {
+          } else if (state is TestCompletedState) {
             return const Center(child: Text("Quiz Completed!"));
-          } else if (state is QuestionnaireErrorState) {
+          } else if (state is TestErrorState) {
             return Center(child: Text(state.errorMessage));
           }
           return const Center(child: Text("Welcome to the Quiz!"));
@@ -94,7 +94,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildProgressBar(QuestionnaireSuccessState state) {
+  Widget _buildProgressBar(TestSuccessState state) {
     return Container(
       height: 8,
       width: 195,
@@ -135,12 +135,20 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               tileColor:
                   isSelected ? AppColors.primary : AppColors.grayProgressBar,
               onTap: () {
-                setState(() {
-                  context.read<QuestionnaireBloc>().add(AnswersQuestions(
-                        option.answer?.getLocalizedString(context) ?? '',
-                        false,
-                      ));
-                });
+                setState(
+                  () {
+                    final currentState = context.read<TestBloc>().state;
+
+                    if (currentState is TestSuccessState) {
+                      context.read<TestBloc>().add(AnswersQuestions(
+                            option.answer?.getLocalizedString(context) ?? '',
+                            false,
+                          ));
+                    } else {
+                      print("Error: currentIndex is not available.");
+                    }
+                  },
+                );
               },
             ),
           );
@@ -149,13 +157,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildNavigationButtons(
-      BuildContext context, QuestionnaireSuccessState state) {
+  Widget _buildNavigationButtons(BuildContext context, TestSuccessState state) {
     return Row(
       children: [
         ElevatedButton.icon(
           onPressed: () {
-            context.read<QuestionnaireBloc>().add(PreviousQuestion());
+            context.read<TestBloc>().add(PreviousQuestion());
           },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(71, 44),
@@ -173,7 +180,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             height: 44,
             onTap: () {
               context
-                  .read<QuestionnaireBloc>()
+                  .read<TestBloc>()
                   .add(NextQuestion(state.selectedAnswer ?? ''));
             },
             text: state.currentIndex == state.questions.length - 1
