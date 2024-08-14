@@ -36,9 +36,11 @@ class CustomButton extends StatelessWidget {
                 ? (isDisabled == true)
                     ? AppColors.primaryDisabled
                     : AppColors.primary
-                : (isDisabled == true)
-                    ? Colors.grey[200]
-                    : AppColors.whiteForText),
+                : (isDisabled != null)
+                    ? (isDisabled == true)
+                        ? Colors.grey[200]
+                        : AppColors.whiteForText
+                    : bgColor),
         child: Center(
           child: (isLoading == true)
               ? SizedBox(

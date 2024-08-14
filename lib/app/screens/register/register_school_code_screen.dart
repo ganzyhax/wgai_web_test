@@ -90,10 +90,6 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                             onTap: () {
                               BlocProvider.of<RegisterBloc>(context)
                                 ..add(RegisterCheckClassCode(code: code.text));
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterScreen()),
-                              );
                             },
                           ),
                           SizedBox(

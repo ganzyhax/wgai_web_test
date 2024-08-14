@@ -14,6 +14,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
 
   RegisterBloc() : super(RegisterInitial()) {
     bool isLoading = false;
+    String shcoolCode = '';
     em() {
       emit(RegisterLoaded(isLoading: isLoading));
     }
@@ -23,8 +24,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         emit(RegisterLoaded(isLoading: isLoading));
       }
       if (event is RegisterCheckClassCode) {
-        var data =
-            await ApiClient.getUnAuth('checkRegistrationCode/' + event.code);
+        var data = await ApiClient.getUnAuth(
+            'api/auth/checkRegistrationCode/' + event.code);
+        if (data['success']) {
+          shcoolCode = event.code;
+          emit(RegisterReturnRegisterPage());
+        } else {
+          emit(RegisterError(message: data['data']['message']));
+        }
         em();
       }
       if (event is RegisterRegister) {
@@ -33,7 +40,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         var data = await ApiClient.postUnAuth('api/auth/register', {
           'email': event.email,
           'password': event.password,
-          'registrationCode': '7A-WGSCHOOL1'
+          'registrationCode': shcoolCode
         });
         if (data['success']) {
           isLoading = false;

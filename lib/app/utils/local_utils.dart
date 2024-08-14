@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 
 class LocalUtils {
   static const FlutterSecureStorage storage = FlutterSecureStorage();
@@ -8,7 +11,12 @@ class LocalUtils {
   }
 
   static Future<String> getLanguage() async {
-    String lang = await storage.read(key: 'localLang') ?? 'null';
+    String lang = await storage.read(key: 'localLang') ?? 'ru';
+    return lang;
+  }
+
+  static Future<String> getUserId() async {
+    String lang = await storage.read(key: 'userId') ?? '';
     return lang;
   }
 
@@ -39,6 +47,9 @@ class LocalUtils {
   }
 
   static Future<void> setToken(String token) async {
+    Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
+
+    await storage.write(key: 'userId', value: decodedToken['userId']);
     await storage.write(key: 'token', value: token);
   }
 

@@ -2,6 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
+import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
@@ -15,7 +18,6 @@ class WeGlobalApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final dashboardBloc = GetIt.instance<DashboardBloc>();
     return MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -29,6 +31,12 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => QuestionnaireBloc()..add(LoadQuestions()),
+          ),
+          BlocProvider(
+            create: (context) => CommunityBloc()..add(CommunityLoad()),
+          ),
+          BlocProvider(
+            create: (context) => NewsBloc()..add(NewsLoad()),
           ),
         ],
         child: MaterialApp(

@@ -97,11 +97,11 @@ class ApiClient {
     });
     log(response.body.toString());
     // await _handleResponse(response);
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {}
-
-    return null;
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return {'success': true, 'data': jsonDecode(response.body)};
+    } else {
+      return {'success': false, 'data': jsonDecode(response.body)};
+    }
   }
 
   // static Future<void> _handleResponse(http.Response response) async {
