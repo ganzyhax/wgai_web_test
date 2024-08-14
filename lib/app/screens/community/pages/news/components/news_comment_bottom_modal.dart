@@ -147,7 +147,7 @@ class NewsBottomModal extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Container(
-                              height: 80,
+                              height: 60,
                               child: Center(
                                 child: SizedBox(
                                   height: 50,
@@ -156,8 +156,26 @@ class NewsBottomModal extends StatelessWidget {
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.all(15),
                                       hintText: "Оставьте комментарий",
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            color: Colors.transparent),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            color: Colors.transparent),
+                                      ),
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(30),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(30)),
+                                        borderSide: BorderSide(
+                                            width: 1,
+                                            color: Colors.transparent),
                                       ),
                                       fillColor: Colors.grey[100],
                                       filled: true,

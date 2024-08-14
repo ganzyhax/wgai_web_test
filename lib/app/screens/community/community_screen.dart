@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
+import 'package:wg_app/app/screens/community/pages/consultant/consultant_page.dart';
 import 'package:wg_app/app/screens/community/pages/news/news_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -60,7 +61,9 @@ class CommunityScreen extends StatelessWidget {
               body: SingleChildScrollView(
                 child: Column(
                   children: [
-                    (state.selectedTabIndex == 0) ? NewsScreen() : Container()
+                    (state.selectedTabIndex == 0)
+                        ? NewsScreen()
+                        : ConsultantPage()
                   ],
                 ),
               ));

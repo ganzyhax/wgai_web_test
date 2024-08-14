@@ -6,10 +6,10 @@ class ConsultantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child:
-            Text('ConsultantScreen /screens/consultant/consultant_screen.dart'),
+        body: SingleChildScrollView(
+      child: Column(
+        children: [],
       ),
-    );
+    ));
   }
 }

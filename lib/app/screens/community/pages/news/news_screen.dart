@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/components/news_card.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
-import 'package:wg_app/constants/app_colors.dart';
 
 class NewsScreen extends StatelessWidget {
   const NewsScreen({super.key});

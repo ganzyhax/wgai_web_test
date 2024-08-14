@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
+import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
@@ -37,6 +38,9 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => NewsBloc()..add(NewsLoad()),
+          ),
+          BlocProvider(
+            create: (context) => ConsultantBloc()..add(ConsultantLoad()),
           ),
         ],
         child: MaterialApp(

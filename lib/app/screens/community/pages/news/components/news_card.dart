@@ -22,7 +22,6 @@ class _NewsCardState extends State<NewsCard> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.data.toString());
     String content = widget.data['content'][widget.localLang] ?? '';
     String title = widget.data['title'][widget.localLang] ?? '';
     String truncatedContent =
