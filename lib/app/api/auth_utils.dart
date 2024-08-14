@@ -6,7 +6,6 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_constant.dart';
 import 'package:http/http.dart' as http;
-// import 'package:jwt_decoder/jwt_decoder.dart';
 
 class AuthUtils {
   static const FlutterSecureStorage storage = FlutterSecureStorage();
