@@ -107,7 +107,7 @@ class TestBloc extends Bloc<TestEvent, TestState> {
 
   @override
   Future<void> close() {
-    _answers.clear(); // Dispose of the answers list
+    _answers.clear();
     return super.close();
   }
 }
