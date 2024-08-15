@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +18,7 @@ class TestScreen extends StatefulWidget {
 }
 
 class _TestScreenState extends State<TestScreen> {
-  Key _listViewKey = UniqueKey();
+  final Key _listViewKey = UniqueKey();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +66,7 @@ class _TestScreenState extends State<TestScreen> {
                       Expanded(
                         child: ListView(
                           key: _listViewKey,
-                          padding: EdgeInsets.only(bottom: 232),
+                          padding: const EdgeInsets.only(bottom: 232),
                           children: [
                             _buildQuestionWithAnswers(
                                 state.questions[state.currentIndex],
@@ -145,7 +147,7 @@ class _TestScreenState extends State<TestScreen> {
                             false,
                           ));
                     } else {
-                      print("Error: currentIndex is not available.");
+                      log("Error: currentIndex is not available.");
                     }
                   },
                 );

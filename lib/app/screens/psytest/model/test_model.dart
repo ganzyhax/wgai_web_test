@@ -124,14 +124,16 @@ class Thumbnail {
 class Problems {
   String? problemType;
   Thumbnail? question;
+  Thumbnail? image;
   List<Options>? options;
 
-  Problems({this.problemType, this.question, this.options});
+  Problems({this.problemType, this.question, this.image, this.options});
 
   Problems.fromJson(Map<String, dynamic> json) {
     problemType = json['problemType'];
     question =
         json['question'] != null ? Thumbnail.fromJson(json['question']) : null;
+    image = json['image'] != null ? Thumbnail.fromJson(json['image']) : null;
     if (json['options'] != null) {
       options = <Options>[];
       json['options'].forEach((v) {
@@ -145,6 +147,9 @@ class Problems {
     data['problemType'] = problemType;
     if (question != null) {
       data['question'] = question!.toJson();
+    }
+    if (image != null) {
+      data['image'] = image!.toJson();
     }
     if (options != null) {
       data['options'] = options!.map((v) => v.toJson()).toList();
