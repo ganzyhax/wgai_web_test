@@ -15,6 +15,7 @@ class ResourcesScreen extends StatelessWidget {
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => QuestionnaireScreen()));
         },
+        child: const Icon(Icons.question_answer),
       ),
     );
   }
