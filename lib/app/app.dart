@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
+import 'package:wg_app/app/screens/consulation_request/bloc/consulation_request_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
@@ -44,8 +45,12 @@ class WeGlobalApp extends StatelessWidget {
             create: (context) => ConsultantBloc()..add(ConsultantLoad()),
           ),
           BlocProvider(
-              create: (context) =>
-                  QuestionnaireBloc()..add(LoadQuestionnaire()))
+            create: (context) => QuestionnaireBloc()..add(LoadQuestionnaire()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ConsulationRequestBloc()..add(ConsulationLoad()),
+          ),
         ],
         child: MaterialApp(
           builder: (BuildContext context, Widget? child) {
