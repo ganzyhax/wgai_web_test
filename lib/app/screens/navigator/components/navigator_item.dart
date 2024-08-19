@@ -7,12 +7,11 @@ import 'package:wg_app/constants/app_colors.dart';
 class NavigationItem extends StatelessWidget {
   final String assetImage;
   final bool isSelected;
-  final String text;
-  const NavigationItem(
-      {super.key,
-      required this.assetImage,
-      required this.isSelected,
-      required this.text});
+  const NavigationItem({
+    super.key,
+    required this.assetImage,
+    required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +31,6 @@ class NavigationItem extends StatelessWidget {
           shaderCallback: (Rect bounds) => (isSelected)
               ? AppColors.gradientPrimary.createShader(bounds)
               : AppColors.gradientGrey.createShader(bounds),
-          child: Text(text,
-                  style: const TextStyle(color: Colors.white, fontSize: 12))
-              .tr(),
         ),
       ],
     );

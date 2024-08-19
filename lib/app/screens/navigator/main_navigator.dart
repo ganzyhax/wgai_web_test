@@ -35,9 +35,9 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 0));
                         },
                         child: NavigationItem(
-                            assetImage: 'assets/icons/consultant.svg',
-                            isSelected: (state.index == 0) ? true : false,
-                            text: LocaleKeys.consultant),
+                          assetImage: 'assets/icons/consultant.svg',
+                          isSelected: (state.index == 0) ? true : false,
+                        ),
                       ),
                       InkWell(
                         onTap: () {
@@ -45,9 +45,9 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 1));
                         },
                         child: NavigationItem(
-                            assetImage: 'assets/icons/comunity.svg',
-                            isSelected: (state.index == 1) ? true : false,
-                            text: LocaleKeys.community),
+                          assetImage: 'assets/icons/comunity.svg',
+                          isSelected: (state.index == 1) ? true : false,
+                        ),
                       ),
                       InkWell(
                         onTap: () {
@@ -55,9 +55,9 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 2));
                         },
                         child: NavigationItem(
-                            assetImage: 'assets/icons/resources.svg',
-                            isSelected: (state.index == 2) ? true : false,
-                            text: LocaleKeys.resources),
+                          assetImage: 'assets/icons/resources.svg',
+                          isSelected: (state.index == 2) ? true : false,
+                        ),
                       ),
                       InkWell(
                         onTap: () {
@@ -65,9 +65,9 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 3));
                         },
                         child: NavigationItem(
-                            assetImage: 'assets/icons/profile.svg',
-                            isSelected: (state.index == 3) ? true : false,
-                            text: LocaleKeys.profile),
+                          assetImage: 'assets/icons/profile.svg',
+                          isSelected: (state.index == 3) ? true : false,
+                        ),
                       ),
                     ],
                   ),
