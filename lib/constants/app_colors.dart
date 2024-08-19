@@ -14,6 +14,12 @@ class AppColors {
   static final Color onTheBlue2 =
       Color.fromRGBO(229, 229, 234, 0.70); // ONTHEBLUE2
   static const Color grayProgressBar = Color(0xffE5E5EA); // Light/Neutral/gray5
+  static const Color alternativeBlack = Color(0xff1C202C);
+  static const Color alternativeGray = Color(0xff6A7186);
+  static const Color containerBorder = Color(0xffE8E9EE);
+  static const Color calendarTextColor =
+      Color(0xff27272E); // Light/Text/primary
+  static const Color slotColor = Color(0xffD1D1D6); // Light/Neutral/gray4
 
   static final LinearGradient gradientPrimary = const LinearGradient(
     colors: [Color(0xff052DC1), Color(0xff052DC1)],
