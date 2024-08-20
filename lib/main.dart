@@ -11,7 +11,7 @@ import 'package:wg_app/generated/codegen_loader.g.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  LocalUtils.clearStorage();
+  // LocalUtils.clearStorage();
   // setupLocator();
   runApp(EasyLocalization(
       supportedLocales: [

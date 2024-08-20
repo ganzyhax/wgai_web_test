@@ -12,7 +12,7 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
   ConsultantBloc() : super(ConsultantInitial()) {
     var counselorData;
     var authors;
-    String localLang;
+    String localLang = 'ru';
     String userId;
     on<ConsultantEvent>((event, emit) async {
       if (event is ConsultantLoad) {
@@ -31,6 +31,20 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
             localLang: localLang,
             counselorData: counselorData['data']['counselorTasks'],
           ));
+        }
+      }
+      if (event is ConsultantUpdateStatus) {
+        var req = await ApiClient.post('api/counselorTasks/updateStatus',
+            {"taskId": event.taskId, "newStatus": event.status});
+        if (req['success']) {
+          add(ConsultantLoad());
+        }
+      }
+      if (event is ConsultantSubmitResponse) {
+        var req = await ApiClient.post('api/counselorTasks/submitResponse',
+            {"taskId": event.taskId, "taskResponse": ''});
+        if (req['success']) {
+          add(ConsultantLoad());
         }
       }
     });

@@ -4,3 +4,14 @@ part of 'consultant_bloc.dart';
 sealed class ConsultantEvent {}
 
 final class ConsultantLoad extends ConsultantEvent {}
+
+final class ConsultantUpdateStatus extends ConsultantEvent {
+  final String status;
+  final String taskId;
+  ConsultantUpdateStatus({required this.taskId, required this.status});
+}
+
+final class ConsultantSubmitResponse extends ConsultantEvent {
+  final String taskId;
+  ConsultantSubmitResponse({required this.taskId});
+}
