@@ -20,6 +20,11 @@ class AppColors {
   static const Color calendarTextColor =
       Color(0xff27272E); // Light/Text/primary
   static const Color slotColor = Color(0xffD1D1D6); // Light/Neutral/gray4
+  static const Color exit = Color(0xffD54950);
+  static const Color filterGray =
+      Color.fromARGB(30, 142, 142, 147); // Light/Fill/system3
+  static const Color actionGreen = Color(0xff17B582); //Light / Text / action
+  static const Color actionFill = Color.fromARGB(51, 142, 142, 147);
 
   static final LinearGradient gradientPrimary = const LinearGradient(
     colors: [Color(0xff052DC1), Color(0xff052DC1)],
