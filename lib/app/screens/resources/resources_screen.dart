@@ -21,10 +21,10 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
+import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
@@ -34,19 +34,18 @@ class ResourcesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
         backgroundColor: AppColors.background,
-        centerTitle: false,
-        titleSpacing: 16,
-        title: Text(
-          'Ресурсы',
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
-        )
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
+        appBar: AppBar(
+            backgroundColor: AppColors.background,
+            centerTitle: false,
+            titleSpacing: 16,
+            title: Text(
+              'Ресурсы',
+              style: AppTextStyle.titleHeading
+                  .copyWith(color: AppColors.blackForText),
+            )),
+        body: SingleChildScrollView(
+            child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
@@ -66,7 +65,12 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/universities.svg',
                 height: 122,
                 onTap: () {
-                  print('Go to universities');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UniversitiesScreen(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 8),
@@ -102,8 +106,6 @@ class ResourcesScreen extends StatelessWidget {
               const SizedBox(height: 8),
             ],
           ),
-        )
-      )
-    );
+        )));
   }
 }
