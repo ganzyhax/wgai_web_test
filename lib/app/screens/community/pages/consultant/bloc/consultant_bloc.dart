@@ -40,10 +40,13 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
           add(ConsultantLoad());
         }
       }
-      if (event is ConsultantSubmitResponse) {
-        var req = await ApiClient.post('api/counselorTasks/submitResponse',
-            {"taskId": event.taskId, "taskResponse": ''});
+      if (event is ConsultantOptionSubmitResponse) {
+        var req = await ApiClient.post('api/counselorTasks/submitResponse', {
+          "taskId": event.taskId,
+          "taskResponse": [event.answer]
+        });
         if (req['success']) {
+          add(ConsultantUpdateStatus(taskId: event.taskId, status: 'complete'));
           add(ConsultantLoad());
         }
       }

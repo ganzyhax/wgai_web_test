@@ -11,7 +11,8 @@ final class ConsultantUpdateStatus extends ConsultantEvent {
   ConsultantUpdateStatus({required this.taskId, required this.status});
 }
 
-final class ConsultantSubmitResponse extends ConsultantEvent {
+final class ConsultantOptionSubmitResponse extends ConsultantEvent {
   final String taskId;
-  ConsultantSubmitResponse({required this.taskId});
+  final List answer;
+  ConsultantOptionSubmitResponse({required this.taskId, required this.answer});
 }

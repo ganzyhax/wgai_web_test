@@ -25,16 +25,13 @@ class _ConsultantCardState extends State<ConsultantCard> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.data.toString());
     String content = widget.data['message'][widget.localLang];
     return GestureDetector(
       onTap: () {
         if (widget.data['type'] == 'external-link') {
           _openExternalLink(widget.data['link']);
         } else if (widget.data['type'] == 'psytest' ||
-            widget.data['type'] == 'questionnaire') {
-          // Navigate to the respective screens
-        }
+            widget.data['type'] == 'questionnaire') {}
       },
       child: Container(
         margin: EdgeInsets.only(bottom: 8),
@@ -86,24 +83,55 @@ class _ConsultantCardState extends State<ConsultantCard> {
   Widget _buildTaskSpecificWidget() {
     switch (widget.data['type']) {
       case 'textbox':
-        log(widget.data['result']['optionsResponse'].toString());
-        if (widget.data['result']['optionsResponse'] == []) {
+        if (widget.data['result']['optionsResponse'].length == 0) {
           return _buildTextboxTask();
         } else {
-          return answerWidget('', false);
+          return answerWidget(
+              '', false, widget.data['result']['timeSubmitted']);
         }
-
       case 'options':
-        return _buildOptionsTask();
+        log(widget.data.toString());
+        if (widget.data['result']['optionsResponse'].length == 0) {
+          return _buildOptionsTask();
+        } else {
+          return answerWidget(
+              widget.data['answerOptions']
+                      [widget.data['result']['optionsResponse'][0][0]]
+                  [widget.localLang],
+              false,
+              widget.data['result']['timeSubmitted']);
+        }
       case 'external-link':
       case 'psytest':
       case 'questionnaire':
-        return CustomButton(
-          text: 'Перейти',
-          onTap: () {},
-          bgColor: AppColors.primary,
-          textColor: Colors.white,
-        );
+        return (widget.data['status'] == 'new')
+            ? CustomButton(
+                text: 'Перейти',
+                onTap: () {
+                  BlocProvider.of<ConsultantBloc>(context)
+                    ..add(ConsultantUpdateStatus(
+                        taskId: widget.data['_id'], status: 'incomplete'));
+                },
+                bgColor: AppColors.primary,
+                textColor: Colors.white,
+              )
+            : (widget.data['status'] == 'incomplete')
+                ? CustomButton(
+                    text: 'Продолжить',
+                    onTap: () {
+                      BlocProvider.of<ConsultantBloc>(context)
+                        ..add(ConsultantUpdateStatus(
+                            taskId: widget.data['_id'], status: 'incomplete'));
+                    },
+                    bgColor: Colors.grey[200],
+                    textColor: Colors.black,
+                  )
+                : CustomButton(
+                    text: 'Результаты',
+                    onTap: () {},
+                    bgColor: Colors.grey[200],
+                    textColor: Colors.black,
+                  );
       case 'announcement':
       default:
         return SizedBox.shrink();
@@ -156,10 +184,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   shape: BoxShape.rectangle,
                 ),
                 child: IconButton(
-                  onPressed: () {
-                    BlocProvider.of<ConsultantBloc>(context)
-                      ..add(ConsultantSubmitResponse(taskId: ''));
-                  },
+                  onPressed: () {},
                   icon: Icon(Icons.arrow_upward, color: Colors.white),
                 ),
               ),
@@ -206,7 +231,17 @@ class _ConsultantCardState extends State<ConsultantCard> {
         SizedBox(height: 10),
         CustomButton(
           text: 'Ответить',
-          onTap: (selectedOption == '') ? () {} : () {},
+          onTap: selectedOption.isEmpty
+              ? () {}
+              : () {
+                  int optionIndex = widget.data['answerOptions'].indexWhere(
+                      (option) => option[widget.localLang] == selectedOption);
+                  BlocProvider.of<ConsultantBloc>(context)
+                    ..add(ConsultantOptionSubmitResponse(
+                      taskId: widget.data['_id'],
+                      answer: [optionIndex],
+                    ));
+                },
           isDisabled: selectedOption.isEmpty,
           textColor: Colors.white,
         ),
@@ -214,27 +249,64 @@ class _ConsultantCardState extends State<ConsultantCard> {
     );
   }
 
-  answerWidget(String answer, bool isText) {
-    return Container(
-      child: Column(
-        children: [
-          Text(
-            'Ваш ответ',
-            style: AppTextStyle.heading2,
+  answerWidget(String answer, bool isText, String time) {
+    return Column(
+      children: [
+        Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Ваш ответ',
+                style: AppTextStyle.heading2,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text('5 минут назад',
+                  style: TextStyle(fontSize: 14, color: Colors.grey[500])),
+              SizedBox(
+                height: 5,
+              ),
+              (isText)
+                  ? Text(answer)
+                  : Container(
+                      width: MediaQuery.of(context).size.width,
+                      margin: EdgeInsets.only(bottom: 8.0),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        answer,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+            ],
           ),
-          Text('5 минут назад',
-              style: TextStyle(fontSize: 12, color: Colors.grey[500])),
-          Text(answer)
-        ],
-      ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-              color: const Color.fromARGB(255, 199, 199, 199), width: 1)),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(
+                  color: const Color.fromARGB(255, 199, 199, 199), width: 1)),
+        ),
+        SizedBox(
+          height: 10,
+        ),
+        CustomButton(
+          text: 'Изменить',
+          onTap: () {},
+          bgColor: Colors.grey[200],
+          textColor: Colors.black,
+        )
+      ],
     );
   }
 
-  void _openExternalLink(String url) {
-    // Implement the logic to open the external link
-  }
+  void _openExternalLink(String url) {}
 }
