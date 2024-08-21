@@ -18,6 +18,7 @@ class TestNetwork {
     } else {
       log('Failed to load PsyTest: ${response['data']}');
     }
+
     return null;
   }
 

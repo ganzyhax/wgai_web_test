@@ -10,6 +10,7 @@ import 'package:wg_app/app/screens/consulation_request/bloc/consulation_request_
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
+import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/psytest/bloc/test_bloc.dart';
 import 'package:wg_app/app/screens/psytest/screens/description_test_screen.dart';
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
@@ -54,6 +55,9 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => UniversitiesBloc()..add(LoadUniversities()),
+          ),
+          BlocProvider(
+            create: (context) => PersonalBloc()..add(PersonalLoad()),
           ),
         ],
         child: MaterialApp(

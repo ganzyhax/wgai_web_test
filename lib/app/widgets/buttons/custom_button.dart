@@ -9,9 +9,13 @@ class CustomButton extends StatelessWidget {
   final Color? bgColor;
   final Color? textColor;
   final bool? isLoading;
+  final IconData? icon;
+  final Color? iconColor;
   const CustomButton(
       {super.key,
       this.isDisabled,
+      this.icon,
+      this.iconColor,
       this.bgColor,
       this.isLoading,
       this.textColor,
@@ -49,13 +53,36 @@ class CustomButton extends StatelessWidget {
                   child: CircularProgressIndicator(
                     color: Colors.white,
                   ))
-              : Text(
-                  text,
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: (textColor == null) ? Colors.white : textColor),
-                ),
+              : (icon != null)
+                  ? Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          icon,
+                          color: (iconColor == null) ? Colors.white : iconColor,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          text,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: (textColor == null)
+                                  ? Colors.white
+                                  : textColor),
+                        ),
+                      ],
+                    )
+                  : Text(
+                      text,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color:
+                              (textColor == null) ? Colors.white : textColor),
+                    ),
         ),
       ),
     );

@@ -3,7 +3,9 @@ part of 'test_bloc.dart';
 @immutable
 sealed class TestEvent {}
 
-class LoadQuestions extends TestEvent {}
+class LoadQuestions extends TestEvent {
+  LoadQuestions();
+}
 
 class AnswersQuestions extends TestEvent {
   final String answer;

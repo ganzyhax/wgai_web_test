@@ -1,8 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
+import 'package:wg_app/app/screens/psytest/screens/test_screen.dart';
+import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -26,29 +26,21 @@ class _ConsultantCardState extends State<ConsultantCard> {
   @override
   Widget build(BuildContext context) {
     String content = widget.data['message'][widget.localLang];
-    return GestureDetector(
-      onTap: () {
-        if (widget.data['type'] == 'external-link') {
-          _openExternalLink(widget.data['link']);
-        } else if (widget.data['type'] == 'psytest' ||
-            widget.data['type'] == 'questionnaire') {}
-      },
-      child: Container(
-        margin: EdgeInsets.only(bottom: 8),
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15), color: Colors.white),
-        padding: EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildAuthorInfo(),
-            SizedBox(height: 8),
-            Text(content, style: TextStyle(fontSize: 16)),
-            SizedBox(height: 8),
-            _buildTaskSpecificWidget()
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.only(bottom: 8),
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15), color: Colors.white),
+      padding: EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildAuthorInfo(),
+          SizedBox(height: 8),
+          Text(content, style: TextStyle(fontSize: 16)),
+          SizedBox(height: 8),
+          _buildTaskSpecificWidget()
+        ],
       ),
     );
   }
@@ -83,14 +75,16 @@ class _ConsultantCardState extends State<ConsultantCard> {
   Widget _buildTaskSpecificWidget() {
     switch (widget.data['type']) {
       case 'textbox':
-        if (widget.data['result']['optionsResponse'].length == 0) {
+        if (widget.data['result']['textResponse'] == 'none') {
           return _buildTextboxTask();
         } else {
           return answerWidget(
-              '', false, widget.data['result']['timeSubmitted']);
+              widget.data['result']['textResponse'].toString(),
+              false,
+              widget.data['result']['timeSubmitted'] ??
+                  '2024-08-14T09:26:41.816Z');
         }
       case 'options':
-        log(widget.data.toString());
         if (widget.data['result']['optionsResponse'].length == 0) {
           return _buildOptionsTask();
         } else {
@@ -102,8 +96,16 @@ class _ConsultantCardState extends State<ConsultantCard> {
               widget.data['result']['timeSubmitted']);
         }
       case 'external-link':
+        return CustomButton(
+          text: 'Перейти',
+          onTap: () {
+            BlocProvider.of<ConsultantBloc>(context)
+              ..add(ConsultantUpdateStatus(
+                  taskId: widget.data['_id'], status: 'complete'));
+            _openExternalLink(widget.data['link']); // TODO Here pystest
+          },
+        );
       case 'psytest':
-      case 'questionnaire':
         return (widget.data['status'] == 'new')
             ? CustomButton(
                 text: 'Перейти',
@@ -111,6 +113,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   BlocProvider.of<ConsultantBloc>(context)
                     ..add(ConsultantUpdateStatus(
                         taskId: widget.data['_id'], status: 'incomplete'));
+                  // TODO Here pystest
                 },
                 bgColor: AppColors.primary,
                 textColor: Colors.white,
@@ -119,16 +122,46 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 ? CustomButton(
                     text: 'Продолжить',
                     onTap: () {
-                      BlocProvider.of<ConsultantBloc>(context)
-                        ..add(ConsultantUpdateStatus(
-                            taskId: widget.data['_id'], status: 'incomplete'));
+                      // TODO Here pystest continue
                     },
                     bgColor: Colors.grey[200],
                     textColor: Colors.black,
                   )
                 : CustomButton(
                     text: 'Результаты',
-                    onTap: () {},
+                    onTap: () {
+                      // TODO Here pystest result
+                    },
+                    bgColor: Colors.grey[200],
+                    textColor: Colors.black,
+                  );
+      case 'questionnaire':
+        return (widget.data['status'] == 'new')
+            ? CustomButton(
+                text: 'Перейти',
+                onTap: () {
+                  BlocProvider.of<ConsultantBloc>(context)
+                    ..add(ConsultantUpdateStatus(
+                        taskId: widget.data['_id'], status: 'incomplete'));
+                  // TODO Here questionarise
+                },
+                bgColor: AppColors.primary,
+                textColor: Colors.white,
+              )
+            : (widget.data['status'] == 'incomplete')
+                ? CustomButton(
+                    text: 'Продолжить',
+                    onTap: () {
+                      // TODO Here questionarise continue
+                    },
+                    bgColor: Colors.grey[200],
+                    textColor: Colors.black,
+                  )
+                : CustomButton(
+                    text: 'Результаты',
+                    onTap: () {
+                      // TODO Here questionarise result
+                    },
                     bgColor: Colors.grey[200],
                     textColor: Colors.black,
                   );
@@ -168,6 +201,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: TextField(
+                      controller: answerController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: 'Введите ответ',
@@ -177,15 +211,24 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 ),
               ),
               SizedBox(width: 8.0),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: AppColors.primary,
-                  shape: BoxShape.rectangle,
-                ),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_upward, color: Colors.white),
+              GestureDetector(
+                onTap: () {
+                  BlocProvider.of<ConsultantBloc>(context)
+                    ..add(ConsultantTextBoxSubmitResponse(
+                        taskId: widget.data['_id'],
+                        answer: answerController.text));
+                  setState(() {
+                    answerController.text = '';
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: AppColors.primary,
+                    shape: BoxShape.rectangle,
+                  ),
+                  child: Icon(Icons.arrow_upward, color: Colors.white),
                 ),
               ),
             ],
@@ -250,6 +293,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
   }
 
   answerWidget(String answer, bool isText, String time) {
+    String formattedTime = HelperFunctions().timeAgo(time);
     return Column(
       children: [
         Container(
@@ -264,7 +308,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
               SizedBox(
                 height: 5,
               ),
-              Text('5 минут назад',
+              Text(formattedTime,
                   style: TextStyle(fontSize: 14, color: Colors.grey[500])),
               SizedBox(
                 height: 5,
@@ -300,7 +344,19 @@ class _ConsultantCardState extends State<ConsultantCard> {
         ),
         CustomButton(
           text: 'Изменить',
-          onTap: () {},
+          icon: Icons.edit,
+          iconColor: Colors.black,
+          onTap: () {
+            if (widget.data['type'] == 'textbox') {
+              BlocProvider.of<ConsultantBloc>(context)
+                ..add(ConsultantTextBoxSubmitResponse(
+                    taskId: widget.data['_id'], answer: 'none'));
+            } else {
+              BlocProvider.of<ConsultantBloc>(context)
+                ..add(ConsultantOptionSubmitResponse(
+                    taskId: widget.data['_id'], answer: []));
+            }
+          },
           bgColor: Colors.grey[200],
           textColor: Colors.black,
         )

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/components/news_comment_bottom_modal.dart';
+import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 
@@ -27,7 +28,8 @@ class _NewsCardState extends State<NewsCard> {
     String truncatedContent =
         content.length > 60 ? content.substring(0, 60) + '...' : content;
     bool isContentLong = content.length > 60;
-
+    log(widget.data.toString());
+    String formattedData = HelperFunctions().timeAgo(widget.data['updatedAt']);
     return GestureDetector(
       onTap: isContentLong
           ? () {
@@ -35,7 +37,7 @@ class _NewsCardState extends State<NewsCard> {
                 _isExpanded = !_isExpanded;
               });
             }
-          : null, // Only allow tapping if content is long
+          : null,
       child: Container(
         margin: EdgeInsets.only(bottom: 8),
         width: MediaQuery.of(context).size.width,
@@ -51,7 +53,7 @@ class _NewsCardState extends State<NewsCard> {
                   borderRadius: BorderRadius.circular(25.0),
                   child: Image.network(
                     fit: BoxFit.cover,
-                    'https://s3-alpha-sig.figma.com/img/ee49/4a31/715413ba4192fbdaa3060b5131dc5b83?Expires=1724630400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=I4muFlR0nJC1vuejG7gwsE~tPI0SOOwf5XosSntHAvtA1utUNq5KzrVNOqbea~HvWeZnWVJFLdyn335Oqi1Fela9l4g-eYovxZucHRFZtBtGc78vYDZC-AeSOxdpdTb8Cz~JFX2Umv6d7nP4yQN6dPjoxbBaSKEtTo7hdDKmevDpBZwAvzPMgZjkaMM8JyAI8hCKUdLxM7KGPofOx63O0uA1-Jjc8q-I~Gpn5ujvxWISMh2EM1iJREdDkkISEJLuyKFFWXjp1NafF0~Pw61KO0z3jewh35sI0FsD3Uc31iqwnj~aYv1nHZCqRcT~UX38hZycwno7y2sG71z4V2swnA__',
+                    widget.data['authorAvatarImage'],
                     height: 50.0,
                     width: 50.0,
                   ),
@@ -63,11 +65,11 @@ class _NewsCardState extends State<NewsCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Adilet Alibek',
+                      widget.data['authorName'],
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '5 минут назад',
+                      formattedData,
                       style: TextStyle(
                           color: AppColors.grayForText,
                           fontWeight: FontWeight.w500),

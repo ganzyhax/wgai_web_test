@@ -16,3 +16,9 @@ final class ConsultantOptionSubmitResponse extends ConsultantEvent {
   final List answer;
   ConsultantOptionSubmitResponse({required this.taskId, required this.answer});
 }
+
+final class ConsultantTextBoxSubmitResponse extends ConsultantEvent {
+  final String taskId;
+  final String answer;
+  ConsultantTextBoxSubmitResponse({required this.taskId, required this.answer});
+}
