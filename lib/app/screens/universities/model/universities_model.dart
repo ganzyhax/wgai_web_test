@@ -1,10 +1,10 @@
-class University {
+class SpecialResources {
   final String codeNumber;
   final String title;
   final String firstDescription;
   final String secondDescription;
 
-  University({
+  SpecialResources({
     required this.codeNumber,
     required this.title,
     required this.firstDescription,

@@ -17,12 +17,12 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     try {
       await Future.delayed(Duration(seconds: 1));
       final universities = [
-        University(
+        SpecialResources(
             codeNumber: '01',
             title: 'University A',
             firstDescription: 'Description A1',
             secondDescription: 'Description A2'),
-        University(
+        SpecialResources(
             codeNumber: '02',
             title: 'University B',
             firstDescription: 'Description B1',
