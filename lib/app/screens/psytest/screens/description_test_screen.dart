@@ -8,13 +8,20 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class DescriptionTestScreen extends StatefulWidget {
-  const DescriptionTestScreen({super.key});
+  final String sId;
+  const DescriptionTestScreen({super.key, required this.sId});
 
   @override
   State<DescriptionTestScreen> createState() => _DescriptionTestScreenState();
 }
 
 class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<TestBloc>(context).add(LoadQuestions());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,7 +157,9 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => TestScreen(),
+                          builder: (context) => TestScreen(
+                            sId: widget.sId,
+                          ),
                         ),
                       );
                     },

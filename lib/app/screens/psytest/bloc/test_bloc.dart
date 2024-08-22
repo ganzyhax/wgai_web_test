@@ -10,14 +10,21 @@ class TestBloc extends Bloc<TestEvent, TestState> {
   List<String> _answers = [];
 
   TestBloc() : super(TestBlocInitial()) {
-    on<LoadQuestions>(_onLoadQuestions);
+    on<LoadTestEvent>(_onLoadQuestions);
     on<AnswersQuestions>(_onAnswerQuestion);
     on<NextQuestion>(_onNextQuestion);
     on<PreviousQuestion>(_onPreviousQuestion);
+    // on<CheckTestCompletion>(_onCheckTestCompletion);
   }
 
+  // Future<void> _onCheckTestCompletion(CheckTestCompletion event, Emitter<TestState> emit) async {
+  //   try {
+
+  //   }
+  // }
+
   Future<void> _onLoadQuestions(
-      LoadQuestions event, Emitter<TestState> emit) async {
+      LoadTestEvent event, Emitter<TestState> emit) async {
     emit(TestLoadingState());
     try {
       final TestModel? quizData = await TestNetwork().loadTests();
@@ -33,6 +40,7 @@ class TestBloc extends Bloc<TestEvent, TestState> {
           timeLimit: quizData.testingMaterial?.timeLimit,
           description: quizData.testingMaterial?.description,
           thumbnail: quizData.testingMaterial?.thumbnail,
+          sId: event.sId,
         ));
       } else {
         emit(TestErrorState("Failed to load quiz data"));
