@@ -8,7 +8,7 @@ final class UniversitiesInitial extends UniversitiesState {}
 final class UniversitiesLoading extends UniversitiesState {}
 
 final class UniversitiesLoaded extends UniversitiesState {
-  final List<University> universities;
+  final List<SpecialResources> universities;
 
   UniversitiesLoaded(this.universities);
 }

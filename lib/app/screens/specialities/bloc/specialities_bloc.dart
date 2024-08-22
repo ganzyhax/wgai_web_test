@@ -18,15 +18,15 @@ class SpecialitiesBloc extends Bloc<SpecialitiesEvent, SpecialitiesState> {
       await Future.delayed(Duration(seconds: 1));
       final universities = [
         SpecialResources(
-            codeNumber: '01',
-            title: 'University A',
-            firstDescription: 'Description A1',
-            secondDescription: 'Description A2'),
+            codeNumber: 'B001',
+            title: 'Педагогика и психология',
+            firstDescription: 'Биология-География',
+            secondDescription: 'Гранты(2023): 58'),
         SpecialResources(
-            codeNumber: '02',
-            title: 'University B',
-            firstDescription: 'Description B1',
-            secondDescription: 'Description B2'),
+            codeNumber: 'B001',
+            title: 'Педагогика и психология',
+            firstDescription: 'Биология-География',
+            secondDescription: 'Гранты(2023): 58'),
       ];
 
       emit(SpecialitiesLoaded(universities));
