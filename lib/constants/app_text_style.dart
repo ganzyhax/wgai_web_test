@@ -39,6 +39,12 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
   );
 
+  static const TextStyle bodyTextMiddle = TextStyle(
+    fontFamily: kInterFontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
   static const TextStyle bodyTextSmall = TextStyle(
     fontFamily: kInterFontFamily,
     fontSize: 14,
