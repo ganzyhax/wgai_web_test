@@ -15,6 +15,7 @@ class TestSuccessState extends TestState {
   final int? timeLimit;
   final Thumbnail? description;
   final Thumbnail? thumbnail;
+  final String sId;
 
   TestSuccessState({
     required this.questions,
@@ -24,6 +25,7 @@ class TestSuccessState extends TestState {
     required this.timeLimit,
     required this.description,
     required this.thumbnail,
+    required this.sId,
   });
 
   TestSuccessState copyWith({
@@ -34,6 +36,7 @@ class TestSuccessState extends TestState {
     int? timeLimit,
     Thumbnail? description,
     Thumbnail? thumbnail,
+    String? sId,
   }) {
     return TestSuccessState(
       questions: questions ?? this.questions,
@@ -43,6 +46,7 @@ class TestSuccessState extends TestState {
       timeLimit: timeLimit ?? this.timeLimit,
       description: description ?? this.description,
       thumbnail: thumbnail ?? this.thumbnail,
+      sId: sId ?? this.sId,
     );
   }
 }
@@ -53,4 +57,8 @@ class TestErrorState extends TestState {
   TestErrorState(this.errorMessage);
 }
 
-class TestCompletedState extends TestState {}
+class TestCompletedState extends TestState {
+  // final String result;
+
+  // TestCompletedState(this.result);
+}

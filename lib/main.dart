@@ -12,6 +12,7 @@ import 'package:wg_app/generated/codegen_loader.g.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await initializeDateFormatting();
   // LocalUtils.clearStorage();
   // setupLocator();
   runApp(EasyLocalization(
