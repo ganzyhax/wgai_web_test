@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
@@ -123,6 +125,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                     text: 'Продолжить',
                     onTap: () {
                       // TODO Here pystest continue
+                      log(widget.data.toString());
                     },
                     bgColor: Colors.grey[200],
                     textColor: Colors.black,
@@ -131,6 +134,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                     text: 'Результаты',
                     onTap: () {
                       // TODO Here pystest result
+                      log(widget.data['_id'].toString());
                     },
                     bgColor: Colors.grey[200],
                     textColor: Colors.black,
