@@ -1,6 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:wg_app/app/screens/universities/model/universities_model.dart';
+import 'package:wg_app/app/screens/specialities/model/special_resources.dart';
+import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
+import 'package:wg_app/app/screens/universities/network/specialities_network.dart';
 
 part 'universities_event.dart';
 part 'universities_state.dart';
@@ -15,21 +17,13 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     emit(UniversitiesLoading());
 
     try {
-      await Future.delayed(Duration(seconds: 1));
-      final universities = [
-        SpecialResources(
-            codeNumber: '01',
-            title: 'University A',
-            firstDescription: 'Description A1',
-            secondDescription: 'Description A2'),
-        SpecialResources(
-            codeNumber: '02',
-            title: 'University B',
-            firstDescription: 'Description B1',
-            secondDescription: 'Description B2'),
-      ];
-
-      emit(UniversitiesLoaded(universities));
+      final KazUniversity? uniModel =
+          await UniversitiesNetwork().fetchSpecies();
+      if (uniModel != null && uniModel.universities != null) {
+        emit(UniversitiesLoaded(uniModel.universities));
+      } else {
+        emit(UniversitiesError('Kaz universities Data not loaded'));
+      }
     } catch (e) {
       emit(UniversitiesError('Failed to fetch universities'));
     }

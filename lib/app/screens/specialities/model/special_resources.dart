@@ -2,7 +2,7 @@ class SpecialResources {
   final String codeNumber;
   final String title;
   final String firstDescription;
-  final String secondDescription;
+  final int secondDescription;
 
   SpecialResources({
     required this.codeNumber,

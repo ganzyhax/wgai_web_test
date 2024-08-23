@@ -67,21 +67,19 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                     return Center(child: CircularProgressIndicator());
                   } else if (state is UniversitiesLoaded) {
                     return ListView.builder(
-                      itemCount: state.universities.length,
+                      itemCount: state.universities?.length,
                       itemBuilder: (context, index) {
-                        final university = state.universities[index];
-                        return Column(
-                          children: [
-                            UniContainers(
-                              codeNumber: university.codeNumber,
-                              title: university.title,
-                              firstDescription: university.firstDescription,
-                              secondDescription: university.secondDescription,
-                              onTap: () {},
-                            ),
-                            if (index != state.universities.length - 1)
-                              const SizedBox(height: 8),
-                          ],
+                        final university = state.universities?[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: UniContainers(
+                            codeNumber: university?.code ?? '',
+                            title: university?.name?.ru ?? '',
+                            firstDescription: university?.regionName?.ru ?? '',
+                            secondDescription:
+                                university?.specialties?.length ?? 0,
+                            onTap: () {},
+                          ),
                         );
                       },
                     );

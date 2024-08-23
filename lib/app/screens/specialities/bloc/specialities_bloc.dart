@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:wg_app/app/screens/universities/model/universities_model.dart';
+import 'package:wg_app/app/screens/specialities/model/special_resources.dart';
 
 part 'specialities_event.dart';
 part 'specialities_state.dart';
@@ -21,12 +21,12 @@ class SpecialitiesBloc extends Bloc<SpecialitiesEvent, SpecialitiesState> {
             codeNumber: 'B001',
             title: 'Педагогика и психология',
             firstDescription: 'Биология-География',
-            secondDescription: 'Гранты(2023): 58'),
+            secondDescription: 0),
         SpecialResources(
             codeNumber: 'B001',
             title: 'Педагогика и психология',
             firstDescription: 'Биология-География',
-            secondDescription: 'Гранты(2023): 58'),
+            secondDescription: 0),
       ];
 
       emit(SpecialitiesLoaded(universities));

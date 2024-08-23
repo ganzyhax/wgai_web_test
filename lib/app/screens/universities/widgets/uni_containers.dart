@@ -6,7 +6,7 @@ class UniContainers extends StatelessWidget {
   final String codeNumber;
   final String title;
   final String firstDescription;
-  final String secondDescription;
+  final int secondDescription;
   final Function() onTap;
   const UniContainers({
     super.key,
@@ -29,6 +29,7 @@ class UniContainers extends StatelessWidget {
           color: Colors.white,
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
@@ -38,10 +39,12 @@ class UniContainers extends StatelessWidget {
                       AppTextStyle.heading3.copyWith(color: AppColors.primary),
                 ),
                 SizedBox(width: 12),
-                Text(
-                  title,
-                  style: AppTextStyle.heading3
-                      .copyWith(color: AppColors.calendarTextColor),
+                Flexible(
+                  child: Text(
+                    title,
+                    style: AppTextStyle.heading3
+                        .copyWith(color: AppColors.calendarTextColor),
+                  ),
                 ),
               ],
             ),
@@ -57,7 +60,7 @@ class UniContainers extends StatelessWidget {
                         .copyWith(color: AppColors.grayForText),
                   ),
                   Text(
-                    secondDescription,
+                    'Специальности: $secondDescription',
                     style: AppTextStyle.bodyTextVerySmall
                         .copyWith(color: AppColors.grayForText),
                   ),
