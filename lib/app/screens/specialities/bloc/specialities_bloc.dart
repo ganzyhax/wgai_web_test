@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:wg_app/app/screens/specialities/model/special_resources.dart';
+import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
+import 'package:wg_app/app/screens/specialities/network/specialities_network.dart';
 
 part 'specialities_event.dart';
 part 'specialities_state.dart';
@@ -15,21 +16,13 @@ class SpecialitiesBloc extends Bloc<SpecialitiesEvent, SpecialitiesState> {
     emit(SpecialitiesLoading());
 
     try {
-      await Future.delayed(Duration(seconds: 1));
-      final universities = [
-        SpecialResources(
-            codeNumber: 'B001',
-            title: 'Педагогика и психология',
-            firstDescription: 'Биология-География',
-            secondDescription: 0),
-        SpecialResources(
-            codeNumber: 'B001',
-            title: 'Педагогика и психология',
-            firstDescription: 'Биология-География',
-            secondDescription: 0),
-      ];
-
-      emit(SpecialitiesLoaded(universities));
+      final KazSpecialties? specialtiesModel =
+          await SpecialitiesNetwork().fetchSpecies();
+      if (specialtiesModel != null && specialtiesModel.specialties != null) {
+        emit(SpecialitiesLoaded(specialtiesModel.specialties));
+      } else {
+        emit(SpecialitiesError('Kaz universities Data not loaded'));
+      }
     } catch (e) {
       emit(SpecialitiesError('Failed to fetch universities'));
     }

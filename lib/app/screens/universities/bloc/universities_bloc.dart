@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:wg_app/app/screens/specialities/model/special_resources.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/network/specialities_network.dart';
 

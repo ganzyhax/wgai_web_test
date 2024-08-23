@@ -8,7 +8,7 @@ final class SpecialitiesInitial extends SpecialitiesState {}
 final class SpecialitiesLoading extends SpecialitiesState {}
 
 final class SpecialitiesLoaded extends SpecialitiesState {
-  final List<SpecialResources> specialResources;
+  final List<Specialties>? specialResources;
 
   SpecialitiesLoaded(this.specialResources);
 }

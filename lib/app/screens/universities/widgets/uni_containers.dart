@@ -54,10 +54,14 @@ class UniContainers extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    firstDescription,
-                    style: AppTextStyle.bodyTextVerySmall
-                        .copyWith(color: AppColors.grayForText),
+                  Flexible(
+                    child: Text(
+                      firstDescription,
+                      style: AppTextStyle.bodyTextVerySmall
+                          .copyWith(color: AppColors.grayForText),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ),
                   Text(
                     'Специальности: $secondDescription',
