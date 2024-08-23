@@ -88,9 +88,12 @@ class SpecialitiesScreen extends StatelessWidget {
                             padding: const EdgeInsets.only(bottom: 8),
                             child: UniContainers(
                               codeNumber: specialResources?.code ?? '',
-                              title: specialResources?.name?.ru ?? '',
+                              title: specialResources?.name
+                                      ?.getLocalizedString(context) ??
+                                  '',
                               firstDescription: specialResources
-                                      ?.profileSubjects?[0].name?.ru ??
+                                      ?.profileSubjects?[0].name
+                                      ?.getLocalizedString(context) ??
                                   '',
                               secondDescription: specialResources
                                       ?.grants?.general?.grantsTotal ??

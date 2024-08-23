@@ -1,3 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/widgets.dart';
+
 class KazSpecialties {
   String? message;
   List<Specialties>? specialties;
@@ -221,6 +224,19 @@ class Name {
     data['en'] = en;
     return data;
   }
+
+  String getLocalizedString(BuildContext context) {
+    final locale = context.locale.languageCode;
+    if (locale == 'ru') {
+      return ru ?? kk!;
+    } else if (locale == 'kk') {
+      return kk ?? ru!;
+    } else {
+      return en ?? ru ?? kk ?? '';
+    }
+  }
+
+  tr() {}
 }
 
 class ProfileSubjects {

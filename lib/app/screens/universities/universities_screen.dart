@@ -74,8 +74,12 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                           padding: const EdgeInsets.only(bottom: 8),
                           child: UniContainers(
                             codeNumber: university?.code ?? '',
-                            title: university?.name?.ru ?? '',
-                            firstDescription: university?.regionName?.ru ?? '',
+                            title:
+                                university?.name?.getLocalizedString(context) ??
+                                    '',
+                            firstDescription: university?.regionName
+                                    ?.getLocalizedString(context) ??
+                                '',
                             secondDescription:
                                 university?.specialties?.length ?? 0,
                             onTap: () {},
