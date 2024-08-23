@@ -80,24 +80,23 @@ class SpecialitiesScreen extends StatelessWidget {
                       return Center(child: CircularProgressIndicator());
                     } else if (state is SpecialitiesLoaded) {
                       return ListView.builder(
-                        itemCount: state.specialResources.length,
+                        itemCount: state.specialResources?.length,
                         itemBuilder: (context, index) {
                           final specialResources =
-                              state.specialResources[index];
-                          return Column(
-                            children: [
-                              UniContainers(
-                                codeNumber: specialResources.codeNumber,
-                                title: specialResources.title,
-                                firstDescription:
-                                    specialResources.firstDescription,
-                                secondDescription:
-                                    specialResources.secondDescription,
-                                onTap: () {},
-                              ),
-                              if (index != state.specialResources.length - 1)
-                                const SizedBox(height: 8),
-                            ],
+                              state.specialResources?[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: UniContainers(
+                              codeNumber: specialResources?.code ?? '',
+                              title: specialResources?.name?.ru ?? '',
+                              firstDescription: specialResources
+                                      ?.profileSubjects?[0].name?.ru ??
+                                  '',
+                              secondDescription: specialResources
+                                      ?.grants?.general?.grantsTotal ??
+                                  0,
+                              onTap: () {},
+                            ),
                           );
                         },
                       );
