@@ -12,7 +12,11 @@ class PersonalBloc extends Bloc<PersonalEvent, PersonalState> {
     on<PersonalEvent>((event, emit) async {
       if (event is PersonalLoad) {
         var data = await ApiClient.get('api/guidanceTasks/');
-        log(data.toString());
+        if (data['success']) {
+          emit(PersonalLoaded(data: data['data']['guidanceTasks']));
+        } else {
+          emit(PersonalLoaded(data: []));
+        }
       }
     });
   }
