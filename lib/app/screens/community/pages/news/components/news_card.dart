@@ -86,11 +86,33 @@ class _NewsCardState extends State<NewsCard> {
                 width: MediaQuery.of(context).size.width,
                 height: 200,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                            widget.data['thumbnail'][widget.localLang]),
-                        fit: BoxFit.cover)),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: FadeInImage(
+                    image: NetworkImage(
+                        widget.data['thumbnail'][widget.localLang]),
+                    placeholder: AssetImage(
+                        'assets/images/placeholder.png'), // Local placeholder image
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        color: Colors
+                            .grey, // Background color when image fails to load
+                        child: Center(
+                          child: Text(
+                            'Failed to load image',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             SizedBox(
               height: 8,
