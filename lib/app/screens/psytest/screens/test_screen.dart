@@ -11,7 +11,8 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class TestScreen extends StatefulWidget {
-  const TestScreen({super.key});
+  final String sId;
+  const TestScreen({required this.sId, super.key});
 
   @override
   State<TestScreen> createState() => _TestScreenState();

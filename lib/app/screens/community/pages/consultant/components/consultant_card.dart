@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
+import 'package:wg_app/app/screens/psytest/screens/description_test_screen.dart';
+import 'package:wg_app/app/screens/psytest/screens/results_screen.dart';
 import 'package:wg_app/app/screens/psytest/screens/test_screen.dart';
+import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -104,71 +107,13 @@ class _ConsultantCardState extends State<ConsultantCard> {
             BlocProvider.of<ConsultantBloc>(context)
               ..add(ConsultantUpdateStatus(
                   taskId: widget.data['_id'], status: 'complete'));
-            _openExternalLink(widget.data['link']); // TODO Here pystest
+            _openExternalLink(widget.data['link']);
           },
         );
       case 'psytest':
-        return (widget.data['status'] == 'new')
-            ? CustomButton(
-                text: 'Перейти',
-                onTap: () {
-                  BlocProvider.of<ConsultantBloc>(context)
-                    ..add(ConsultantUpdateStatus(
-                        taskId: widget.data['_id'], status: 'incomplete'));
-                  // TODO Here pystest
-                },
-                bgColor: AppColors.primary,
-                textColor: Colors.white,
-              )
-            : (widget.data['status'] == 'incomplete')
-                ? CustomButton(
-                    text: 'Продолжить',
-                    onTap: () {
-                      // TODO Here pystest continue
-                      log(widget.data.toString());
-                    },
-                    bgColor: Colors.grey[200],
-                    textColor: Colors.black,
-                  )
-                : CustomButton(
-                    text: 'Результаты',
-                    onTap: () {
-                      // TODO Here pystest result
-                      log(widget.data['_id'].toString());
-                    },
-                    bgColor: Colors.grey[200],
-                    textColor: Colors.black,
-                  );
+        return _buildPsyTestWidget();
       case 'questionnaire':
-        return (widget.data['status'] == 'new')
-            ? CustomButton(
-                text: 'Перейти',
-                onTap: () {
-                  BlocProvider.of<ConsultantBloc>(context)
-                    ..add(ConsultantUpdateStatus(
-                        taskId: widget.data['_id'], status: 'incomplete'));
-                  // TODO Here questionarise
-                },
-                bgColor: AppColors.primary,
-                textColor: Colors.white,
-              )
-            : (widget.data['status'] == 'incomplete')
-                ? CustomButton(
-                    text: 'Продолжить',
-                    onTap: () {
-                      // TODO Here questionarise continue
-                    },
-                    bgColor: Colors.grey[200],
-                    textColor: Colors.black,
-                  )
-                : CustomButton(
-                    text: 'Результаты',
-                    onTap: () {
-                      // TODO Here questionarise result
-                    },
-                    bgColor: Colors.grey[200],
-                    textColor: Colors.black,
-                  );
+        return _buildQuestionnaireWidget();
       case 'announcement':
       default:
         return SizedBox.shrink();
@@ -366,6 +311,108 @@ class _ConsultantCardState extends State<ConsultantCard> {
         )
       ],
     );
+  }
+
+  Widget _buildPsyTestWidget() {
+    return (widget.data['status'] == 'new')
+        ? CustomButton(
+            text: 'Перейти',
+            onTap: () {
+              BlocProvider.of<ConsultantBloc>(context)
+                ..add(ConsultantUpdateStatus(
+                    taskId: widget.data['_id'], status: 'incomplete'));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DescriptionTestScreen(
+                    sId: widget.data['_id'],
+                  ),
+                ),
+              );
+            },
+            bgColor: AppColors.primary,
+            textColor: Colors.white,
+          )
+        : (widget.data['status'] == 'incomplete')
+            ? CustomButton(
+                text: 'Продолжить',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TestScreen(
+                        sId: widget.data['_id'],
+                      ),
+                    ),
+                  );
+                },
+                bgColor: Colors.grey[200],
+                textColor: Colors.black,
+              )
+            : CustomButton(
+                text: 'Результаты',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultsScreen(
+                        sId: widget.data['_id'],
+                      ),
+                    ),
+                  );
+                },
+                bgColor: Colors.grey[200],
+                textColor: Colors.black,
+              );
+  }
+
+  Widget _buildQuestionnaireWidget() {
+    return (widget.data['status'] == 'new')
+        ? CustomButton(
+            text: 'Перейти',
+            onTap: () {
+              BlocProvider.of<ConsultantBloc>(context)
+                ..add(ConsultantUpdateStatus(
+                    taskId: widget.data['_id'], status: 'incomplete'));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => QuestionnaireScreen(),
+                ),
+              );
+            },
+            bgColor: AppColors.primary,
+            textColor: Colors.white,
+          )
+        : (widget.data['status'] == 'incomplete')
+            ? CustomButton(
+                text: 'Продолжить',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => QuestionnaireScreen(),
+                    ),
+                  );
+                },
+                bgColor: Colors.grey[200],
+                textColor: Colors.black,
+              )
+            : CustomButton(
+                text: 'Результаты',
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ResultsScreen(
+                        sId: widget.data['_id'],
+                      ),
+                    ),
+                  );
+                },
+                bgColor: Colors.grey[200],
+                textColor: Colors.black,
+              );
   }
 
   void _openExternalLink(String url) {}

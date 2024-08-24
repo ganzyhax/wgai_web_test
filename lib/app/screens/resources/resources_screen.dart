@@ -24,6 +24,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
+import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -80,7 +81,12 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/specialties.svg',
                 height: 122,
                 onTap: () {
-                  print('Go to specialties');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SpecialitiesScreen(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 8),
