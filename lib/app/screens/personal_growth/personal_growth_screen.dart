@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
+import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -66,9 +67,12 @@ class PersonalGrowthScreen extends StatelessWidget {
                         SizedBox(
                           height: 25,
                         ),
-                        PersonalGrowthTestCard(
-                          title: 'Узнай себя',
-                          asset: 'assets/icons/brain.svg',
+                        GestureDetector(
+                          onTap: () {},
+                          child: PersonalGrowthTestCard(
+                            title: 'Узнай себя',
+                            asset: 'assets/icons/brain.svg',
+                          ),
                         ),
                         SizedBox(
                           height: 20,

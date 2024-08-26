@@ -42,6 +42,10 @@ class LocalUtils {
     }
   }
 
+  static Future<void> logout() async {
+    await storage.delete(key: 'token');
+  }
+
   static Future<void> clearStorage() async {
     await storage.deleteAll();
   }

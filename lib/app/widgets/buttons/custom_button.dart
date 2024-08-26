@@ -11,12 +11,14 @@ class CustomButton extends StatelessWidget {
   final bool? isLoading;
   final IconData? icon;
   final Color? iconColor;
+  final double? borderRadius;
   const CustomButton(
       {super.key,
       this.isDisabled,
       this.icon,
       this.iconColor,
       this.bgColor,
+      this.borderRadius,
       this.isLoading,
       this.textColor,
       required this.text,
@@ -35,7 +37,9 @@ class CustomButton extends StatelessWidget {
         height: height,
         padding: EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(7),
+            borderRadius: (borderRadius == null)
+                ? BorderRadius.circular(7)
+                : BorderRadius.circular(borderRadius!),
             color: (bgColor == null)
                 ? (isDisabled == true)
                     ? AppColors.primaryDisabled
@@ -75,13 +79,15 @@ class CustomButton extends StatelessWidget {
                         ),
                       ],
                     )
-                  : Text(
-                      text,
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color:
-                              (textColor == null) ? Colors.white : textColor),
+                  : Container(
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color:
+                                (textColor == null) ? Colors.white : textColor),
+                      ),
                     ),
         ),
       ),

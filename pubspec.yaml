@@ -45,6 +45,7 @@ dependencies:
   jwt_decoder: ^2.0.1
   flutter_switch: ^0.3.2
   webview_flutter: ^4.9.0
+  hive: ^2.2.3
 
 
 dev_dependencies:
