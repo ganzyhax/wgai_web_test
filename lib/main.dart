@@ -10,7 +10,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   // await initializeDateFormatting();
-  // LocalUtils.clearStorage();
+  LocalUtils.clearStorage();
   // setupLocator();
   runApp(EasyLocalization(
       supportedLocales: [

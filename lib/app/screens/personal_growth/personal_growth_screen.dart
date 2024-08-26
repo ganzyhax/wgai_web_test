@@ -73,36 +73,6 @@ class PersonalGrowthScreen extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        // Positioned(
-                        //         top: 10,
-                        //         left: 0,
-                        //         right: 0,
-                        //         child: PersonalGrowthCard(
-                        //           type: 1,
-                        //           title: 'Polyomino Tiling',
-                        //         ),
-                        //       ),
-                        //       Positioned(
-                        //         top:
-                        //             70, // Adjust top position based on previous widget's height
-                        //         left: 0,
-                        //         right: 0,
-                        //         child: PersonalGrowthCard(
-                        //           type: 2,
-                        //           title: 'Infinite Areas',
-                        //         ),
-                        //       ),
-                        //       Positioned(
-                        //         top:
-                        //             200, // Adjust top position based on previous widget's height
-                        //         left: 0,
-                        //         right: 0,
-                        //         child: PersonalGrowthCard(
-                        //           title: 'Guards in the Gallery',
-                        //           type: 3,
-                        //         ),
-                        //       ),
-
                         SizedBox(
                           height: calculateDynamicHeight(state.data),
                           child: Stack(
@@ -111,7 +81,6 @@ class PersonalGrowthScreen extends StatelessWidget {
                               int index = entry.key;
                               var e = entry.value;
 
-                              // Accumulate height based on previous items' availabilityStatus
                               double topPosition = 0;
                               for (int i = 0; i < index; i++) {
                                 var prevItem = state.data[i];
@@ -128,6 +97,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                                 right: 0,
                                 child: PersonalGrowthCard(
                                   onTap: () {
+                                    log(e.toString());
                                     if (e['type'] == 'reading') {
                                       Navigator.push(
                                         context,
@@ -137,6 +107,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                 )),
                                       );
                                     }
+                                    if (e['type'] == 'testing') {}
                                   },
                                   subTitle: e['subTitle']['ru'],
                                   type: (e['availabilityStatus'] == 'locked')
@@ -151,7 +122,6 @@ class PersonalGrowthScreen extends StatelessWidget {
                             }).toList(),
                           ),
                         ),
-
                         SizedBox(
                           height: 25,
                         ),
