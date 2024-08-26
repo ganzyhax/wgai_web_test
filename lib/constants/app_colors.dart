@@ -25,6 +25,8 @@ class AppColors {
       Color.fromARGB(30, 142, 142, 147); // Light/Fill/system3
   static const Color actionGreen = Color(0xff17B582); //Light / Text / action
   static const Color actionFill = Color.fromARGB(51, 142, 142, 147);
+  static const Color onTheWhite =
+      Color.fromRGBO(229, 229, 234, 0.45); //ONTHEWHITE
 
   static final LinearGradient gradientPrimary = const LinearGradient(
     colors: [Color(0xff052DC1), Color(0xff052DC1)],
