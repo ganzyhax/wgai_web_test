@@ -95,6 +95,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                                     topPosition, // Adjust top position based on accumulated height
                                 left: 0,
                                 right: 0,
+
                                 child: PersonalGrowthCard(
                                   onTap: () {
                                     log(e.toString());
@@ -115,6 +116,11 @@ class PersonalGrowthScreen extends StatelessWidget {
                                       : (e['completionStatus'] == 'new')
                                           ? 3
                                           : 1,
+                                  isFinished: (e['availabilityStatus'] !=
+                                              'locked' &&
+                                          (e['completionStatus'] == 'complete'))
+                                      ? true
+                                      : false,
                                   title: e['title'][
                                       'ru'], // Example usage, assuming 'title' is a key in your data
                                 ),
