@@ -46,6 +46,7 @@ dependencies:
   flutter_switch: ^0.3.2
   webview_flutter: ^4.9.0
   hive: ^2.2.3
+  phosphor_flutter: ^2.1.0
 
 
 dev_dependencies:
