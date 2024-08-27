@@ -23,17 +23,25 @@ class ProfileUniversityScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileStorageContainer(
-                title: 'Мои ВУЗ-ы',
-                buttonTitle: 'Browse universities',
-                description: 'Здесь будут хранится ваши избранные ВУЗ-ы.'),
+              title: 'Мои ВУЗ-ы',
+              buttonTitle: 'Browse universities',
+              description: 'Здесь будут хранится ваши избранные ВУЗ-ы.',
+              onButtonTap: () {
+                print('tapped my uni 1');
+              },
+            ),
             SizedBox(height: 16),
             ProfileStorageContainer(
-                title: 'ЕНТ',
-                showLeftIcon: true,
-                showContainer: true,
-                buttonTitle: 'Browse universities',
-                description:
-                    'Здесь будут хранится ваши  ВУЗ-ы для поступления по ЕНТ.'),
+              title: 'ЕНТ',
+              showLeftIcon: true,
+              showContainer: true,
+              buttonTitle: 'Browse universities',
+              description:
+                  'Здесь будут хранится ваши  ВУЗ-ы для поступления по ЕНТ.',
+              onButtonTap: () {
+                print('tapped my uni 2');
+              },
+            ),
           ],
         ),
       ),

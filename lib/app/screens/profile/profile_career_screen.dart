@@ -23,20 +23,28 @@ class ProfileCareerScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileStorageContainer(
-                title: 'Мои профессии',
-                buttonTitle: 'Browse universities',
-                isMyCareer: true,
-                showLeftIcon: true,
-                showRightIcon: true,
-                description: 'Здесь будут хранится ваши избранные профессии.'),
+              title: 'Мои профессии',
+              buttonTitle: 'Browse universities',
+              isMyCareer: true,
+              showLeftIcon: true,
+              showRightIcon: true,
+              description: 'Здесь будут хранится ваши избранные профессии.',
+              onButtonTap: () {
+                print('tapped my prof 1');
+              },
+            ),
             SizedBox(height: 16),
             ProfileStorageContainer(
-                title: 'Мои профессии',
-                showLeftIcon: true,
-                isMyCareer: true,
-                showRightIcon: true,
-                buttonTitle: 'Browse universities',
-                description: 'Здесь будут хранится ваши избранные профессии.'),
+              title: 'Мои профессии',
+              showLeftIcon: true,
+              isMyCareer: true,
+              showRightIcon: true,
+              buttonTitle: 'Browse universities',
+              description: 'Здесь будут хранится ваши избранные профессии.',
+              onButtonTap: () {
+                print('tapped my prof 2');
+              },
+            ),
           ],
         ),
       ),

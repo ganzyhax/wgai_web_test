@@ -12,6 +12,7 @@ class ProfileStorageContainer extends StatelessWidget {
   final bool showContainer;
   final String buttonTitle;
   final String description;
+  final VoidCallback onButtonTap;
   const ProfileStorageContainer({
     super.key,
     required this.title,
@@ -21,6 +22,7 @@ class ProfileStorageContainer extends StatelessWidget {
     this.isMyCareer = false,
     this.showContainer = false,
     required this.description,
+    required this.onButtonTap,
   });
 
   @override
@@ -87,7 +89,7 @@ class ProfileStorageContainer extends StatelessWidget {
           const SizedBox(height: 24),
           CustomButton(
             text: buttonTitle,
-            onTap: () {},
+            onTap: onButtonTap,
           ),
         ],
       ),
