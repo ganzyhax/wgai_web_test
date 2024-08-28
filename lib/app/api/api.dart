@@ -50,7 +50,6 @@ class ApiClient {
       },
       body: jsonEncode(data),
     );
-    log(response.body.toString());
     // await _handleResponse(response);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {'success': true, 'data': jsonDecode(response.body)};
@@ -75,7 +74,6 @@ class ApiClient {
       },
       body: jsonEncode(data),
     );
-    log(response.body.toString());
     // await _handleResponse(response);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {'success': true, 'data': jsonDecode(response.body)};
@@ -87,7 +85,6 @@ class ApiClient {
   static Future<dynamic> getUnAuth(String endpoint) async {
     // String mbVer = await AuthUtils.getIndexMobileVersion();
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
-    log(AppConstant.baseUrl.toString() + endpoint);
     final token = await AuthUtils.getToken();
     final response = await http.get(url, headers: {
       'Content-Type': 'application/json',
@@ -95,7 +92,6 @@ class ApiClient {
 
       // 'Mobapp-Version': mbVer
     });
-    log(response.body.toString());
     // await _handleResponse(response);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {'success': true, 'data': jsonDecode(response.body)};

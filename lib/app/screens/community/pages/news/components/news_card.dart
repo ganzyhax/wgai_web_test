@@ -28,7 +28,6 @@ class _NewsCardState extends State<NewsCard> {
     String truncatedContent =
         content.length > 60 ? content.substring(0, 60) + '...' : content;
     bool isContentLong = content.length > 60;
-    log(widget.data.toString());
     String formattedData = HelperFunctions().timeAgo(widget.data['updatedAt']);
     return GestureDetector(
       onTap: isContentLong

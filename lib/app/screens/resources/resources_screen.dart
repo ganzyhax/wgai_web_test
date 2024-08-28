@@ -1,26 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
-
-// class ResourcesScreen extends StatelessWidget {
-//   const ResourcesScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Text('ResourcesScreen /screens/recources/resources_screen.dart'),
-//       ),
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () {
-//           Navigator.push(context,
-//               MaterialPageRoute(builder: (context) => QuestionnaireScreen()));
-//         },
-//         child: const Icon(Icons.question_answer),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
@@ -37,6 +14,7 @@ class ResourcesScreen extends StatelessWidget {
     return Scaffold(
         backgroundColor: AppColors.background,
         appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             backgroundColor: AppColors.background,
             centerTitle: false,
             titleSpacing: 16,

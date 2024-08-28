@@ -29,7 +29,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         SizedBox(
-                          height: 55,
+                          height: 40,
                         ),
                         Center(
                           child: Text(
@@ -90,8 +90,8 @@ class PersonalGrowthScreen extends StatelessWidget {
                                 var prevItem = state.data[i];
                                 topPosition +=
                                     (prevItem['availabilityStatus'] == 'locked')
-                                        ? 140.0
-                                        : 70.0;
+                                        ? 90.0
+                                        : 140.0;
                               }
 
                               return Positioned(
@@ -102,8 +102,8 @@ class PersonalGrowthScreen extends StatelessWidget {
 
                                 child: PersonalGrowthCard(
                                   onTap: () {
-                                    log(e.toString());
-                                    if (e['type'] == 'reading') {
+                                    if (e['availabilityStatus'] != 'locked' &&
+                                        e['type'] == 'reading') {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -116,9 +116,9 @@ class PersonalGrowthScreen extends StatelessWidget {
                                   },
                                   subTitle: e['subTitle']['ru'],
                                   type: (e['availabilityStatus'] == 'locked')
-                                      ? 2
+                                      ? 3
                                       : (e['completionStatus'] == 'new')
-                                          ? 3
+                                          ? 2
                                           : 1,
                                   isFinished: (e['availabilityStatus'] !=
                                               'locked' &&
@@ -160,9 +160,9 @@ class PersonalGrowthScreen extends StatelessWidget {
       // Cast item to Map<String, dynamic> if needed
       final Map<String, dynamic> mapItem = item as Map<String, dynamic>;
       if (mapItem['availabilityStatus'] == 'locked') {
-        totalHeight += 140.0; // Height for locked items
+        totalHeight += 90.0; // Height for locked items
       } else {
-        totalHeight += 70.0; // Height for available items
+        totalHeight += 140.0; // Height for available items
       }
     }
     return totalHeight;

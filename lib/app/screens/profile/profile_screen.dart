@@ -23,6 +23,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: AppColors.background,
         centerTitle: false,
         titleSpacing: 16,
@@ -146,7 +147,6 @@ class ProfileScreen extends StatelessWidget {
                                 height: 144,
                                 onTap: () {
                                   print('Career');
-                                  var d = BookmarkManager().getBookmarks();
 
                                   Navigator.push(
                                     context,
@@ -155,8 +155,6 @@ class ProfileScreen extends StatelessWidget {
                                           ProfileCareerScreen(),
                                     ),
                                   );
-
-                                  log(d.toString());
                                 },
                               ),
                             ),

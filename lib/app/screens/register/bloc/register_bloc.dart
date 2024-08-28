@@ -66,7 +66,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           emit(RegisterError(message: req['data']['message']));
           em();
         }
-        log(req.toString());
       }
       if (event is RegisterFillUserInfo) {
         isLoading = true;

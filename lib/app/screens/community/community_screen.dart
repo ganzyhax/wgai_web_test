@@ -17,6 +17,7 @@ class CommunityScreen extends StatelessWidget {
           return Scaffold(
               backgroundColor: AppColors.background,
               appBar: AppBar(
+                surfaceTintColor: Colors.transparent,
                 backgroundColor: AppColors.background,
                 title: Center(
                     child: Row(

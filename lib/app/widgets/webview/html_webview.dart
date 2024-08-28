@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
+import 'package:wg_app/constants/app_colors.dart';
 
 class HtmlWebView extends StatefulWidget {
   final String contentCode;
@@ -59,13 +58,21 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteForText,
       body: Stack(
         children: [
           if (htmlContent != null)
-            SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: WebViewWidget(controller: _controller)),
+            Column(
+              children: [
+                SizedBox(
+                  height: 50,
+                ),
+                SizedBox(
+                    height: MediaQuery.of(context).size.height - 50,
+                    width: MediaQuery.of(context).size.width,
+                    child: WebViewWidget(controller: _controller)),
+              ],
+            ),
           if (isLoading)
             Center(
               child: CircularProgressIndicator(),

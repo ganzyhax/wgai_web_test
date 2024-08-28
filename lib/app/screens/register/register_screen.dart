@@ -88,7 +88,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         child: BlocListener<RegisterBloc, RegisterState>(
           listener: (context, state) {
             if (state is RegisterError) {
-              log('Snackbar on REgister  SCREEN');
               CustomSnackbar()
                   .showCustomSnackbar(context, state.message, false);
             }
