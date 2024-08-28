@@ -9,10 +9,13 @@ part 'personal_state.dart';
 
 class PersonalBloc extends Bloc<PersonalEvent, PersonalState> {
   PersonalBloc() : super(PersonalInitial()) {
+    var data;
     on<PersonalEvent>((event, emit) async {
       if (event is PersonalLoad) {
-        var data = await ApiClient.get('api/guidanceTasks/');
+        data = await ApiClient.get('api/guidanceTasks/');
+
         if (data['success']) {
+          log(data.toString());
           emit(PersonalLoaded(data: data['data']['guidanceTasks']));
         } else {
           emit(PersonalLoaded(data: []));
