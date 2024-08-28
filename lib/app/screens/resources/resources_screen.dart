@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
@@ -34,7 +35,12 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/atlas.svg',
                 height: 122,
                 onTap: () {
-                  print('Go to atlas professii');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AtlasScreen(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 8),
