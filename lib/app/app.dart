@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
@@ -66,6 +67,9 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => ProfileBloc()..add(ProfileLoad()),
+          ),
+          BlocProvider(
+            create: (context) => AtlasBloc()..add(LoadAtlas()),
           ),
         ],
         child: MaterialApp(

@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class UniContainers extends StatelessWidget {
-  final String codeNumber;
+  final String? codeNumber;
+  final dynamic icon;
   final String title;
-  final String firstDescription;
-  final int secondDescription;
+  final String? firstDescription;
+  final int? secondDescription;
   final Function() onTap;
+  final bool showIcon;
   const UniContainers({
     super.key,
-    required this.codeNumber,
+    this.icon,
+    this.codeNumber,
     required this.title,
-    required this.firstDescription,
-    required this.secondDescription,
+    this.firstDescription,
+    this.secondDescription,
     required this.onTap,
+    this.showIcon = false,
   });
 
   @override
@@ -23,7 +28,7 @@ class UniContainers extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
           color: Colors.white,
@@ -33,12 +38,15 @@ class UniContainers extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text(
-                  codeNumber,
-                  style:
-                      AppTextStyle.heading3.copyWith(color: AppColors.primary),
-                ),
-                SizedBox(width: 12),
+                if (showIcon && icon != null)
+                  _buildIconWidget(icon)
+                else
+                  Text(
+                    codeNumber ?? '',
+                    style: AppTextStyle.heading3
+                        .copyWith(color: AppColors.primary),
+                  ),
+                const SizedBox(width: 12),
                 Flexible(
                   child: Text(
                     title,
@@ -48,7 +56,7 @@ class UniContainers extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 4),
+            const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.only(left: 30),
               child: Row(
@@ -56,18 +64,19 @@ class UniContainers extends StatelessWidget {
                 children: [
                   Flexible(
                     child: Text(
-                      firstDescription,
+                      firstDescription ?? '',
                       style: AppTextStyle.bodyTextVerySmall
                           .copyWith(color: AppColors.grayForText),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
                   ),
-                  Text(
-                    'Специальности: $secondDescription',
-                    style: AppTextStyle.bodyTextVerySmall
-                        .copyWith(color: AppColors.grayForText),
-                  ),
+                  if (secondDescription != null)
+                    Text(
+                      'Специальности: $secondDescription',
+                      style: AppTextStyle.bodyTextVerySmall
+                          .copyWith(color: AppColors.grayForText),
+                    ),
                 ],
               ),
             ),
@@ -75,5 +84,15 @@ class UniContainers extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildIconWidget(dynamic icon) {
+    if (icon is IconData) {
+      return Icon(icon, color: AppColors.primary);
+    } else if (icon is PhosphorIconData) {
+      return PhosphorIcon(icon, color: AppColors.primary);
+    } else {
+      return Container();
+    }
   }
 }
