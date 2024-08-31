@@ -1,3 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+
+enum ContainerType {
+  title,
+  section,
+  specialities,
+  basic,
+}
+
 class ProfessionsModel {
   String? message;
   List<Professions>? professions;
@@ -40,23 +50,26 @@ class Professions {
   Title? summary;
   List<Gops>? gops;
   int? iV;
+  ContainerType? containerType;
 
-  Professions(
-      {this.sId,
-      this.code,
-      this.occupation,
-      this.jobZone,
-      this.interests,
-      this.topInterests,
-      this.cluster,
-      this.careerPathway,
-      this.title,
-      this.description,
-      this.areaIconCode,
-      this.sections,
-      this.summary,
-      this.gops,
-      this.iV});
+  Professions({
+    this.sId,
+    this.code,
+    this.occupation,
+    this.jobZone,
+    this.interests,
+    this.topInterests,
+    this.cluster,
+    this.careerPathway,
+    this.title,
+    this.description,
+    this.areaIconCode,
+    this.sections,
+    this.summary,
+    this.gops,
+    this.iV,
+    this.containerType,
+  });
 
   Professions.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -88,6 +101,20 @@ class Professions {
       });
     }
     iV = json['__v'];
+
+    containerType = determineContainerType(json);
+  }
+
+  ContainerType? determineContainerType(Map<String, dynamic> json) {
+    if (json.containsKey('title') && json.containsKey('description')) {
+      return ContainerType.title;
+    } else if (json.containsKey('sections')) {
+      return ContainerType.section;
+    } else if (json.containsKey('summary')) {
+      return ContainerType.basic;
+    } else {
+      return ContainerType.specialities;
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -174,6 +201,19 @@ class Title {
     data['en'] = en;
     return data;
   }
+
+  String getLocalizedString(BuildContext context) {
+    final locale = context.locale.languageCode;
+    if (locale == 'ru') {
+      return ru ?? kk!;
+    } else if (locale == 'kk') {
+      return kk ?? ru!;
+    } else {
+      return en ?? ru ?? kk ?? '';
+    }
+  }
+
+  tr() {}
 }
 
 class Sections {
