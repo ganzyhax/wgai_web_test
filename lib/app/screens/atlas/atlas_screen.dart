@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wg_app/app/screens/atlas/atlas_complete_screen.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -39,15 +40,26 @@ class AtlasScreen extends StatelessWidget {
               return ListView.builder(
                 itemCount: state.professions?.length,
                 itemBuilder: (context, index) {
-                  final professions = state.professions?[index];
-                  final areaIconCode = professions?.areaIconCode ?? '';
+                  final profession = state.professions?[index];
+                  final areaIconCode = profession?.areaIconCode ?? '';
                   final icon = myIconMap[areaIconCode];
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: UniContainers(
-                      title: professions?.occupation ?? '',
+                      title: profession?.occupation ?? '',
                       icon: icon,
-                      onTap: () {},
+                      onTap: () {
+                        if (profession != null) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AtlasCompleteScreen(
+                                profession: profession,
+                              ),
+                            ),
+                          );
+                        }
+                      },
                       showIcon: icon != null,
                     ),
                   );
