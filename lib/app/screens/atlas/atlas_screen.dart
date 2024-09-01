@@ -46,7 +46,8 @@ class AtlasScreen extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: UniContainers(
-                      title: profession?.occupation ?? '',
+                      title:
+                          profession?.title?.getLocalizedString(context) ?? '',
                       icon: icon,
                       onTap: () {
                         if (profession != null) {

@@ -56,7 +56,7 @@ class AtlasCompleteScreen extends StatelessWidget {
         child: AtlasTitleContainer(
           icon: profession.areaIconCode ?? '',
           title: profession.title?.getLocalizedString(context) ?? '',
-          titleDescription: 'Краткое описание',
+          titleDescription: 'Краткое описание:',
           description: profession.description?.getLocalizedString(context) ??
               'No description',
         ),
