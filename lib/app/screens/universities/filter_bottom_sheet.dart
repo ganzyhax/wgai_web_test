@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -27,13 +28,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Фильтр',
+                'Фильтр'.tr(),
                 style: AppTextStyle.titleHeading.copyWith(color: Colors.black),
               ),
               TextButton(
                 onPressed: () {},
                 child: Text(
-                  'Сбросить Фильтры',
+                  'Сбросить Фильтры'.tr(),
                   style: AppTextStyle.bodyText.copyWith(
                     color: AppColors.exit,
                     decoration: TextDecoration.underline,
@@ -45,16 +46,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Пожалуйста выберите, как вы хотите настроить ваш аккаунт',
+            'Пожалуйста выберите, как вы хотите настроить ваш аккаунт'.tr(),
             style: AppTextStyle.bodyText.copyWith(color: AppColors.grayForText),
           ),
           const SizedBox(height: 16),
           _builderFilterOption(
             context,
-            'Регион',
+            'Регион'.tr(),
             true,
             Text(
-              'Все регионы',
+              'Все регионы'.tr(),
               style: AppTextStyle.heading3
                   .copyWith(color: AppColors.calendarTextColor),
             ),
@@ -63,10 +64,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           const SizedBox(height: 16),
           _builderFilterOption(
             context,
-            'Специальности',
+            'Специальности'.tr(),
             true,
             Text(
-              'Выбрать',
+              'Выбрать'.tr(),
               style: AppTextStyle.heading3
                   .copyWith(color: AppColors.calendarTextColor),
             ),
@@ -75,10 +76,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           const SizedBox(height: 16),
           _builderFilterOption(
             context,
-            'Регион',
+            'Регион'.tr(),
             false,
             Text(
-              'Общежитие',
+              'Общежитие'.tr(),
               style: AppTextStyle.heading3
                   .copyWith(color: AppColors.calendarTextColor),
             ),
@@ -93,10 +94,10 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           const SizedBox(height: 16),
           _builderFilterOption(
             context,
-            'Военная Кафедра',
+            'Военная Кафедра'.tr(),
             false,
             Text(
-              'Все регионы',
+              'Все регионы'.tr(),
               style: AppTextStyle.heading3
                   .copyWith(color: AppColors.calendarTextColor),
             ),
@@ -110,7 +111,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           ),
           const SizedBox(height: 16),
           CustomButton(
-            text: 'Применить',
+            text: 'Применить'.tr(),
             onTap: () {},
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -22,7 +23,7 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: Text(
-          'ВУЗ-ы',
+          'ВУЗ-ы'.tr(),
           style:
               AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
@@ -41,7 +42,7 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'ВУЗ-ы',
+                  'ВУЗ-ы'.tr(),
                   style: AppTextStyle.titleHeading
                       .copyWith(color: AppColors.blackForText),
                 ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
@@ -20,7 +21,7 @@ class ResourcesScreen extends StatelessWidget {
             centerTitle: false,
             titleSpacing: 16,
             title: Text(
-              'Ресурсы',
+              'Ресурсы'.tr(),
               style: AppTextStyle.titleHeading
                   .copyWith(color: AppColors.blackForText),
             )),
@@ -30,8 +31,8 @@ class ResourcesScreen extends StatelessWidget {
           child: Column(
             children: [
               ResourcesContainer(
-                title: 'Атлас Профессий',
-                subTitle: 'Различные тесты для познания самого себя',
+                title: 'Атлас Профессий'.tr(),
+                subTitle: 'Различные тесты для познания самого себя'.tr(),
                 iconPath: 'assets/icons/atlas.svg',
                 height: 122,
                 onTap: () {
@@ -45,8 +46,8 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'ВУЗ-ы',
-                subTitle: 'Вузы итд',
+                title: 'ВУЗ-ы'.tr(),
+                subTitle: 'Вузы итд'.tr(),
                 iconPath: 'assets/icons/universities.svg',
                 height: 122,
                 onTap: () {
@@ -60,8 +61,8 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'Cпециальности',
-                subTitle: 'Различные тесты для познания самого себя',
+                title: 'Cпециальности'.tr(),
+                subTitle: 'Различные тесты для познания самого себя'.tr(),
                 iconPath: 'assets/icons/specialties.svg',
                 height: 122,
                 onTap: () {
@@ -75,7 +76,7 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'ЕНТ',
+                title: 'ЕНТ'.tr(),
                 subTitle: 'Различные тесты для познания самого себя',
                 iconPath: 'assets/icons/resources.svg',
                 height: 122,
@@ -85,7 +86,7 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'Поступление в НУ',
+                title: 'Поступление в НУ'.tr(),
                 subTitle: 'Различные тесты для познания самого себя',
                 iconPath: 'assets/icons/nazarbaev.svg',
                 height: 122,

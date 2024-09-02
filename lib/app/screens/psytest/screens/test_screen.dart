@@ -187,8 +187,8 @@ class _TestScreenState extends State<TestScreen> {
                   .add(NextQuestion(state.selectedAnswer ?? ''));
             },
             text: state.currentIndex == state.questions.length - 1
-                ? "Потвердить"
-                : "Далее",
+                ? "Потвердить".tr()
+                : "Далее".tr(),
           ),
         ),
       ],

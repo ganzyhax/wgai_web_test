@@ -82,7 +82,7 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                       ),
                       const SizedBox(height: 16),
                       Text(
-                        '${state.testType?.tr()} - тест на тип личности',
+                        '${state.testType?.tr()} - тест на тип личности'.tr(),
                         style: AppTextStyle.heading2
                             .copyWith(color: AppColors.blackForText),
                       ),
@@ -99,7 +99,7 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                'Выполнить до:',
+                                'Выполнить до:'.tr(),
                                 style: AppTextStyle.bodyText
                                     .copyWith(color: AppColors.grayForText),
                               ),
@@ -127,7 +127,7 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Описание',
+                                  'Описание'.tr(),
                                   style: AppTextStyle.bodyText
                                       .copyWith(color: AppColors.grayForText),
                                 ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -23,24 +24,26 @@ class ProfileCareerScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileStorageContainer(
-              title: 'Мои профессии',
-              buttonTitle: 'Browse universities',
+              title: 'Мои профессии'.tr(),
+              buttonTitle: 'Browse universities'.tr(),
               isMyCareer: true,
               showLeftIcon: true,
               showRightIcon: true,
-              description: 'Здесь будут хранится ваши избранные профессии.',
+              description:
+                  'Здесь будут хранится ваши избранные профессии.'.tr(),
               onButtonTap: () {
                 print('tapped my prof 1');
               },
             ),
             SizedBox(height: 16),
             ProfileStorageContainer(
-              title: 'Мои профессии',
+              title: 'Мои профессии'.tr(),
               showLeftIcon: true,
               isMyCareer: true,
               showRightIcon: true,
-              buttonTitle: 'Browse universities',
-              description: 'Здесь будут хранится ваши избранные профессии.',
+              buttonTitle: 'Browse universities'.tr(),
+              description:
+                  'Здесь будут хранится ваши избранные профессии.'.tr(),
               onButtonTap: () {
                 print('tapped my prof 2');
               },
