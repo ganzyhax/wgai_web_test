@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>ai.weglobal.mobile</string>
+	<string>com.example.wgApp</string>
 	<key>PROJECT_ID</key>
 	<string>aiweglobal</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:879472760468:ios:01a7e517bace10e6aa0681</string>
+	<string>1:879472760468:ios:335cd3abd68c1f85aa0681</string>
 </dict>
 </plist>

@@ -1,29 +1,48 @@
 {
-    "project_info": {
-      "project_number": "879472760468",
-      "project_id": "aiweglobal",
-      "storage_bucket": "aiweglobal.appspot.com"
-    },
-    "client": [
-      {
-        "client_info": {
-          "mobilesdk_app_id": "1:879472760468:android:ff1360a64dcb62f8aa0681",
-          "android_client_info": {
-            "package_name": "ai.weglobal.mobile"
-          }
-        },
-        "oauth_client": [],
-        "api_key": [
-          {
-            "current_key": "AIzaSyBKmidaul2fhmUvDIQY1TDijm0mgAU6esg"
-          }
-        ],
-        "services": {
-          "appinvite_service": {
-            "other_platform_oauth_client": []
-          }
+  "project_info": {
+    "project_number": "879472760468",
+    "project_id": "aiweglobal",
+    "storage_bucket": "aiweglobal.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879472760468:android:ff1360a64dcb62f8aa0681",
+        "android_client_info": {
+          "package_name": "ai.weglobal.mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKmidaul2fhmUvDIQY1TDijm0mgAU6esg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
         }
       }
-    ],
-    "configuration_version": "1"
-  }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879472760468:android:cd20581be64d77aeaa0681",
+        "android_client_info": {
+          "package_name": "com.example.wg_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKmidaul2fhmUvDIQY1TDijm0mgAU6esg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

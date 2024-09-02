@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_container.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -98,7 +100,14 @@ class ProfileSettingsPage extends StatelessWidget {
                   ),
                   CustomButton(
                     text: 'Удалить аккаунт',
-                    onTap: () {},
+                    onTap: () async {
+                      await LocalUtils.logout();
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => WeGlobalApp()),
+                          (route) => true);
+                    },
                     bgColor: Colors.red,
                   ),
                 ],
