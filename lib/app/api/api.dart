@@ -11,7 +11,7 @@ class ApiClient {
     String localLang = await LocalUtils.getLanguage();
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makeGetRequest() async {
-      String token = await AuthUtils.getToken() ?? '';
+      String token = await LocalUtils.getAccessToken() ?? '';
       return await http.get(
         url,
         headers: {
@@ -67,7 +67,7 @@ class ApiClient {
 
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makePostRequest() async {
-      String token = await AuthUtils.getToken() ?? '';
+      String token = await LocalUtils.getAccessToken() ?? '';
 
       return await http.post(
         url,
@@ -141,7 +141,7 @@ class ApiClient {
   }
 
   static Future<void> _refreshToken(http.Response response) async {
-    final refreshToken = await AuthUtils.getRefreshToken();
+    final refreshToken = await LocalUtils.getRefreshToken();
     final url = Uri.parse(AppConstant.baseUrl + 'api/auth/refreshAccessToken');
     final response = await http.post(
       url,
@@ -153,8 +153,7 @@ class ApiClient {
     );
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      await AuthUtils.save('token', data['accessTokenrefreshToken']);
-      await AuthUtils.save('refresh', data['refreshToken']);
+      await LocalUtils.setAccessToken(data['accessToken']);
     } else {
       print('Failed to refresh token');
     }

@@ -13,6 +13,7 @@ import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
+import 'package:wg_app/app/screens/profile_growth/bloc/profile_growth_bloc.dart';
 import 'package:wg_app/app/screens/psytest/bloc/test_bloc.dart';
 import 'package:wg_app/app/screens/psytest/screens/description_test_screen.dart';
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
@@ -70,6 +71,9 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AtlasBloc()..add(LoadAtlas()),
+          ),
+          BlocProvider(
+            create: (context) => ProfileGrowthBloc()..add(ProfileGrowthLoad()),
           ),
         ],
         child: MaterialApp(

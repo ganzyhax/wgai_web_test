@@ -1,12 +1,8 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
-import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -95,11 +91,9 @@ class PersonalGrowthScreen extends StatelessWidget {
                               }
 
                               return Positioned(
-                                top:
-                                    topPosition, // Adjust top position based on accumulated height
+                                top: topPosition,
                                 left: 0,
                                 right: 0,
-
                                 child: PersonalGrowthCard(
                                   onTap: () {
                                     if (e['availabilityStatus'] != 'locked' &&

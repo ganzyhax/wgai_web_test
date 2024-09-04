@@ -22,7 +22,8 @@ class AuthUtils {
           body: jsonEncode({'email': username, 'password': password}));
       final data = jsonDecode(response.body);
       if (response.statusCode == 200) {
-        await LocalUtils.setToken(data['accessToken']);
+        await LocalUtils.setAccessToken(data['accessToken']);
+        await LocalUtils.setRefreshToken(data['refreshToken']);
         return true;
       } else {
         if (data.containsKey('message')) {
@@ -32,25 +33,5 @@ class AuthUtils {
     } catch (e) {
       return 'Try again...';
     }
-  }
-
-  static Future<String?> getToken() async {
-    return await storage.read(key: 'token');
-  }
-
-  static Future<String?> getRefreshToken() async {
-    return await storage.read(key: 'refresh');
-  }
-
-  static Future<void> save(String key, String value) async {
-    Map<String, dynamic> decodedToken = JwtDecoder.decode(value);
-
-    // await storage.write(
-    //     key: 'userId', value: decodedToken['user_id'].toString());
-    // await storage.write(
-    //     key: 'userName', value: decodedToken['user']['username']);
-    // await storage.write(
-    //     key: 'userEmail', value: decodedToken['user']['email'].toString());
-    await storage.write(key: key, value: value);
   }
 }

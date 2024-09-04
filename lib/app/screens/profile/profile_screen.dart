@@ -64,13 +64,6 @@ class ProfileScreen extends StatelessWidget {
                       title: Text('Настройки профиля'),
                     ),
                   ),
-                  // PopupMenuItem<int>(
-                  //   value: 2,
-                  //   child: ListTile(
-                  //     leading: Icon(Icons.lock),
-                  //     title: Text('Изменить пароль'),
-                  //   ),
-                  // ),
                   PopupMenuItem<int>(
                     value: 2,
                     child: ListTile(
