@@ -38,7 +38,11 @@ class AuthUtils {
     return await storage.read(key: 'token');
   }
 
-  static Future<void> saveToken(String key, String value) async {
+  static Future<String?> getRefreshToken() async {
+    return await storage.read(key: 'refresh');
+  }
+
+  static Future<void> save(String key, String value) async {
     Map<String, dynamic> decodedToken = JwtDecoder.decode(value);
 
     // await storage.write(

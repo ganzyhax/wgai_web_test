@@ -8,32 +8,55 @@ import 'dart:convert';
 
 class ApiClient {
   static Future<dynamic> get(String endpoint) async {
-    // String mbVer = await AuthUtils.getIndexMobileVersion();
-    final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     String localLang = await LocalUtils.getLanguage();
+    final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
+    Future<http.Response> makeGetRequest() async {
+      String token = await AuthUtils.getToken() ?? '';
+      return await http.get(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'appLanguage': localLang,
+          'Authorization': 'Bearer $token',
+        },
+      );
+    }
 
-    final token = await AuthUtils.getToken();
-    final response = await http.get(url, headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'appLanguage': localLang,
-      'Authorization': 'Bearer $token',
-      // 'Mobapp-Version': mbVer
-      // 'Mobapp-Language': mbLang
-    });
+    http.Response response = await makeGetRequest();
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {
         'success': true,
         'data': jsonDecode(response.body),
-        'status': response.statusCode.toString()
-      };
-    } else {
-      return {
-        'success': false,
-        'data': jsonDecode(response.body),
-        'status': response.statusCode.toString()
+        'status': response.statusCode.toString(),
       };
     }
+
+    if (response.statusCode == 401) {
+      await _refreshToken(response);
+      response = await makeGetRequest();
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return {
+          'success': true,
+          'data': jsonDecode(response.body),
+          'status': response.statusCode.toString(),
+        };
+      } else {
+        return {
+          'success': false,
+          'data': jsonDecode(response.body),
+          'status': response.statusCode.toString(),
+        };
+      }
+    }
+
+    return {
+      'success': false,
+      'data': jsonDecode(response.body),
+      'status': response.statusCode.toString(),
+    };
   }
 
   static Future<dynamic> post(
@@ -42,26 +65,38 @@ class ApiClient {
   ) async {
     String localLang = await LocalUtils.getLanguage();
 
-    // String mbVer = await AuthUtils.getIndexMobileVersion();
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
-    final token = await AuthUtils.getToken();
-    final response = await http.post(
-      url,
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'appLanguage': localLang,
-        'Authorization': 'Bearer $token',
-        // 'Mobapp-Version': mbVer
-      },
-      body: jsonEncode(data),
-    );
-    // await _handleResponse(response);
+    Future<http.Response> makePostRequest() async {
+      String token = await AuthUtils.getToken() ?? '';
+
+      return await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'appLanguage': localLang,
+          'Authorization': 'Bearer $token',
+          // 'Mobapp-Version': mbVer
+        },
+        body: jsonEncode(data),
+      );
+    }
+
+    http.Response response = await makePostRequest();
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {'success': true, 'data': jsonDecode(response.body)};
-    } else {
-      return {'success': false, 'data': jsonDecode(response.body)};
     }
+    if (response.statusCode == 401) {
+      await _refreshToken(response);
+      response = await makePostRequest();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return {'success': true, 'data': jsonDecode(response.body)};
+      } else {
+        return {'success': false, 'data': jsonDecode(response.body)};
+      }
+    }
+    return {'success': false, 'data': jsonDecode(response.body)};
   }
 
   static Future<dynamic> postUnAuth(
@@ -69,7 +104,6 @@ class ApiClient {
     Map<String, dynamic> data,
   ) async {
     String localLang = await LocalUtils.getLanguage();
-
     // String mbVer = await AuthUtils.getIndexMobileVersion();
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     final response = await http.post(
@@ -82,7 +116,6 @@ class ApiClient {
       },
       body: jsonEncode(data),
     );
-    // await _handleResponse(response);
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {'success': true, 'data': jsonDecode(response.body)};
     } else {
@@ -99,7 +132,7 @@ class ApiClient {
       'appLanguage': localLang,
       // 'Mobapp-Version': mbVer
     });
-    await _handleResponse(response);
+
     if (response.statusCode == 200 || response.statusCode == 201) {
       return {'success': true, 'data': jsonDecode(response.body)};
     } else {
@@ -107,28 +140,21 @@ class ApiClient {
     }
   }
 
-  static Future<void> _handleResponse(http.Response response) async {
-    if (response.statusCode == 401) {
-      await _refreshToken();
-    }
-  }
-
-  static Future<void> _refreshToken() async {
-    final refreshToken = await AuthUtils.getToken();
+  static Future<void> _refreshToken(http.Response response) async {
+    final refreshToken = await AuthUtils.getRefreshToken();
     final url = Uri.parse(AppConstant.baseUrl + 'api/auth/refreshAccessToken');
     final response = await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'appLanguage': 'kz',
       },
       body: jsonEncode({'refreshToken': refreshToken}),
     );
-
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      await AuthUtils.saveToken('accessToken', data['access']);
+      await AuthUtils.save('token', data['accessTokenrefreshToken']);
+      await AuthUtils.save('refresh', data['refreshToken']);
     } else {
       print('Failed to refresh token');
     }

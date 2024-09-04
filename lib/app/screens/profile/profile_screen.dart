@@ -9,6 +9,7 @@ import 'package:wg_app/app/screens/profile/pages/profile_settings_page.dart';
 import 'package:wg_app/app/screens/profile/profile_career_screen.dart';
 import 'package:wg_app/app/screens/profile/profile_university_screen.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_container.dart';
+import 'package:wg_app/app/screens/profile_growth/profile_growth_screen.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
@@ -184,7 +185,12 @@ class ProfileScreen extends StatelessWidget {
                         isUniversity: false,
                         height: 144,
                         onTap: () {
-                          print('Рост');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ProfileGrowthScreen()),
+                          );
                         },
                       ),
                     ],
