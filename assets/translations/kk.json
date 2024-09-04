@@ -21,7 +21,7 @@
     "codeTeacher":"Мектебіңіздің мұғалімі берген кодты енгізіңіз",
     "code":"Код",
     "schoolCode":"Мектеп коды",
-    "continue":"Жалғастыру",
+    "continueText":"Жалғастыру",
     "haveAnAccount":"Менде аккаунт бар",
     "registration":"Тіркелу",
     "wrongCode":"Қате код енгізілді",

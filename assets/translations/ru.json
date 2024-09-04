@@ -22,7 +22,7 @@
     "codeTeacher":"Введите код вашей школы, который вам предоставил педагок",
     "code":"Код",
     "schoolCode":"Код школы",
-    "continue":"Далее",
+    "continueText":"Далее",
     "haveAnAccount":"У меня есть аккаунт",
     "wrongCode":"Введен неверный код",
     "email":"E-mail",
