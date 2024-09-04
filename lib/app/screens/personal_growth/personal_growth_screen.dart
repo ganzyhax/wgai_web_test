@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
+
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
@@ -12,153 +14,141 @@ class PersonalGrowthScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mainCategories = {
+      'enlightenment': {
+        "kk": "Өзіңді тану",
+        "ru": "Самопознание",
+        "en": "Enlightenment",
+      },
+      'job-market': {
+        "kk": "Еңбек нарығы",
+        "ru": "Рынок труда",
+        "en": "Job Market",
+      },
+      'decision-making': {
+        "kk": "Шешім қабылдау",
+        "ru": "Принятие решений",
+        "en": "Decision Making",
+      },
+      'apply-kaz': {
+        "kk": "ҰБТға дайындық",
+        "ru": "Подготовка к ЕНТ",
+        "en": "Apply to KZ universities",
+      },
+      'apply-abroad': {
+        "kk": "Шетелдік ЖОО-ға түсу",
+        "ru": "Поступление в зарубежные ВУЗы",
+        "en": "Apply abroad",
+      },
+      'apply-nu': {
+        "kk": "Назарбаев Университетіне түсу",
+        "ru": "Поступление в Назарбаев Университет",
+        "en": "Apply to NU",
+      }
+    };
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: BlocBuilder<PersonalBloc, PersonalState>(
         builder: (context, state) {
-          return BlocBuilder<PersonalBloc, PersonalState>(
-            builder: (context, state) {
-              if (state is PersonalLoaded) {
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Center(
-                          child: Text(
-                            'Личный рост',
-                            style: AppTextStyle.heading1,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white),
-                          padding: EdgeInsets.all(12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Личный рост',
-                                style: AppTextStyle.heading1,
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Take a peek under the hood of large language models \n(LLMs) to understand how they work.',
-                                style: TextStyle(
-                                    color: Colors.grey[500], fontSize: 19),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        GestureDetector(
-                          onTap: () {},
-                          child: PersonalGrowthTestCard(
-                            title: 'Узнай себя',
+          if (state is PersonalLoaded) {
+            // Group data by taskCode
+            var groupedData = _groupDataByTaskCode(state.data, mainCategories);
+
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    SizedBox(height: 40),
+                    Center(
+                      child: Text(
+                        'Личный рост',
+                        style: AppTextStyle.heading1,
+                      ),
+                    ),
+                    SizedBox(height: 25),
+                    ...groupedData.entries.map((entry) {
+                      var taskCode = entry.key;
+                      var categoryData = entry.value;
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PersonalGrowthTestCard(
+                            title: mainCategories[taskCode]?['ru'] ?? 'Error',
                             asset: 'assets/icons/brain.svg',
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        SizedBox(
-                          height: calculateDynamicHeight(state.data),
-                          child: Stack(
-                            children:
-                                state.data.asMap().entries.map<Widget>((entry) {
-                              int index = entry.key;
-                              var e = entry.value;
-
-                              double topPosition = 0;
-                              for (int i = 0; i < index; i++) {
-                                var prevItem = state.data[i];
-                                topPosition +=
-                                    (prevItem['availabilityStatus'] == 'locked')
-                                        ? 90.0
-                                        : 140.0;
-                              }
-
-                              return Positioned(
-                                top: topPosition,
-                                left: 0,
-                                right: 0,
-                                child: PersonalGrowthCard(
+                          SizedBox(height: 10),
+                          ...categoryData.map((item) {
+                            return Column(
+                              children: [
+                                PersonalGrowthCard(
                                   onTap: () {
-                                    if (e['availabilityStatus'] != 'locked' &&
-                                        e['type'] == 'reading') {
+                                    if (item['availabilityStatus'] !=
+                                            'locked' &&
+                                        item['type'] == 'reading') {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => HtmlWebView(
-                                                  contentCode: e['contentCode'],
-                                                )),
+                                          builder: (context) => HtmlWebView(
+                                            contentCode: item['contentCode'],
+                                          ),
+                                        ),
                                       );
                                     }
-                                    if (e['type'] == 'testing') {}
                                   },
-                                  subTitle: e['subTitle']['ru'],
-                                  type: (e['availabilityStatus'] == 'locked')
+                                  subTitle: item['subTitle']['ru'],
+                                  type: (item['availabilityStatus'] == 'locked')
                                       ? 3
-                                      : (e['completionStatus'] == 'new')
+                                      : (item['completionStatus'] == 'new')
                                           ? 2
                                           : 1,
-                                  isFinished: (e['availabilityStatus'] !=
-                                              'locked' &&
-                                          (e['completionStatus'] == 'complete'))
-                                      ? true
-                                      : false,
-                                  title: e['title'][
-                                      'ru'], // Example usage, assuming 'title' is a key in your data
+                                  isFinished:
+                                      (item['availabilityStatus'] != 'locked' &&
+                                              (item['completionStatus'] ==
+                                                  'complete'))
+                                          ? true
+                                          : false,
+                                  title: item['title']['ru'],
                                 ),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        PersonalGrowthTestCard(
-                          title: 'Рынок труда',
-                          asset: 'assets/icons/briefcase.svg',
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            },
+                                SizedBox(height: 20),
+                              ],
+                            );
+                          }).toList(),
+                        ],
+                      );
+                    }).toList(),
+                  ],
+                ),
+              ),
+            );
+          }
+          return Center(
+            child: CircularProgressIndicator(),
           );
         },
       ),
     );
   }
 
-  double calculateDynamicHeight(List<dynamic> data) {
-    double totalHeight = 0;
+  Map<String, List<Map<String, dynamic>>> _groupDataByTaskCode(
+      List<dynamic> data, Map<String, Map<String, String>> mainCategories) {
+    var groupedData = <String, List<Map<String, dynamic>>>{};
+
     for (var item in data) {
-      // Cast item to Map<String, dynamic> if needed
-      final Map<String, dynamic> mapItem = item as Map<String, dynamic>;
-      if (mapItem['availabilityStatus'] == 'locked') {
-        totalHeight += 90.0; // Height for locked items
-      } else {
-        totalHeight += 140.0; // Height for available items
+      var taskCode = item['taskCode'];
+      var category = mainCategories.keys
+          .firstWhere((key) => taskCode.startsWith(key), orElse: () => '');
+
+      if (category != '') {
+        if (!groupedData.containsKey(category)) {
+          groupedData[category] = [];
+        }
+        groupedData[category]!.add(item);
       }
     }
-    return totalHeight;
+
+    return groupedData;
   }
 }
