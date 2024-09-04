@@ -57,6 +57,10 @@ class LocalUtils {
     await storage.write(key: 'token', value: token);
   }
 
+  static Future<void> setResetToken(String token) async {
+    await storage.write(key: 'resetToken', value: token);
+  }
+
   static Future<String?> get(String key) async {
     return await storage.read(key: key);
   }
