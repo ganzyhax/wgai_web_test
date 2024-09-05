@@ -13,41 +13,60 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
   bool? _currentHasDormitory;
   bool? _currentHasMilitaryDept;
   UniversitiesBloc() : super(UniversitiesInitial()) {
-    on<LoadUniversities>(_onFetchUniversities);
-    on<LoadCities>(_onFetchRegions);
+    on<LoadUniversities>(_onLoadUniversities);
+    on<LoadbyFilters>(_onFetchUniversities);
+    on<ResetFilters>(_onResetFilters);
   }
 
-  Future<void> _onFetchUniversities(
+  Future<void> _onLoadUniversities(
       LoadUniversities event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
-
     try {
       final KazUniversity? uniModel =
           await UniversitiesNetwork().fetchSpecies();
       if (uniModel != null && uniModel.universities != null) {
         emit(UniversitiesLoaded(uniModel.universities));
       } else {
-        emit(UniversitiesError('Kaz universities Data not loaded'));
+        emit(UniversitiesError('Kaz universities data not loaded'));
       }
     } catch (e) {
       emit(UniversitiesError('Failed to fetch universities'));
     }
   }
 
-  Future<void> _onFetchRegions(
-      LoadCities event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onFetchUniversities(
+      LoadbyFilters event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
+
     try {
-      final response = await ApiClient.get(
-          'api/resources/kazUniversities?regionId=${event.regionId}');
-      if (response['success']) {
-        List<Universities> universities =
-            (response['data']['universities'] as List)
-                .map((data) => Universities.fromJson(data))
-                .toList();
-        emit(UniversitiesLoaded(universities));
+      if (event.regionId.isEmpty &&
+          event.specialities == null &&
+          event.hasDormitory == null &&
+          event.hasMilitaryDept == null) {
+        final KazUniversity? uniModel =
+            await UniversitiesNetwork().fetchSpecies();
+        if (uniModel != null && uniModel.universities != null) {
+          emit(UniversitiesLoaded(uniModel.universities));
+        } else {
+          emit(UniversitiesError('Kaz universities Data not loaded'));
+        }
       } else {
-        emit(UniversitiesError('Failed to fetch universities by region'));
+        final response = await ApiClient.get(
+          'api/resources/kazUniversities?regionId=${event.regionId}&hasDormitory=${event.hasDormitory}&hasMilitaryDept=${event.hasMilitaryDept}',
+        );
+        print('API Response: $response');
+
+        if (response['success']) {
+          List<Universities> universities =
+              (response['data']['universities'] as List)
+                  .map((data) => Universities.fromJson(data))
+                  .toList();
+          print('Filtered Universities: $universities');
+
+          emit(UniversitiesLoaded(universities));
+        } else {
+          emit(UniversitiesError('Failed to fetch filtered universities'));
+        }
       }
     } catch (e) {
       emit(UniversitiesError('Failed to fetch universities'));

@@ -64,7 +64,7 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               child: BlocBuilder<UniversitiesBloc, UniversitiesState>(
                 builder: (context, state) {
                   if (state is UniversitiesLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   } else if (state is UniversitiesLoaded) {
                     return ListView.builder(
                       itemCount: state.universities?.length,

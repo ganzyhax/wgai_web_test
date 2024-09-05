@@ -17,7 +17,7 @@ class UniversitiesNetwork {
         return null;
       }
     } else {
-      log('Failed to load PsyTest: ${response['data']}');
+      log('Failed to load Kaz unis: ${response['data']}');
     }
 
     return null;

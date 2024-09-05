@@ -5,17 +5,17 @@ sealed class UniversitiesEvent {}
 
 class LoadUniversities extends UniversitiesEvent {}
 
-class LoadCities extends UniversitiesEvent {
+class LoadbyFilters extends UniversitiesEvent {
   final String regionId;
   final List<Specialties>? specialities;
-  final bool hasDormitory;
-  final bool hasMilitaryDept;
+  final bool? hasDormitory;
+  final bool? hasMilitaryDept;
 
-  LoadCities(
+  LoadbyFilters(
       {required this.regionId,
-      required this.specialities,
-      required this.hasDormitory,
-      required this.hasMilitaryDept});
+      this.specialities,
+      this.hasDormitory,
+      this.hasMilitaryDept});
 }
 
 class ResetFilters extends UniversitiesEvent {}
