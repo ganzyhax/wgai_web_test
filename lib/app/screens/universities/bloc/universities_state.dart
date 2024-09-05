@@ -13,6 +13,20 @@ final class UniversitiesLoaded extends UniversitiesState {
   UniversitiesLoaded(this.universities);
 }
 
+class FiltersApplied extends UniversitiesState {
+  final String? regionId;
+  final List<Specialties>? specialities;
+  final bool? hasDormitory;
+  final bool? hasMilitaryDept;
+
+  FiltersApplied({
+    this.regionId,
+    this.specialities,
+    this.hasDormitory,
+    this.hasMilitaryDept,
+  });
+}
+
 class UniversitiesError extends UniversitiesState {
   final String message;
 
