@@ -73,6 +73,10 @@ class WeGlobalApp extends StatelessWidget {
             create: (context) => AtlasBloc()..add(LoadAtlas()),
           ),
           BlocProvider(
+            create: (context) =>
+                ConsulationRequestBloc()..add(ConsulationLoad()),
+          ),
+          BlocProvider(
             create: (context) => ProfileGrowthBloc()..add(ProfileGrowthLoad()),
           ),
         ],
