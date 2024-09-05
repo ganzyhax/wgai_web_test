@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -49,7 +50,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Запрос на консультацию',
+                'Запрос на консультацию'.tr(),
                 style: AppTextStyle.heading2
                     .copyWith(color: AppColors.alternativeBlack),
               ),
@@ -96,7 +97,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
           ),
           const SizedBox(height: 24),
           Text(
-            'Выберите день',
+            'Выберите день'.tr(),
             style: AppTextStyle.heading2
                 .copyWith(color: AppColors.alternativeBlack),
           ),
@@ -104,7 +105,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
           CustomCalendar(),
           const SizedBox(height: 16),
           Text(
-            'Выберите слот',
+            'Выберите слот'.tr(),
             style: AppTextStyle.heading2
                 .copyWith(color: AppColors.alternativeBlack),
           ),
@@ -112,7 +113,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
           const TimeSlotWidget(),
           const SizedBox(height: 24),
           Text(
-            'Выбрать тему консультации',
+            'Выбрать тему консультации'.tr(),
             style: AppTextStyle.heading2
                 .copyWith(color: AppColors.alternativeBlack),
           ),
@@ -136,7 +137,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
                 tilePadding: const EdgeInsets.symmetric(horizontal: 12.0),
                 childrenPadding: EdgeInsets.zero,
                 title: Text(
-                  'Выберите день',
+                  'Выберите день'.tr(),
                   style: AppTextStyle.bodyText
                       .copyWith(color: AppColors.grayForText),
                 ),
@@ -158,7 +159,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
           ),
           const SizedBox(height: 24),
           CustomButton(
-            text: 'Записаться на консультацию',
+            text: 'Записаться на консультацию'.tr(),
             onTap: () {
               print('tapped');
             },

@@ -34,7 +34,7 @@ class LocalUtils {
   }
 
   static Future<bool> isLogged() async {
-    String? res = await storage.read(key: 'token');
+    String? res = await storage.read(key: 'accessToken');
     if (res == null) {
       return false;
     } else {
@@ -43,25 +43,34 @@ class LocalUtils {
   }
 
   static Future<void> logout() async {
-    await storage.delete(key: 'token');
+    await storage.delete(key: 'accessToken');
+    await storage.delete(key: 'refreshToken');
   }
 
   static Future<void> clearStorage() async {
     await storage.deleteAll();
   }
 
-  static Future<void> setToken(String token) async {
+  static Future<void> setAccessToken(String token) async {
     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
 
     await storage.write(key: 'userId', value: decodedToken['userId']);
-    await storage.write(key: 'token', value: token);
+    await storage.write(key: 'accessToken', value: token);
+  }
+
+  static Future<void> setRefreshToken(String token) async {
+    await storage.write(key: 'refreshToken', value: token);
   }
 
   static Future<String?> get(String key) async {
     return await storage.read(key: key);
   }
 
-  static Future<String?> getToken(String key) async {
-    return await storage.read(key: key);
+  static Future<String?> getAccessToken() async {
+    return await storage.read(key: 'accessToken');
+  }
+
+  static Future<String?> getRefreshToken() async {
+    return await storage.read(key: 'refreshToken');
   }
 }

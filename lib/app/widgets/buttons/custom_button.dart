@@ -12,6 +12,9 @@ class CustomButton extends StatelessWidget {
   final IconData? icon;
   final Color? iconColor;
   final double? borderRadius;
+  final bool? iconOnRight;
+  final FontWeight? textWeight;
+  final double? textSize;
   const CustomButton(
       {super.key,
       this.isDisabled,
@@ -19,6 +22,9 @@ class CustomButton extends StatelessWidget {
       this.iconColor,
       this.bgColor,
       this.borderRadius,
+      this.textWeight,
+      this.iconOnRight,
+      this.textSize,
       this.isLoading,
       this.textColor,
       required this.text,
@@ -60,31 +66,62 @@ class CustomButton extends StatelessWidget {
               : (icon != null)
                   ? Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          icon,
-                          color: (iconColor == null) ? Colors.white : iconColor,
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          text,
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: (textColor == null)
-                                  ? Colors.white
-                                  : textColor),
-                        ),
-                      ],
+                      children: (iconOnRight == null)
+                          ? [
+                              Icon(
+                                icon,
+                                color: (iconColor == null)
+                                    ? Colors.white
+                                    : iconColor,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                text,
+                                style: TextStyle(
+                                    fontSize:
+                                        (textSize == null) ? 16 : textSize,
+                                    fontWeight: (textWeight == null)
+                                        ? FontWeight.w500
+                                        : textWeight,
+                                    color: (textColor == null)
+                                        ? Colors.white
+                                        : textColor),
+                              ),
+                            ]
+                          : [
+                              Text(
+                                text,
+                                style: TextStyle(
+                                    fontSize:
+                                        (textSize == null) ? 16 : textSize,
+                                    fontWeight: (textWeight == null)
+                                        ? FontWeight.w500
+                                        : textWeight,
+                                    color: (textColor == null)
+                                        ? Colors.white
+                                        : textColor),
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Icon(
+                                icon,
+                                color: (iconColor == null)
+                                    ? Colors.white
+                                    : iconColor,
+                              ),
+                            ],
                     )
                   : Container(
                       child: Text(
                         text,
                         style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
+                            fontSize: (textSize == null) ? 16 : textSize,
+                            fontWeight: (textWeight == null)
+                                ? FontWeight.w500
+                                : textWeight,
                             color:
                                 (textColor == null) ? Colors.white : textColor),
                       ),

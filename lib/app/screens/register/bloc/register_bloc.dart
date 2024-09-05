@@ -44,7 +44,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         });
         if (data['success']) {
           isLoading = false;
-          await LocalUtils.setToken(data['data']['accessToken']);
+          await LocalUtils.setAccessToken(data['data']['accessToken']);
           emit(RegisterReturnVerifyPage());
           em();
         } else {

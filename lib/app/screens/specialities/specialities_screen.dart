@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,7 +18,7 @@ class SpecialitiesScreen extends StatelessWidget {
         backgroundColor: AppColors.background,
 
         title: Text(
-          'Специальности',
+          'Специальности'.tr(),
           style:
               AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
@@ -47,7 +48,7 @@ class SpecialitiesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Специальности',
+                  'Специальности'.tr(),
                   style: AppTextStyle.heading2
                       .copyWith(color: AppColors.blackForText),
                 ),
@@ -61,7 +62,7 @@ class SpecialitiesScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Все предметы',
+                        'Все предметы'.tr(),
                         style: AppTextStyle.heading4
                             .copyWith(color: AppColors.calendarTextColor),
                       ),

@@ -94,7 +94,6 @@ class AtlasCompleteScreen extends StatelessWidget {
       }
     }
 
-    // 4. Add the basic summary container
     if (profession.summary != null) {
       containers.add(
         Padding(
