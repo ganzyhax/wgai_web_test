@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
+import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
+import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -15,6 +19,8 @@ class FilterBottomSheet extends StatefulWidget {
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   bool isRegionSwitchOn = false;
   bool isMilitarySwitchOn = false;
+  String? selectedRegion;
+  List<Specialties>? selectedSpecialites;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                 style: AppTextStyle.titleHeading.copyWith(color: Colors.black),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  context.read<UniversitiesBloc>().add(ResetFilters());
+                },
                 child: Text(
                   'Сбросить Фильтры',
                   style: AppTextStyle.bodyText.copyWith(
