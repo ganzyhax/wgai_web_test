@@ -133,7 +133,7 @@ class Name {
   String? ru;
   String? en;
 
-  Name({this.kk, this.ru, this.en});
+  Name(String specialty, {this.kk, this.ru, this.en});
 
   Name.fromJson(Map<String, dynamic> json) {
     kk = json['kk'];
