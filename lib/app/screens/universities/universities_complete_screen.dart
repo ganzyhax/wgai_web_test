@@ -1,6 +1,5 @@
-import 'dart:math';
+import 'dart:developer';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +8,7 @@ import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 
 class UniversitiesCompleteScreen extends StatefulWidget {
   final String universityId;
@@ -25,15 +25,19 @@ class _UniversitiesCompleteScreenState
 
   @override
   void initState() {
-    isBookmarked = BookmarkManager().isBookmarked(widget.universityId);
+    isBookmarked = BookmarkData()
+        .containsItem(AppHiveConstants.kzUniversities, widget.universityId);
+    log(isBookmarked.toString());
     super.initState();
   }
 
   void toggleBookmark() async {
-    if (isBookmarked) {
-      await BookmarkManager().removeBookmark(widget.universityId);
+    if (!isBookmarked) {
+      await BookmarkData()
+          .addItem(AppHiveConstants.kzUniversities, widget.universityId);
     } else {
-      await BookmarkManager().addBookmark(widget.universityId);
+      await BookmarkData()
+          .removeItem(AppHiveConstants.kzUniversities, widget.universityId);
     }
     setState(() {
       isBookmarked = !isBookmarked;

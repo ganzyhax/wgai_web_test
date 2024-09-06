@@ -137,6 +137,8 @@ class _NewsCardState extends State<NewsCard> {
                     widget.data['commentCounter'].toString() +
                     ')',
                 onTap: () {
+                  BlocProvider.of<NewsBloc>(context)
+                    ..add(NewsGetCommentData(postId: widget.data['_id']));
                   showModalBottomSheet(
                     isScrollControlled: true,
                     context: context,
@@ -146,8 +148,11 @@ class _NewsCardState extends State<NewsCard> {
                       ),
                     ),
                     builder: (BuildContext context) {
-                      return NewsBottomModal(
-                        postId: widget.data['_id'],
+                      return BlocProvider.value(
+                        value: BlocProvider.of<NewsBloc>(context),
+                        child: NewsBottomModal(
+                          postId: widget.data['_id'],
+                        ),
                       );
                     },
                   );
@@ -166,6 +171,8 @@ class _NewsCardState extends State<NewsCard> {
                   ),
                   GestureDetector(
                     onTap: () {
+                      BlocProvider.of<NewsBloc>(context)
+                        ..add(NewsGetCommentData(postId: widget.data['_id']));
                       showModalBottomSheet(
                         isScrollControlled: true,
                         context: context,
@@ -175,8 +182,12 @@ class _NewsCardState extends State<NewsCard> {
                           ),
                         ),
                         builder: (BuildContext context) {
-                          return NewsBottomModal(
-                            postId: widget.data['_id'],
+                          return BlocProvider.value(
+                            value: BlocProvider.of<NewsBloc>(
+                                context), // Reuse the same Bloc
+                            child: NewsBottomModal(
+                              postId: widget.data['_id'],
+                            ),
                           );
                         },
                       );

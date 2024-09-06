@@ -21,7 +21,7 @@ void main() async {
 
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-  await BookmarkManager().init();
+  await BookmarkData().init();
   runApp(EasyLocalization(
       supportedLocales: [
         Locale('ru'),

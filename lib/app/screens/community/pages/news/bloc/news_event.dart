@@ -7,7 +7,8 @@ final class NewsLoad extends NewsEvent {}
 
 final class NewsGetCommentData extends NewsEvent {
   final String postId;
-  NewsGetCommentData({required this.postId});
+  final bool? withUpdate;
+  NewsGetCommentData({required this.postId, this.withUpdate});
 }
 
 final class NewsAddComment extends NewsEvent {

@@ -25,7 +25,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         if (attemp is bool) {
           try {
             String token = await FCMService().getToken() ?? '';
-            log(token);
+
             if (token != '') {
               var resp = await ApiClient.post(
                   'api/user/addFcmToken', {"fcmToken": token});

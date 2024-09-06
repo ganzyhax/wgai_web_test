@@ -115,34 +115,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 25,
                           ),
-                          Center(
-                            child: Text(
-                              'Забыли пароль?',
-                              style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 7,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        RegisterSchoolCodePage()),
-                              );
-                            },
-                            child: Center(
-                              child: Text(
-                                'Регистрация',
-                                style: TextStyle(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
+                          // Center(
+                          //   child: Text(
+                          //     'Забыли пароль?',
+                          //     style: TextStyle(
+                          //         color: AppColors.primary,
+                          //         fontWeight: FontWeight.w500),
+                          //   ),
+                          // ),
                         ],
                       ),
                     )

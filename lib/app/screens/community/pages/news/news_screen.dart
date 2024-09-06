@@ -32,7 +32,9 @@ class NewsScreen extends StatelessWidget {
                     });
               }
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
               );
             },
           ),
