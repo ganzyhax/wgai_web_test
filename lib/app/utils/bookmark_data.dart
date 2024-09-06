@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive/hive.dart';
 
 class BookmarkData {
@@ -19,6 +21,7 @@ class BookmarkData {
   Future<void> addItem(String listName, String item) async {
     final List<String> list =
         List<String>.from(_box.get(listName, defaultValue: []));
+    log(list.toString());
     if (!list.contains(item)) {
       list.add(item);
       await _box.put(listName, list);
