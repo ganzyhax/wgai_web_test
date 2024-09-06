@@ -1,11 +1,8 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
-import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/containers/expanded_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -23,12 +20,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   bool isMilitarySwitchOn = false;
   String? selectedRegion;
   List<Specialties>? selectedSpecialites;
-
-  @override
-  void initState() {
-    context.read<UniversitiesBloc>().add(LoadbyFilters(regionId: ''));
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +52,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             .toSet()
             .toList() ??
         [];
+
     List<String> specialties = universities
             ?.expand((u) => (u.specialties ?? [])
                 .where((s) => s.name != null)
@@ -168,9 +160,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         const Spacer(),
         ExpandedContainer(
           title: containerTitle,
-          onTap: () {
-            // Action on tap is handled inside ExpandedContainer logic
-          },
+          onTap: () {},
           items: options.map((option) => option.toString()).toList(),
           onItemSelected: (selectedOption) {
             onOptionSelected(selectedOption);
