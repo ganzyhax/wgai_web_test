@@ -1,19 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/atlas/model/professions_model.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_container.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_title_container.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
+import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/containers/basic_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
-class AtlasCompleteScreen extends StatelessWidget {
+class AtlasCompleteScreen extends StatefulWidget {
   final Professions profession;
+  final String professionsId;
 
-  const AtlasCompleteScreen({super.key, required this.profession});
+  const AtlasCompleteScreen(
+      {super.key, required this.profession, required this.professionsId});
+
+  @override
+  State<AtlasCompleteScreen> createState() => _AtlasCompleteScreenState();
+}
+
+class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
+  late bool isBookmarked;
+
+  @override
+  void initState() {
+    isBookmarked =
+        BookmarkData().containsItem('bookmarks', widget.professionsId);
+    super.initState();
+  }
+
+  void toggleBookmark() async {
+    if (isBookmarked) {
+      await BookmarkData().removeItem('bookmarks', widget.professionsId);
+    } else {
+      await BookmarkData().addItem('bookmarks', widget.professionsId);
+    }
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +54,17 @@ class AtlasCompleteScreen extends StatelessWidget {
           style:
               AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              toggleBookmark();
+              print('Id: ${widget.professionsId}');
+            },
+            icon: isBookmarked
+                ? SvgPicture.asset('assets/icons/bookmark.svg')
+                : PhosphorIcon(PhosphorIconsBold.bookmark),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -34,7 +74,7 @@ class AtlasCompleteScreen extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             } else if (state is AtlasLoaded) {
               return ListView(
-                children: _buildContainers(context, profession),
+                children: _buildContainers(context, widget.profession),
               );
             } else if (state is SpecialitiesError) {
               return Center(child: Text(state.message));

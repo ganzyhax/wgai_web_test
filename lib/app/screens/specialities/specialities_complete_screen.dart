@@ -19,15 +19,15 @@ class SpecialitiesCompleteScreenState
 
   @override
   void initState() {
-    isBookmarked = BookmarkManager().isBookmarked(widget.speciesId);
+    isBookmarked = BookmarkData().containsItem('bookmarks', widget.speciesId);
     super.initState();
   }
 
   void toggleBookmark() async {
     if (isBookmarked) {
-      await BookmarkManager().removeBookmark(widget.speciesId);
+      await BookmarkData().removeItem('bookmarks', widget.speciesId);
     } else {
-      await BookmarkManager().addBookmark(widget.speciesId);
+      await BookmarkData().addItem('bookmarks', widget.speciesId);
     }
     setState(() {
       isBookmarked = !isBookmarked;
