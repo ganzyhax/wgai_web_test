@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/filter_bottom_sheet.dart';
+import 'package:wg_app/app/screens/universities/universities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -83,7 +84,16 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                                 '',
                             secondDescription:
                                 university?.specialties?.length ?? 0,
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          UniversitiesCompleteScreen(
+                                            universityId:
+                                                university?.code ?? '',
+                                          )));
+                            },
                           ),
                         );
                       },
