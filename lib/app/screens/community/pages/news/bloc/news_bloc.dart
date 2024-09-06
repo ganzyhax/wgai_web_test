@@ -14,37 +14,74 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
   var commentData;
   String localLang = 'ru';
   String userId = '';
+  bool isLoadingComment = true;
+  bool isLoading = true;
   NewsBloc() : super(NewsInitial()) {
     on<NewsEvent>((event, emit) async {
       if (event is NewsLoad) {
+        isLoading = true;
+        isLoadingComment = false;
+        emit(NewsLoaded(
+            isLoading: isLoading,
+            userId: userId,
+            data: (data == null) ? [] : data['data']['posts'],
+            localLang: localLang,
+            commentData:
+                (commentData == null) ? [] : commentData['data']['comments']));
+
         localLang = await LocalUtils.getLanguage();
         data = await ApiClient.get('api/feed/posts/');
         userId = await LocalUtils.getUserId();
         if (data['success']) {
+          isLoading = false;
           emit(NewsLoaded(
+              isLoading: isLoading,
               userId: userId,
-              data: data['data']['posts'],
+              data: (data == null) ? [] : data['data']['posts'],
               localLang: localLang,
-              commentData: commentData));
+              commentData: (commentData == null)
+                  ? []
+                  : commentData['data']['comments']));
         } else {
+          isLoading = false;
           emit(NewsError(message: data['data']['message']));
           emit(NewsLoaded(
-              data: data['data']['posts'],
+              isLoading: isLoading,
+              data: (data == null) ? [] : data['data']['posts'],
               localLang: localLang,
               userId: userId,
-              commentData: commentData));
+              commentData: (commentData == null)
+                  ? []
+                  : commentData['data']['comments']));
         }
       }
       if (event is NewsGetCommentData) {
+        isLoadingComment = true;
+        emit(NewsLoaded(
+            userId: userId,
+            isLoading: isLoading,
+            data: (data == null) ? [] : data['data']['posts'],
+            localLang: localLang,
+            commentData:
+                (commentData == null) ? [] : commentData['data']['comments']));
         userId = await LocalUtils.getUserId();
         localLang = await LocalUtils.getLanguage();
         commentData = await ApiClient.get('api/feed/comments/' + event.postId);
+
         if (commentData['success']) {
-          emit(NewsLoaded(
-              userId: userId,
-              data: [],
-              localLang: localLang,
-              commentData: commentData['data']['comments']));
+          if (event.withUpdate == true) {
+            add(NewsLoad());
+          } else {
+            isLoadingComment = false;
+            emit(NewsLoaded(
+                isLoading: isLoading,
+                userId: userId,
+                data: (data == null) ? [] : data['data']['posts'],
+                localLang: localLang,
+                commentData: (commentData == null)
+                    ? []
+                    : commentData['data']['comments']));
+          }
         } else {}
       }
       if (event is NewsAddComment) {
@@ -54,7 +91,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           "postId": event.postId
         });
         if (req['success']) {
-          add(NewsGetCommentData(postId: event.postId));
+          add(NewsGetCommentData(postId: event.postId, withUpdate: true));
         }
       }
       if (event is NewsRemoveComment) {
@@ -62,7 +99,7 @@ class NewsBloc extends Bloc<NewsEvent, NewsState> {
           "commentId": event.commentId,
         });
         if (req['success']) {
-          add(NewsGetCommentData(postId: event.postId));
+          add(NewsGetCommentData(postId: event.postId, withUpdate: true));
         }
       }
     });

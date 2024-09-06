@@ -22,8 +22,7 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
         for (var counselor in counselorData['data']['counselorTasks']) {
           var getAuthor =
               await ApiClient.get('api/user/profile/' + counselor['authorId']);
-          log('-----------------');
-          log(getAuthor.toString());
+
           if (getAuthor['success']) {}
         }
         if (counselorData['success']) {

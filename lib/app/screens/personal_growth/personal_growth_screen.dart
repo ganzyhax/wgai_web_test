@@ -68,6 +68,31 @@ class PersonalGrowthScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 25),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white),
+                      padding: EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Личный рост',
+                            style: AppTextStyle.heading1,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            'Take a peek under the hood of large language models \n(LLMs) to understand how they work.',
+                            style: TextStyle(
+                                color: Colors.grey[500], fontSize: 19),
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 25),
                     ...groupedData.entries.map((entry) {
                       var taskCode = entry.key;
                       var categoryData = entry.value;

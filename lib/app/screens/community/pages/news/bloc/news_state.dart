@@ -10,10 +10,13 @@ final class NewsLoaded extends NewsState {
   String userId;
   var commentData;
   var data;
+
+  bool isLoading;
   NewsLoaded(
       {required this.data,
       required this.localLang,
       required this.commentData,
+      required this.isLoading,
       required this.userId});
 }
 
