@@ -33,6 +33,7 @@ class Universities {
   String? website;
   String? regionId;
   Name? regionName;
+  Name? type;
   Name? address;
   List<SocialMedia>? socialMedia;
   List<String>? phoneNumbers;
@@ -40,7 +41,6 @@ class Universities {
   bool? hasMilitaryDept;
   Name? description;
   List<Specialties>? specialties;
-  String? id;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -51,6 +51,7 @@ class Universities {
       this.website,
       this.regionId,
       this.regionName,
+      this.type,
       this.address,
       this.socialMedia,
       this.phoneNumbers,
@@ -58,7 +59,6 @@ class Universities {
       this.hasMilitaryDept,
       this.description,
       this.specialties,
-      this.id,
       this.createdAt,
       this.updatedAt,
       this.iV});
@@ -70,6 +70,7 @@ class Universities {
     regionId = json['regionId'];
     regionName =
         json['regionName'] != null ? Name.fromJson(json['regionName']) : null;
+    type = json['type'] != null ? Name.fromJson(json['type']) : null;
     address = json['address'] != null ? Name.fromJson(json['address']) : null;
     if (json['socialMedia'] != null) {
       socialMedia = <SocialMedia>[];
@@ -88,7 +89,6 @@ class Universities {
         specialties!.add(Specialties.fromJson(v));
       });
     }
-    id = json['id'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     iV = json['__v'];
@@ -105,6 +105,9 @@ class Universities {
     if (regionName != null) {
       data['regionName'] = regionName!.toJson();
     }
+    if (type != null) {
+      data['type'] = type!.toJson();
+    }
     if (address != null) {
       data['address'] = address!.toJson();
     }
@@ -120,7 +123,6 @@ class Universities {
     if (specialties != null) {
       data['specialties'] = specialties!.map((v) => v.toJson()).toList();
     }
-    data['id'] = id;
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;
     data['__v'] = iV;
@@ -184,21 +186,18 @@ class SocialMedia {
 
 class Specialties {
   String? code;
-  String? id;
   Name? name;
 
-  Specialties({this.code, this.id, this.name});
+  Specialties({this.code, this.name});
 
   Specialties.fromJson(Map<String, dynamic> json) {
     code = json['code'];
-    id = json['id'];
     name = json['name'] != null ? Name.fromJson(json['name']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['code'] = code;
-    data['id'] = id;
     if (name != null) {
       data['name'] = name!.toJson();
     }
