@@ -61,7 +61,7 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
               (response['data']['universities'] as List)
                   .map((data) => Universities.fromJson(data))
                   .toList();
-          print('Filtered Universities: $universities');
+          print('Filtered Universities: ${universities[0].specialties}');
 
           emit(UniversitiesLoaded(universities));
         } else {
