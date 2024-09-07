@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 
 class SpecialitiesCompleteScreen extends StatefulWidget {
   final String speciesId;
@@ -19,15 +20,18 @@ class SpecialitiesCompleteScreenState
 
   @override
   void initState() {
-    isBookmarked = BookmarkManager().isBookmarked(widget.speciesId);
+    isBookmarked = BookmarkData()
+        .containsItem(AppHiveConstants.professions, widget.speciesId);
     super.initState();
   }
 
   void toggleBookmark() async {
-    if (isBookmarked) {
-      await BookmarkManager().removeBookmark(widget.speciesId);
+    if (!isBookmarked) {
+      await BookmarkData()
+          .addItem(AppHiveConstants.professions, widget.speciesId);
     } else {
-      await BookmarkManager().addBookmark(widget.speciesId);
+      await BookmarkData()
+          .removeItem(AppHiveConstants.professions, widget.speciesId);
     }
     setState(() {
       isBookmarked = !isBookmarked;
