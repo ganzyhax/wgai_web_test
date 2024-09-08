@@ -33,8 +33,8 @@ class _UniversitiesCompleteScreenState
 
   void toggleBookmark() async {
     if (!isBookmarked) {
-      await BookmarkData()
-          .addItem(AppHiveConstants.kzUniversities, widget.universityId);
+      await BookmarkData().addItem(AppHiveConstants.kzUniversities,
+          {'id': widget.universityId, 'data': widget.universityId});
     } else {
       await BookmarkData()
           .removeItem(AppHiveConstants.kzUniversities, widget.universityId);

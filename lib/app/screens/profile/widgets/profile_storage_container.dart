@@ -12,7 +12,7 @@ class ProfileStorageContainer extends StatelessWidget {
   final bool showContainer;
   final String buttonTitle;
   final String description;
-  final VoidCallback onButtonTap;
+  final Function() onButtonTap;
   const ProfileStorageContainer({
     super.key,
     required this.title,

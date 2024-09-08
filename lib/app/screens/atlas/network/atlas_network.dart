@@ -8,7 +8,6 @@ class AtlasNetwork {
     final response = await ApiClient.get('api/occupations/');
     if (response['success']) {
       final professions = response['data'];
-      log('Professions Data: $professions');
       try {
         final professionsModel = ProfessionsModel.fromJson(professions);
         return professionsModel;

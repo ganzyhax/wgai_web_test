@@ -20,18 +20,16 @@ class SpecialitiesCompleteScreenState
 
   @override
   void initState() {
-    isBookmarked = BookmarkData()
-        .containsItem(AppHiveConstants.professions, widget.speciesId);
+    isBookmarked = BookmarkData().containsItem('bookmarks', widget.speciesId);
     super.initState();
   }
 
   void toggleBookmark() async {
-    if (!isBookmarked) {
-      await BookmarkData()
-          .addItem(AppHiveConstants.professions, widget.speciesId);
+    if (isBookmarked) {
+      await BookmarkData().removeItem('bookmarks', widget.speciesId);
     } else {
-      await BookmarkData()
-          .removeItem(AppHiveConstants.professions, widget.speciesId);
+      await BookmarkData().addItem(
+          'bookmarks', {'id': widget.speciesId, 'data': widget.speciesId});
     }
     setState(() {
       isBookmarked = !isBookmarked;

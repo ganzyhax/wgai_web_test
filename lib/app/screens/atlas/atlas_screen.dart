@@ -56,6 +56,7 @@ class AtlasScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder: (context) => AtlasCompleteScreen(
                                 profession: profession,
+                                professionsId: profession.code ?? '',
                               ),
                             ),
                           );

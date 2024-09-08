@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
@@ -147,6 +149,39 @@ class Professions {
     }
     data['__v'] = iV;
     return data;
+  }
+
+  String toJsonString() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['_id'] = sId;
+    data['code'] = code;
+    data['occupation'] = occupation;
+    data['job_zone'] = jobZone;
+    if (interests != null) {
+      data['interests'] = interests!.toJson();
+    }
+    data['top_interests'] = topInterests;
+    data['cluster'] = cluster;
+    data['career_pathway'] = careerPathway;
+    if (title != null) {
+      data['title'] = title!.toJson();
+    }
+    if (description != null) {
+      data['description'] = description!.toJson();
+    }
+    data['areaIconCode'] = areaIconCode;
+    if (sections != null) {
+      data['sections'] = sections!.map((v) => v.toJson()).toList();
+    }
+    if (summary != null) {
+      data['summary'] = summary!.toJson();
+    }
+    if (gops != null) {
+      data['gops'] = gops!.map((v) => v.toJson()).toList();
+    }
+    data['__v'] = iV;
+    String jsonString = jsonEncode(data);
+    return jsonString;
   }
 }
 
