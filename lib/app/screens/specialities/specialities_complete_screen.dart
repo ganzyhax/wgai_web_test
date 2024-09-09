@@ -44,7 +44,8 @@ class SpecialitiesCompleteScreenState extends State<SpecialitiesCompleteScreen> 
               toggleBookmark();
               print('Id: ${widget.speciesId}');
             },
-            icon: isBookmarked ? SvgPicture.asset('assets/icons/bookmark.svg') : const PhosphorIcon(PhosphorIconsBold.bookmark),
+            icon:
+                isBookmarked ? SvgPicture.asset('assets/icons/bookmark.svg') : SvgPicture.asset('assets/icons/bookmark-open.svg'),
           ),
         ],
       ),

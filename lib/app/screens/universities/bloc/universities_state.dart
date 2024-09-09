@@ -27,6 +27,12 @@ class FiltersApplied extends UniversitiesState {
   });
 }
 
+// class SpecialitesInUni extends UniversitiesState {
+//   final String code;
+//   final String name;
+//   final List<>
+// }
+
 class UniversitiesError extends UniversitiesState {
   final String message;
 

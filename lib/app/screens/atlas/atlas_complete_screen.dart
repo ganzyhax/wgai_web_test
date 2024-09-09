@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/atlas/model/professions_model.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_container.dart';
@@ -16,8 +15,7 @@ class AtlasCompleteScreen extends StatefulWidget {
   final Professions profession;
   final String professionsId;
 
-  const AtlasCompleteScreen(
-      {super.key, required this.profession, required this.professionsId});
+  const AtlasCompleteScreen({super.key, required this.profession, required this.professionsId});
 
   @override
   State<AtlasCompleteScreen> createState() => _AtlasCompleteScreenState();
@@ -28,8 +26,7 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
 
   @override
   void initState() {
-    isBookmarked =
-        BookmarkData().containsItem('bookmarks', widget.professionsId);
+    isBookmarked = BookmarkData().containsItem('bookmarks', widget.professionsId);
     super.initState();
   }
 
@@ -51,8 +48,7 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
       appBar: AppBar(
         title: Text(
           'Профессии',
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         actions: [
           IconButton(
@@ -60,9 +56,8 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
               toggleBookmark();
               print('Id: ${widget.professionsId}');
             },
-            icon: isBookmarked
-                ? SvgPicture.asset('assets/icons/bookmark.svg')
-                : PhosphorIcon(PhosphorIconsBold.bookmark),
+            icon:
+                isBookmarked ? SvgPicture.asset('assets/icons/bookmark.svg') : SvgPicture.asset('assets/icons/bookmark-open.svg'),
           ),
         ],
       ),
@@ -97,8 +92,7 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
           icon: profession.areaIconCode ?? '',
           title: profession.title?.getLocalizedString(context) ?? '',
           titleDescription: 'Краткое описание:',
-          description: profession.description?.getLocalizedString(context) ??
-              'No description',
+          description: profession.description?.getLocalizedString(context) ?? 'No description',
         ),
       ),
     );

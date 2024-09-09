@@ -54,7 +54,8 @@ class _UniversitiesCompleteScreenState extends State<UniversitiesCompleteScreen>
               toggleBookmark();
               print('Id: ${widget.universityId}');
             },
-            icon: isBookmarked ? SvgPicture.asset('assets/icons/bookmark.svg') : const PhosphorIcon(PhosphorIconsBold.bookmark),
+            icon:
+                isBookmarked ? SvgPicture.asset('assets/icons/bookmark.svg') : SvgPicture.asset('assets/icons/bookmark-open.svg'),
           ),
         ],
       ),
