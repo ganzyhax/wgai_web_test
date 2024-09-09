@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/constants/app_colors.dart';
-import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class UniComplete extends StatelessWidget {
@@ -28,8 +26,6 @@ class UniComplete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final IconData? resolvedIcon = myIconMap[icon];
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/screens/specialities/specialities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
@@ -100,16 +101,28 @@ class _UniversitiesCompleteScreenState extends State<UniversitiesCompleteScreen>
                         'Cпециальности',
                         style: AppTextStyle.heading3,
                       ),
-                      // UniSpecialContainer(onTap: {
-                      //         Navigator.push(
-                      //             context,
-                      //             MaterialPageRoute(
-                      //                 builder: (context) =>
-                      //                     SpecialitiesCompleteScreen(
-                      //                       speciesId:
-                      //                           specialResources?.code ?? '',
-                      //                     )));
-                      //       }, codeNumber: , title: title, subject: subject, grantScore: grantScore, paidScore: paidScore)
+                      const SizedBox(height: 8),
+                      Column(
+                        children: university.specialties?.map((specialty) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8),
+                                child: UniSpecialContainer(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SpecialitiesCompleteScreen(speciesId: specialty.code ?? '')),
+                                      );
+                                    },
+                                    codeNumber: specialty.code ?? '',
+                                    title: specialty.name?.getLocalizedString(context) ?? '',
+                                    subject: "Subject Placeholder",
+                                    grantScore: 90,
+                                    paidScore: 70),
+                              );
+                            }).toList() ??
+                            [],
+                      ),
                     ],
                   ),
                 ),
