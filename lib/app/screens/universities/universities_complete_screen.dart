@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
+import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
 import 'package:wg_app/app/screens/specialities/specialities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
@@ -30,6 +32,8 @@ class _UniversitiesCompleteScreenState extends State<UniversitiesCompleteScreen>
     isBookmarked = BookmarkData().containsItem(AppHiveConstants.kzUniversities, widget.universityId);
     log(isBookmarked.toString());
     super.initState();
+
+    context.read<SpecialitiesBloc>().add(LoadSpecialities());
   }
 
   void toggleBookmark() async {
@@ -103,26 +107,45 @@ class _UniversitiesCompleteScreenState extends State<UniversitiesCompleteScreen>
                         style: AppTextStyle.heading3,
                       ),
                       const SizedBox(height: 8),
-                      Column(
-                        children: university.specialties?.map((specialty) {
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                child: UniSpecialContainer(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SpecialitiesCompleteScreen(speciesId: specialty.code ?? '')),
-                                      );
-                                    },
-                                    codeNumber: specialty.code ?? '',
-                                    title: specialty.name?.getLocalizedString(context) ?? '',
-                                    subject: "Subject Placeholder",
-                                    grantScore: 90,
-                                    paidScore: 70),
-                              );
-                            }).toList() ??
-                            [],
+                      BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
+                        builder: (context, state) {
+                          if (state is SpecialitiesLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          } else if (state is SpecialitiesLoaded) {
+                            return Column(
+                              children: university.specialties?.map((specialty) {
+                                    final spec = state.specialResources?.firstWhere(
+                                      (spec) => spec.code == specialty.code,
+                                      orElse: () => Specialties(code: specialty.code),
+                                    );
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      child: UniSpecialContainer(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SpecialitiesCompleteScreen(speciesId: specialty.code ?? '')),
+                                            );
+                                          },
+                                          codeNumber: specialty.code ?? '',
+                                          title: spec?.name?.getLocalizedString(context) ?? '',
+                                          subject: spec?.profileSubjects?[0].name?.getLocalizedString(context) ?? '',
+                                          grantScore: spec?.grants?.general?.grantScores?[0].max ?? 0,
+                                          paidScore: spec?.grants?.general?.grantScores?[0].max ?? 0),
+                                    );
+                                  }).toList() ??
+                                  [],
+                            );
+                          } else if (state is SpecialitiesError) {
+                            return Center(child: Text(state.message));
+                          } else {
+                            return Container();
+                          }
+                        },
                       ),
                     ],
                   ),

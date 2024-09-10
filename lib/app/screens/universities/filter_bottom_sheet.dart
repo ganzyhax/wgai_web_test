@@ -19,7 +19,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   bool isDormitorySwitchOn = false;
   bool isMilitarySwitchOn = false;
   String? selectedRegion;
-  List<Specialties>? selectedSpecialites;
+  List<SpecialtiesUni>? selectedSpecialites;
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +44,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     );
   }
 
-  Widget _buildFilterContent(
-      BuildContext context, List<Universities>? universities) {
-    List<String> regions = universities
-            ?.where((u) => u.regionName != null)
-            .map((u) => u.regionName!.getLocalizedString(context))
-            .toSet()
-            .toList() ??
-        [];
+  Widget _buildFilterContent(BuildContext context, List<Universities>? universities) {
+    List<String> regions =
+        universities?.where((u) => u.regionName != null).map((u) => u.regionName!.getLocalizedString(context)).toSet().toList() ??
+            [];
 
     List<String> specialties = universities
-            ?.expand((u) => (u.specialties ?? [])
-                .where((s) => s.name != null)
-                .map((s) => s.name!.getLocalizedString(context)))
+            ?.expand((u) => (u.specialties ?? []).where((s) => s.name != null).map((s) => s.name!.getLocalizedString(context)))
             .toSet()
             .toList() ??
         [];
@@ -68,17 +62,15 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         children: [
           _buildHeader(context),
           const SizedBox(height: 16),
-          _buildFilterOption(context, 'Регион', 'Все регионы', regions,
-              (region) {
+          _buildFilterOption(context, 'Регион', 'Все регионы', regions, (region) {
             setState(() {
               selectedRegion = region;
             });
           }),
           const SizedBox(height: 16),
-          _buildFilterOption(context, 'Специальности', 'Выбрать', specialties,
-              (specialty) {
+          _buildFilterOption(context, 'Специальности', 'Выбрать', specialties, (specialty) {
             setState(() {
-              selectedSpecialites = [Specialties(name: Name(specialty))];
+              selectedSpecialites = [SpecialtiesUni(name: Name(specialty))];
             });
           }),
           const SizedBox(height: 16),
@@ -88,8 +80,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             });
           }),
           const SizedBox(height: 16),
-          _buildToggleOption(context, 'Военная Кафедра', isMilitarySwitchOn,
-              (val) {
+          _buildToggleOption(context, 'Военная Кафедра', isMilitarySwitchOn, (val) {
             setState(() {
               isMilitarySwitchOn = val;
             });

@@ -35,7 +35,7 @@ class Specialties {
   Name? educationField;
   Name? fieldSpecialization;
   List<ProfileSubjects>? profileSubjects;
-  List<Universities>? universities;
+  List<UniversitiesSpecial>? universities;
   String? id;
   int? iV;
 
@@ -52,18 +52,12 @@ class Specialties {
       this.iV});
 
   Specialties.fromJson(Map<String, dynamic> json) {
-    languages = json['languages'] != null
-        ? Languages.fromJson(json['languages'])
-        : null;
+    languages = json['languages'] != null ? Languages.fromJson(json['languages']) : null;
     grants = json['grants'] != null ? Grants.fromJson(json['grants']) : null;
     code = json['code'];
     name = json['name'] != null ? Name.fromJson(json['name']) : null;
-    educationField = json['educationField'] != null
-        ? Name.fromJson(json['educationField'])
-        : null;
-    fieldSpecialization = json['fieldSpecialization'] != null
-        ? Name.fromJson(json['fieldSpecialization'])
-        : null;
+    educationField = json['educationField'] != null ? Name.fromJson(json['educationField']) : null;
+    fieldSpecialization = json['fieldSpecialization'] != null ? Name.fromJson(json['fieldSpecialization']) : null;
     if (json['profileSubjects'] != null) {
       profileSubjects = <ProfileSubjects>[];
       json['profileSubjects'].forEach((v) {
@@ -71,9 +65,9 @@ class Specialties {
       });
     }
     if (json['universities'] != null) {
-      universities = <Universities>[];
+      universities = <UniversitiesSpecial>[];
       json['universities'].forEach((v) {
-        universities!.add(Universities.fromJson(v));
+        universities!.add(UniversitiesSpecial.fromJson(v));
       });
     }
     id = json['id'];
@@ -99,8 +93,7 @@ class Specialties {
       data['fieldSpecialization'] = fieldSpecialization!.toJson();
     }
     if (profileSubjects != null) {
-      data['profileSubjects'] =
-          profileSubjects!.map((v) => v.toJson()).toList();
+      data['profileSubjects'] = profileSubjects!.map((v) => v.toJson()).toList();
     }
     if (universities != null) {
       data['universities'] = universities!.map((v) => v.toJson()).toList();
@@ -260,14 +253,14 @@ class ProfileSubjects {
   }
 }
 
-class Universities {
+class UniversitiesSpecial {
   String? code;
   String? id;
   Name? name;
 
-  Universities({this.code, this.id, this.name});
+  UniversitiesSpecial({this.code, this.id, this.name});
 
-  Universities.fromJson(Map<String, dynamic> json) {
+  UniversitiesSpecial.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     id = json['id'];
     name = json['name'] != null ? Name.fromJson(json['name']) : null;

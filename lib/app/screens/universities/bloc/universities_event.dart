@@ -9,7 +9,7 @@ class LoadSpecialtiesUni extends UniversitiesEvent {}
 
 class LoadbyFilters extends UniversitiesEvent {
   final String regionId;
-  final List<Specialties>? specialities;
+  final List<SpecialtiesUni>? specialities;
   final bool? hasDormitory;
   final bool? hasMilitaryDept;
 

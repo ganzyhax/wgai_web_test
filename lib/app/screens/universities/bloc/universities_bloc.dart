@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
-import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
+import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/network/specialities_network.dart';
 
@@ -10,14 +10,13 @@ part 'universities_state.dart';
 
 class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
   String? _currentRegionId;
-  List<Specialties>? _currentSpecialities;
+  List<SpecialtiesUni>? _currentSpecialities;
   bool? _currentHasDormitory;
   bool? _currentHasMilitaryDept;
   UniversitiesBloc() : super(UniversitiesInitial()) {
     on<LoadUniversities>(_onLoadUniversities);
     on<LoadbyFilters>(_onFetchUniversities);
     on<ResetFilters>(_onResetFilters);
-    // on<LoadSpecialities>(_onLoadSpecialities);
   }
 
   Future<void> _onLoadUniversities(LoadUniversities event, Emitter<UniversitiesState> emit) async {
@@ -33,10 +32,6 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
       emit(UniversitiesError('Failed to fetch universities'));
     }
   }
-
-  // Future<void> _onLoadSpecialities(LoadSpecialtiesUni event, Emitter<SpecialitesInUni> emit) async {
-
-  // }
 
   Future<void> _onFetchUniversities(LoadbyFilters event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
