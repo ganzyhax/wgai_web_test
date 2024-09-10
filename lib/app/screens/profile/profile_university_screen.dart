@@ -13,9 +13,8 @@ class ProfileUniversityScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: Text(
-          'Мои ВУЗ-ы',
-          style: AppTextStyle.titleHeading
-              .copyWith(color: AppColors.calendarTextColor),
+          'Мои ВУЗ-ы', //Change
+          style: AppTextStyle.titleHeading.copyWith(color: AppColors.calendarTextColor),
         ),
       ),
       body: Padding(
@@ -36,8 +35,7 @@ class ProfileUniversityScreen extends StatelessWidget {
               showLeftIcon: true,
               showContainer: true,
               buttonTitle: 'Browse universities',
-              description:
-                  'Здесь будут хранится ваши  ВУЗ-ы для поступления по ЕНТ.',
+              description: 'Здесь будут хранится ваши  ВУЗ-ы для поступления по ЕНТ.',
               onButtonTap: () {
                 print('tapped my uni 2');
               },
