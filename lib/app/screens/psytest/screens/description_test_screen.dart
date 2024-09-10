@@ -6,6 +6,7 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class DescriptionTestScreen extends StatefulWidget {
   final String sId;
@@ -83,8 +84,7 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                       const SizedBox(height: 16),
                       Text(
                         '${state.testType?.tr()} - тест на тип личности'.tr(),
-                        style: AppTextStyle.heading2
-                            .copyWith(color: AppColors.blackForText),
+                        style: AppTextStyle.heading2.copyWith(color: AppColors.blackForText),
                       ),
                       const SizedBox(height: 16),
                       Container(
@@ -93,20 +93,17 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 18),
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Выполнить до:'.tr(),
-                                style: AppTextStyle.bodyText
-                                    .copyWith(color: AppColors.grayForText),
+                                style: AppTextStyle.bodyText.copyWith(color: AppColors.grayForText),
                               ),
                               Text(
                                 '${state.timeLimit}',
-                                style: AppTextStyle.heading3
-                                    .copyWith(color: AppColors.blackForText),
+                                style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
                               ),
                             ],
                           ),
@@ -121,23 +118,18 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 18),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Описание'.tr(),
-                                  style: AppTextStyle.bodyText
-                                      .copyWith(color: AppColors.grayForText),
+                                  style: AppTextStyle.bodyText.copyWith(color: AppColors.grayForText),
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  state.description
-                                          ?.getLocalizedString(context) ??
-                                      '',
-                                  style: AppTextStyle.bodyText
-                                      .copyWith(color: AppColors.blackForText),
+                                  state.description?.getLocalizedString(context) ?? '',
+                                  style: AppTextStyle.bodyText.copyWith(color: AppColors.blackForText),
                                 ),
                               ],
                             ),
@@ -152,7 +144,7 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                   right: 16,
                   bottom: 86,
                   child: CustomButton(
-                    text: 'Начать Тест',
+                    text: LocaleKeys.start_test.tr(),
                     onTap: () {
                       Navigator.push(
                         context,
