@@ -8,6 +8,7 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class QuestionnaireScreen extends StatefulWidget {
   const QuestionnaireScreen({super.key});
@@ -55,9 +56,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                         child: ListView(
                           padding: const EdgeInsets.only(bottom: 232),
                           children: [
-                            _buildQuestionWithAnswers(
-                                state.questions[state.currentIndex],
-                                state.selectedAnswers),
+                            _buildQuestionWithAnswers(state.questions[state.currentIndex], state.selectedAnswers),
                           ],
                         ),
                       ),
@@ -100,8 +99,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildQuestionWithAnswers(
-      Problems question, List<String> selectedAnswers) {
+  Widget _buildQuestionWithAnswers(Problems question, List<String> selectedAnswers) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,14 +111,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             ),
           ),
         const SizedBox(height: 16),
-        if (question.problemType == 'poster')
-          Image.asset(question.image?.getLocalizedString(context) ?? ''),
+        if (question.problemType == 'poster') Image.asset(question.image?.getLocalizedString(context) ?? ''),
         const SizedBox(height: 16),
         ...question.options!.asMap().entries.map((entry) {
           final index = entry.key;
           final option = entry.value;
-          final isSelected = selectedAnswers
-              .contains(option.answer?.getLocalizedString(context));
+          final isSelected = selectedAnswers.contains(option.answer?.getLocalizedString(context));
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
@@ -142,8 +138,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              tileColor:
-                  isSelected ? AppColors.primary : AppColors.grayProgressBar,
+              tileColor: isSelected ? AppColors.primary : AppColors.grayProgressBar,
               onTap: () {
                 setState(
                   () {
@@ -162,8 +157,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildNavigationButtons(
-      BuildContext context, QuestionnaireSuccessState state) {
+  Widget _buildNavigationButtons(BuildContext context, QuestionnaireSuccessState state) {
     return Row(
       children: [
         ElevatedButton.icon(
@@ -189,9 +183,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                     NextQuestion(state.selectedAnswers),
                   );
             },
-            text: state.currentIndex == state.questions.length - 1
-                ? "Потвердить"
-                : "Далее",
+            text: state.currentIndex == state.questions.length - 1 ? LocaleKeys.completion.tr() : LocaleKeys.next.tr(),
           ),
         ),
       ],
