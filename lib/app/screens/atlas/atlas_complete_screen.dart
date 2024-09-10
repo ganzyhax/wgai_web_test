@@ -41,10 +41,13 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
       await BookmarkData()
           .removeItem(AppHiveConstants.professions, widget.professionsId);
     } else {
-      var data = widget.profession.toJsonString();
-      print(data);
-      await BookmarkData().addItem(AppHiveConstants.professions,
-          {'id': widget.professionsId, 'data': widget.profession.toJson()});
+      await BookmarkData().addItem(AppHiveConstants.professions, {
+        'id': widget.professionsId,
+        'data': {
+          'title': widget.profession.title?.getLocalizedString(context) ?? '',
+          'areaIconCode': widget.profession.areaIconCode
+        }
+      });
     }
     setState(() {
       isBookmarked = !isBookmarked;

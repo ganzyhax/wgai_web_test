@@ -65,7 +65,14 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   PopupMenuItem<int>(
-                    value: 2,
+                    value: 1,
+                    child: ListTile(
+                      leading: Icon(Icons.language),
+                      title: Text('Язык'),
+                    ),
+                  ),
+                  PopupMenuItem<int>(
+                    value: 3,
                     child: ListTile(
                       leading: Icon(Icons.logout, color: Colors.red),
                       title: Text('Выйти', style: TextStyle(color: Colors.red)),
@@ -85,6 +92,13 @@ class ProfileScreen extends StatelessWidget {
                     );
                   }
                   if (value == 2) {
+                    await LocalUtils.logout();
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => WeGlobalApp()),
+                        (route) => true);
+                  }
+                  if (value == 3) {
                     await LocalUtils.logout();
                     Navigator.pushAndRemoveUntil(
                         context,

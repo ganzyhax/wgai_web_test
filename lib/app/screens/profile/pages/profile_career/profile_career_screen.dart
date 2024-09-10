@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_career/widgets/career_card.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
+import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class ProfileCareerScreen extends StatelessWidget {
@@ -11,6 +13,7 @@ class ProfileCareerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var data = BookmarkData().getItems(AppHiveConstants.professions);
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -25,11 +28,31 @@ class ProfileCareerScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            CareerStorageContainer(
-              title: 'Мои Професиии',
+            (data.length == 0)
+                ? ProfileStorageContainer(
+                    title: 'Мои профессии'.tr(),
+                    buttonTitle: 'Browse careers'.tr(),
+                    isMyCareer: true,
+                    showLeftIcon: true,
+                    showRightIcon: true,
+                    description:
+                        'Здесь будут хранится ваши избранные профессии.'.tr(),
+                    onButtonTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AtlasScreen()),
+                      );
+                    },
+                  )
+                : CareerStorageContainer(
+                    title: 'Мои Професиии',
+                  ),
+            SizedBox(
+              height: 15,
             ),
+
             ProfileStorageContainer(
-              title: 'Мои профессии'.tr(),
+              title: 'Рек. профессии'.tr(),
               buttonTitle: 'Browse careers'.tr(),
               isMyCareer: true,
               showLeftIcon: true,
@@ -42,8 +65,7 @@ class ProfileCareerScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => AtlasScreen()),
                 );
               },
-            ),
-            SizedBox(height: 16),
+            )
             // ProfileStorageContainer(
             //   title: 'Мои профессии'.tr(),
             //   showLeftIcon: true,

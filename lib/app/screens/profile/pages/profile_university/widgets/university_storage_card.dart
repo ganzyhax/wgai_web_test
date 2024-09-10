@@ -10,22 +10,24 @@ import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
-class CareerStorageContainer extends StatefulWidget {
+class UniversityStorageContainer extends StatefulWidget {
   final String title;
 
-  const CareerStorageContainer({
+  const UniversityStorageContainer({
     super.key,
     required this.title,
   });
 
   @override
-  State<CareerStorageContainer> createState() => _CareerStorageContainerState();
+  State<UniversityStorageContainer> createState() =>
+      _UniversityStorageContainerState();
 }
 
-class _CareerStorageContainerState extends State<CareerStorageContainer> {
+class _UniversityStorageContainerState
+    extends State<UniversityStorageContainer> {
   @override
   Widget build(BuildContext context) {
-    var data = BookmarkData().getItems(AppHiveConstants.professions);
+    var data = BookmarkData().getItems(AppHiveConstants.globalUniversities);
 
     return Container(
       padding: EdgeInsets.all(12),
@@ -87,7 +89,7 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
                       GestureDetector(
                           onTap: () async {
                             await BookmarkData().removeItem(
-                                AppHiveConstants.professions,
+                                AppHiveConstants.globalUniversities,
                                 data[index]['id']);
                             setState(() {});
                           },
