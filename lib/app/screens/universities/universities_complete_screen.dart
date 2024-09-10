@@ -90,6 +90,7 @@ class _UniversitiesCompleteScreenState extends State<UniversitiesCompleteScreen>
                         hasDormitory: university.hasDormitory ?? false,
                         hasMilitaryDept: university.hasMilitaryDept ?? false,
                         type: university.type?.getLocalizedString(context) ?? '',
+                        isUnivesity: true,
                       ),
                       const SizedBox(height: 16),
                       UniSocialContainer(
