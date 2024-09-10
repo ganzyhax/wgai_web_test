@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const hello = 'hello';
   static const splash_subtitle = 'splash_subtitle';
   static const consultant = 'consultant';
@@ -23,7 +23,7 @@ abstract class LocaleKeys {
   static const codeTeacher = 'codeTeacher';
   static const code = 'code';
   static const schoolCode = 'schoolCode';
-  static const continueText = 'continue';
+  static const continueText = 'continueText';
   static const haveAnAccount = 'haveAnAccount';
   static const registration = 'registration';
   static const wrongCode = 'wrongCode';
@@ -100,4 +100,45 @@ abstract class LocaleKeys {
   static const comments = 'comments';
   static const leave_comment = 'leave_comment';
   static const delete = 'delete';
+  static const atlas_professions = 'atlas_professions';
+  static const professions_directions = 'professions_directions';
+  static const universities = 'universities';
+  static const find_university = 'find_university';
+  static const specialities = 'specialities';
+  static const list_specialities = 'list_specialities';
+  static const admission_nu = 'admission_nu';
+  static const admission_guide = 'admission_guide';
+  static const abroad = 'abroad';
+  static const path_abroad = 'path_abroad';
+  static const countries = 'countries';
+  static const choose_countries = 'choose_countries';
+  static const abroad_universities = 'abroad_universities';
+  static const choose_international_universities = 'choose_international_universities';
+  static const programs = 'programs';
+  static const programs_abroad = 'programs_abroad';
+  static const modules = 'modules';
+  static const learning = 'learning';
+  static const universities_list = 'universities_list';
+  static const all_universities = 'all_universities';
+  static const filter = 'filter';
+  static const reset_filters = 'reset_filters';
+  static const configure_account = 'configure_account';
+  static const all_regions = 'all_regions';
+  static const rating = 'rating';
+  static const top_50 = 'top_50';
+  static const scholarship = 'scholarship';
+  static const choose = 'choose';
+  static const language_study = 'language_study';
+  static const tuition_fee = 'tuition_fee';
+  static const apply = 'apply';
+  static const university = 'university';
+  static const country = 'country';
+  static const short_description = 'short_description';
+  static const university_rating = 'university_rating';
+  static const tuition_fee_university = 'tuition_fee_university';
+  static const location = 'location';
+  static const website = 'website';
+  static const save = 'save';
+  static const all_programs = 'all_programs';
+
 }
