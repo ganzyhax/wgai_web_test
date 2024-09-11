@@ -137,5 +137,48 @@
     "location":"Локация:",
     "website":"Сайт:",
     "save":"Сохранить",
-    "all_programs":"Все программы"
+    "language":"Язык",
+    "all_programs":"Все программы",
+    "learn_yourself": "Узнай себя",
+    "settings": "Настройки",
+    "profile_settings": "Настройки профиля",
+    "change_password": "Изменить пароль",
+    "log_out": "Выйти",
+    "something": "Бирнарсе",
+    "my_goals": "Мои цели",
+    "your_career": "Ваша карьера",
+    "my_professions": "Мои профессии",
+    "your_university": "Ваш университет",
+    "my_universities": "Мои университеты",
+    "page1_personal_growth": "Личный рост",
+    
+    "my_universities_title": "Мои ВУЗ-ы",
+    "universities_storage": "Здесь будут хранится ваши избранные ВУЗ-ы.",
+    "university_overview": "Обзор университетов",
+    "ent_universities_storage": "Здесь будут хранится ваши ВУЗ-ы для поступления по ЕНТ.",
+    "choose_subject": "Выбрать предмет",
+
+    "my_career_title": "Моя карьера",
+    "my_professions_storage": "Здесь будут хранится ваши избранные профессии.",
+    "professions_overview": "Обзор профессий",
+
+    "personal_growth_difficulties": "Пройдите 'Трудности в выборе'",
+
+    "view_all": "Посмотреть всё",
+
+    "ent": "ЕНТ",
+    "profile_subject": "Профильный предмет",
+    "dream_choice": "Dream Choice",
+    "target_choice": "Target Choice",
+    "safe_choice": "Safe Choice",
+    "choose_university": "Выберите ВУЗ своей мечты",
+
+    "career_profession_name": "Название профессии",
+    
+    "recommended_profession_name": "Рек. профессии",
+    
+    "delete_subject_confirmation": "Вы действительно хотите удалить выбранный предмет?",
+    "delete_subject_warning": "При удалении предмета, все выбранные университеты будут удалены.",
+    "yes": "Да",
+    "no": "Нет"
 }

@@ -1,12 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/register/register_school_code_screen.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -65,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Логин',
+                            LocaleKeys.login.tr(),
                             style: TextStyle(color: AppColors.grayForText),
                           ),
                           SizedBox(
@@ -73,13 +76,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           CustomTextField(
                               isEmail: true,
-                              hintText: 'Телефон или Email',
+                              hintText: LocaleKeys.phoneOrEmail.tr(),
                               controller: login),
                           SizedBox(
                             height: 15,
                           ),
                           Text(
-                            'Пароль',
+                            LocaleKeys.password.tr(),
                             style: TextStyle(color: AppColors.grayForText),
                           ),
                           SizedBox(
@@ -103,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             height: 35,
                           ),
                           CustomButton(
-                            text: 'Войти',
+                            text: LocaleKeys.login.tr(),
                             isLoading: state.isLoading,
                             onTap: () {
                               BlocProvider.of<LoginBloc>(context)

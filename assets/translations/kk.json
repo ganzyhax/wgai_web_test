@@ -138,4 +138,50 @@
     "website":"Сайт:",
     "save":"Сақтау",
     "all_programs":"Барлық бағдарламалар"
+  ,  "learn_yourself": "Өзіңді таны",
+  
+    "settings": "Параметрлер",
+    "profile_settings": "Профиль параметрлері",
+    "change_password": "Құпия сөзді өзгерту",
+    "log_out": "Шығу",
+    "something": "Бірнәрсе",
+    "my_goals": "Менің мақсаттарым",
+    "your_career": "Сіздің мансабыңыз",
+    "language":"Тіл",
+    
+    "my_professions": "Менің мамандықтарым",
+    "your_university": "Сіздің университетіңіз",
+    "my_universities": "Менің университеттерім",
+    "page1_personal_growth": "Жеке өсу",
+    
+    "my_universities_title": "Менің университеттерім",
+    "universities_storage": "Сіздің таңдаулы университеттеріңіз осында сақталады.",
+    "university_overview": "Университеттерге шолу",
+    "ent_universities_storage": "ҰБТ арқылы түсетін университеттеріңіз осында сақталады.",
+    "choose_subject": "Пәнді таңдау",
+
+    "my_career_title": "Менің мансабым",
+    "my_professions_storage": "Сіздің таңдаулы мамандықтарыңыз осында сақталады.",
+    "professions_overview": "Мамандықтарға шолу",
+
+    "personal_growth_difficulties": "Таңдау қиындықтарын өтіңіз",
+
+    "view_all": "Барлығын көру",
+
+    "ent": "ҰБТ",
+    "profile_subject": "Профильдік пән",
+    "dream_choice": "Армандаған таңдау",
+    "target_choice": "Нысаналы таңдау",
+    "safe_choice": "Қауіпсіз таңдау",
+    "choose_university": "Армандаған университетіңізді таңдаңыз",
+
+    "career_profession_name": "Мамандық атауы",
+    
+    "recommended_profession_name": "Ұсынылған мамандық атауы",
+    
+    "delete_subject_confirmation": "Таңдалған пәнді жоюды қалайсыз ба?",
+    "delete_subject_warning": "Пәнді жойғанда, барлық таңдаулы университеттер жойылады.",
+    "yes": "Иә",
+    "no": "Жоқ"
+  
 }

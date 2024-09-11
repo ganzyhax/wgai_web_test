@@ -61,21 +61,22 @@ class ProfileScreen extends StatelessWidget {
                     value: 1,
                     child: ListTile(
                       leading: Icon(Icons.person),
-                      title: Text('Настройки профиля'),
+                      title: Text(LocaleKeys.profile_settings.tr()),
                     ),
                   ),
                   PopupMenuItem<int>(
                     value: 2,
                     child: ListTile(
                       leading: Icon(Icons.language),
-                      title: Text('Язык'),
+                      title: Text(LocaleKeys.language.tr()),
                     ),
                   ),
                   PopupMenuItem<int>(
                     value: 3,
                     child: ListTile(
                       leading: Icon(Icons.logout, color: Colors.red),
-                      title: Text('Выйти', style: TextStyle(color: Colors.red)),
+                      title: Text(LocaleKeys.log_out.tr(),
+                          style: TextStyle(color: Colors.red)),
                     ),
                   ),
                 ],
@@ -137,7 +138,7 @@ class ProfileScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          'Бирнарсе',
+                          LocaleKeys.modules.tr(),
                           style: AppTextStyle.titleHeading
                               .copyWith(color: AppColors.blackForText),
                         ),
@@ -149,11 +150,17 @@ class ProfileScreen extends StatelessWidget {
                           children: [
                             Expanded(
                               child: ProfileContainer(
-                                text: 'Your \ncareer',
+                                text: LocaleKeys.your_career
+                                        .tr()
+                                        .split(' ')[0] +
+                                    '\n' +
+                                    LocaleKeys.your_career.tr().split(' ')[1],
                                 isUniversity: false,
                                 height: 144,
                                 onTap: () {
-                                  print('Career');
+                                  print(
+                                    LocaleKeys.your_career.tr(),
+                                  );
 
                                   Navigator.push(
                                     context,
@@ -168,7 +175,13 @@ class ProfileScreen extends StatelessWidget {
                             const SizedBox(width: 8),
                             Expanded(
                               child: ProfileContainer(
-                                text: 'Your University',
+                                text: LocaleKeys.your_university
+                                        .tr()
+                                        .split(' ')[0] +
+                                    '\n' +
+                                    LocaleKeys.your_university
+                                        .tr()
+                                        .split(' ')[1],
                                 isUniversity: true,
                                 height: 144,
                                 onTap: () {
@@ -187,7 +200,9 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       ProfileContainer(
-                        text: 'Личный \nрост'.tr(),
+                        text: LocaleKeys.personal_growth.tr().split(' ')[0] +
+                            '\n' +
+                            LocaleKeys.personal_growth.tr().split(' ')[1],
                         isUniversity: false,
                         height: 144,
                         onTap: () {

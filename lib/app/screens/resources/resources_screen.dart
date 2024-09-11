@@ -22,7 +22,7 @@ class ResourcesScreen extends StatelessWidget {
             centerTitle: false,
             titleSpacing: 16,
             title: Text(
-              'resources'.tr(),
+              LocaleKeys.resources.tr(),
               style: AppTextStyle.titleHeading
                   .copyWith(color: AppColors.blackForText),
             )),
@@ -75,26 +75,26 @@ class ResourcesScreen extends StatelessWidget {
                   );
                 },
               ),
-              const SizedBox(height: 8),
-              ResourcesContainer(
-                title: 'ЕНТ'.tr(),
-                subTitle: 'Различные тесты для познания самого себя',
-                iconPath: 'assets/icons/resources.svg',
-                height: 122,
-                onTap: () {
-                  print('Go to ent');
-                },
-              ),
-              const SizedBox(height: 8),
-              ResourcesContainer(
-                title: LocaleKeys.admission_nu.tr(),
-                subTitle: 'Различные тесты для познания самого себя',
-                iconPath: 'assets/icons/nazarbaev.svg',
-                height: 122,
-                onTap: () {
-                  print('Go to nu prep');
-                },
-              ),
+              // const SizedBox(height: 8),
+              // ResourcesContainer(
+              //   title: 'ЕНТ'.tr(),
+              //   subTitle: 'Различные тесты для познания самого себя',
+              //   iconPath: 'assets/icons/resources.svg',
+              //   height: 122,
+              //   onTap: () {
+              //     print('Go to ent');
+              //   },
+              // ),
+              // const SizedBox(height: 8),
+              // ResourcesContainer(
+              //   title: LocaleKeys.admission_nu.tr(),
+              //   subTitle: 'Различные тесты для познания самого себя',
+              //   iconPath: 'assets/icons/nazarbaev.svg',
+              //   height: 122,
+              //   onTap: () {
+              //     print('Go to nu prep');
+              //   },
+              // ),
               const SizedBox(height: 8),
             ],
           ),

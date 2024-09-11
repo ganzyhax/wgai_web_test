@@ -79,11 +79,15 @@ class _SplashScreenState extends State<SplashScreen> {
                     fontSize: 22),
               ),
               SizedBox(
-                height: 25,
+                height: 10,
               ),
-              Text(
-                LocaleKeys.splash_subtitle.tr(),
-                style: TextStyle(fontSize: 16, color: Colors.grey[500]),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Text(
+                  LocaleKeys.splash_subtitle.tr(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[500]),
+                ),
               ),
             ],
           ),

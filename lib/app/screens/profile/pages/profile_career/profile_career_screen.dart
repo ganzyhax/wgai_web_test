@@ -7,6 +7,7 @@ import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ProfileCareerScreen extends StatelessWidget {
   const ProfileCareerScreen({super.key});
@@ -19,7 +20,7 @@ class ProfileCareerScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: Text(
-          'Моя карьера',
+          LocaleKeys.my_career_title.tr(),
           style: AppTextStyle.titleHeading
               .copyWith(color: AppColors.calendarTextColor),
         ),
@@ -30,7 +31,7 @@ class ProfileCareerScreen extends StatelessWidget {
           children: [
             (data.length == 0)
                 ? ProfileStorageContainer(
-                    title: 'Мои профессии'.tr(),
+                    title: LocaleKeys.my_professions.tr(),
                     buttonTitle: 'Browse careers'.tr(),
                     isMyCareer: true,
                     showLeftIcon: true,
@@ -45,7 +46,7 @@ class ProfileCareerScreen extends StatelessWidget {
                     },
                   )
                 : CareerStorageContainer(
-                    title: 'Мои Професиии',
+                    title: LocaleKeys.my_professions.tr(),
                   ),
             SizedBox(
               height: 15,
