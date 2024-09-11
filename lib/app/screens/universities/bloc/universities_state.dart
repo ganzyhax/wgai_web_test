@@ -15,7 +15,7 @@ final class UniversitiesLoaded extends UniversitiesState {
 
 class FiltersApplied extends UniversitiesState {
   final String? regionId;
-  final List<Specialties>? specialities;
+  final List<SpecialtiesUni>? specialities;
   final bool? hasDormitory;
   final bool? hasMilitaryDept;
 
@@ -25,6 +25,12 @@ class FiltersApplied extends UniversitiesState {
     this.hasDormitory,
     this.hasMilitaryDept,
   });
+}
+
+class SpecialitesInUni extends UniversitiesState {
+  final List<Specialties>? specialities;
+
+  SpecialitesInUni(this.specialities);
 }
 
 class UniversitiesError extends UniversitiesState {

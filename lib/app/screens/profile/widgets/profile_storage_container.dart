@@ -9,9 +9,9 @@ class ProfileStorageContainer extends StatelessWidget {
   final bool showLeftIcon;
   final bool isMyCareer;
   final bool showRightIcon;
-  final bool showContainer;
   final String buttonTitle;
   final String description;
+
   final Function() onButtonTap;
   const ProfileStorageContainer({
     super.key,
@@ -20,7 +20,6 @@ class ProfileStorageContainer extends StatelessWidget {
     this.showRightIcon = false,
     required this.buttonTitle,
     this.isMyCareer = false,
-    this.showContainer = false,
     required this.description,
     required this.onButtonTap,
   });
@@ -55,24 +54,6 @@ class ProfileStorageContainer extends StatelessWidget {
                   'assets/icons/caret-right.svg',
                   width: 20,
                   height: 20,
-                ),
-              if (showContainer)
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 4.0, horizontal: 8.0),
-                  decoration: BoxDecoration(
-                    color: AppColors.onTheWhite,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Text(
-                    'Математика -Физика',
-                    style: TextStyle(
-                      fontFamily: kInterFontFamily,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.blackForText,
-                    ),
-                  ),
                 ),
             ],
           ),

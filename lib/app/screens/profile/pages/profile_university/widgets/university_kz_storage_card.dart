@@ -3,6 +3,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_speciality_card.dart';
+import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
+import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
+import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -10,21 +14,20 @@ import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
-class UniversityStorageContainer extends StatefulWidget {
+class UniversityKzStorageContainer extends StatefulWidget {
   final String title;
+  final String mySpeciality;
 
-  const UniversityStorageContainer({
-    super.key,
-    required this.title,
-  });
+  const UniversityKzStorageContainer(
+      {super.key, required this.title, required this.mySpeciality});
 
   @override
-  State<UniversityStorageContainer> createState() =>
-      _UniversityStorageContainerState();
+  State<UniversityKzStorageContainer> createState() =>
+      _UniversityKzStorageContainerState();
 }
 
-class _UniversityStorageContainerState
-    extends State<UniversityStorageContainer> {
+class _UniversityKzStorageContainerState
+    extends State<UniversityKzStorageContainer> {
   @override
   Widget build(BuildContext context) {
     var data = BookmarkData().getItems(AppHiveConstants.globalUniversities);
@@ -49,16 +52,15 @@ class _UniversityStorageContainerState
                       .copyWith(color: AppColors.calendarTextColor),
                 ),
               ),
-              SvgPicture.asset(
-                'assets/icons/caret-right.svg',
-                width: 20,
-                height: 20,
-              ),
             ],
           ),
           SizedBox(
             height: 15,
           ),
+          (widget.mySpeciality != '')
+              ? UniversityKzSpecialityCard(speciality: widget.mySpeciality)
+              : SizedBox(),
+          Divider(),
           ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -106,7 +108,13 @@ class _UniversityStorageContainerState
                   textColor: Colors.black,
                   onTap: () {},
                 )
-              : SizedBox()
+              : SizedBox(),
+          CustomButton(
+              text: 'Browse universities',
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => SpecialitiesScreen()));
+              })
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
+import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/network/specialities_network.dart';
 
@@ -9,7 +10,7 @@ part 'universities_state.dart';
 
 class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
   String? _currentRegionId;
-  List<Specialties>? _currentSpecialities;
+  List<SpecialtiesUni>? _currentSpecialities;
   bool? _currentHasDormitory;
   bool? _currentHasMilitaryDept;
   UniversitiesBloc() : super(UniversitiesInitial()) {
@@ -18,12 +19,10 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     on<ResetFilters>(_onResetFilters);
   }
 
-  Future<void> _onLoadUniversities(
-      LoadUniversities event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onLoadUniversities(LoadUniversities event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
     try {
-      final KazUniversity? uniModel =
-          await UniversitiesNetwork().fetchSpecies();
+      final KazUniversity? uniModel = await UniversitiesNetwork().fetchSpecies();
       if (uniModel != null && uniModel.universities != null) {
         emit(UniversitiesLoaded(uniModel.universities));
       } else {
@@ -34,17 +33,12 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     }
   }
 
-  Future<void> _onFetchUniversities(
-      LoadbyFilters event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onFetchUniversities(LoadbyFilters event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
 
     try {
-      if (event.regionId.isEmpty &&
-          event.specialities == null &&
-          event.hasDormitory == null &&
-          event.hasMilitaryDept == null) {
-        final KazUniversity? uniModel =
-            await UniversitiesNetwork().fetchSpecies();
+      if (event.regionId.isEmpty && event.specialities == null && event.hasDormitory == null && event.hasMilitaryDept == null) {
+        final KazUniversity? uniModel = await UniversitiesNetwork().fetchSpecies();
         if (uniModel != null && uniModel.universities != null) {
           emit(UniversitiesLoaded(uniModel.universities));
         } else {
@@ -58,9 +52,7 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
 
         if (response['success']) {
           List<Universities> universities =
-              (response['data']['universities'] as List)
-                  .map((data) => Universities.fromJson(data))
-                  .toList();
+              (response['data']['universities'] as List).map((data) => Universities.fromJson(data)).toList();
           print('Filtered Universities: ${universities[0].specialties}');
 
           emit(UniversitiesLoaded(universities));
@@ -73,8 +65,7 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     }
   }
 
-  Future<void> _onResetFilters(
-      ResetFilters event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onResetFilters(ResetFilters event, Emitter<UniversitiesState> emit) async {
     _currentRegionId = null;
     _currentSpecialities = null;
     _currentHasDormitory = null;

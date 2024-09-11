@@ -1,7 +1,8 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 
@@ -20,7 +21,7 @@ class SpecialitiesCompleteScreenState
 
   @override
   void initState() {
-    isBookmarked = BookmarkData().containsItem('bookmarks', widget.speciesId);
+    isBookmarked = false;
     super.initState();
   }
 
@@ -39,20 +40,33 @@ class SpecialitiesCompleteScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('ВУЗ'),
-          actions: [
-            IconButton(
-              onPressed: () {
-                toggleBookmark();
-                print('Id: ${widget.speciesId}');
-              },
-              icon: isBookmarked
-                  ? SvgPicture.asset('assets/icons/bookmark.svg')
-                  : PhosphorIcon(PhosphorIconsBold.bookmark),
-            ),
-          ],
-        ),
-        body: Container());
+      appBar: AppBar(
+        title: const Text('Специальность'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              toggleBookmark();
+              print('Id: ${widget.speciesId}');
+            },
+            icon: isBookmarked
+                ? SvgPicture.asset('assets/icons/bookmark.svg')
+                : SvgPicture.asset('assets/icons/bookmark-open.svg'),
+          ),
+        ],
+      ),
+      body: BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
+        builder: (context, state) {
+          if (state is SpecialitiesLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is SpecialitiesLoaded) {
+            return Container();
+          } else if (state is SpecialitiesError) {
+            return Center(child: Text(state.message));
+          } else {
+            return Container();
+          }
+        },
+      ),
+    );
   }
 }

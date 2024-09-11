@@ -58,7 +58,7 @@ class NewsBottomModal extends StatelessWidget {
                       itemCount: state.commentData.length,
                       itemBuilder: (context, index) {
                         final comment = state.commentData[index];
-                        log('comment data : ' + comment.toString());
+
                         String time =
                             HelperFunctions().timeAgo(comment['createdAt']);
                         return Container(

@@ -1,9 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/constants/app_colors.dart';
-import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class UniComplete extends StatelessWidget {
@@ -28,8 +26,6 @@ class UniComplete extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final IconData? resolvedIcon = myIconMap[icon];
-
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -41,18 +37,16 @@ class UniComplete extends StatelessWidget {
         children: [
           Row(
             children: [
-              if (resolvedIcon != null)
-                PhosphorIcon(
-                  resolvedIcon,
-                  color: AppColors.primary,
-                  size: 48,
-                ),
-              SizedBox(width: 16),
+              PhosphorIcon(
+                PhosphorIconsBold.bank,
+                color: AppColors.primary,
+                size: 48,
+              ),
+              const SizedBox(width: 16),
               Flexible(
                 child: Text(
                   title,
-                  style: AppTextStyle.heading3
-                      .copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
                 ),
               ),
             ],
@@ -60,24 +54,20 @@ class UniComplete extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             'Код',
-            style:
-                AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
+            style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
           ),
           Text(
             code,
-            style:
-                AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
+            style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
           ),
           const SizedBox(height: 8),
           Text(
             'Краткое описание',
-            style: AppTextStyle.interW600S12
-                .copyWith(color: AppColors.blackForText),
+            style: AppTextStyle.interW600S12.copyWith(color: AppColors.blackForText),
           ),
           Text(
             description,
-            style: AppTextStyle.bodyTextVerySmall
-                .copyWith(color: AppColors.blackForText),
+            style: AppTextStyle.bodyTextVerySmall.copyWith(color: AppColors.blackForText),
           ),
           const SizedBox(height: 16),
           UniversitiesTypesContainer(
@@ -130,14 +120,12 @@ class UniversitiesTypesContainer extends StatelessWidget {
                 ),
                 Text(
                   'Тип',
-                  style: AppTextStyle.bodyTextSmall
-                      .copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.blackForText),
                 ),
                 const Spacer(),
                 Text(
                   type,
-                  style: AppTextStyle.bodyTextSmall
-                      .copyWith(color: AppColors.primary),
+                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.primary),
                 ),
               ],
             ),
@@ -148,7 +136,7 @@ class UniversitiesTypesContainer extends StatelessWidget {
             decoration: BoxDecoration(color: AppColors.filterGray),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: 16, top: 16),
             child: Row(
               children: [
                 PhosphorIcon(
@@ -161,17 +149,13 @@ class UniversitiesTypesContainer extends StatelessWidget {
                 ),
                 Text(
                   'Военная кафедра',
-                  style: AppTextStyle.bodyTextSmall
-                      .copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.blackForText),
                 ),
                 const Spacer(),
                 if (hasMilitaryDept)
                   Text(
                     hasMilitaryDept ? 'Да' : 'Нет',
-                    style: AppTextStyle.bodyTextSmall.copyWith(
-                        color: hasMilitaryDept
-                            ? AppColors.actionGreen
-                            : AppColors.exit),
+                    style: AppTextStyle.bodyTextSmall.copyWith(color: hasMilitaryDept ? AppColors.actionGreen : AppColors.exit),
                   ),
               ],
             ),
@@ -182,7 +166,7 @@ class UniversitiesTypesContainer extends StatelessWidget {
             decoration: BoxDecoration(color: AppColors.filterGray),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 8),
+            padding: const EdgeInsets.only(bottom: 8, top: 16),
             child: Row(
               children: [
                 SvgPicture.asset(
@@ -196,17 +180,13 @@ class UniversitiesTypesContainer extends StatelessWidget {
                 ),
                 Text(
                   'Общежитие',
-                  style: AppTextStyle.bodyTextSmall
-                      .copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.blackForText),
                 ),
                 const Spacer(),
                 if (hasDormitory)
                   Text(
                     hasDormitory ? 'Да' : 'Нет',
-                    style: AppTextStyle.bodyTextSmall.copyWith(
-                        color: hasDormitory
-                            ? AppColors.actionGreen
-                            : AppColors.exit),
+                    style: AppTextStyle.bodyTextSmall.copyWith(color: hasDormitory ? AppColors.actionGreen : AppColors.exit),
                   ),
               ],
             ),

@@ -24,7 +24,7 @@ void main() async {
   Hive.init(appDocumentDir.path);
 
   await BookmarkData().init();
-  await BookmarkData().clearList(AppHiveConstants.professions);
+  await BookmarkData().clearList(AppHiveConstants.kzUniversities);
 
   runApp(EasyLocalization(
       supportedLocales: [

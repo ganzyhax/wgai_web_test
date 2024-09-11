@@ -7,7 +7,12 @@ final class ProfileInitial extends ProfileState {}
 
 final class ProfileLoaded extends ProfileState {
   final data;
-  ProfileLoaded({required this.data});
+  final specialities;
+  final String selectedSpeciality;
+  ProfileLoaded(
+      {required this.data,
+      required this.specialities,
+      required this.selectedSpeciality});
 }
 
 final class ProfileUpdatedSuccess extends ProfileState {}

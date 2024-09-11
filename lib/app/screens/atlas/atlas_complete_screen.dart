@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/atlas/model/professions_model.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_container.dart';
@@ -72,7 +71,7 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
             },
             icon: isBookmarked
                 ? SvgPicture.asset('assets/icons/bookmark.svg')
-                : PhosphorIcon(PhosphorIconsBold.bookmark),
+                : SvgPicture.asset('assets/icons/bookmark-open.svg'),
           ),
         ],
       ),

@@ -40,7 +40,7 @@ class Universities {
   bool? hasDormitory;
   bool? hasMilitaryDept;
   Name? description;
-  List<Specialties>? specialties;
+  List<SpecialtiesUni>? specialties;
   String? createdAt;
   String? updatedAt;
   int? iV;
@@ -68,8 +68,7 @@ class Universities {
     name = json['name'] != null ? Name.fromJson(json['name']) : null;
     website = json['website'];
     regionId = json['regionId'];
-    regionName =
-        json['regionName'] != null ? Name.fromJson(json['regionName']) : null;
+    regionName = json['regionName'] != null ? Name.fromJson(json['regionName']) : null;
     type = json['type'] != null ? Name.fromJson(json['type']) : null;
     address = json['address'] != null ? Name.fromJson(json['address']) : null;
     if (json['socialMedia'] != null) {
@@ -81,12 +80,11 @@ class Universities {
     phoneNumbers = json['phoneNumbers'].cast<String>();
     hasDormitory = json['hasDormitory'];
     hasMilitaryDept = json['hasMilitaryDept'];
-    description =
-        json['description'] != null ? Name.fromJson(json['description']) : null;
+    description = json['description'] != null ? Name.fromJson(json['description']) : null;
     if (json['specialties'] != null) {
-      specialties = <Specialties>[];
+      specialties = <SpecialtiesUni>[];
       json['specialties'].forEach((v) {
-        specialties!.add(Specialties.fromJson(v));
+        specialties!.add(SpecialtiesUni.fromJson(v));
       });
     }
     createdAt = json['createdAt'];
@@ -184,13 +182,13 @@ class SocialMedia {
   }
 }
 
-class Specialties {
+class SpecialtiesUni {
   String? code;
   Name? name;
 
-  Specialties({this.code, this.name});
+  SpecialtiesUni({this.code, this.name});
 
-  Specialties.fromJson(Map<String, dynamic> json) {
+  SpecialtiesUni.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     name = json['name'] != null ? Name.fromJson(json['name']) : null;
   }
