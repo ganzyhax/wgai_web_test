@@ -143,6 +143,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                                           : false,
                                   title: item['title']
                                       [context.locale.languageCode],
+                                  isTesting: item['type'] == 'testing'
                                 ),
                                 SizedBox(height: 20),
                               ],
