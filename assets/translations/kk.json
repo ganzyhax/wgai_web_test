@@ -182,6 +182,7 @@
     "delete_subject_confirmation": "Таңдалған пәнді жоюды қалайсыз ба?",
     "delete_subject_warning": "Пәнді жойғанда, барлық таңдаулы университеттер жойылады.",
     "yes": "Иә",
-    "no": "Жоқ"
+    "no": "Жоқ",
+    "personalGrowthResultsButton" : "Нәтиже"
   
 }

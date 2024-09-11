@@ -4,5 +4,6 @@
     "consultant":"Consultant",
     "community":"Community",
     "resources":"Resources",
-    "profile":"Profile"
+    "profile":"Profile",
+    "personalGrowthResultsButton" : "Results"
 }

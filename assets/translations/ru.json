@@ -180,5 +180,6 @@
     "delete_subject_confirmation": "Вы действительно хотите удалить выбранный предмет?",
     "delete_subject_warning": "При удалении предмета, все выбранные университеты будут удалены.",
     "yes": "Да",
-    "no": "Нет"
+    "no": "Нет",
+    "personalGrowthResultsButton" : "Результат"
 }
