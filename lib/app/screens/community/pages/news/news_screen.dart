@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
@@ -28,7 +29,8 @@ class NewsScreen extends StatelessWidget {
                     itemCount: state.data.length,
                     itemBuilder: (context, index) {
                       return NewsCard(
-                          data: state.data[index], localLang: state.localLang);
+                          data: state.data[index],
+                          localLang: context.locale.languageCode);
                     });
               }
               return Center(

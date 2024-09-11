@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/consultant_page.dart';
 import 'package:wg_app/app/screens/community/pages/news/news_screen.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class CommunityScreen extends StatelessWidget {
   const CommunityScreen({super.key});
@@ -29,7 +32,7 @@ class CommunityScreen extends StatelessWidget {
                           ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
                       },
                       child: Text(
-                        'Feed',
+                        LocaleKeys.feed.tr(),
                         style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
@@ -47,7 +50,7 @@ class CommunityScreen extends StatelessWidget {
                           ..add(CommunitySelectTabIndex(selectedTabIndex: 1));
                       },
                       child: Text(
-                        'Consultant',
+                        LocaleKeys.consultant.tr(),
                         style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.w800,

@@ -1,13 +1,16 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class PersonalGrowthScreen extends StatelessWidget {
   const PersonalGrowthScreen({super.key});
@@ -63,7 +66,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                     SizedBox(height: 40),
                     Center(
                       child: Text(
-                        'Личный рост',
+                        LocaleKeys.personal_growth.tr(),
                         style: AppTextStyle.heading1,
                       ),
                     ),
@@ -78,7 +81,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Личный рост',
+                            LocaleKeys.personal_growth.tr(),
                             style: AppTextStyle.heading1,
                           ),
                           SizedBox(
@@ -101,7 +104,9 @@ class PersonalGrowthScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PersonalGrowthTestCard(
-                            title: mainCategories[taskCode]?['ru'] ?? 'Error',
+                            title: mainCategories[taskCode]
+                                    ?[context.locale.languageCode] ??
+                                'Error',
                             asset: 'assets/icons/brain.svg',
                           ),
                           SizedBox(height: 10),
@@ -123,7 +128,8 @@ class PersonalGrowthScreen extends StatelessWidget {
                                       );
                                     }
                                   },
-                                  subTitle: item['subTitle']['ru'],
+                                  subTitle: item['subTitle']
+                                      [context.locale.languageCode],
                                   type: (item['availabilityStatus'] == 'locked')
                                       ? 3
                                       : (item['completionStatus'] == 'new')
@@ -135,7 +141,8 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                   'complete'))
                                           ? true
                                           : false,
-                                  title: item['title']['ru'],
+                                  title: item['title']
+                                      [context.locale.languageCode],
                                 ),
                                 SizedBox(height: 20),
                               ],

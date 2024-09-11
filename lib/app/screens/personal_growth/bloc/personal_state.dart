@@ -7,5 +7,6 @@ final class PersonalInitial extends PersonalState {}
 
 final class PersonalLoaded extends PersonalState {
   final data;
-  PersonalLoaded({required this.data});
+  final String localLang;
+  PersonalLoaded({required this.data, required this.localLang});
 }

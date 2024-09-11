@@ -7,6 +7,7 @@ import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ResourcesScreen extends StatelessWidget {
   const ResourcesScreen({super.key});
@@ -22,7 +23,8 @@ class ResourcesScreen extends StatelessWidget {
             titleSpacing: 16,
             title: Text(
               'resources'.tr(),
-              style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+              style: AppTextStyle.titleHeading
+                  .copyWith(color: AppColors.blackForText),
             )),
         body: SingleChildScrollView(
             child: Padding(
@@ -30,7 +32,7 @@ class ResourcesScreen extends StatelessWidget {
           child: Column(
             children: [
               ResourcesContainer(
-                title: 'Атлас Профессий'.tr(),
+                title: LocaleKeys.atlas_professions.tr(),
                 subTitle: 'Различные тесты для познания самого себя'.tr(),
                 iconPath: 'assets/icons/atlas.svg',
                 height: 122,
@@ -45,7 +47,7 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'ВУЗ-ы'.tr(),
+                title: LocaleKeys.all_universities.tr(),
                 subTitle: 'Вузы итд'.tr(),
                 iconPath: 'assets/icons/universities.svg',
                 height: 122,
@@ -60,7 +62,7 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'Cпециальности'.tr(),
+                title: LocaleKeys.specialities.tr(),
                 subTitle: 'Различные тесты для познания самого себя'.tr(),
                 iconPath: 'assets/icons/specialties.svg',
                 height: 122,
@@ -85,7 +87,7 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'Поступление в НУ'.tr(),
+                title: LocaleKeys.admission_nu.tr(),
                 subTitle: 'Различные тесты для познания самого себя',
                 iconPath: 'assets/icons/nazarbaev.svg',
                 height: 122,
