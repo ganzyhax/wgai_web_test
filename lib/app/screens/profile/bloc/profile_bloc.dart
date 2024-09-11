@@ -15,6 +15,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     String selectedSpeciality = '';
     on<ProfileEvent>((event, emit) async {
       if (event is ProfileLoad) {
+        var sss = await ApiClient.get('api/portfolio/myUniversity');
+        log(sss.toString());
         specialities = await ApiClient.get('api/resources/kazSubjects');
         log(specialities.toString());
         emit(ProfileLoaded(

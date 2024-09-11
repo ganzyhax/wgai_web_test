@@ -5,12 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
-<<<<<<< HEAD
-import 'package:wg_app/constants/app_hive_constants.dart';
-=======
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
->>>>>>> f4b7fa2a4782e6531edcb83f3651ce2fc17be7d0
 
 class SpecialitiesCompleteScreen extends StatefulWidget {
   final String speciesId;
@@ -77,19 +74,26 @@ class SpecialitiesCompleteScreenState
                 children: [
                   UniComplete(
                     code: state.specialResources?[0].code ?? '',
-                    title: state.specialResources?[0].name?.getLocalizedString(context) ?? '',
-                    description: state.specialResources?[0].profileSubjects?[0].name?.getLocalizedString(context) ?? '',
+                    title: state.specialResources?[0].name
+                            ?.getLocalizedString(context) ??
+                        '',
+                    description: state
+                            .specialResources?[0].profileSubjects?[0].name
+                            ?.getLocalizedString(context) ??
+                        '',
                     isUnivesity: false,
                   ),
                   SizedBox(height: 16),
                   Text(
                     'Гранты',
-                    style: AppTextStyle.titleHeading.copyWith(color: AppColors.calendarTextColor),
+                    style: AppTextStyle.titleHeading
+                        .copyWith(color: AppColors.calendarTextColor),
                   ),
                   SizedBox(height: 16),
                   Text(
                     'Общий конкурс',
-                    style: AppTextStyle.bodyTextMiddle.copyWith(color: AppColors.calendarTextColor),
+                    style: AppTextStyle.bodyTextMiddle
+                        .copyWith(color: AppColors.calendarTextColor),
                   ),
                 ],
               ),

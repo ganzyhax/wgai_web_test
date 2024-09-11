@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_language/profile_language_screen.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_settings/profile_settings_page.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_career/profile_career_screen.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/profile_university_screen.dart';
@@ -29,7 +30,8 @@ class ProfileScreen extends StatelessWidget {
         titleSpacing: 16,
         title: Text(
           LocaleKeys.profile.tr(),
-          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         actions: [
           IconButton(
@@ -40,8 +42,10 @@ class ProfileScreen extends StatelessWidget {
             ),
             onPressed: () {
               final RenderBox button = context.findRenderObject() as RenderBox;
-              final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
-              final Offset position = button.localToGlobal(Offset.zero, ancestor: overlay);
+              final RenderBox overlay =
+                  Overlay.of(context).context.findRenderObject() as RenderBox;
+              final Offset position =
+                  button.localToGlobal(Offset.zero, ancestor: overlay);
 
               showMenu<int>(
                 context: context,
@@ -61,7 +65,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   PopupMenuItem<int>(
-                    value: 1,
+                    value: 2,
                     child: ListTile(
                       leading: Icon(Icons.language),
                       title: Text('Язык'),
@@ -83,13 +87,15 @@ class ProfileScreen extends StatelessWidget {
                 if (value != null) {
                   if (value == 1) {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ProfileSettingsPage()),
+                      MaterialPageRoute(
+                          builder: (context) => ProfileSettingsPage()),
                     );
                   }
                   if (value == 2) {
-                    await LocalUtils.logout();
-                    Navigator.pushAndRemoveUntil(
-                        context, MaterialPageRoute(builder: (context) => WeGlobalApp()), (route) => true);
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (context) => ProfileLanguageScreen()),
+                    );
                   }
                   if (value == 3) {
                     await LocalUtils.logout();
@@ -107,7 +113,8 @@ class ProfileScreen extends StatelessWidget {
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileUpdatedSuccess) {
-            CustomSnackbar().showCustomSnackbar(context, 'Updated successfully!', true);
+            CustomSnackbar()
+                .showCustomSnackbar(context, 'Updated successfully!', true);
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -123,14 +130,16 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       Text(
                         'Адилет Дегитаев',
-                        style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+                        style: AppTextStyle.titleHeading
+                            .copyWith(color: AppColors.blackForText),
                       ),
                       const SizedBox(height: 36),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Бирнарсе',
-                          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+                          style: AppTextStyle.titleHeading
+                              .copyWith(color: AppColors.blackForText),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -149,7 +158,8 @@ class ProfileScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ProfileCareerScreen(),
+                                      builder: (context) =>
+                                          ProfileCareerScreen(),
                                     ),
                                   );
                                 },
@@ -165,7 +175,8 @@ class ProfileScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => ProfileUniversityScreen(),
+                                      builder: (context) =>
+                                          ProfileUniversityScreen(),
                                     ),
                                   );
                                 },
@@ -182,7 +193,9 @@ class ProfileScreen extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const ProfileGrowthScreen()),
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ProfileGrowthScreen()),
                           );
                         },
                       ),
