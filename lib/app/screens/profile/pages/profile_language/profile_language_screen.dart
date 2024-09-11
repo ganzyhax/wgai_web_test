@@ -1,11 +1,9 @@
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_language/widgets/profile_language_card.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
-import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
@@ -22,13 +20,13 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
   @override
   void initState() {
     super.initState();
-    _loadLanguage(); // Call the async method
+    _loadLanguage();
   }
 
   Future<void> _loadLanguage() async {
     selectedLang = await LocalUtils.getLanguage();
     log(selectedLang);
-    setState(() {}); // Ensure UI updates after language is loaded
+    setState(() {});
   }
 
   @override
@@ -63,9 +61,10 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
           child: Column(
             children: [
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   context.setLocale(Locale('kk'));
                   selectedLang = 'kk';
+                  await LocalUtils.setLanguage('kk');
                   setState(() {});
                 },
                 child: ProfileLanguageCard(
@@ -75,9 +74,10 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
                   context.setLocale(Locale('ru'));
                   selectedLang = 'ru';
+                  await LocalUtils.setLanguage('ru');
                   setState(() {});
                 },
                 child: ProfileLanguageCard(
@@ -87,7 +87,8 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
                 ),
               ),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  await LocalUtils.setLanguage('en');
                   context.setLocale(Locale('en'));
                   selectedLang = 'en';
                   setState(() {});
