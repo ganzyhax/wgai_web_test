@@ -3,6 +3,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/constants/app_text_style.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+// import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HtmlWebView extends StatefulWidget {
   final String contentCode;
@@ -17,6 +21,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   late final WebViewController _controller;
   bool isLoading = true;
   String? htmlContent;
+  String htmlTitle = "";
 
   @override
   void initState() {
@@ -44,6 +49,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
       setState(() {
         if (data['success']) {
           htmlContent = data['data']['contentMaterial']['content'][localLang];
+          htmlTitle = data['data']['contentMaterial']['contentTitle'][localLang];
         }
       });
       _controller.loadHtmlString(htmlContent!);
@@ -58,26 +64,35 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        title: Text(
+          htmlTitle,
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
+        ),
+      ),
       backgroundColor: AppColors.whiteForText,
-      body: Stack(
-        children: [
-          if (htmlContent != null)
-            Column(
-              children: [
-                SizedBox(
-                  height: 50,
-                ),
-                SizedBox(
-                    height: MediaQuery.of(context).size.height - 50,
-                    width: MediaQuery.of(context).size.width,
-                    child: WebViewWidget(controller: _controller)),
-              ],
-            ),
-          if (isLoading)
-            Center(
-              child: CircularProgressIndicator(),
-            ),
-        ],
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 12),
+        child: htmlContent != null
+            ? Column(
+                children: [
+                  Expanded(
+                    child: WebViewWidget(controller: _controller),
+                  ),
+                  SizedBox(height: 16), // This adds 16px space at the bottom
+                ],
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
     );
   }
