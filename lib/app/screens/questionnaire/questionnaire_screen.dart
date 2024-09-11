@@ -11,7 +11,8 @@ import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class QuestionnaireScreen extends StatefulWidget {
-  const QuestionnaireScreen({super.key});
+  final String testingCode;
+  const QuestionnaireScreen({super.key, required this.testingCode});
 
   @override
   State<QuestionnaireScreen> createState() => _QuestionnaireScreenState();
@@ -72,6 +73,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               ),
             );
           } else if (state is QuestionnaireCompletedState) {
+            for (int i = 0; i < this.selectedAnswers.length; i++) {
+              print(this.selectedAnswers[i]);
+            }
             return const Center(child: Text("Questionnaire Completed!"));
           } else if (state is QuestionnaireErrorState) {
             return Center(child: Text(state.errorMessage));
