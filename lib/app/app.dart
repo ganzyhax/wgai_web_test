@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +20,7 @@ import 'package:wg_app/app/screens/psytest/screens/description_test_screen.dart'
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
 import 'package:wg_app/app/screens/register/bloc/register_bloc.dart';
 import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/screens/splash/splash_screen.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 
@@ -54,8 +56,7 @@ class WeGlobalApp extends StatelessWidget {
             create: (context) => QuestionnaireBloc()..add(LoadQuestionnaire()),
           ),
           BlocProvider(
-            create: (context) =>
-                ConsulationRequestBloc()..add(ConsulationLoad()),
+            create: (context) => ConsulationRequestBloc()..add(ConsulationLoad()),
           ),
           BlocProvider(
             create: (context) => UniversitiesBloc()..add(LoadUniversities()),
@@ -73,8 +74,7 @@ class WeGlobalApp extends StatelessWidget {
             create: (context) => AtlasBloc()..add(LoadAtlas()),
           ),
           BlocProvider(
-            create: (context) =>
-                ConsulationRequestBloc()..add(ConsulationLoad()),
+            create: (context) => ConsulationRequestBloc()..add(ConsulationLoad()),
           ),
           BlocProvider(
             create: (context) => ProfileGrowthBloc()..add(ProfileGrowthLoad()),
@@ -91,6 +91,9 @@ class WeGlobalApp extends StatelessWidget {
           },
           debugShowCheckedModeBanner: false,
           title: 'WeGlobal',
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
           home: SplashScreen(),
         ));
   }

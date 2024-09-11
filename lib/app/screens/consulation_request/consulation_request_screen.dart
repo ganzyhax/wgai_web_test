@@ -8,13 +8,13 @@ import 'package:wg_app/app/screens/consulation_request/widgets/time_slot_widget.
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ConsulationRequestScreen extends StatefulWidget {
   const ConsulationRequestScreen({super.key});
 
   @override
-  State<ConsulationRequestScreen> createState() =>
-      _ConsulationRequestScreenState();
+  State<ConsulationRequestScreen> createState() => _ConsulationRequestScreenState();
 }
 
 class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
@@ -50,9 +50,8 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Запрос на консультацию'.tr(),
-                style: AppTextStyle.heading2
-                    .copyWith(color: AppColors.alternativeBlack),
+                LocaleKeys.request_advice.tr(),
+                style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
               ),
               IconButton(
                 onPressed: () {
@@ -79,12 +78,11 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
                     children: [
                       Text(
                         'Adilet Degitayev',
-                        style: AppTextStyle.heading3
-                            .copyWith(color: AppColors.blackForText),
+                        style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '(Профориентатор)',
+                        '(Профориентатор)', //Change
                         style: AppTextStyle.bodyTextSmall.copyWith(
                           color: AppColors.alternativeGray,
                         ),
@@ -97,25 +95,22 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
           ),
           const SizedBox(height: 24),
           Text(
-            'Выберите день'.tr(),
-            style: AppTextStyle.heading2
-                .copyWith(color: AppColors.alternativeBlack),
+            LocaleKeys.select_data.tr(),
+            style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
           ),
           const SizedBox(height: 24),
           CustomCalendar(),
           const SizedBox(height: 16),
           Text(
-            'Выберите слот'.tr(),
-            style: AppTextStyle.heading2
-                .copyWith(color: AppColors.alternativeBlack),
+            LocaleKeys.select_slot.tr(),
+            style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
           ),
           const SizedBox(height: 16),
           const TimeSlotWidget(),
           const SizedBox(height: 24),
           Text(
-            'Выбрать тему консультации'.tr(),
-            style: AppTextStyle.heading2
-                .copyWith(color: AppColors.alternativeBlack),
+            LocaleKeys.choose_topic_consulation.tr(),
+            style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
           ),
           const SizedBox(height: 16),
           Container(
@@ -128,8 +123,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Theme(
-              data:
-                  Theme.of(context).copyWith(dividerColor: Colors.transparent),
+              data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
               child: ExpansionTile(
                 maintainState: true,
                 collapsedBackgroundColor: Colors.transparent,
@@ -137,9 +131,8 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
                 tilePadding: const EdgeInsets.symmetric(horizontal: 12.0),
                 childrenPadding: EdgeInsets.zero,
                 title: Text(
-                  'Выберите день'.tr(),
-                  style: AppTextStyle.bodyText
-                      .copyWith(color: AppColors.grayForText),
+                  LocaleKeys.select_data.tr(),
+                  style: AppTextStyle.bodyText.copyWith(color: AppColors.grayForText),
                 ),
                 children: [
                   Container(
@@ -159,7 +152,7 @@ class _ConsulationRequestScreenState extends State<ConsulationRequestScreen> {
           ),
           const SizedBox(height: 24),
           CustomButton(
-            text: 'Записаться на консультацию'.tr(),
+            text: LocaleKeys.sign_up_consulation.tr(),
             onTap: () {
               print('tapped');
             },

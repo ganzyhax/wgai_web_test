@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import 'dart:convert';
 import 'dart:developer';
+=======
+import 'package:easy_localization/easy_localization.dart';
+>>>>>>> f4b7fa2a4782e6531edcb83f3651ce2fc17be7d0
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +17,7 @@ import 'package:wg_app/app/widgets/containers/basic_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class AtlasCompleteScreen extends StatefulWidget {
   final Professions profession;
@@ -59,9 +64,14 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(
+<<<<<<< HEAD
           'Профессии',
           style:
               AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+=======
+          'Профессии', //Change
+          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+>>>>>>> f4b7fa2a4782e6531edcb83f3651ce2fc17be7d0
         ),
         actions: [
           IconButton(
@@ -105,9 +115,14 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
         child: AtlasTitleContainer(
           icon: profession.areaIconCode ?? '',
           title: profession.title?.getLocalizedString(context) ?? '',
+<<<<<<< HEAD
           titleDescription: 'Краткое описание:',
           description: profession.description?.getLocalizedString(context) ??
               'No description',
+=======
+          titleDescription: LocaleKeys.short_description.tr(),
+          description: profession.description?.getLocalizedString(context) ?? 'No description',
+>>>>>>> f4b7fa2a4782e6531edcb83f3651ce2fc17be7d0
         ),
       ),
     );

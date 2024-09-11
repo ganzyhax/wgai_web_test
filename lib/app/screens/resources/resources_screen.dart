@@ -21,9 +21,8 @@ class ResourcesScreen extends StatelessWidget {
             centerTitle: false,
             titleSpacing: 16,
             title: Text(
-              'Ресурсы'.tr(),
-              style: AppTextStyle.titleHeading
-                  .copyWith(color: AppColors.blackForText),
+              'resources'.tr(),
+              style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
             )),
         body: SingleChildScrollView(
             child: Padding(

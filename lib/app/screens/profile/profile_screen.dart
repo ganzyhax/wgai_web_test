@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,11 +9,11 @@ import 'package:wg_app/app/screens/profile/pages/profile_career/profile_career_s
 import 'package:wg_app/app/screens/profile/pages/profile_university/profile_university_screen.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_container.dart';
 import 'package:wg_app/app/screens/profile_growth/profile_growth_screen.dart';
-import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -29,9 +28,8 @@ class ProfileScreen extends StatelessWidget {
         centerTitle: false,
         titleSpacing: 16,
         title: Text(
-          'Профиль',
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          LocaleKeys.profile.tr(),
+          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         actions: [
           IconButton(
@@ -42,10 +40,8 @@ class ProfileScreen extends StatelessWidget {
             ),
             onPressed: () {
               final RenderBox button = context.findRenderObject() as RenderBox;
-              final RenderBox overlay =
-                  Overlay.of(context).context.findRenderObject() as RenderBox;
-              final Offset position =
-                  button.localToGlobal(Offset.zero, ancestor: overlay);
+              final RenderBox overlay = Overlay.of(context).context.findRenderObject() as RenderBox;
+              final Offset position = button.localToGlobal(Offset.zero, ancestor: overlay);
 
               showMenu<int>(
                 context: context,
@@ -87,16 +83,13 @@ class ProfileScreen extends StatelessWidget {
                 if (value != null) {
                   if (value == 1) {
                     Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (context) => ProfileSettingsPage()),
+                      MaterialPageRoute(builder: (context) => ProfileSettingsPage()),
                     );
                   }
                   if (value == 2) {
                     await LocalUtils.logout();
                     Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => WeGlobalApp()),
-                        (route) => true);
+                        context, MaterialPageRoute(builder: (context) => WeGlobalApp()), (route) => true);
                   }
                   if (value == 3) {
                     await LocalUtils.logout();
@@ -114,8 +107,7 @@ class ProfileScreen extends StatelessWidget {
       body: BlocListener<ProfileBloc, ProfileState>(
         listener: (context, state) {
           if (state is ProfileUpdatedSuccess) {
-            CustomSnackbar()
-                .showCustomSnackbar(context, 'Updated successfully!', true);
+            CustomSnackbar().showCustomSnackbar(context, 'Updated successfully!', true);
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -131,16 +123,14 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 16),
                       Text(
                         'Адилет Дегитаев',
-                        style: AppTextStyle.titleHeading
-                            .copyWith(color: AppColors.blackForText),
+                        style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
                       ),
                       const SizedBox(height: 36),
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Бирнарсе',
-                          style: AppTextStyle.titleHeading
-                              .copyWith(color: AppColors.blackForText),
+                          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -159,8 +149,7 @@ class ProfileScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProfileCareerScreen(),
+                                      builder: (context) => ProfileCareerScreen(),
                                     ),
                                   );
                                 },
@@ -176,8 +165,7 @@ class ProfileScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          ProfileUniversityScreen(),
+                                      builder: (context) => ProfileUniversityScreen(),
                                     ),
                                   );
                                 },
@@ -188,15 +176,13 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       ProfileContainer(
-                        text: 'Личный \nрост',
+                        text: 'Личный \nрост'.tr(),
                         isUniversity: false,
                         height: 144,
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ProfileGrowthScreen()),
+                            MaterialPageRoute(builder: (context) => const ProfileGrowthScreen()),
                           );
                         },
                       ),
