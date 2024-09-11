@@ -7,6 +7,7 @@ import 'package:wg_app/app/screens/personal_growth/components/personal_growth_ca
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
+import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -126,7 +127,18 @@ class PersonalGrowthScreen extends StatelessWidget {
                                           ),
                                         ),
                                       );
-                                    }
+                                    } else if (item['availabilityStatus'] !=
+                                            'locked' &&
+                                        item['type'] == 'testing') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => QuestionnaireScreen(
+                                                testingCode: item['testingCode']
+                                              ),
+                                            ),
+                                          );
+                                        }
                                   },
                                   subTitle: item['subTitle']
                                       [context.locale.languageCode],

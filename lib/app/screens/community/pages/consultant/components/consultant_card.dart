@@ -377,7 +377,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => QuestionnaireScreen(),
+                  builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode']),
                 ),
               );
             },
@@ -391,7 +391,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuestionnaireScreen(),
+                      builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode']),
                     ),
                   );
                 },
