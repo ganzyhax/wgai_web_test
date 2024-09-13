@@ -11,22 +11,19 @@ class AppColors {
   static final Color choiceColor = Color(0xff052DC126);
   static final Color cardOnTheBlue = Color(0xffE5E5EA4D);
   static final Color cardOnTheBlue2 = Color(0xffE5E5EAB2);
-  static final Color onTheBlue2 =
-      Color.fromRGBO(229, 229, 234, 0.70); // ONTHEBLUE2
+  static final Color onTheBlue2 = Color.fromRGBO(229, 229, 234, 0.70); // ONTHEBLUE2
   static const Color grayProgressBar = Color(0xffE5E5EA); // Light/Neutral/gray5
   static const Color alternativeBlack = Color(0xff1C202C);
   static const Color alternativeGray = Color(0xff6A7186);
   static const Color containerBorder = Color(0xffE8E9EE);
-  static const Color calendarTextColor =
-      Color(0xff27272E); // Light/Text/primary
+  static const Color calendarTextColor = Color(0xff27272E); // Light/Text/primary
   static const Color slotColor = Color(0xffD1D1D6); // Light/Neutral/gray4
   static const Color exit = Color(0xffD54950);
-  static const Color filterGray =
-      Color.fromARGB(30, 142, 142, 147); // Light/Fill/system3
+  static const Color filterGray = Color.fromARGB(30, 142, 142, 147); // Light/Fill/system3
   static const Color actionGreen = Color(0xff17B582); //Light / Text / action
   static const Color actionFill = Color.fromARGB(51, 142, 142, 147);
-  static const Color onTheWhite =
-      Color.fromRGBO(229, 229, 234, 0.45); //ONTHEWHITE
+  static const Color onTheWhite = Color.fromRGBO(229, 229, 234, 0.45); //ONTHEWHITE
+  static const Color gray333333 = Color(0xff333333);
 
   static final LinearGradient gradientPrimary = const LinearGradient(
     colors: [Color(0xff052DC1), Color(0xff052DC1)],

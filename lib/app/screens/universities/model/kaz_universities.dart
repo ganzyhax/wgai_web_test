@@ -151,10 +151,11 @@ class Name {
 
   String getLocalizedString(BuildContext context) {
     final locale = context.locale.languageCode;
+
     if (locale == 'ru') {
-      return ru ?? kk!;
+      return ru ?? kk ?? en ?? '';
     } else if (locale == 'kk') {
-      return kk ?? ru!;
+      return kk ?? ru ?? en ?? '';
     } else {
       return en ?? ru ?? kk ?? '';
     }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -9,7 +10,8 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class FilterBottomSheet extends StatefulWidget {
-  const FilterBottomSheet({super.key});
+  final Function(List<String>) onFilterApplied;
+  const FilterBottomSheet({super.key, required this.onFilterApplied});
 
   @override
   State<FilterBottomSheet> createState() => _FilterBottomSheetState();
@@ -62,13 +64,13 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         children: [
           _buildHeader(context),
           const SizedBox(height: 16),
-          _buildFilterOption(context, 'Регион', 'Все регионы', regions, (region) {
+          _buildFilterOption(context, 'Регион', 'all_regions'.tr(), regions, (region) {
             setState(() {
               selectedRegion = region;
             });
           }),
           const SizedBox(height: 16),
-          _buildFilterOption(context, 'Специальности', 'Выбрать', specialties, (specialty) {
+          _buildFilterOption(context, 'Специальности', 'choose'.tr(), specialties, (specialty) {
             setState(() {
               selectedSpecialites = [SpecialtiesUni(name: Name(specialty))];
             });
@@ -87,19 +89,38 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
           }),
           const SizedBox(height: 16),
           CustomButton(
-            text: 'Применить',
+            text: 'apply'.tr(),
             onTap: () {
               print('Applying Filters:');
               print('Region: $selectedRegion');
               print('Specialties: $selectedSpecialites');
               print('Dormitory: $isDormitorySwitchOn');
               print('Military Dept: $isMilitarySwitchOn');
+              List<String> appliedFilters = [];
+
+              if (selectedRegion != null && selectedRegion!.isNotEmpty) {
+                appliedFilters.add('$selectedRegion');
+              }
+              if (selectedSpecialites != null && selectedSpecialites!.isNotEmpty) {
+                appliedFilters
+                    .add('Specialty: ${selectedSpecialites!.map((e) => e.name?.getLocalizedString(context)).join(', ')}');
+              }
+              if (isDormitorySwitchOn) {
+                appliedFilters.add('Общежитие');
+              }
+              if (isMilitarySwitchOn) {
+                appliedFilters.add('Военная кафедра');
+              }
+
+              widget.onFilterApplied(appliedFilters);
+
               context.read<UniversitiesBloc>().add(LoadbyFilters(
                     regionId: selectedRegion ?? '',
                     specialities: selectedSpecialites,
                     hasDormitory: isDormitorySwitchOn,
                     hasMilitaryDept: isMilitarySwitchOn,
                   ));
+
               Navigator.pop(context);
             },
           ),
@@ -113,7 +134,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          'Фильтр',
+          'filter'.tr(),
           style: AppTextStyle.titleHeading.copyWith(color: Colors.black),
         ),
         TextButton(
@@ -123,7 +144,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             Navigator.pop(context);
           },
           child: Text(
-            'Сбросить Фильтры',
+            'reset_filters'.tr(),
             style: AppTextStyle.bodyText.copyWith(
               color: AppColors.exit,
               decoration: TextDecoration.underline,
@@ -142,6 +163,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     List<dynamic> options,
     Function(String) onOptionSelected,
   ) {
+    List<String> selectedOptions = [];
+
     return Row(
       children: [
         Text(
