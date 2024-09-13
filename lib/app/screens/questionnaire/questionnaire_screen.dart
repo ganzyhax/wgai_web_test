@@ -2,17 +2,18 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wg_app/app/screens/psytest/model/test_model.dart';
+import 'package:wg_app/app/screens/questionnaire/model/testing_model.dart';
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
-import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class QuestionnaireScreen extends StatefulWidget {
   final String testingCode;
-  const QuestionnaireScreen({super.key, required this.testingCode});
+  final String taskId;
+  final bool isGuidanceTask;
+  const QuestionnaireScreen({super.key, required this.testingCode, required this.taskId, required this.isGuidanceTask});
 
   @override
   State<QuestionnaireScreen> createState() => _QuestionnaireScreenState();
@@ -20,68 +21,91 @@ class QuestionnaireScreen extends StatefulWidget {
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<QuestionnaireBloc>().add(LoadQuestionnaire(widget.testingCode));
+  }
+
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
+    return BlocListener<QuestionnaireBloc, QuestionnaireState>(
+      listener: (context, state) {
+        if (state is QuestionnaireSubmittedState) {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Scaffold(
         backgroundColor: AppColors.background,
-        title: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+        appBar: AppBar(
+          backgroundColor: AppColors.background,
+          title: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
+            builder: (context, state) {
+              if (state is QuestionnaireSuccessState) {
+                return FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    state.questionnaireTitle,
+                    style: AppTextStyle.titleHeading.copyWith(
+                      color: AppColors.blackForText,
+                    ),
+                    maxLines: 2,
+                    textAlign: TextAlign.left,
+                  )
+                );
+              } else {
+                return const Text("");
+              }
+            },
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
+          ),
+        ),
+        body: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
           builder: (context, state) {
-            if (state is QuestionnaireSuccessState) {
-              return Text(
-                state.questionnaireType.tr(),
-                style: AppTextStyle.titleHeading.copyWith(
-                  color: AppColors.blackForText,
+            if (state is QuestionnaireLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is QuestionnaireSuccessState) {
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Stack(
+                  children: [
+                    Column(
+                      children: [
+                        _buildProgressBar(state),
+                        const SizedBox(height: 24),
+                        Expanded(
+                          child: ListView(
+                            padding: const EdgeInsets.only(bottom: 232),
+                            children: [
+                              _buildQuestionWithAnswers(state.questions[state.currentIndex], state.selectedAnswerIndices),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Positioned(
+                      bottom: 80,
+                      left: 0,
+                      right: 0,
+                      child: _buildNavigationButtons(context, state),
+                    ),
+                  ],
                 ),
               );
-            } else {
-              return const Text("Loading...");
-            }
+            } else if (state is QuestionnaireCompletedState) {
+              context.read<QuestionnaireBloc>().add(CompleteQuestionnaire(state.answers, widget.taskId, widget.isGuidanceTask));
+              return const Center(child: Text(""));
+            } else if (state is QuestionnaireErrorState) {
+              return Center(child: Text(state.errorMessage));
+            } else if (state is QuestionnaireSubmittedState) {
+              return const Center(child: Text("Questionnaire Completed!"));
+            } 
+            return const Center(child: Text("Welcome to the Questionnaire!"));
           },
         ),
-      ),
-      body: BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
-        builder: (context, state) {
-          if (state is QuestionnaireLoadingState) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (state is QuestionnaireSuccessState) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Stack(
-                children: [
-                  Column(
-                    children: [
-                      _buildProgressBar(state),
-                      const SizedBox(height: 24),
-                      Expanded(
-                        child: ListView(
-                          padding: const EdgeInsets.only(bottom: 232),
-                          children: [
-                            _buildQuestionWithAnswers(state.questions[state.currentIndex], state.selectedAnswers),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  Positioned(
-                    bottom: 80,
-                    left: 0,
-                    right: 0,
-                    child: _buildNavigationButtons(context, state),
-                  ),
-                ],
-              ),
-            );
-          } else if (state is QuestionnaireCompletedState) {
-            // for (int i = 0; i < this.selectedAnswers.length; i++) {
-            //   print(this.selectedAnswers[i]);
-            // }
-            return const Center(child: Text("Questionnaire Completed!"));
-          } else if (state is QuestionnaireErrorState) {
-            return Center(child: Text(state.errorMessage));
-          }
-          return const Center(child: Text("Welcome to the Questionnaire!"));
-        },
       ),
     );
   }
@@ -103,7 +127,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     );
   }
 
-  Widget _buildQuestionWithAnswers(Problems question, List<String> selectedAnswers) {
+  Widget _buildQuestionWithAnswers(Problems question, List<int> selectedIndices) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -116,25 +140,24 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           ),
         const SizedBox(height: 16),
         if (question.problemType == 'poster') Image.asset(question.image?.getLocalizedString(context) ?? ''),
+        if (question.problemType != 'poster')
         const SizedBox(height: 16),
+        if (question.problemType != 'poster')
         ...question.options!.asMap().entries.map((entry) {
           final index = entry.key;
           final option = entry.value;
-          final isSelected = selectedAnswers.contains(option.answer?.getLocalizedString(context));
+          final isSelected = selectedIndices.contains(index);
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
               title: Row(
                 children: [
-                  Text(
-                    AppConstant.emojis[index % AppConstant.emojis.length],
-                    style: TextStyle(fontSize: 28),
-                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
                       option.answer?.getLocalizedString(context) ?? '',
                       overflow: TextOverflow.visible,
+                      style: TextStyle(color: isSelected ? AppColors.grayProgressBar : AppColors.blackForText),
                     ),
                   ),
                 ],
@@ -147,7 +170,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                 setState(
                   () {
                     context.read<QuestionnaireBloc>().add(AnswerQuestion(
-                          option.answer?.getLocalizedString(context) ?? '',
+                          index,
                           question.problemType == 'multiple-choice',
                           question.problemType == 'poster',
                         ));
@@ -164,28 +187,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   Widget _buildNavigationButtons(BuildContext context, QuestionnaireSuccessState state) {
     return Row(
       children: [
-        ElevatedButton.icon(
-          onPressed: () {
-            context.read<QuestionnaireBloc>().add(PreviousQuestion());
-          },
-          style: ElevatedButton.styleFrom(
-            minimumSize: const Size(71, 44),
-            backgroundColor: AppColors.grayProgressBar,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            elevation: 0,
-          ),
-          label: SvgPicture.asset("assets/icons/arrow-left.svg"),
-        ),
         const SizedBox(width: 5),
         Expanded(
           child: CustomButton(
             height: 44,
             onTap: () {
-              context.read<QuestionnaireBloc>().add(
-                    NextQuestion(state.selectedAnswers),
-                  );
+              print("tapping");
+              context.read<QuestionnaireBloc>().add(NextQuestion());
             },
             text: state.currentIndex == state.questions.length - 1 ? LocaleKeys.completion.tr() : LocaleKeys.next.tr(),
           ),
