@@ -24,7 +24,7 @@ class AppTextStyle {
   static const TextStyle heading3 = TextStyle(
     fontFamily: kInterFontFamily,
     fontSize: 16,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
   );
 
   static const TextStyle heading4 = TextStyle(

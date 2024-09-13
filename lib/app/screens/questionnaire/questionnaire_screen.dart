@@ -73,9 +73,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               ),
             );
           } else if (state is QuestionnaireCompletedState) {
-            for (int i = 0; i < this.selectedAnswers.length; i++) {
-              print(this.selectedAnswers[i]);
-            }
+            // for (int i = 0; i < this.selectedAnswers.length; i++) {
+            //   print(this.selectedAnswers[i]);
+            // }
             return const Center(child: Text("Questionnaire Completed!"));
           } else if (state is QuestionnaireErrorState) {
             return Center(child: Text(state.errorMessage));

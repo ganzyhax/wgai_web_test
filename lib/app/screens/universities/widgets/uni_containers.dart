@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -11,6 +12,7 @@ class UniContainers extends StatelessWidget {
   final int? secondDescription;
   final Function() onTap;
   final bool showIcon;
+  final bool? isComplete;
   const UniContainers({
     super.key,
     this.icon,
@@ -20,6 +22,7 @@ class UniContainers extends StatelessWidget {
     this.secondDescription,
     required this.onTap,
     this.showIcon = false,
+    this.isComplete = false,
   });
 
   @override
@@ -43,17 +46,17 @@ class UniContainers extends StatelessWidget {
                 else
                   Text(
                     codeNumber ?? '',
-                    style: AppTextStyle.heading3
-                        .copyWith(color: AppColors.primary),
+                    style: AppTextStyle.heading3.copyWith(color: AppColors.primary),
                   ),
                 const SizedBox(width: 12),
                 Flexible(
                   child: Text(
                     title,
-                    style: AppTextStyle.heading3
-                        .copyWith(color: AppColors.calendarTextColor),
+                    style: AppTextStyle.heading3.copyWith(color: AppColors.calendarTextColor),
                   ),
                 ),
+                const SizedBox(width: 16),
+                if (isComplete == true) SvgPicture.asset('assets/icons/caret-right.svg')
               ],
             ),
             const SizedBox(height: 4),
@@ -65,8 +68,7 @@ class UniContainers extends StatelessWidget {
                   Flexible(
                     child: Text(
                       firstDescription ?? '',
-                      style: AppTextStyle.bodyTextVerySmall
-                          .copyWith(color: AppColors.grayForText),
+                      style: AppTextStyle.bodyTextVerySmall.copyWith(color: AppColors.grayForText),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
@@ -74,8 +76,7 @@ class UniContainers extends StatelessWidget {
                   if (secondDescription != null)
                     Text(
                       'Специальности: $secondDescription',
-                      style: AppTextStyle.bodyTextVerySmall
-                          .copyWith(color: AppColors.grayForText),
+                      style: AppTextStyle.bodyTextVerySmall.copyWith(color: AppColors.grayForText),
                     ),
                 ],
               ),
