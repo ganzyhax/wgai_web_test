@@ -53,7 +53,7 @@ class WeGlobalApp extends StatelessWidget {
             create: (context) => ConsultantBloc()..add(ConsultantLoad()),
           ),
           BlocProvider(
-            create: (context) => QuestionnaireBloc()..add(LoadQuestionnaire()),
+            create: (context) => QuestionnaireBloc(),
           ),
           BlocProvider(
             create: (context) => ConsulationRequestBloc()..add(ConsulationLoad()),

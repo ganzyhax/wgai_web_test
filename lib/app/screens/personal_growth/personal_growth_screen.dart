@@ -64,7 +64,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    SizedBox(height: 40),
+                    SizedBox(height: 50),
                     Center(
                       child: Text(
                         LocaleKeys.personal_growth.tr(),
@@ -81,15 +81,15 @@ class PersonalGrowthScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            LocaleKeys.personal_growth.tr(),
-                            style: AppTextStyle.heading1,
-                          ),
+                          // Text(
+                          //   LocaleKeys.personal_growth.tr(),
+                          //   style: AppTextStyle.heading1,
+                          // ),
                           SizedBox(
                             height: 10,
                           ),
                           Text(
-                            'Take a peek under the hood of large language models \n(LLMs) to understand how they work.',
+                            LocaleKeys.personalGrowthDescription.tr(),
                             style: TextStyle(
                                 color: Colors.grey[500], fontSize: 19),
                           )
@@ -124,21 +124,36 @@ class PersonalGrowthScreen extends StatelessWidget {
                                         MaterialPageRoute(
                                           builder: (context) => HtmlWebView(
                                             contentCode: item['contentCode'],
+                                            isUrl: false,
+                                            contentUrl: item['contentCode'],
+                                            contentUrlTitle: "",
                                           ),
                                         ),
                                       );
-                                    } else if (item['availabilityStatus'] !=
-                                            'locked' &&
-                                        item['type'] == 'testing') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => QuestionnaireScreen(
-                                                testingCode: item['testingCode']
-                                              ),
-                                            ),
-                                          );
-                                        }
+                                    } else if (item['availabilityStatus'] != 'locked' && item['type'] == 'testing' && item['completionStatus'] != 'complete') {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => QuestionnaireScreen(
+                                            testingCode: item['testingCode'],
+                                            taskId: item['_id'],
+                                            isGuidanceTask: true,
+                                          ),
+                                        ),
+                                      );
+                                    } else if (item['availabilityStatus'] != 'locked' && item['type'] == 'testing' && item['completionStatus'] == 'complete') {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => HtmlWebView(
+                                            contentCode: item['result']['interpretationLink'],
+                                            isUrl: true,
+                                            contentUrl: item['result']['interpretationLink'],
+                                            contentUrlTitle: item['result']['interpretationCode'],
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   },
                                   subTitle: item['subTitle']
                                       [context.locale.languageCode],

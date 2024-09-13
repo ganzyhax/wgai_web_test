@@ -189,7 +189,8 @@ class CodegenLoader extends AssetLoader {
     "delete_subject_warning": "Пәнді жойғанда, барлық таңдаулы университеттер жойылады.",
     "yes": "Иә",
     "no": "Жоқ",
-    "personalGrowthResultsButton": "Нәтиже"
+      "personalGrowthResultsButton" : "Нәтиже",
+  "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі."
   };
   static const Map<String, dynamic> ru = {
     "hello": "Privet",
@@ -366,7 +367,8 @@ class CodegenLoader extends AssetLoader {
     "delete_subject_warning": "При удалении предмета, все выбранные университеты будут удалены.",
     "yes": "Да",
     "no": "Нет",
-    "personalGrowthResultsButton": "Результат"
+      "personalGrowthResultsButton" : "Результат",
+  "personalGrowthDescription": "Программа \"Личный Рост\"\nПоможет вам выбрать профессию, понять свои сильные стороны и узнать о нужных навыках для успешной жизни!"
   };
   static const Map<String, dynamic> en = {
     "hello": "Hello",
@@ -375,7 +377,8 @@ class CodegenLoader extends AssetLoader {
     "community": "Community",
     "resources": "Resources",
     "profile": "Profile",
-    "personalGrowthResultsButton": "Result"
+    "personalGrowthResultsButton" : "Result",
+    "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі."
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }

@@ -377,7 +377,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode']),
+                  builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode'], taskId: widget.data['_id'], isGuidanceTask: false),
                 ),
               );
             },
@@ -391,7 +391,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode']),
+                      builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode'], taskId: widget.data['_id'], isGuidanceTask: false),
                     ),
                   );
                 },

@@ -5,13 +5,16 @@ import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 
 class HtmlWebView extends StatefulWidget {
   final String contentCode;
+  final bool isUrl;
+  final String contentUrl;
+  final String contentUrlTitle;
 
-  HtmlWebView({required this.contentCode});
+  HtmlWebView({required this.contentCode, required this.isUrl, required this.contentUrl, required this.contentUrlTitle});
 
   @override
   _HtmlWebViewState createState() => _HtmlWebViewState();
@@ -22,6 +25,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   bool isLoading = true;
   String? htmlContent;
   String htmlTitle = "";
+  double textScale = 1.0;
 
   @override
   void initState() {
@@ -30,6 +34,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (String url) {
+            print(url);
             setState(() {
               isLoading = false;
             });
@@ -43,18 +48,24 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   Future<void> _loadContent() async {
     String localLang = await LocalUtils.getLanguage();
     try {
-      var data =
-          await ApiClient.get('api/contentMaterials/${widget.contentCode}');
-
-      setState(() {
-        if (data['success']) {
-          htmlContent = data['data']['contentMaterial']['content'][localLang];
-          htmlTitle = data['data']['contentMaterial']['contentTitle'][localLang];
-        }
-      });
-      _controller.loadHtmlString(htmlContent!);
+      if (widget.isUrl) {
+        await _controller.loadRequest(Uri.parse(widget.contentUrl));  
+        setState(() {
+          htmlTitle = widget.contentUrlTitle;
+          textScale = calculateTextScale(htmlTitle);
+        });
+      } else {
+        var data = await ApiClient.get('api/contentMaterials/${widget.contentCode}');
+          setState(() {
+            if (data['success']) {
+              htmlContent = data['data']['contentMaterial']['content'][localLang];
+              htmlTitle = data['data']['contentMaterial']['contentTitle'][localLang];
+              textScale = calculateTextScale(htmlTitle);
+            }
+          });
+          _controller.loadHtmlString(htmlContent!);
+      }
     } catch (e) {
-      // Handle errors, e.g., show an error message
       setState(() {
         isLoading = false;
       });
@@ -68,8 +79,11 @@ class _HtmlWebViewState extends State<HtmlWebView> {
         backgroundColor: AppColors.background,
         title: Text(
           htmlTitle,
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          textAlign: TextAlign.center,
+          textScaler: TextScaler.linear(textScale),
         ),
         leading: IconButton(
           onPressed: () {
@@ -80,8 +94,8 @@ class _HtmlWebViewState extends State<HtmlWebView> {
       ),
       backgroundColor: AppColors.whiteForText,
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        child: htmlContent != null
+        padding: EdgeInsets.symmetric(horizontal: 0),
+        child: isLoading == false
             ? Column(
                 children: [
                   Expanded(
@@ -95,5 +109,16 @@ class _HtmlWebViewState extends State<HtmlWebView> {
               ),
       ),
     );
+  }
+
+  double calculateTextScale(String title) {
+    const double maxScale = 1.0;
+    const double minScale = 0.5;
+    const int targetLength = 20;
+
+    if (title.isEmpty) return maxScale;
+
+    double scale = targetLength / max(title.length, 20);
+    return scale.clamp(minScale, maxScale);
   }
 }

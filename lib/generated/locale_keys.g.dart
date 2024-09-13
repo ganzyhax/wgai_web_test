@@ -176,4 +176,5 @@ abstract class LocaleKeys {
   static const yes = 'yes';
   static const no = 'no';
   static const personalGrowthResultsButton = 'personalGrowthResultsButton';
+  static const personalGrowthDescription = 'personalGrowthDescription';
 }

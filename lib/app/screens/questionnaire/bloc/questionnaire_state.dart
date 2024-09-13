@@ -1,7 +1,7 @@
 part of 'questionnaire_bloc.dart';
 
 @immutable
-sealed class QuestionnaireState {}
+abstract class QuestionnaireState {}
 
 class QuestionnaireInitial extends QuestionnaireState {}
 
@@ -10,16 +10,16 @@ class QuestionnaireLoadingState extends QuestionnaireState {}
 class QuestionnaireSuccessState extends QuestionnaireState {
   final List<Problems> questions;
   final int currentIndex;
-  final List<String> selectedAnswers;
-  final String questionnaireType;
+  final List<int> selectedAnswerIndices;  // Changed from List<String> to List<int>
+  final String questionnaireTitle;
   final List<Problems> portraitImage;
   final List<Problems> isMultipleChoice;
 
   QuestionnaireSuccessState({
     required this.questions,
     required this.currentIndex,
-    required this.selectedAnswers,
-    required this.questionnaireType,
+    required this.selectedAnswerIndices,
+    required this.questionnaireTitle,
     required this.portraitImage,
     required this.isMultipleChoice,
   });
@@ -27,24 +27,28 @@ class QuestionnaireSuccessState extends QuestionnaireState {
   QuestionnaireSuccessState copyWith({
     List<Problems>? questions,
     int? currentIndex,
-    List<String>? selectedAnswers,
-    String? questionnaireType,
-    String? description,
+    List<int>? selectedAnswerIndices,  // Changed from List<String>? to List<int>?
+    String? questionnaireTitle,
     List<Problems>? portraitImage,
     List<Problems>? isMultipleChoice,
   }) {
     return QuestionnaireSuccessState(
       questions: questions ?? this.questions,
       currentIndex: currentIndex ?? this.currentIndex,
-      selectedAnswers: selectedAnswers ?? this.selectedAnswers,
-      questionnaireType: questionnaireType ?? this.questionnaireType,
+      selectedAnswerIndices: selectedAnswerIndices ?? this.selectedAnswerIndices,
+      questionnaireTitle: questionnaireTitle ?? this.questionnaireTitle,
       portraitImage: portraitImage ?? this.portraitImage,
       isMultipleChoice: isMultipleChoice ?? this.isMultipleChoice,
     );
   }
 }
 
-class QuestionnaireCompletedState extends QuestionnaireState {}
+class QuestionnaireCompletedState extends QuestionnaireState {
+  final List<List<int>> answers;
+  QuestionnaireCompletedState(this.answers);
+}
+
+class QuestionnaireSubmittedState extends QuestionnaireState {}
 
 class QuestionnaireErrorState extends QuestionnaireState {
   final String errorMessage;
