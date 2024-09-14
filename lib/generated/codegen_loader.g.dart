@@ -79,9 +79,9 @@ class CodegenLoader extends AssetLoader {
     "teacher": "(мұғалім)",
     "select_data": "Күнді таңдаңыз",
     "select_slot": "Уақытты таңдаңыз",
-    "choose_topic_consulation": "Кеңес тақырыбын таңдаңыз",
+    "choose_topic_consultation": "Кеңес тақырыбын таңдаңыз",
     "choose_topic": "Тақырыпты таңдаңыз",
-    "sign_up_consulation": "Кеңеске жазылу",
+    "sign_up_consultation": "Кеңеске жазылу",
     "select_topic_advice": "Кеңес тақырыбын таңдау қажет",
     "request_sent": "Сіздің сұранысыңыз жіберілді!",
     "teacher_confirmation": "Мұғаліміңіздің растауын күтіңіз!",
@@ -189,8 +189,12 @@ class CodegenLoader extends AssetLoader {
     "delete_subject_warning": "Пәнді жойғанда, барлық таңдаулы университеттер жойылады.",
     "yes": "Иә",
     "no": "Жоқ",
-      "personalGrowthResultsButton" : "Нәтиже",
-  "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі."
+    "personalGrowthResultsButton" : "Нәтиже",
+    "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі.",
+    "error_loading_slots": "Қате орын алды",
+    "try_again": "Қайтадан көру",
+    "consultationBookingSuccess": "Кеңеске жазылу сәтті өтті",
+    "consultationBookingError": "Кеңеске жазылу кезінде қате орын алды"
   };
   static const Map<String, dynamic> ru = {
     "hello": "Privet",
@@ -257,9 +261,9 @@ class CodegenLoader extends AssetLoader {
     "teacher": "(педагог)",
     "select_data": "Выберите день",
     "select_slot": "Выберите слот",
-    "choose_topic_consulation": "Выбрать тему консультации",
+    "choose_topic_consultation": "Выбрать тему консультации",
     "choose_topic": "Выбрать тему",
-    "sign_up_consulation": "Записаться на консультацию",
+    "sign_up_consultation": "Записаться на консультацию",
     "select_topic_advice": "Нужно выбрать тему консультации",
     "request_sent": "Ваш запрос отправлен!",
     "teacher_confirmation": "Ждите подтверждения вашего педагога!",
@@ -367,8 +371,12 @@ class CodegenLoader extends AssetLoader {
     "delete_subject_warning": "При удалении предмета, все выбранные университеты будут удалены.",
     "yes": "Да",
     "no": "Нет",
-      "personalGrowthResultsButton" : "Результат",
-  "personalGrowthDescription": "Программа \"Личный Рост\"\nПоможет вам выбрать профессию, понять свои сильные стороны и узнать о нужных навыках для успешной жизни!"
+    "personalGrowthResultsButton" : "Результат",
+    "personalGrowthDescription": "Программа \"Личный Рост\"\nПоможет вам выбрать профессию, понять свои сильные стороны и узнать о нужных навыках для успешной жизни!",
+    "error_loading_slots": "Произошла ошибка",
+    "try_again": "Попробовать заново",
+    "consultationBookingSuccess": "Вы успешно записались на консультацию",
+    "consultationBookingError": "Произошла ошибка при записи на консультацию"
   };
   static const Map<String, dynamic> en = {
     "hello": "Hello",
@@ -378,7 +386,9 @@ class CodegenLoader extends AssetLoader {
     "resources": "Resources",
     "profile": "Profile",
     "personalGrowthResultsButton" : "Result",
-    "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі."
+    "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі.",
+    "error_loading_slots": "Қате орын алды",
+    "try_again": "Қайтадан көру"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }

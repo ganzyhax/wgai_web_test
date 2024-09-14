@@ -63,9 +63,9 @@
     "teacher":"(мұғалім)",
     "select_data":"Күнді таңдаңыз",
     "select_slot":"Уақытты таңдаңыз",
-    "choose_topic_consulation":"Кеңес тақырыбын таңдаңыз",
+    "choose_topic_consultation":"Кеңес тақырыбын таңдаңыз",
     "choose_topic":"Тақырыпты таңдаңыз",
-    "sign_up_consulation":"Кеңеске жазылу",
+    "sign_up_consultation":"Кеңеске жазылу",
     "select_topic_advice":"Кеңес тақырыбын таңдау қажет",
     "request_sent":"Сіздің сұранысыңыз жіберілді!",
     "teacher_confirmation":"Мұғаліміңіздің растауын күтіңіз!",
@@ -184,6 +184,10 @@
     "yes": "Иә",
     "no": "Жоқ",
     "personalGrowthResultsButton" : "Нәтиже",
-    "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі."
+    "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі.",
+    "error_loading_slots": "Қате орын алды",
+    "try_again": "Қайтадан көру",
+    "consultationBookingSuccess": "Кеңеске жазылу сәтті өтті",
+    "consultationBookingError": "Кеңеске жазылу кезінде қате орын алды"
   
 }
