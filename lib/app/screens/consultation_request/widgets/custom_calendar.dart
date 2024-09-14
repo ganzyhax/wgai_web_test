@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/constants/app_constant.dart';
 
 class CustomCalendar extends StatefulWidget {
-  const CustomCalendar({super.key});
+  final Function(DateTime, DateTime, DateTime) onDaySelected;
+  const CustomCalendar({Key? key, required this.onDaySelected}) : super(key: key);
 
   @override
   State<CustomCalendar> createState() => _CustomCalendarState();
@@ -12,6 +14,7 @@ class CustomCalendar extends StatefulWidget {
 
 class _CustomCalendarState extends State<CustomCalendar> {
   DateTime _currentDate = DateTime.now();
+  DateTime? _selectedDate;
 
   @override
   Widget build(BuildContext context) {
@@ -43,12 +46,28 @@ class _CustomCalendarState extends State<CustomCalendar> {
   }
 
   Widget _buildMonthHeader() {
+    // String appLanguage = "kk";
     final month = DateFormat.MMMM().format(_currentDate);
+    // final monthEng = DateFormat.MMMM().format(_currentDate) ?? 'september';
+    // final month = AppConstant.calendarMonthsLocalization.containsKey(monthEng) ? AppConstant.calendarMonthsLocalization[monthEng]![appLanguage] : 'september';
     final capitalizedMonth = month[0].toUpperCase() + month.substring(1);
 
-    return Text(
-      capitalizedMonth,
-      style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        IconButton(
+          icon: Icon(Icons.arrow_back_ios, size: 18),
+          onPressed: () => _changeMonth(-1),
+        ),
+        Text(
+          capitalizedMonth,
+          style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
+        ),
+        IconButton(
+          icon: Icon(Icons.arrow_forward_ios, size: 18),
+          onPressed: () => _changeMonth(1),
+        ),
+      ],
     );
   }
 
@@ -89,6 +108,10 @@ class _CustomCalendarState extends State<CustomCalendar> {
     for (int day = 1; day <= daysInMonth; day++) {
       final currentDay = DateTime(_currentDate.year, _currentDate.month, day);
       final isWeekend = currentDay.weekday == 6 || currentDay.weekday == 7;
+      final isSelected = _selectedDate != null &&
+          currentDay.year == _selectedDate!.year &&
+          currentDay.month == _selectedDate!.month &&
+          currentDay.day == _selectedDate!.day;
 
       dayWidgets.add(
         SizedBox(
@@ -97,11 +120,18 @@ class _CustomCalendarState extends State<CustomCalendar> {
           child: GestureDetector(
             onTap: isWeekend ? null : () => _onDaySelected(currentDay),
             child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: isSelected ? AppColors.primary : Colors.transparent,
+              ),
               child: Center(
                 child: Text(
                   day.toString(),
-                  style: AppTextStyle.bodyText
-                      .copyWith(color: isWeekend ? Colors.grey : Colors.black),
+                  style: AppTextStyle.bodyText.copyWith(
+                    color: isSelected
+                        ? Colors.white
+                        : (isWeekend ? Colors.grey : Colors.black),
+                  ),
                 ),
               ),
             ),
@@ -117,7 +147,15 @@ class _CustomCalendarState extends State<CustomCalendar> {
   }
 
   void _onDaySelected(DateTime day) {
-    // Handle day selection
-    print('Selected day: $day');
+    setState(() {
+      _selectedDate = day;
+    });
+    widget.onDaySelected(day, day, day);
+  }
+
+  void _changeMonth(int delta) {
+    setState(() {
+      _currentDate = DateTime(_currentDate.year, _currentDate.month + delta, 1);
+    });
   }
 }

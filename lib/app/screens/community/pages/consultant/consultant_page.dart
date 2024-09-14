@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/components/consultant_card.dart';
-import 'package:wg_app/app/screens/consulation_request/consulation_request_screen.dart';
+import 'package:wg_app/app/screens/consultation_request/consultation_request_screen.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
@@ -21,7 +21,7 @@ class ConsultantPage extends StatelessWidget {
             child: Column(
               children: [
                 CustomButton(
-                    text: LocaleKeys.sign_up_consulation.tr(),
+                    text: LocaleKeys.sign_up_consultation.tr(),
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
@@ -32,7 +32,7 @@ class ConsultantPage extends StatelessWidget {
                         builder: (BuildContext context) {
                           return const FractionallySizedBox(
                             heightFactor: 0.93,
-                            child: ConsulationRequestScreen(),
+                            child: ConsultationRequestScreen(),
                           );
                         },
                       );

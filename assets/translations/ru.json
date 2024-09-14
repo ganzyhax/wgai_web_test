@@ -63,9 +63,9 @@
     "teacher":"(педагог)",
     "select_data":"Выберите день",
     "select_slot":"Выберите слот",
-    "choose_topic_consulation":"Выбрать тему консультации",
+    "choose_topic_consultation":"Выбрать тему консультации",
     "choose_topic":"Выбрать тему",
-    "sign_up_consulation":"Записаться на консультацию",
+    "sign_up_consultation":"Записаться на консультацию",
     "select_topic_advice":"Нужно выбрать тему консультации",
     "request_sent":"Ваш запрос отправлен!",
     "teacher_confirmation":"Ждите подтверждения вашего педагога!",
@@ -182,5 +182,9 @@
     "yes": "Да",
     "no": "Нет",
     "personalGrowthResultsButton" : "Результат",
-    "personalGrowthDescription": "Программа \"Личный Рост\"\nПоможет вам выбрать профессию, понять свои сильные стороны и узнать о нужных навыках для успешной жизни!"
+    "personalGrowthDescription": "Программа \"Личный Рост\"\nПоможет вам выбрать профессию, понять свои сильные стороны и узнать о нужных навыках для успешной жизни!",
+    "error_loading_slots": "Произошла ошибка",
+    "try_again": "Попробовать заново",
+    "consultationBookingSuccess": "Вы успешно записались на консультацию",
+    "consultationBookingError": "Произошла ошибка при записи на консультацию"
 }
