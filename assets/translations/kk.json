@@ -177,7 +177,7 @@
 
     "career_profession_name": "Мамандық атауы",
     
-    "recommended_profession_name": "Ұсынылған мамандық атауы",
+    "recommended_profession_name": "Ұсынылған мамандықтар",
     
     "delete_subject_confirmation": "Таңдалған пәнді жоюды қалайсыз ба?",
     "delete_subject_warning": "Пәнді жойғанда, барлық таңдаулы университеттер жойылады.",
@@ -192,5 +192,9 @@
     "leaveComment": "Пікір қалдырыңыз...",
     "feedComments": "Пікірлер",
     "deleteAccount": "Аккаунтты жою",
-    "savedSuccessfully": "Өзгерістер сақталды"
+    "savedSuccessfully": "Өзгерістер сақталды",
+    "recommended_professions_storage": "Сізге ұсынылған мамандықтар тізімі осында сақталады",
+    "chooseProfileSubjects": "Бейіндік пәндерді таңдау",
+    "pleaseChooseProfileSubjects": "Бейіндік пәндерді таңдаңыз"
+
 }

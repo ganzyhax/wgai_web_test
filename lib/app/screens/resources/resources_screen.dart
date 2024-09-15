@@ -33,7 +33,8 @@ class ResourcesScreen extends StatelessWidget {
             children: [
               ResourcesContainer(
                 title: LocaleKeys.atlas_professions.tr(),
-                subTitle: 'Различные тесты для познания самого себя'.tr(),
+                // subTitle: 'Различные тесты для познания самого себя'.tr(),
+                subTitle: '',
                 iconPath: 'assets/icons/atlas.svg',
                 height: 122,
                 onTap: () {
@@ -48,7 +49,8 @@ class ResourcesScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ResourcesContainer(
                 title: LocaleKeys.all_universities.tr(),
-                subTitle: 'Вузы итд'.tr(),
+                // subTitle: 'Вузы итд'.tr(),
+                subTitle: '',
                 iconPath: 'assets/icons/universities.svg',
                 height: 122,
                 onTap: () {
@@ -63,7 +65,8 @@ class ResourcesScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ResourcesContainer(
                 title: LocaleKeys.specialities.tr(),
-                subTitle: 'Различные тесты для познания самого себя'.tr(),
+                // subTitle: 'Различные тесты для познания самого себя'.tr(),
+                subTitle: '',
                 iconPath: 'assets/icons/specialties.svg',
                 height: 122,
                 onTap: () {

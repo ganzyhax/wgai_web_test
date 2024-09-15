@@ -28,7 +28,7 @@ class _NewsCardState extends State<NewsCard> {
     String truncatedContent =
         content.length > 60 ? content.substring(0, 60) + '...' : content;
     bool isContentLong = content.length > 60;
-    String formattedData = HelperFunctions().timeAgo(widget.data['updatedAt']);
+    String formattedData = HelperFunctions().timeAgo(widget.data['createdAt'], widget.localLang);
     return GestureDetector(
       onTap: isContentLong
           ? () {
@@ -152,6 +152,7 @@ class _NewsCardState extends State<NewsCard> {
                         value: BlocProvider.of<NewsBloc>(context),
                         child: NewsBottomModal(
                           postId: widget.data['_id'],
+                          localLang: widget.localLang,
                         ),
                       );
                     },
@@ -187,6 +188,7 @@ class _NewsCardState extends State<NewsCard> {
                                 context), // Reuse the same Bloc
                             child: NewsBottomModal(
                               postId: widget.data['_id'],
+                              localLang: widget.localLang,
                             ),
                           );
                         },

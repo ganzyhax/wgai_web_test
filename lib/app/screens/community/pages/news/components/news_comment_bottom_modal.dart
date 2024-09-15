@@ -6,12 +6,17 @@ import 'package:get_it/get_it.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
 import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/codegen_loader.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class NewsBottomModal extends StatelessWidget {
   final String postId;
+  final String localLang;
 
   NewsBottomModal({
     required this.postId,
+    required this.localLang
   });
 
   @override
@@ -37,7 +42,7 @@ class NewsBottomModal extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'Комментарии (${state.commentData.length.toString()})',
+                          '${LocaleKeys.feedComments.tr()} (${state.commentData.length.toString()})',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -60,7 +65,7 @@ class NewsBottomModal extends StatelessWidget {
                         final comment = state.commentData[index];
 
                         String time =
-                            HelperFunctions().timeAgo(comment['createdAt']);
+                            HelperFunctions().timeAgo(comment['createdAt'], localLang);
                         return Container(
                           padding:
                               EdgeInsets.only(left: 15, right: 15, bottom: 8),
@@ -117,7 +122,8 @@ class NewsBottomModal extends StatelessWidget {
                                   controller: comment,
                                   decoration: InputDecoration(
                                     contentPadding: EdgeInsets.all(15),
-                                    hintText: "Оставьте комментарий",
+                                    // hintText: "Оставьте комментарий",
+                                    hintText: LocaleKeys.leaveComment.tr(),
                                     enabledBorder: OutlineInputBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(30)),

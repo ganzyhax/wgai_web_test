@@ -98,7 +98,7 @@
     "comments":"комменты",
     "leave_comment":"оставьте комментарий",
     "delete":"удалить",
-    "atlas_professions":"Атлас Профессии",
+    "atlas_professions":"Атлас Профессий",
     "professions_directions":"Профессии и направления для выбора",
     "universities":"ВУЗ-ы",
     "find_university":"Найдите ВУЗ, соответствующий вашим целям",
@@ -153,13 +153,13 @@
     "page1_personal_growth": "Личный рост",
     
     "my_universities_title": "Мои ВУЗ-ы",
-    "universities_storage": "Здесь будут хранится ваши избранные ВУЗ-ы.",
+    "universities_storage": "Здесь будут храниться ваши избранные ВУЗ-ы.",
     "university_overview": "Обзор университетов",
-    "ent_universities_storage": "Здесь будут хранится ваши ВУЗ-ы для поступления по ЕНТ.",
+    "ent_universities_storage": "Здесь будут храниться ваши ВУЗ-ы для поступления по ЕНТ.",
     "choose_subject": "Выбрать предмет",
 
     "my_career_title": "Моя карьера",
-    "my_professions_storage": "Здесь будут хранится ваши избранные профессии.",
+    "my_professions_storage": "Здесь будут храниться ваши избранные профессии.",
     "professions_overview": "Обзор профессий",
 
     "personal_growth_difficulties": "Пройдите 'Трудности в выборе'",
@@ -190,5 +190,8 @@
     "leaveComment": "Оставить комментарий...",
     "feedComments": "Комментарии",
     "deleteAccount": "Удалить аккаунт",
-    "savedSuccessfully": "Изменения сохранены"
+    "savedSuccessfully": "Изменения сохранены",
+    "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
+    "chooseProfileSubjects": "Выбор профильных предметов",
+    "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы"
 }
