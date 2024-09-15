@@ -127,10 +127,26 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset('assets/images/profile-dummy.png'),
+                      Container(
+                        width: 64,
+                        height: 64,
+                        child: Image.asset(
+                          'assets/images/avatar_image.png',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            print('Error loading image: $error');
+                            return Container(
+                              width: 64,
+                              height: 64,
+                              color: Colors.grey,
+                              child: Icon(Icons.error),
+                            );
+                          },
+                        ),
+                      ),
                       const SizedBox(height: 16),
                       Text(
-                        'Адилет Дегитаев',
+                        state.fullName,
                         style: AppTextStyle.titleHeading
                             .copyWith(color: AppColors.blackForText),
                       ),

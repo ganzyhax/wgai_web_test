@@ -6,6 +6,7 @@ import 'package:wg_app/app/screens/profile/pages/profile_language/widgets/profil
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ProfileLanguageScreen extends StatefulWidget {
   const ProfileLanguageScreen({super.key});
@@ -39,7 +40,7 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
         centerTitle: false,
         titleSpacing: 16,
         title: Text(
-          'Языки',
+          LocaleKeys.languages.tr(),
           style:
               AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
@@ -86,19 +87,19 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
                   isSelected: (selectedLang == 'ru') ? true : false,
                 ),
               ),
-              GestureDetector(
-                onTap: () async {
-                  await LocalUtils.setLanguage('en');
-                  context.setLocale(Locale('en'));
-                  selectedLang = 'en';
-                  setState(() {});
-                },
-                child: ProfileLanguageCard(
-                  asset: 'assets/icons/uk-flag.svg',
-                  title: 'English',
-                  isSelected: (selectedLang == 'en') ? true : false,
-                ),
-              ),
+              // GestureDetector(
+              //   onTap: () async {
+              //     await LocalUtils.setLanguage('en');
+              //     context.setLocale(Locale('en'));
+              //     selectedLang = 'en';
+              //     setState(() {});
+              //   },
+              //   child: ProfileLanguageCard(
+              //     asset: 'assets/icons/uk-flag.svg',
+              //     title: 'English',
+              //     isSelected: (selectedLang == 'en') ? true : false,
+              //   ),
+              // ),
             ],
           ),
         ),

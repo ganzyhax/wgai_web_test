@@ -7,6 +7,10 @@ import 'package:wg_app/app/screens/community/pages/news/components/news_comment_
 import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+
+
 
 class NewsCard extends StatefulWidget {
   final data;
@@ -132,7 +136,7 @@ class _NewsCardState extends State<NewsCard> {
             ),
             if (_isExpanded)
               CustomButton(
-                text: 'Коментарии' +
+                text: LocaleKeys.feedComments.tr() +
                     ' (' +
                     widget.data['commentCounter'].toString() +
                     ')',
