@@ -95,6 +95,7 @@ Widget _buildContent(List<SlotModel> slots) {
                 _selectedDay = selectedDay;
               });
             },
+            language: context.locale.languageCode,
           ),
           const SizedBox(height: 16),
           Text(

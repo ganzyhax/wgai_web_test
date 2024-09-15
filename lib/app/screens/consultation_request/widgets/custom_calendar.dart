@@ -6,7 +6,9 @@ import 'package:wg_app/constants/app_constant.dart';
 
 class CustomCalendar extends StatefulWidget {
   final Function(DateTime, DateTime, DateTime) onDaySelected;
-  const CustomCalendar({Key? key, required this.onDaySelected}) : super(key: key);
+  final String language;
+  
+  const CustomCalendar({Key? key, required this.onDaySelected, required this.language}) : super(key: key);
 
   @override
   State<CustomCalendar> createState() => _CustomCalendarState();
@@ -46,11 +48,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
   }
 
   Widget _buildMonthHeader() {
-    // String appLanguage = "kk";
-    final month = DateFormat.MMMM().format(_currentDate);
-    // final monthEng = DateFormat.MMMM().format(_currentDate) ?? 'september';
-    // final month = AppConstant.calendarMonthsLocalization.containsKey(monthEng) ? AppConstant.calendarMonthsLocalization[monthEng]![appLanguage] : 'september';
-    final capitalizedMonth = month[0].toUpperCase() + month.substring(1);
+    final month = DateFormat.MMMM(widget.language).format(_currentDate);
+    final capitalizedMonth = month[0].toUpperCase() + month.substring(1);;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,7 +74,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: List.generate(7, (index) {
-        final dayName = DateFormat.E()
+        final dayName = DateFormat.E(widget.language)
             .format(
               DateTime(2024, 1, index + 1),
             )
