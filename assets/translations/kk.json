@@ -188,6 +188,9 @@
     "error_loading_slots": "Қате орын алды",
     "try_again": "Қайтадан көру",
     "consultationBookingSuccess": "Кеңеске жазылу сәтті өтті",
-    "consultationBookingError": "Кеңеске жазылу кезінде қате орын алды"
-  
+    "consultationBookingError": "Кеңеске жазылу кезінде қате орын алды",
+    "leaveComment": "Пікір қалдырыңыз...",
+    "feedComments": "Пікірлер",
+    "deleteAccount": "Аккаунтты жою",
+    "savedSuccessfully": "Өзгерістер сақталды"
 }

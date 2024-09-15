@@ -186,5 +186,9 @@
     "error_loading_slots": "Произошла ошибка",
     "try_again": "Попробовать заново",
     "consultationBookingSuccess": "Вы успешно записались на консультацию",
-    "consultationBookingError": "Произошла ошибка при записи на консультацию"
+    "consultationBookingError": "Произошла ошибка при записи на консультацию",
+    "leaveComment": "Оставить комментарий...",
+    "feedComments": "Комментарии",
+    "deleteAccount": "Удалить аккаунт",
+    "savedSuccessfully": "Изменения сохранены"
 }

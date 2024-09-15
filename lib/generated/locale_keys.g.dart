@@ -181,4 +181,8 @@ abstract class LocaleKeys {
   static const try_again = 'try_again';
   static const consultationBookingSuccess = 'consultationBookingSuccess';
   static const consultationBookingError = 'consultationBookingError';
+  static const leaveComment = 'leaveComment';
+  static const feedComments = 'feedComments';
+  static const deleteAccount = 'deleteAccount';
+  static const savedSuccessfully = "savedSuccessfully";
 }

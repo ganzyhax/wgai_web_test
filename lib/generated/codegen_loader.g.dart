@@ -194,7 +194,11 @@ class CodegenLoader extends AssetLoader {
     "error_loading_slots": "Қате орын алды",
     "try_again": "Қайтадан көру",
     "consultationBookingSuccess": "Кеңеске жазылу сәтті өтті",
-    "consultationBookingError": "Кеңеске жазылу кезінде қате орын алды"
+    "consultationBookingError": "Кеңеске жазылу кезінде қате орын алды",
+    "leaveComment": "Пікір қалдырыңыз...",
+    "feedComments": "Пікірлер",
+    "deleteAccount": "Аккаунтты жою",
+    "savedSuccessfully": "Өзгерістер сақталды"
   };
   static const Map<String, dynamic> ru = {
     "hello": "Privet",
@@ -376,7 +380,11 @@ class CodegenLoader extends AssetLoader {
     "error_loading_slots": "Произошла ошибка",
     "try_again": "Попробовать заново",
     "consultationBookingSuccess": "Вы успешно записались на консультацию",
-    "consultationBookingError": "Произошла ошибка при записи на консультацию"
+    "consultationBookingError": "Произошла ошибка при записи на консультацию",
+    "leaveComment": "Оставить комментарий...",
+    "feedComments": "Комментарии",
+    "deleteAccount": "Удалить аккаунт",
+    "savedSuccessfully": "Изменения сохранены"
   };
   static const Map<String, dynamic> en = {
     "hello": "Hello",
@@ -388,7 +396,11 @@ class CodegenLoader extends AssetLoader {
     "personalGrowthResultsButton" : "Result",
     "personalGrowthDescription": "\"Жеке Даму\" бағдарламасы\nСізге мамандық таңдауға, өз мықты жақтарыңызды анықтауға және табысты өмір үшін қажетті дағдылар туралы білуге көмектеседі.",
     "error_loading_slots": "Қате орын алды",
-    "try_again": "Қайтадан көру"
+    "try_again": "Қайтадан көру",
+    "leaveComment": "Оставить комментарий...",
+    "feedComments": "Комментарии",
+    "deleteAccount": "Удалить аккаунт",
+    "savedSuccessfully": "Изменения сохранены"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }
