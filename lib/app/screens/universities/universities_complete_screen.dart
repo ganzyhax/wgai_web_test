@@ -21,18 +21,15 @@ class UniversitiesCompleteScreen extends StatefulWidget {
   const UniversitiesCompleteScreen({super.key, required this.universityId});
 
   @override
-  State<UniversitiesCompleteScreen> createState() =>
-      _UniversitiesCompleteScreenState();
+  State<UniversitiesCompleteScreen> createState() => _UniversitiesCompleteScreenState();
 }
 
-class _UniversitiesCompleteScreenState
-    extends State<UniversitiesCompleteScreen> {
+class _UniversitiesCompleteScreenState extends State<UniversitiesCompleteScreen> {
   late bool isBookmarked;
 
   @override
   void initState() {
-    isBookmarked = BookmarkData()
-        .containsItem(AppHiveConstants.kzUniversities, widget.universityId);
+    isBookmarked = BookmarkData().containsItem(AppHiveConstants.kzUniversities, widget.universityId);
     log(isBookmarked.toString());
     super.initState();
 
@@ -41,11 +38,9 @@ class _UniversitiesCompleteScreenState
 
   void toggleBookmark() async {
     if (!isBookmarked) {
-      await BookmarkData().addItem(AppHiveConstants.kzUniversities,
-          {'id': widget.universityId, 'data': widget.universityId});
+      await BookmarkData().addItem(AppHiveConstants.kzUniversities, {'id': widget.universityId, 'data': widget.universityId});
     } else {
-      await BookmarkData()
-          .removeItem(AppHiveConstants.kzUniversities, widget.universityId);
+      await BookmarkData().removeItem(AppHiveConstants.kzUniversities, widget.universityId);
     }
     setState(() {
       isBookmarked = !isBookmarked;
@@ -56,16 +51,15 @@ class _UniversitiesCompleteScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ВУЗ'),
+        title: const Text('ВУЗ'),
         actions: [
           IconButton(
             onPressed: () {
               toggleBookmark();
               print('Id: ${widget.universityId}');
             },
-            icon: isBookmarked
-                ? SvgPicture.asset('assets/icons/bookmark.svg')
-                : SvgPicture.asset('assets/icons/bookmark-open.svg'),
+            icon:
+                isBookmarked ? SvgPicture.asset('assets/icons/bookmark.svg') : SvgPicture.asset('assets/icons/bookmark-open.svg'),
           ),
         ],
       ),
@@ -91,34 +85,25 @@ class _UniversitiesCompleteScreenState
                       UniComplete(
                         icon: PhosphorIconsRegular.bank,
                         code: university.code ?? '',
-                        title:
-                            university.name?.getLocalizedString(context) ?? '',
-                        description: university.description
-                                ?.getLocalizedString(context) ??
-                            '',
+                        title: university.name?.getLocalizedString(context) ?? '',
+                        description: university.description?.getLocalizedString(context) ?? '',
                         hasDormitory: university.hasDormitory ?? false,
                         hasMilitaryDept: university.hasMilitaryDept ?? false,
-                        type:
-                            university.type?.getLocalizedString(context) ?? '',
+                        type: university.type?.getLocalizedString(context) ?? '',
                         isUnivesity: true,
                       ),
                       const SizedBox(height: 16),
                       UniSocialContainer(
                           titleAddress: "Адрес:",
-                          address:
-                              university.address?.getLocalizedString(context) ??
-                                  '',
+                          address: university.address?.getLocalizedString(context) ?? '',
                           titleContacts: "Контакты:",
                           contacts: university.phoneNumbers ?? [],
                           titleSocial: "Соц. сеть:",
-                          socialMedia: university.socialMedia
-                                  ?.map((social) => {'link': social.link ?? ''})
-                                  .toList() ??
-                              [],
+                          socialMedia: university.socialMedia?.map((social) => {'link': social.link ?? ''}).toList() ?? [],
                           titleSite: "Сайт:",
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         'Cпециальности',
                         style: AppTextStyle.heading3,
                       ),
@@ -131,48 +116,30 @@ class _UniversitiesCompleteScreenState
                             );
                           } else if (state is SpecialitiesLoaded) {
                             return Column(
-                              children:
-                                  university.specialties?.map((specialty) {
-                                        final spec =
-                                            state.specialResources?.firstWhere(
-                                          (spec) => spec.code == specialty.code,
-                                          orElse: () =>
-                                              Specialties(code: specialty.code),
-                                        );
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8),
-                                          child: UniSpecialContainer(
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SpecialitiesCompleteScreen(
-                                                              speciesId: specialty
-                                                                      .code ??
-                                                                  '')),
-                                                );
-                                              },
-                                              codeNumber: specialty.code ?? '',
-                                              title: spec?.name
-                                                      ?.getLocalizedString(
-                                                          context) ??
-                                                  '',
-                                              subject: spec
-                                                      ?.profileSubjects?[0].name
-                                                      ?.getLocalizedString(
-                                                          context) ??
-                                                  '',
-                                              grantScore: spec?.grants?.general
-                                                      ?.grantScores?[0].max ??
-                                                  0,
-                                              paidScore: spec?.grants?.general
-                                                      ?.grantScores?[0].max ??
-                                                  0),
-                                        );
-                                      }).toList() ??
-                                      [],
+                              children: university.specialties?.map((specialty) {
+                                    final spec = state.specialResources?.firstWhere(
+                                      (spec) => spec.code == specialty.code,
+                                      orElse: () => Specialties(code: specialty.code),
+                                    );
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(vertical: 8),
+                                      child: UniSpecialContainer(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      SpecialitiesCompleteScreen(speciesId: specialty.code ?? '')),
+                                            );
+                                          },
+                                          codeNumber: specialty.code ?? '',
+                                          title: spec?.name?.getLocalizedString(context) ?? '',
+                                          subject: spec?.profileSubjects?[0].name?.getLocalizedString(context) ?? '',
+                                          grantScore: spec?.grants?.general?.grantScores?[0].max ?? 0,
+                                          paidScore: spec?.grants?.general?.grantScores?[0].max ?? 0),
+                                    );
+                                  }).toList() ??
+                                  [],
                             );
                           } else if (state is SpecialitiesError) {
                             return Center(child: Text(state.message));

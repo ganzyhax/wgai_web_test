@@ -21,6 +21,12 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
   List<String> activeFilters = [];
 
   @override
+  void initState() {
+    super.initState();
+    context.read<UniversitiesBloc>().add(LoadUniversities());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -41,7 +47,6 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ListView(
           children: [
-            // Header and filter button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -55,12 +60,14 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
+                        final universityCode = '';
                         return FilterBottomSheet(
                           onFilterApplied: (filters) {
                             setState(() {
                               activeFilters = filters;
                             });
                           },
+                          universityCode: universityCode,
                         );
                       },
                     );
@@ -70,10 +77,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               ],
             ),
             const SizedBox(height: 12),
-            // Active Filters Section
             _buildActiveFilters(),
             const SizedBox(height: 12),
-            // Universities List Section
             BlocBuilder<UniversitiesBloc, UniversitiesState>(
               builder: (context, state) {
                 if (state is UniversitiesLoading) {
