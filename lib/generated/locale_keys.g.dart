@@ -188,4 +188,5 @@ abstract class LocaleKeys {
   static const recommended_professions_storage = "recommended_professions_storage";
   static const chooseProfileSubjects = "chooseProfileSubjects";
   static const pleaseChooseProfileSubjects = "pleaseChooseProfileSubjects";
+  static const languages = "languages";
 }

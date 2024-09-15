@@ -30,7 +30,7 @@ class CodegenLoader extends AssetLoader {
     "enter": "Кіру",
     "welcome": "Қош келдіңіз!",
     "login": "Логин",
-    "phoneOrEmail": "Телефон немесе Email",
+    "phoneOrEmail": "Email",
     "password": "Құпия сөз",
     "forgotPassword": "Құпия сөзді ұмыттыңыз ба?",
     "registrationQuestion": "Тіркелу?",
@@ -201,7 +201,8 @@ class CodegenLoader extends AssetLoader {
     "savedSuccessfully": "Өзгерістер сақталды",
     "recommended_professions_storage": "Сізге ұсынылған мамандықтар тізімі осында сақталады",
     "chooseProfileSubjects": "Бейіндік пәндерді таңдау",
-    "pleaseChooseProfileSubjects": "Бейіндік пәндерді таңдаңыз"
+    "pleaseChooseProfileSubjects": "Бейіндік пәндерді таңдаңыз",
+    "languages": "Тілдер"
   };
   static const Map<String, dynamic> ru = {
     "hello": "Privet",
@@ -220,7 +221,7 @@ class CodegenLoader extends AssetLoader {
     "enter": "Вход",
     "welcome": "Добро пожаловать!",
     "login": "Логин",
-    "phoneOrEmail": "Телефон или Email",
+    "phoneOrEmail": "Email",
     "password": "Пароль",
     "forgotPassword": "Забыли пароль?",
     "registration": "Тіркелу",
@@ -390,7 +391,8 @@ class CodegenLoader extends AssetLoader {
     "savedSuccessfully": "Изменения сохранены",
     "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
     "chooseProfileSubjects": "Выбор профильных предметов",
-    "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы"
+    "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
+    "languages": "Языки"
   };
   static const Map<String, dynamic> en = {
     "hello": "Hello",
@@ -409,7 +411,8 @@ class CodegenLoader extends AssetLoader {
     "savedSuccessfully": "Изменения сохранены",
     "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
     "chooseProfileSubjects": "Выбор профильных предметов",
-    "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы"
+    "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
+    "languages": "Языки"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }

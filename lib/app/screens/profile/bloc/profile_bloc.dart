@@ -12,17 +12,26 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
     var data = [];
     var specialities;
+    var fullName = "";
     String selectedSpeciality = '';
     on<ProfileEvent>((event, emit) async {
       if (event is ProfileLoad) {
         var sss = await ApiClient.get('api/portfolio/myUniversity');
-        log(sss.toString());
+        // log(sss.toString());
         specialities = await ApiClient.get('api/resources/kazSubjects');
-        log(specialities.toString());
+        // log(specialities.toString());
+        final userProfile = await ApiClient.get('api/user');
+        if (userProfile['success']) {
+          fullName = userProfile['data']['firstName'] + " " + userProfile['data']['lastName'];
+        }
+
         emit(ProfileLoaded(
             data: data,
             specialities: specialities['data']['subjects'],
-            selectedSpeciality: selectedSpeciality));
+            selectedSpeciality: selectedSpeciality,
+            fullName: fullName
+            ),
+            );
       }
       if (event is ProfileChangeUserData) {
         var req = await ApiClient.post('api/user/updateUserProfile', {
@@ -34,7 +43,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(ProfileLoaded(
               data: data,
               specialities: specialities['data']['subjects'],
-              selectedSpeciality: selectedSpeciality));
+              selectedSpeciality: selectedSpeciality,
+              fullName: fullName
+              ));
         }
       }
       if (event is ProfileSetSpeciality) {
@@ -43,7 +54,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(ProfileLoaded(
             data: data,
             specialities: specialities['data']['subjects'],
-            selectedSpeciality: selectedSpeciality));
+            selectedSpeciality: selectedSpeciality,
+            fullName: fullName));
       }
     });
   }
