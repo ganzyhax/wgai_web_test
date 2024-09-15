@@ -6,6 +6,9 @@ import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/univ
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileUniversityScreen extends StatelessWidget {
   const ProfileUniversityScreen({super.key});
@@ -16,10 +19,22 @@ class ProfileUniversityScreen extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.background,
-        title: Text(
-          'Мои ВУЗ-ы',
-          style: AppTextStyle.titleHeading
-              .copyWith(color: AppColors.calendarTextColor),
+        title: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  LocaleKeys.my_universities_title.tr(),
+                  style: AppTextStyle.titleHeading.copyWith(
+                    color: AppColors.blackForText,
+                  ),
+                  maxLines: 2,
+                  textAlign: TextAlign.left,
+                )
+              ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
         ),
       ),
       body: BlocBuilder<ProfileBloc, ProfileState>(
@@ -31,26 +46,26 @@ class ProfileUniversityScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     ProfileStorageContainer(
-                      title: 'Мои ВУЗ-ы',
-                      buttonTitle: 'Browse universities',
-                      description: 'Здесь будут хранится ваши избранные ВУЗ-ы.',
+                      title: LocaleKeys.my_universities_title.tr(),
+                      buttonTitle: LocaleKeys.university_overview.tr(),
+                      description: LocaleKeys.universities_storage.tr(),
                       onButtonTap: () {},
                     ),
                     SizedBox(height: 16),
                     (state.selectedSpeciality != '')
                         ? UniversityKzStorageContainer(
-                            title: 'ЕНТ',
+                            title: LocaleKeys.ent.tr(),
                             mySpeciality: state.selectedSpeciality,
                           )
                         : SizedBox(),
                     SizedBox(height: 16),
                     (state.selectedSpeciality == '')
                         ? ProfileStorageContainer(
-                            title: 'ЕНТ',
+                            title: LocaleKeys.ent.tr(),
                             showLeftIcon: true,
-                            buttonTitle: 'Browse speciality',
+                            buttonTitle: LocaleKeys.professions_overview.tr(),
                             description:
-                                'Здесь будут хранится ваши  ВУЗ-ы для поступления по ЕНТ.',
+                                LocaleKeys.ent_universities_storage.tr(),
                             onButtonTap: () {
                               if (state.selectedSpeciality == '') {
                                 showModalBottomSheet(

@@ -8,6 +8,8 @@ import 'package:wg_app/app/screens/profile_growth/widgets/growth_test_card.dart'
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProfileGrowthScreen extends StatelessWidget {
   const ProfileGrowthScreen({super.key});
@@ -20,7 +22,7 @@ class ProfileGrowthScreen extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           backgroundColor: AppColors.background,
           title: Text(
-            'Личный рост',
+            LocaleKeys.personal_growth.tr(),
             style: AppTextStyle.heading2,
           ),
         ),
@@ -51,8 +53,9 @@ class ProfileGrowthScreen extends StatelessWidget {
                               ),
                               GrowthTestCard(
                                 title: 'INFJ (Itachi)',
-                                subTitle: 'Результаты MBTI тестирования',
-                              )
+                                subTitle: 'Результаты MBTI тестирования ',
+                                fullContent: 'Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования',
+                              ),
                             ],
                           )),
                     ],

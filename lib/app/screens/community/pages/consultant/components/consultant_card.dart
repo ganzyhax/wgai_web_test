@@ -244,7 +244,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
   }
 
   answerWidget(String answer, bool isText, String time) {
-    String formattedTime = HelperFunctions().timeAgo(time);
+    String formattedTime = HelperFunctions().timeAgo(time, widget.localLang);
     return Column(
       children: [
         Container(

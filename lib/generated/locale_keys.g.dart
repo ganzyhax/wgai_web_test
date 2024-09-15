@@ -185,4 +185,7 @@ abstract class LocaleKeys {
   static const feedComments = 'feedComments';
   static const deleteAccount = 'deleteAccount';
   static const savedSuccessfully = "savedSuccessfully";
+  static const recommended_professions_storage = "recommended_professions_storage";
+  static const chooseProfileSubjects = "chooseProfileSubjects";
+  static const pleaseChooseProfileSubjects = "pleaseChooseProfileSubjects";
 }

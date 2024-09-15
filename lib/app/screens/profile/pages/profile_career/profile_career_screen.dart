@@ -32,12 +32,12 @@ class ProfileCareerScreen extends StatelessWidget {
             (data.length == 0)
                 ? ProfileStorageContainer(
                     title: LocaleKeys.my_professions.tr(),
-                    buttonTitle: 'Browse careers'.tr(),
+                    buttonTitle: LocaleKeys.professions_overview.tr(),
                     isMyCareer: true,
                     showLeftIcon: true,
                     showRightIcon: true,
                     description:
-                        'Здесь будут хранится ваши избранные профессии.'.tr(),
+                        LocaleKeys.my_professions_storage.tr(),
                     onButtonTap: () {
                       Navigator.push(
                         context,
@@ -51,34 +51,22 @@ class ProfileCareerScreen extends StatelessWidget {
             SizedBox(
               height: 15,
             ),
-
             ProfileStorageContainer(
-              title: 'Рек. профессии'.tr(),
-              buttonTitle: 'Browse careers'.tr(),
+              title: LocaleKeys.recommended_profession_name.tr(),
+              buttonTitle: LocaleKeys.view_all.tr(),
               isMyCareer: true,
               showLeftIcon: true,
               showRightIcon: true,
               description:
-                  'Здесь будут хранится ваши избранные профессии.'.tr(),
+                  LocaleKeys.recommended_professions_storage.tr(),
+                  // 'asdas',
               onButtonTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AtlasScreen()),
                 );
               },
-            )
-            // ProfileStorageContainer(
-            //   title: 'Мои профессии'.tr(),
-            //   showLeftIcon: true,
-            //   isMyCareer: true,
-            //   showRightIcon: true,
-            //   buttonTitle: 'Browse universities'.tr(),
-            //   description:
-            //       'Здесь будут хранится ваши избранные профессии.'.tr(),
-            //   onButtonTap: () {
-            //     print('tapped my prof 2');
-            //   },
-            // ),
+            ),
           ],
         ),
       ),
