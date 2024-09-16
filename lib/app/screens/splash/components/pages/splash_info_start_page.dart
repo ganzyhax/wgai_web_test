@@ -3,6 +3,8 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/screens/login/login_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SplashStartScreen extends StatelessWidget {
   const SplashStartScreen({super.key});
@@ -28,7 +30,7 @@ class SplashStartScreen extends StatelessWidget {
                       child: Align(
                         alignment: Alignment.topCenter,
                         heightFactor:
-                            0.7, // This will cut the image vertically by 20%
+                            0.5, // This will cut the image vertically by 20%
                         child: Image.asset(
                           'assets/images/splash_phone.png',
                         ),
@@ -69,7 +71,7 @@ class SplashStartScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          'Chat and Get Guided',
+                          LocaleKeys.advice.tr(),
                           textAlign: TextAlign.center,
                           style: AppTextStyle.heading1,
                         ),
@@ -80,7 +82,7 @@ class SplashStartScreen extends StatelessWidget {
                       Center(
                         child: Text(
                           textAlign: TextAlign.center,
-                          'Your personal AI for university admission and career guidance',
+                          LocaleKeys.personalAI.tr(),
                           style:
                               TextStyle(color: Colors.grey[400], fontSize: 16),
                         ),
@@ -93,7 +95,7 @@ class SplashStartScreen extends StatelessWidget {
                 height: 80,
               ),
               CustomButton(
-                text: 'Start',
+                text: LocaleKeys.start.tr(),
                 onTap: () {
                   Navigator.push(
                     context,

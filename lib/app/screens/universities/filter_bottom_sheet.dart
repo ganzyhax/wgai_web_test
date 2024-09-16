@@ -11,7 +11,13 @@ import 'package:wg_app/constants/app_text_style.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final Function(List<String>) onFilterApplied;
-  const FilterBottomSheet({super.key, required this.onFilterApplied});
+  final String universityCode;
+
+  const FilterBottomSheet({
+    super.key,
+    required this.onFilterApplied,
+    required this.universityCode,
+  });
 
   @override
   State<FilterBottomSheet> createState() => _FilterBottomSheetState();
@@ -47,15 +53,18 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   }
 
   Widget _buildFilterContent(BuildContext context, List<Universities>? universities) {
+    print('Building Filter Content');
     List<String> regions =
         universities?.where((u) => u.regionName != null).map((u) => u.regionName!.getLocalizedString(context)).toSet().toList() ??
             [];
-
     List<String> specialties = universities
             ?.expand((u) => (u.specialties ?? []).where((s) => s.name != null).map((s) => s.name!.getLocalizedString(context)))
             .toSet()
             .toList() ??
         [];
+
+    print('Regions: $regions');
+    print('Specialties: $specialties');
 
     return Container(
       padding: const EdgeInsets.only(left: 16, right: 16, top: 20, bottom: 66),
@@ -70,9 +79,16 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             });
           }),
           const SizedBox(height: 16),
-          _buildFilterOption(context, 'Специальности', 'choose'.tr(), specialties, (specialty) {
+          _buildFilterOption(
+              context,
+              'Специальности',
+              selectedSpecialites != null && selectedSpecialites!.isNotEmpty
+                  ? selectedSpecialites!.map((s) => s.name?.getLocalizedString(context)).join(', ')
+                  : 'choose'.tr(),
+              specialties, (specialty) {
             setState(() {
-              selectedSpecialites = [SpecialtiesUni(name: Name(specialty))];
+              print(specialty.toString());
+              selectedSpecialites = [SpecialtiesUni(name: Name(specialty.toString()))];
             });
           }),
           const SizedBox(height: 16),
@@ -115,6 +131,7 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
               widget.onFilterApplied(appliedFilters);
 
               context.read<UniversitiesBloc>().add(LoadbyFilters(
+                    universityCode: widget.universityCode,
                     regionId: selectedRegion ?? '',
                     specialities: selectedSpecialites,
                     hasDormitory: isDormitorySwitchOn,
@@ -163,8 +180,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     List<dynamic> options,
     Function(String) onOptionSelected,
   ) {
-    List<String> selectedOptions = [];
-
     return Row(
       children: [
         Text(
@@ -183,18 +198,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       ],
     );
   }
-
-  // options
-  //             .map(
-  //               (option) => ListTile(
-  //                 title: Text(option),
-  //                 onTap: () {
-  //                   onOptionSelected(option);
-  //                   Navigator.pop(context);
-  //                 },
-  //               ),
-  //             )
-  //             .toList(),
 
   Widget _buildToggleOption(
     BuildContext context,

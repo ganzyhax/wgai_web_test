@@ -49,7 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: MediaQuery.of(context).size.height / 4,
                     ),
                     Text(
-                      'Вход',
+                      LocaleKeys.enter.tr(),
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       height: 15,
                     ),
                     Text(
-                      'Добро пожаловать!',
+                      LocaleKeys.welcome.tr(),
                       style: TextStyle(fontSize: 16, color: Colors.black87),
                     ),
                     Padding(
@@ -77,6 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           CustomTextField(
                               isEmail: true,
                               hintText: LocaleKeys.phoneOrEmail.tr(),
+                              // hintText: '',
                               controller: login),
                           SizedBox(
                             height: 15,

@@ -7,6 +7,10 @@ import 'package:wg_app/app/screens/community/pages/news/components/news_comment_
 import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+
+
 
 class NewsCard extends StatefulWidget {
   final data;
@@ -28,7 +32,7 @@ class _NewsCardState extends State<NewsCard> {
     String truncatedContent =
         content.length > 60 ? content.substring(0, 60) + '...' : content;
     bool isContentLong = content.length > 60;
-    String formattedData = HelperFunctions().timeAgo(widget.data['updatedAt']);
+    String formattedData = HelperFunctions().timeAgo(widget.data['createdAt'], widget.localLang);
     return GestureDetector(
       onTap: isContentLong
           ? () {
@@ -132,7 +136,7 @@ class _NewsCardState extends State<NewsCard> {
             ),
             if (_isExpanded)
               CustomButton(
-                text: 'Коментарии' +
+                text: LocaleKeys.feedComments.tr() +
                     ' (' +
                     widget.data['commentCounter'].toString() +
                     ')',
@@ -152,6 +156,7 @@ class _NewsCardState extends State<NewsCard> {
                         value: BlocProvider.of<NewsBloc>(context),
                         child: NewsBottomModal(
                           postId: widget.data['_id'],
+                          localLang: widget.localLang,
                         ),
                       );
                     },
@@ -187,6 +192,7 @@ class _NewsCardState extends State<NewsCard> {
                                 context), // Reuse the same Bloc
                             child: NewsBottomModal(
                               postId: widget.data['_id'],
+                              localLang: widget.localLang,
                             ),
                           );
                         },

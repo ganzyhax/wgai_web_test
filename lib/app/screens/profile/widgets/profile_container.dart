@@ -55,7 +55,7 @@ class ProfileContainer extends StatelessWidget {
               text,
               style: AppTextStyle.heading2.copyWith(
                 color: AppColors.blackForText,
-                fontSize: 20,
+                fontSize: 16,
                 fontWeight: FontWeight.w700,
                 height: 24 / 20,
               ),

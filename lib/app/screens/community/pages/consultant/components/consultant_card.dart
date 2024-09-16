@@ -16,6 +16,8 @@ class ConsultantCard extends StatefulWidget {
   final data;
   final String localLang;
 
+  // Add author data and fix the language issue
+
   const ConsultantCard(
       {super.key, required this.data, required this.localLang});
 
@@ -111,7 +113,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
           },
         );
       case 'psytest':
-        return _buildPsyTestWidget();
+        return _buildQuestionnaireWidget();
       case 'questionnaire':
         return _buildQuestionnaireWidget();
       case 'announcement':
@@ -242,7 +244,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
   }
 
   answerWidget(String answer, bool isText, String time) {
-    String formattedTime = HelperFunctions().timeAgo(time);
+    String formattedTime = HelperFunctions().timeAgo(time, widget.localLang);
     return Column(
       children: [
         Container(

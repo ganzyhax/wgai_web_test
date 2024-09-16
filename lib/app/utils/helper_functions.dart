@@ -1,3 +1,4 @@
+
 class HelperFunctions {
   String getDayWord(int days) {
     if (days % 10 == 1 && days % 100 != 11) return 'день';
@@ -20,7 +21,15 @@ class HelperFunctions {
     return 'минут';
   }
 
-  String timeAgo(String dateString) {
+  String timeAgo(String dateString, String language) {
+    if (language == 'kk') {
+      return timeAgoKk(dateString);
+    }
+    return timeAgoRu(dateString);
+  }
+
+
+  String timeAgoRu(String dateString) {
     DateTime now = DateTime.now();
     DateTime dateTime = DateTime.parse(dateString);
     Duration difference = now.difference(dateTime);
@@ -33,6 +42,22 @@ class HelperFunctions {
       return '${difference.inMinutes} ${getMinuteWord(difference.inMinutes)} назад';
     } else {
       return 'только что';
+    }
+  }
+
+  String timeAgoKk(String dateString) {
+    DateTime now = DateTime.now();
+    DateTime dateTime = DateTime.parse(dateString);
+    Duration difference = now.difference(dateTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays} күн бұрын';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours} сағат бұрын';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes} минут бұрын';
+    } else {
+      return 'жаңа ғана';
     }
   }
 }

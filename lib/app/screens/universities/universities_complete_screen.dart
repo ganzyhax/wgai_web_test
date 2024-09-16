@@ -46,10 +46,8 @@ class _UniversitiesCompleteScreenState
 
   void toggleBookmark() async {
     if (!isBookmarked) {
-      await BookmarkData().addItem(AppHiveConstants.kzUniversities, {
-        'id': widget.universityId,
-        'data': {''}
-      });
+      await BookmarkData().addItem(AppHiveConstants.kzUniversities,
+          {'id': widget.universityId, 'data': widget.universityId});
     } else {
       await BookmarkData()
           .removeItem(AppHiveConstants.kzUniversities, widget.universityId);
@@ -64,7 +62,7 @@ class _UniversitiesCompleteScreenState
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('ВУЗ'),
+        title: const Text('ВУЗ'),
         actions: [
           IconButton(
             onPressed: () {
@@ -126,7 +124,7 @@ class _UniversitiesCompleteScreenState
                           titleSite: "Сайт:",
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         'Cпециальности',
                         style: AppTextStyle.heading3,
                       ),

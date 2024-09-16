@@ -65,9 +65,9 @@ abstract class LocaleKeys {
   static const teacher = 'teacher';
   static const select_data = 'select_data';
   static const select_slot = 'select_slot';
-  static const choose_topic_consulation = 'choose_topic_consulation';
+  static const choose_topic_consultation = 'choose_topic_consultation';
   static const choose_topic = 'choose_topic';
-  static const sign_up_consulation = 'sign_up_consulation';
+  static const sign_up_consultation = 'sign_up_consultation';
   static const select_topic_advice = 'select_topic_advice';
   static const request_sent = 'request_sent';
   static const teacher_confirmation = 'teacher_confirmation';
@@ -177,4 +177,16 @@ abstract class LocaleKeys {
   static const no = 'no';
   static const personalGrowthResultsButton = 'personalGrowthResultsButton';
   static const personalGrowthDescription = 'personalGrowthDescription';
+  static const error_loading_slots = 'error_loading_slots';
+  static const try_again = 'try_again';
+  static const consultationBookingSuccess = 'consultationBookingSuccess';
+  static const consultationBookingError = 'consultationBookingError';
+  static const leaveComment = 'leaveComment';
+  static const feedComments = 'feedComments';
+  static const deleteAccount = 'deleteAccount';
+  static const savedSuccessfully = "savedSuccessfully";
+  static const recommended_professions_storage = "recommended_professions_storage";
+  static const chooseProfileSubjects = "chooseProfileSubjects";
+  static const pleaseChooseProfileSubjects = "pleaseChooseProfileSubjects";
+  static const languages = "languages";
 }

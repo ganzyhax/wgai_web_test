@@ -8,7 +8,7 @@ import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
-import 'package:wg_app/app/screens/consulation_request/bloc/consulation_request_bloc.dart';
+import 'package:wg_app/app/screens/consultation_request/bloc/consultation_request_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
@@ -56,7 +56,7 @@ class WeGlobalApp extends StatelessWidget {
             create: (context) => QuestionnaireBloc(),
           ),
           BlocProvider(
-            create: (context) => ConsulationRequestBloc()..add(ConsulationLoad()),
+            create: (context) => ConsultationRequestBloc(),
           ),
           BlocProvider(
             create: (context) => UniversitiesBloc()..add(LoadUniversities()),
@@ -72,9 +72,6 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AtlasBloc()..add(LoadAtlas()),
-          ),
-          BlocProvider(
-            create: (context) => ConsulationRequestBloc()..add(ConsulationLoad()),
           ),
           BlocProvider(
             create: (context) => ProfileGrowthBloc()..add(ProfileGrowthLoad()),

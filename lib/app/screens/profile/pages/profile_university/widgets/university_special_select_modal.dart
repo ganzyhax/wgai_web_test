@@ -5,6 +5,8 @@ import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UniversitySpecialSelectModal extends StatelessWidget {
   const UniversitySpecialSelectModal({super.key});
@@ -32,7 +34,7 @@ class UniversitySpecialSelectModal extends StatelessWidget {
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.2,
                             child: Text(
-                              'Выбор профильных предметов',
+                              LocaleKeys.chooseProfileSubjects.tr(),
                               style: AppTextStyle.heading1,
                             ),
                           ),
@@ -43,7 +45,7 @@ class UniversitySpecialSelectModal extends StatelessWidget {
                         height: 15,
                       ),
                       Text(
-                        'Пожалуйста выберите ваши профильные предметы',
+                        LocaleKeys.pleaseChooseProfileSubjects.tr(),
                         style: AppTextStyle.bodyText,
                       ),
                       SizedBox(
@@ -90,7 +92,7 @@ class UniversitySpecialSelectModal extends StatelessWidget {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width / 1.2,
                       child: CustomButton(
-                        text: 'Выбрать',
+                        text: LocaleKeys.choose.tr(),
                         onTap: () {
                           Navigator.pop(context);
                         },

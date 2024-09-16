@@ -7,6 +7,7 @@ import 'package:wg_app/app/screens/splash/components/splash_button.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class SplashChooseLanguagePage extends StatefulWidget {
   const SplashChooseLanguagePage({super.key});
@@ -34,7 +35,7 @@ class _SplashChooseLanguagePageState extends State<SplashChooseLanguagePage> {
                     height: MediaQuery.of(context).size.height / 5.5,
                   ),
                   Text(
-                    'Выберите язык',
+                    LocaleKeys.chooseLanguage.tr(),
                     style: TextStyle(
                         fontSize: 24,
                         color: Colors.black,
@@ -44,21 +45,33 @@ class _SplashChooseLanguagePageState extends State<SplashChooseLanguagePage> {
                     height: 5,
                   ),
                   Text(
-                    'Вы сможете поменять язык в любое время',
+                    LocaleKeys.changeLanguage.tr(),
                     style: TextStyle(color: Colors.grey[500], fontSize: 17),
                   ),
                   SizedBox(
                     height: 35,
                   ),
+                  // SpashButton(
+                  //     onTap: () {
+                  //       choosedIndex = 0;
+                  //       setState(() {});
+                  //     },
+                  //     isSelected: (choosedIndex == 0) ? true : false,
+                  //     title: 'English',
+                  //     asset: 'assets/images/us-flag.png'),
+                  // SizedBox(
+                  //   height: 11,
+                  // ),
+
                   SpashButton(
                       onTap: () {
-                        choosedIndex = 0;
+                        choosedIndex = 2;
                         setState(() {});
                       },
-                      isSelected: (choosedIndex == 0) ? true : false,
-                      title: 'English',
-                      asset: 'assets/images/us-flag.png'),
-                  SizedBox(
+                      isSelected: (choosedIndex == 2) ? true : false,
+                      title: 'Қазақша',
+                      asset: 'assets/images/kz-flag.png'),
+                SizedBox(
                     height: 11,
                   ),
                   SpashButton(
@@ -69,17 +82,7 @@ class _SplashChooseLanguagePageState extends State<SplashChooseLanguagePage> {
                       isSelected: (choosedIndex == 1) ? true : false,
                       title: 'Русский',
                       asset: 'assets/images/ru-flag.png'),
-                  SizedBox(
-                    height: 11,
-                  ),
-                  SpashButton(
-                      onTap: () {
-                        choosedIndex = 2;
-                        setState(() {});
-                      },
-                      isSelected: (choosedIndex == 2) ? true : false,
-                      title: 'Қазақша',
-                      asset: 'assets/images/kz-flag.png'),
+                  
                 ],
               ),
               (choosedIndex == -1)
@@ -90,7 +93,7 @@ class _SplashChooseLanguagePageState extends State<SplashChooseLanguagePage> {
                           height: MediaQuery.of(context).size.height / 10,
                         ),
                         CustomButton(
-                          text: 'Начать',
+                          text: LocaleKeys.start.tr(),
                           onTap: () async {
                             if (choosedIndex == 0) {
                               await LocalUtils.setLanguage('en');
