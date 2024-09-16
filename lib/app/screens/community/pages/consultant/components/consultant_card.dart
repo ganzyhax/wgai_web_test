@@ -32,7 +32,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
 
   @override
   Widget build(BuildContext context) {
-    String content = widget.data['message'][widget.localLang];
+    String content = widget.data?['message']?[widget.localLang] ?? "";
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       width: MediaQuery.of(context).size.width,

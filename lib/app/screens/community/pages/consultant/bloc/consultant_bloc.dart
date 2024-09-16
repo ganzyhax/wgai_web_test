@@ -20,12 +20,13 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
         localLang = await LocalUtils.getLanguage();
         userId = await LocalUtils.getUserId();
         counselorData = await ApiClient.get('api/counselorTasks/');
-        for (var counselor in counselorData['data']['counselorTasks']) {
-          var getAuthor =
-              await ApiClient.get('api/user/profile/' + counselor['author']);
+        // for (var counselor in counselorData['data']['counselorTasks']) {
+        //   var getAuthor = await ApiClient.get('api/user/profile/' + counselor['author']);
+        //   if (getAuthor['success']) {}
+        // }
+        print(counselorData['data']['counselorTasks']);
 
-          if (getAuthor['success']) {}
-        }
+        print(counselorData['data']['counselorTasks'].length);
         if (counselorData['success']) {
           emit(ConsultantLoaded(
             localLang: localLang,
