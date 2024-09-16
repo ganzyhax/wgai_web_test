@@ -16,18 +16,26 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
     String userId;
     on<ConsultantEvent>((event, emit) async {
       if (event is ConsultantLoad) {
-        print("Loading consultant screen");
         localLang = await LocalUtils.getLanguage();
         userId = await LocalUtils.getUserId();
         counselorData = await ApiClient.get('api/counselorTasks/');
-        // for (var counselor in counselorData['data']['counselorTasks']) {
-        //   var getAuthor = await ApiClient.get('api/user/profile/' + counselor['author']);
-        //   if (getAuthor['success']) {}
-        // }
-        print(counselorData['data']['counselorTasks']);
-
-        print(counselorData['data']['counselorTasks'].length);
         if (counselorData['success']) {
+          List<Future> authorInfoFutures = [];
+          counselorData['data']['counselorTasks'].asMap().forEach((index, counselor) {
+            var future = ApiClient.get('api/user/profile/' + counselor['authorId']).then((authorInfo) {
+              if (authorInfo['success']) {
+                final firstName = authorInfo['data']['user']?['firstName'] ?? "";
+                final lastName = authorInfo['data']['user']?['lastName'] ?? "";
+                counselorData['data']['counselorTasks'][index]["authorName"] = "$firstName $lastName";
+              } else {
+                counselorData['data']['counselorTasks'][index]["authorName"] = "";
+              }
+            });
+            authorInfoFutures.add(future);
+          });
+          // Wait for all futures to complete
+          await Future.wait(authorInfoFutures);
+          // Now that all author info has been fetched, emit the event
           emit(ConsultantLoaded(
             localLang: localLang,
             counselorData: counselorData['data']['counselorTasks'],
@@ -54,7 +62,6 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
             add(ConsultantUpdateStatus(
                 taskId: event.taskId, status: 'complete'));
           }
-
           add(ConsultantLoad());
         }
       }

@@ -49,7 +49,23 @@ class ProfileSettingsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset('assets/images/profile-dummy.png'),
+              Container(
+                width: 50,
+                height: 50,
+                child: Image.asset(
+                  'assets/images/avatar_image.png',
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, error, stackTrace) {
+                    print('Error loading image: $error');
+                    return Container(
+                      width: 96,
+                      height: 96,
+                      color: Colors.grey,
+                      child: Icon(Icons.error),
+                    );
+                  },
+                ),
+              ),
               const SizedBox(height: 16),
               // SizedBox(
               //   width: MediaQuery.of(context).size.width / 2,

@@ -9,14 +9,17 @@ import 'package:wg_app/app/screens/psytest/screens/test_screen.dart';
 import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
+import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class ConsultantCard extends StatefulWidget {
   final data;
   final String localLang;
-
-  // Add author data and fix the language issue
 
   const ConsultantCard(
       {super.key, required this.data, required this.localLang});
@@ -33,6 +36,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
   @override
   Widget build(BuildContext context) {
     String content = widget.data?['message']?[widget.localLang] ?? "";
+    // String authorName = widget.data?['message']?[widget.localLang] ?? "";
     return Container(
       margin: EdgeInsets.only(bottom: 8),
       width: MediaQuery.of(context).size.width,
@@ -57,20 +61,37 @@ class _ConsultantCardState extends State<ConsultantCard> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(25.0),
-          child: Image.network(
-            fit: BoxFit.cover,
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGK3diR3Zi-mnOXEaj-3ewmFyRYVxGzVzZw&s',
-            height: 50.0,
-            width: 50.0,
-          ),
+          // child: Image.network( 
+          //   fit: BoxFit.cover,  
+          //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGK3diR3Zi-mnOXEaj-3ewmFyRYVxGzVzZw&s',
+          //   height: 50.0,       
+          //   width: 50.0,        
+          // ),                    
+          child: Container(
+            width: 50,
+            height: 50,
+            child: Image.asset(
+              'assets/images/avatar_image.png',
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                print('Error loading image: $error');
+                return Container(
+                  width: 50,
+                  height: 50,
+                  color: Colors.grey,
+                  child: Icon(Icons.error),
+                );
+              },
+            ),
+          ),         
         ),
         SizedBox(width: 15),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Adilet Alibek',
+            Text(widget.data?['authorName'] ?? "",
                 style: TextStyle(fontWeight: FontWeight.bold)),
-            Text('5 минут назад',
+            Text(HelperFunctions().timeAgo(widget.data['createdAt'], widget.localLang),
                 style: TextStyle(
                     color: AppColors.grayForText, fontWeight: FontWeight.w500)),
           ],
@@ -104,12 +125,12 @@ class _ConsultantCardState extends State<ConsultantCard> {
         }
       case 'external-link':
         return CustomButton(
-          text: 'Перейти',
+          text: LocaleKeys.by_link.tr(),
           onTap: () {
             BlocProvider.of<ConsultantBloc>(context)
               ..add(ConsultantUpdateStatus(
                   taskId: widget.data['_id'], status: 'complete'));
-            _openExternalLink(widget.data['link']);
+            _openExternalLink(widget.data['externalLink']);
           },
         );
       case 'psytest':
@@ -128,7 +149,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
       children: [
         if (!isStarted)
           CustomButton(
-            text: 'Начать',
+            text: LocaleKeys.start.tr(),
             onTap: () {
               setState(() {
                 isStarted = true;
@@ -138,7 +159,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
             textColor: Colors.black,
           )
         else ...[
-          Text('Ваш ответ', style: TextStyle(color: Colors.grey[600])),
+          Text(LocaleKeys.your_answer.tr(), style: TextStyle(color: Colors.grey[600])),
           SizedBox(height: 5),
           Row(
             children: [
@@ -155,7 +176,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                       controller: answerController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Введите ответ',
+                          hintText: LocaleKeys.enter_answer.tr(),
                           hintStyle: TextStyle(color: Colors.grey[400])),
                     ),
                   ),
@@ -224,7 +245,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
         ),
         SizedBox(height: 10),
         CustomButton(
-          text: 'Ответить',
+          text: LocaleKeys.answer.tr(),
           onTap: selectedOption.isEmpty
               ? () {}
               : () {
@@ -253,7 +274,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Ваш ответ',
+                LocaleKeys.your_answer.tr(),
                 style: AppTextStyle.heading2,
               ),
               SizedBox(
@@ -294,7 +315,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
           height: 10,
         ),
         CustomButton(
-          text: 'Изменить',
+          text: LocaleKeys.change.tr(),
           icon: Icons.edit,
           iconColor: Colors.black,
           onTap: () {
@@ -318,7 +339,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
   Widget _buildPsyTestWidget() {
     return (widget.data['status'] == 'new')
         ? CustomButton(
-            text: 'Перейти',
+            text: LocaleKeys.start_psytest.tr(),
             onTap: () {
               BlocProvider.of<ConsultantBloc>(context)
                 ..add(ConsultantUpdateStatus(
@@ -337,7 +358,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
           )
         : (widget.data['status'] == 'incomplete')
             ? CustomButton(
-                text: 'Продолжить',
+                text: LocaleKeys.continue_button.tr(),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -352,16 +373,25 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 textColor: Colors.black,
               )
             : CustomButton(
-                text: 'Результаты',
+                text: LocaleKeys.results.tr(),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResultsScreen(
-                        sId: widget.data['_id'],
+                        builder: (context) => HtmlWebView(
+                          contentCode: widget.data['result']['interpretationLink'],
+                          isUrl: true,
+                          contentUrl: widget.data['result']['interpretationLink'],
+                          contentUrlTitle: widget.data['result']['interpretationCode'],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                    // MaterialPageRoute(
+                    //   builder: (context) => ResultsScreen(
+                    //     sId: widget.data['_id'],
+                    //   ),
+                    // ),
+                  // );
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
@@ -371,7 +401,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
   Widget _buildQuestionnaireWidget() {
     return (widget.data['status'] == 'new')
         ? CustomButton(
-            text: 'Перейти',
+            text: LocaleKeys.start_psytest.tr(),
             onTap: () {
               BlocProvider.of<ConsultantBloc>(context)
                 ..add(ConsultantUpdateStatus(
@@ -388,7 +418,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
           )
         : (widget.data['status'] == 'incomplete')
             ? CustomButton(
-                text: 'Продолжить',
+                text: LocaleKeys.continue_button.tr(),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -401,21 +431,44 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 textColor: Colors.black,
               )
             : CustomButton(
-                text: 'Результаты',
+                text: LocaleKeys.results.tr(),
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ResultsScreen(
-                        sId: widget.data['_id'],
+                        builder: (context) => HtmlWebView(
+                          contentCode: widget.data['result']['interpretationLink'],
+                          isUrl: true,
+                          contentUrl: widget.data['result']['interpretationLink'],
+                          contentUrlTitle: widget.data['result']['interpretationCode'],
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                    // MaterialPageRoute(
+                    //   builder: (context) => ResultsScreen(
+                    //     sId: widget.data['_id'],
+                    //   ),
+                    // ),
+                  // );
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
               );
   }
 
-  void _openExternalLink(String url) {}
+  Future<void> _openExternalLink(String urlString) async {
+    print(urlString);
+    final Uri url = Uri.parse(urlString);
+    try {
+      if (!await launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+      )) {
+        throw 'Could not launch $url';
+      }
+    } catch (e) {
+      print('Error launching URL: $e');
+      // Handle the error as needed, e.g., show a snackbar or dialog to the user
+    }
+  }
 }
