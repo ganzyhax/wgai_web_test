@@ -19,15 +19,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         var sss = await ApiClient.get('api/portfolio/myUniversity');
         // log(sss.toString());
         specialities = await ApiClient.get('api/resources/kazSubjects');
-<<<<<<< HEAD
-=======
         // log(specialities.toString());
         final userProfile = await ApiClient.get('api/user');
         if (userProfile['success']) {
           fullName = userProfile['data']['firstName'] + " " + userProfile['data']['lastName'];
         }
-
->>>>>>> fd1a2caa3bda7d80f4b93526392181dce1226a79
         emit(ProfileLoaded(
             data: data,
             specialities: specialities['data']['subjects'],
