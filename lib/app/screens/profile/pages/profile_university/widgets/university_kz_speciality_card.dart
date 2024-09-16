@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class UniversityKzSpecialityCard extends StatelessWidget {
@@ -28,7 +30,12 @@ class UniversityKzSpecialityCard extends StatelessWidget {
               ),
             ],
           ),
-          Icon(Icons.delete)
+          GestureDetector(
+              onTap: () {
+                BlocProvider.of<ProfileBloc>(context)
+                    .add(ProfileSetSpeciality(value: ''));
+              },
+              child: Icon(Icons.delete))
         ],
       ),
     );

@@ -71,6 +71,7 @@ class _UniversityKzStorageContainerState
                 final IconData? resolvedIcon =
                     myIconMap[data[index]['data']['areaIconCode']];
                 return UniversityKzTypeCard(
+                    mySpeciality: widget.mySpeciality,
                     type: data[index]['data']['type'],
                     universityCode: data[index]['data']['universityCode'],
                     universityName: data[index]['data']['title']);
@@ -89,7 +90,10 @@ class _UniversityKzStorageContainerState
               onTap: () async {
                 final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SpecialitiesScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => SpecialitiesScreen(
+                            specialityName: widget.mySpeciality,
+                          )),
                 );
 
                 setState(() {

@@ -189,4 +189,7 @@ abstract class LocaleKeys {
   static const chooseProfileSubjects = "chooseProfileSubjects";
   static const pleaseChooseProfileSubjects = "pleaseChooseProfileSubjects";
   static const languages = "languages";
+  static const start_psytest = "start_psytest";
+  static const continue_button = "continue_button";
+  
 }

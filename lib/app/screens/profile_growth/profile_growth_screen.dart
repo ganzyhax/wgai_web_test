@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,8 +47,11 @@ class ProfileGrowthScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               GrowthCard(
-                                resultText: 'Next getting the ... ',
-                                percentage: '40',
+                                resultText: state.data['personalGrowth']
+                                    ['nextItem'][context.locale.languageCode],
+                                percentage: state.data['personalGrowth']
+                                        ['progress']
+                                    .toString(),
                               ),
                               SizedBox(
                                 height: 15,
@@ -54,7 +59,8 @@ class ProfileGrowthScreen extends StatelessWidget {
                               GrowthTestCard(
                                 title: 'INFJ (Itachi)',
                                 subTitle: 'Результаты MBTI тестирования ',
-                                fullContent: 'Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования',
+                                fullContent:
+                                    'Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования',
                               ),
                             ],
                           )),

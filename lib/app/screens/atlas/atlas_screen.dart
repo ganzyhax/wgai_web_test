@@ -17,7 +17,8 @@ class AtlasScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Профессии', //Change
-          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         //        BlocBuilder<AtlasBloc, AtlasState>(
         //   builder: (context, state) {
@@ -45,7 +46,8 @@ class AtlasScreen extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8),
                     child: UniContainers(
-                      title: profession?.title?.getLocalizedString(context) ?? '',
+                      title:
+                          profession?.title?.getLocalizedString(context) ?? '',
                       icon: icon,
                       onTap: () {
                         if (profession != null) {

@@ -18,7 +18,9 @@ import 'package:wg_app/constants/app_text_style.dart';
 
 class UniversitiesCompleteScreen extends StatefulWidget {
   final String universityId;
-  const UniversitiesCompleteScreen({super.key, required this.universityId});
+  final bool? isChooseUniversity;
+  const UniversitiesCompleteScreen(
+      {super.key, required this.universityId, this.isChooseUniversity});
 
   @override
   State<UniversitiesCompleteScreen> createState() =>
@@ -148,15 +150,18 @@ class _UniversitiesCompleteScreenState
                                               vertical: 8),
                                           child: UniSpecialContainer(
                                               onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SpecialitiesCompleteScreen(
-                                                              speciesId: specialty
-                                                                      .code ??
-                                                                  '')),
-                                                );
+                                                if (widget.isChooseUniversity ==
+                                                    null) {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SpecialitiesCompleteScreen(
+                                                                speciesId: specialty
+                                                                        .code ??
+                                                                    '')),
+                                                  );
+                                                }
                                               },
                                               codeNumber: specialty.code ?? '',
                                               title: spec?.name

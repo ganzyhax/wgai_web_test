@@ -26,7 +26,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               " " +
               userProfile['data']['lastName'];
         }
-
         emit(
           ProfileLoaded(
               data: data,

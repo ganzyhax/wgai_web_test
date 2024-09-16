@@ -52,8 +52,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
     String localLang = await LocalUtils.getLanguage();
     try {
       if (widget.isUrl) {
-        print(widget.contentUrl);
-        await _controller.loadRequest(Uri.parse(widget.contentUrl));
+        await _controller.loadRequest(Uri.parse(widget.contentUrl+"&lang="+localLang));
         setState(() {
           htmlTitle = widget.contentUrlTitle;
           textScale = calculateTextScale(htmlTitle);

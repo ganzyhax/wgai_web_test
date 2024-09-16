@@ -20,16 +20,15 @@ class ProfileUniversityScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         title: FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  LocaleKeys.my_universities_title.tr(),
-                  style: AppTextStyle.titleHeading.copyWith(
-                    color: AppColors.blackForText,
-                  ),
-                  maxLines: 2,
-                  textAlign: TextAlign.left,
-                )
+            fit: BoxFit.scaleDown,
+            child: Text(
+              LocaleKeys.my_universities_title.tr(),
+              style: AppTextStyle.titleHeading.copyWith(
+                color: AppColors.blackForText,
               ),
+              maxLines: 2,
+              textAlign: TextAlign.left,
+            )),
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);

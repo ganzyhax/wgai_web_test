@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
@@ -9,12 +11,18 @@ import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
-class ProfileCareerScreen extends StatelessWidget {
+class ProfileCareerScreen extends StatefulWidget {
   const ProfileCareerScreen({super.key});
 
   @override
+  State<ProfileCareerScreen> createState() => _ProfileCareerScreenState();
+}
+
+class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
+  @override
   Widget build(BuildContext context) {
     var data = BookmarkData().getItems(AppHiveConstants.professions);
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -36,13 +44,13 @@ class ProfileCareerScreen extends StatelessWidget {
                     isMyCareer: true,
                     showLeftIcon: true,
                     showRightIcon: true,
-                    description:
-                        LocaleKeys.my_professions_storage.tr(),
-                    onButtonTap: () {
-                      Navigator.push(
+                    description: LocaleKeys.my_professions_storage.tr(),
+                    onButtonTap: () async {
+                      final res = await Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => AtlasScreen()),
                       );
+                      setState(() {});
                     },
                   )
                 : CareerStorageContainer(
@@ -57,14 +65,14 @@ class ProfileCareerScreen extends StatelessWidget {
               isMyCareer: true,
               showLeftIcon: true,
               showRightIcon: true,
-              description:
-                  LocaleKeys.recommended_professions_storage.tr(),
-                  // 'asdas',
-              onButtonTap: () {
-                Navigator.push(
+              description: LocaleKeys.recommended_professions_storage.tr(),
+              // 'asdas',
+              onButtonTap: () async {
+                final res = await Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => AtlasScreen()),
                 );
+                setState(() {});
               },
             ),
           ],

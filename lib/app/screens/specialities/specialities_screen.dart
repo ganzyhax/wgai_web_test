@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,7 +11,9 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class SpecialitiesScreen extends StatelessWidget {
-  const SpecialitiesScreen({super.key});
+  final String? specialityName;
+
+  SpecialitiesScreen({super.key, this.specialityName});
 
   @override
   Widget build(BuildContext context) {
@@ -85,32 +89,72 @@ class SpecialitiesScreen extends StatelessWidget {
                       itemCount: state.specialResources?.length,
                       itemBuilder: (context, index) {
                         final specialResources = state.specialResources?[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: UniContainers(
-                            codeNumber: specialResources?.code ?? '',
-                            title: specialResources?.name
-                                    ?.getLocalizedString(context) ??
-                                '',
-                            firstDescription: specialResources
-                                    ?.profileSubjects?[0].name
-                                    ?.getLocalizedString(context) ??
-                                '',
-                            secondDescription: specialResources
-                                    ?.grants?.general?.grantsTotal ??
-                                0,
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SpecialitiesCompleteScreen(
-                                            speciesId:
-                                                specialResources?.code ?? '',
-                                          )));
-                            },
-                          ),
-                        );
+                        if (specialityName == null) {
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: UniContainers(
+                              codeNumber: specialResources?.code ?? '',
+                              title: specialResources?.name
+                                      ?.getLocalizedString(context) ??
+                                  '',
+                              firstDescription: specialResources
+                                      ?.profileSubjects?[0].name
+                                      ?.getLocalizedString(context) ??
+                                  '',
+                              secondDescription: specialResources
+                                      ?.grants?.general?.grantsTotal ??
+                                  0,
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            SpecialitiesCompleteScreen(
+                                              speciesId:
+                                                  specialResources?.code ?? '',
+                                            )));
+                              },
+                            ),
+                          );
+                        } else {
+                          return (specialResources != null &&
+                                  specialResources.profileSubjects != null &&
+                                  specialResources
+                                      .profileSubjects!.isNotEmpty &&
+                                  specialityName ==
+                                      specialResources.profileSubjects![0].name
+                                          ?.getLocalizedString(context))
+                              ? Padding(
+                                  padding: const EdgeInsets.only(bottom: 8),
+                                  child: UniContainers(
+                                    codeNumber: specialResources.code ?? '',
+                                    title: specialResources.name
+                                            ?.getLocalizedString(context) ??
+                                        '',
+                                    firstDescription: specialResources
+                                            .profileSubjects![0].name
+                                            ?.getLocalizedString(context) ??
+                                        '',
+                                    secondDescription: specialResources
+                                            .grants?.general?.grantsTotal ??
+                                        0,
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SpecialitiesCompleteScreen(
+                                                  isChooseUniversity: true,
+                                                  speciesId:
+                                                      specialResources.code ??
+                                                          '',
+                                                )),
+                                      );
+                                    },
+                                  ),
+                                )
+                              : SizedBox();
+                        }
                       },
                     );
                   } else if (state is SpecialitiesError) {

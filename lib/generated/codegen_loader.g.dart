@@ -202,7 +202,9 @@ class CodegenLoader extends AssetLoader {
     "recommended_professions_storage": "Сізге ұсынылған мамандықтар тізімі осында сақталады",
     "chooseProfileSubjects": "Бейіндік пәндерді таңдау",
     "pleaseChooseProfileSubjects": "Бейіндік пәндерді таңдаңыз",
-    "languages": "Тілдер"
+    "languages": "Тілдер",
+    "start_psytest": "Өту",
+    "continue_button":"Жалғастыру",
   };
   static const Map<String, dynamic> ru = {
     "hello": "Privet",
@@ -392,7 +394,9 @@ class CodegenLoader extends AssetLoader {
     "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
     "chooseProfileSubjects": "Выбор профильных предметов",
     "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
-    "languages": "Языки"
+    "languages": "Языки",
+    "start_psytest": "Перейти",
+    "continue_button":"Продолжить"
   };
   static const Map<String, dynamic> en = {
     "hello": "Hello",
@@ -412,7 +416,9 @@ class CodegenLoader extends AssetLoader {
     "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
     "chooseProfileSubjects": "Выбор профильных предметов",
     "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
-    "languages": "Языки"
+    "languages": "Языки",
+    "start_psytest": "Перейти",
+    "continue_button":"Продолжить"
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }

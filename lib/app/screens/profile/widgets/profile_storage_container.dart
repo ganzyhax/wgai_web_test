@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -34,28 +35,36 @@ class ProfileStorageContainer extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              if (showLeftIcon)
-                isMyCareer
-                    ? SvgPicture.asset('assets/icons/chalkboard_teacher.svg')
-                    : SvgPicture.asset('assets/icons/notebook.svg'),
-              SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  title,
-                  style: AppTextStyle.heading3
-                      .copyWith(color: AppColors.calendarTextColor),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AtlasScreen()),
+              );
+            },
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                if (showLeftIcon)
+                  isMyCareer
+                      ? SvgPicture.asset('assets/icons/chalkboard_teacher.svg')
+                      : SvgPicture.asset('assets/icons/notebook.svg'),
+                SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTextStyle.heading3
+                        .copyWith(color: AppColors.calendarTextColor),
+                  ),
                 ),
-              ),
-              if (showRightIcon)
-                SvgPicture.asset(
-                  'assets/icons/caret-right.svg',
-                  width: 20,
-                  height: 20,
-                ),
-            ],
+                if (showRightIcon)
+                  SvgPicture.asset(
+                    'assets/icons/caret-right.svg',
+                    width: 20,
+                    height: 20,
+                  ),
+              ],
+            ),
           ),
           const SizedBox(height: 24),
           Image.asset('assets/images/folder.png'),
