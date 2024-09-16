@@ -56,12 +56,35 @@ class ProfileGrowthScreen extends StatelessWidget {
                               SizedBox(
                                 height: 15,
                               ),
-                              GrowthTestCard(
-                                title: 'INFJ (Itachi)',
-                                subTitle: 'Результаты MBTI тестирования ',
-                                fullContent:
-                                    'Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования Результаты MBTI тестирования',
-                              ),
+                              ListView.builder(
+                                  itemCount: state
+                                      .data['personalGrowth']['psytests']
+                                      .length,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) {
+                                    return Padding(
+                                      padding: const EdgeInsets.only(top: 8.0),
+                                      child: GrowthTestCard(
+                                        interpretationLink:
+                                            state.data['personalGrowth']
+                                                    ['psytests'][index]
+                                                ['interpretationLink'],
+                                        icon: state.data['personalGrowth']
+                                            ['psytests'][index]['iconCode'],
+                                        title: state.data['personalGrowth']
+                                                ['psytests'][index]['title']
+                                            [context.locale.languageCode],
+                                        subTitle: state.data['personalGrowth']
+                                                ['psytests'][index]['subTitle']
+                                            [context.locale.languageCode],
+                                        fullContent: state
+                                                    .data['personalGrowth']
+                                                ['psytests'][index]['subTitle']
+                                            [context.locale.languageCode],
+                                      ),
+                                    );
+                                  })
                             ],
                           )),
                     ],
