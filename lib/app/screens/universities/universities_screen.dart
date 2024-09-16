@@ -28,7 +28,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
         backgroundColor: AppColors.background,
         title: Text(
           'ВУЗ-ы'.tr(),
-          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         leading: IconButton(
           onPressed: () {
@@ -47,7 +48,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               children: [
                 Text(
                   'ВУЗ-ы'.tr(),
-                  style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.titleHeading
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 IconButton(
                   onPressed: () {
@@ -88,14 +90,20 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                           padding: const EdgeInsets.only(bottom: 8),
                           child: UniContainers(
                             codeNumber: university?.code ?? '',
-                            title: university?.name?.getLocalizedString(context) ?? '',
-                            firstDescription: university?.regionName?.getLocalizedString(context) ?? '',
-                            secondDescription: university?.specialties?.length ?? 0,
+                            title:
+                                university?.name?.getLocalizedString(context) ??
+                                    '',
+                            firstDescription: university?.regionName
+                                    ?.getLocalizedString(context) ??
+                                '',
+                            secondDescription:
+                                university?.specialties?.length ?? 0,
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UniversitiesCompleteScreen(
+                                  builder: (context) =>
+                                      UniversitiesCompleteScreen(
                                     universityId: university?.code ?? '',
                                   ),
                                 ),

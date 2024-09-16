@@ -14,7 +14,11 @@ class HtmlWebView extends StatefulWidget {
   final String contentUrl;
   final String contentUrlTitle;
 
-  HtmlWebView({required this.contentCode, required this.isUrl, required this.contentUrl, required this.contentUrlTitle});
+  HtmlWebView(
+      {required this.contentCode,
+      required this.isUrl,
+      required this.contentUrl,
+      required this.contentUrlTitle});
 
   @override
   _HtmlWebViewState createState() => _HtmlWebViewState();
@@ -34,7 +38,6 @@ class _HtmlWebViewState extends State<HtmlWebView> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onPageFinished: (String url) {
-            print(url);
             setState(() {
               isLoading = false;
             });
@@ -49,21 +52,24 @@ class _HtmlWebViewState extends State<HtmlWebView> {
     String localLang = await LocalUtils.getLanguage();
     try {
       if (widget.isUrl) {
-        await _controller.loadRequest(Uri.parse(widget.contentUrl));  
+        print(widget.contentUrl);
+        await _controller.loadRequest(Uri.parse(widget.contentUrl));
         setState(() {
           htmlTitle = widget.contentUrlTitle;
           textScale = calculateTextScale(htmlTitle);
         });
       } else {
-        var data = await ApiClient.get('api/contentMaterials/${widget.contentCode}');
-          setState(() {
-            if (data['success']) {
-              htmlContent = data['data']['contentMaterial']['content'][localLang];
-              htmlTitle = data['data']['contentMaterial']['contentTitle'][localLang];
-              textScale = calculateTextScale(htmlTitle);
-            }
-          });
-          _controller.loadHtmlString(htmlContent!);
+        var data =
+            await ApiClient.get('api/contentMaterials/${widget.contentCode}');
+        setState(() {
+          if (data['success']) {
+            htmlContent = data['data']['contentMaterial']['content'][localLang];
+            htmlTitle =
+                data['data']['contentMaterial']['contentTitle'][localLang];
+            textScale = calculateTextScale(htmlTitle);
+          }
+        });
+        _controller.loadHtmlString(htmlContent!);
       }
     } catch (e) {
       setState(() {
@@ -79,7 +85,8 @@ class _HtmlWebViewState extends State<HtmlWebView> {
         backgroundColor: AppColors.background,
         title: Text(
           htmlTitle,
-          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
           overflow: TextOverflow.ellipsis,
           maxLines: 2,
           textAlign: TextAlign.center,

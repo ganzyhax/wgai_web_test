@@ -20,7 +20,8 @@ class SpecialitiesScreen extends StatelessWidget {
 
         title: Text(
           'Специальности'.tr(),
-          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         //        BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
         //   builder: (context, state) {
@@ -49,10 +50,12 @@ class SpecialitiesScreen extends StatelessWidget {
               children: [
                 Text(
                   'Специальности'.tr(),
-                  style: AppTextStyle.heading2.copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.heading2
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
                   decoration: BoxDecoration(
                     color: AppColors.filterGray,
                     borderRadius: BorderRadius.circular(8),
@@ -61,7 +64,8 @@ class SpecialitiesScreen extends StatelessWidget {
                     children: [
                       Text(
                         'Все предметы'.tr(),
-                        style: AppTextStyle.heading4.copyWith(color: AppColors.calendarTextColor),
+                        style: AppTextStyle.heading4
+                            .copyWith(color: AppColors.calendarTextColor),
                       ),
                       SizedBox(width: 4),
                       SvgPicture.asset('assets/icons/expand_down.svg')
@@ -85,15 +89,24 @@ class SpecialitiesScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8),
                           child: UniContainers(
                             codeNumber: specialResources?.code ?? '',
-                            title: specialResources?.name?.getLocalizedString(context) ?? '',
-                            firstDescription: specialResources?.profileSubjects?[0].name?.getLocalizedString(context) ?? '',
-                            secondDescription: specialResources?.grants?.general?.grantsTotal ?? 0,
+                            title: specialResources?.name
+                                    ?.getLocalizedString(context) ??
+                                '',
+                            firstDescription: specialResources
+                                    ?.profileSubjects?[0].name
+                                    ?.getLocalizedString(context) ??
+                                '',
+                            secondDescription: specialResources
+                                    ?.grants?.general?.grantsTotal ??
+                                0,
                             onTap: () {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => SpecialitiesCompleteScreen(
-                                            speciesId: specialResources?.code ?? '',
+                                      builder: (context) =>
+                                          SpecialitiesCompleteScreen(
+                                            speciesId:
+                                                specialResources?.code ?? '',
                                           )));
                             },
                           ),

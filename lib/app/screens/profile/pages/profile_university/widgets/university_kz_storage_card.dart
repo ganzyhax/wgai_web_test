@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_speciality_card.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_type_card.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
@@ -30,7 +31,7 @@ class _UniversityKzStorageContainerState
     extends State<UniversityKzStorageContainer> {
   @override
   Widget build(BuildContext context) {
-    var data = BookmarkData().getItems(AppHiveConstants.globalUniversities);
+    var data = BookmarkData().getItems(AppHiveConstants.kzUniversities);
 
     return Container(
       padding: EdgeInsets.all(12),
@@ -69,36 +70,10 @@ class _UniversityKzStorageContainerState
               itemBuilder: (context, index) {
                 final IconData? resolvedIcon =
                     myIconMap[data[index]['data']['areaIconCode']];
-                return Container(
-                  padding: EdgeInsets.all(5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      (resolvedIcon != null)
-                          ? PhosphorIcon(
-                              resolvedIcon,
-                              color: AppColors.primary,
-                              size: 24,
-                            )
-                          : SizedBox(),
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width / 1.5,
-                          child: Text(
-                            data[index]['data']['title'],
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )),
-                      GestureDetector(
-                          onTap: () async {
-                            await BookmarkData().removeItem(
-                                AppHiveConstants.globalUniversities,
-                                data[index]['id']);
-                            setState(() {});
-                          },
-                          child: Icon(Icons.bookmark))
-                    ],
-                  ),
-                );
+                return UniversityKzTypeCard(
+                    type: data[index]['data']['type'],
+                    universityCode: data[index]['data']['universityCode'],
+                    universityName: data[index]['data']['title']);
               }),
           const SizedBox(height: 15),
           (data.length > 5)
@@ -111,9 +86,16 @@ class _UniversityKzStorageContainerState
               : SizedBox(),
           CustomButton(
               text: 'Browse universities',
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => SpecialitiesScreen()));
+              onTap: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SpecialitiesScreen()),
+                );
+
+                setState(() {
+                  data = data = BookmarkData().getItems(AppHiveConstants
+                      .kzUniversities); // Update state with result
+                });
               })
         ],
       ),

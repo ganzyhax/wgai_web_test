@@ -18,7 +18,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         var sss = await ApiClient.get('api/portfolio/myUniversity');
         log(sss.toString());
         specialities = await ApiClient.get('api/resources/kazSubjects');
-        log(specialities.toString());
         emit(ProfileLoaded(
             data: data,
             specialities: specialities['data']['subjects'],
@@ -38,7 +37,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
       }
       if (event is ProfileSetSpeciality) {
-        log(specialities.toString());
         selectedSpeciality = event.value;
         emit(ProfileLoaded(
             data: data,
