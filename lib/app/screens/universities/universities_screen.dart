@@ -21,6 +21,12 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
   List<String> activeFilters = [];
 
   @override
+  void initState() {
+    super.initState();
+    context.read<UniversitiesBloc>().add(LoadUniversities());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -28,7 +34,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
         backgroundColor: AppColors.background,
         title: Text(
           'ВУЗ-ы'.tr(),
-          style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),
         leading: IconButton(
           onPressed: () {
@@ -41,13 +48,13 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: ListView(
           children: [
-            // Header and filter button
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'ВУЗ-ы'.tr(),
-                  style: AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.titleHeading
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 IconButton(
                   onPressed: () {
@@ -55,12 +62,14 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
+                        final universityCode = '';
                         return FilterBottomSheet(
                           onFilterApplied: (filters) {
                             setState(() {
                               activeFilters = filters;
                             });
                           },
+                          universityCode: universityCode,
                         );
                       },
                     );
@@ -70,10 +79,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
               ],
             ),
             const SizedBox(height: 12),
-            // Active Filters Section
             _buildActiveFilters(),
             const SizedBox(height: 12),
-            // Universities List Section
             BlocBuilder<UniversitiesBloc, UniversitiesState>(
               builder: (context, state) {
                 if (state is UniversitiesLoading) {
@@ -88,14 +95,20 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                           padding: const EdgeInsets.only(bottom: 8),
                           child: UniContainers(
                             codeNumber: university?.code ?? '',
-                            title: university?.name?.getLocalizedString(context) ?? '',
-                            firstDescription: university?.regionName?.getLocalizedString(context) ?? '',
-                            secondDescription: university?.specialties?.length ?? 0,
+                            title:
+                                university?.name?.getLocalizedString(context) ??
+                                    '',
+                            firstDescription: university?.regionName
+                                    ?.getLocalizedString(context) ??
+                                '',
+                            secondDescription:
+                                university?.specialties?.length ?? 0,
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => UniversitiesCompleteScreen(
+                                  builder: (context) =>
+                                      UniversitiesCompleteScreen(
                                     universityId: university?.code ?? '',
                                   ),
                                 ),

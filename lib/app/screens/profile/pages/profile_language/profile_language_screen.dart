@@ -26,7 +26,6 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
 
   Future<void> _loadLanguage() async {
     selectedLang = await LocalUtils.getLanguage();
-    log(selectedLang);
     setState(() {});
   }
 

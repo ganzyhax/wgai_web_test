@@ -9,10 +9,6 @@ part 'universities_event.dart';
 part 'universities_state.dart';
 
 class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
-  String? _currentRegionId;
-  List<SpecialtiesUni>? _currentSpecialities;
-  bool? _currentHasDormitory;
-  bool? _currentHasMilitaryDept;
   UniversitiesBloc() : super(UniversitiesInitial()) {
     on<LoadUniversities>(_onLoadUniversities);
     on<LoadbyFilters>(_onFetchUniversities);
@@ -35,47 +31,47 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
 
   Future<void> _onFetchUniversities(LoadbyFilters event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
-
     try {
-      if (event.regionId.isEmpty && event.specialities == null && event.hasDormitory == null && event.hasMilitaryDept == null) {
-        final KazUniversity? uniModel = await UniversitiesNetwork().fetchSpecies();
-        if (uniModel != null && uniModel.universities != null) {
-          emit(UniversitiesLoaded(uniModel.universities));
-        } else {
-          emit(UniversitiesError('Kaz universities Data not loaded'));
+      final String url = 'api/resources/kazUniversities/${event.universityCode}';
+      final response = await ApiClient.get(url);
+
+      if (response['success']) {
+        Universities university = Universities.fromJson(response['university']);
+
+        if (event.regionId != null && university.regionId != event.regionId) {
+          emit(UniversitiesError('University does not match the region filter.'));
+          return;
         }
+
+        if (event.hasDormitory != null && university.hasDormitory != event.hasDormitory) {
+          emit(UniversitiesError('University does not match the dormitory filter.'));
+          return;
+        }
+
+        if (event.hasMilitaryDept != null && university.hasMilitaryDept != event.hasMilitaryDept) {
+          emit(UniversitiesError('University does not match the military department filter.'));
+          return;
+        }
+
+        if (event.specialities != null && event.specialities!.isNotEmpty) {
+          university.specialties = university.specialties?.where((spec) => event.specialities!.contains(spec.code)).toList();
+          if (university.specialties!.isEmpty) {
+            emit(UniversitiesError('No matching specialties found.'));
+            return;
+          }
+        }
+
+        emit(UniversitiesLoaded([university]));
       } else {
-        final response = await ApiClient.get(
-          'api/resources/kazUniversities?regionId=${event.regionId}&hasDormitory=${event.hasDormitory}&hasMilitaryDept=${event.hasMilitaryDept}',
-        );
-        print('API Response: $response');
-
-        if (response['success']) {
-          List<Universities> universities =
-              (response['data']['universities'] as List).map((data) => Universities.fromJson(data)).toList();
-          print('Filtered Universities: ${universities[0].specialties}');
-
-          emit(UniversitiesLoaded(universities));
-        } else {
-          emit(UniversitiesError('Failed to fetch filtered universities'));
-        }
+        emit(UniversitiesError('Failed to fetch the university by code'));
       }
     } catch (e) {
-      emit(UniversitiesError('Failed to fetch universities'));
+      emit(UniversitiesError('Failed to fetch university by code'));
     }
   }
 
   Future<void> _onResetFilters(ResetFilters event, Emitter<UniversitiesState> emit) async {
-    _currentRegionId = null;
-    _currentSpecialities = null;
-    _currentHasDormitory = null;
-    _currentHasMilitaryDept = null;
-
-    emit(FiltersApplied(
-      regionId: _currentRegionId,
-      specialities: _currentSpecialities,
-      hasDormitory: _currentHasDormitory,
-      hasMilitaryDept: _currentHasMilitaryDept,
-    ));
+    emit(UniversitiesInitial());
+    add(LoadUniversities());
   }
 }

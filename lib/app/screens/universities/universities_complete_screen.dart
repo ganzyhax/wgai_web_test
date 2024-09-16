@@ -13,6 +13,8 @@ import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_social_container.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_special_container.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/app/widgets/buttons/custom_button.dart';
+import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
@@ -28,12 +30,15 @@ class UniversitiesCompleteScreen extends StatefulWidget {
 class _UniversitiesCompleteScreenState
     extends State<UniversitiesCompleteScreen> {
   late bool isBookmarked;
-
+  late String type;
   @override
   void initState() {
+    type = BookmarkData()
+        .getDataType(AppHiveConstants.kzUniversities, widget.universityId);
+
     isBookmarked = BookmarkData()
         .containsItem(AppHiveConstants.kzUniversities, widget.universityId);
-    log(isBookmarked.toString());
+
     super.initState();
 
     context.read<SpecialitiesBloc>().add(LoadSpecialities());
@@ -55,8 +60,9 @@ class _UniversitiesCompleteScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('ВУЗ'),
+        title: const Text('ВУЗ'),
         actions: [
           IconButton(
             onPressed: () {
@@ -118,7 +124,7 @@ class _UniversitiesCompleteScreenState
                           titleSite: "Сайт:",
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
-                      Text(
+                      const Text(
                         'Cпециальности',
                         style: AppTextStyle.heading3,
                       ),
@@ -181,6 +187,92 @@ class _UniversitiesCompleteScreenState
                           }
                         },
                       ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      CustomButton(
+                          isDisabled: (type == 'dream') ? true : false,
+                          text: (type == 'dream')
+                              ? 'Selected for target Dream'
+                              : 'Select for target Dream',
+                          onTap: () async {
+                            await BookmarkData().removeItem(
+                                AppHiveConstants.kzUniversities,
+                                widget.universityId);
+                            await BookmarkData()
+                                .addItem(AppHiveConstants.kzUniversities, {
+                              'id': widget.universityId,
+                              'data': {
+                                'universityCode': university?.code,
+                                'title': university.name
+                                    ?.getLocalizedString(context),
+                                'type': 'dream'
+                              }
+                            });
+                            type = BookmarkData().getDataType(
+                                AppHiveConstants.kzUniversities,
+                                widget.universityId);
+
+                            setState(() {});
+                          }),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      CustomButton(
+                          isDisabled: (type == 'target') ? true : false,
+                          text: (type == 'target')
+                              ? 'Selected for target Choice'
+                              : 'Select for target Choice',
+                          onTap: () async {
+                            await BookmarkData().removeItem(
+                                AppHiveConstants.kzUniversities,
+                                widget.universityId);
+                            await BookmarkData()
+                                .addItem(AppHiveConstants.kzUniversities, {
+                              'id': widget.universityId,
+                              'data': {
+                                'universityCode': university?.code,
+                                'title': university.name
+                                    ?.getLocalizedString(context),
+                                'type': 'target'
+                              }
+                            });
+
+                            type = BookmarkData().getDataType(
+                                AppHiveConstants.kzUniversities,
+                                widget.universityId);
+
+                            setState(() {});
+                          }),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      CustomButton(
+                          isDisabled: (type == 'safe') ? true : false,
+                          text: (type == 'safe')
+                              ? 'Selected for target Safe'
+                              : 'Select for target Safe',
+                          onTap: () async {
+                            await BookmarkData().removeItem(
+                                AppHiveConstants.kzUniversities,
+                                widget.universityId);
+                            await BookmarkData()
+                                .addItem(AppHiveConstants.kzUniversities, {
+                              'id': widget.universityId,
+                              'data': {
+                                'universityCode': university?.code,
+                                'title': university.name
+                                    ?.getLocalizedString(context),
+                                'type': 'safe'
+                              }
+                            });
+
+                            type = BookmarkData().getDataType(
+                                AppHiveConstants.kzUniversities,
+                                widget.universityId);
+
+                            setState(() {});
+                          }),
                     ],
                   ),
                 ),

@@ -72,6 +72,19 @@ class BookmarkData {
     });
   }
 
+  String getDataType(String listName, String id) {
+    final List<String> list =
+        List<String>.from(_box.get(listName, defaultValue: []));
+    String res = '';
+    for (var i in list) {
+      final decodedItem = jsonDecode(i);
+      if (decodedItem['id'] == id) {
+        res = decodedItem['data']['type'];
+      }
+    }
+    return res;
+  }
+
   /// Clear all items from a specific list
   Future<void> clearList(String listName) async {
     await _box.put(listName, []);
