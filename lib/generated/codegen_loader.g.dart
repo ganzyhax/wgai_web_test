@@ -205,6 +205,7 @@ class CodegenLoader extends AssetLoader {
     "languages": "Тілдер",
     "start_psytest": "Өту",
     "continue_button":"Жалғастыру",
+    "atlasSubtitle": "Мамандықтар туралы қысқаша мәлімет: негізгі міндеттер, талаптар және т.б."
   };
   static const Map<String, dynamic> ru = {
     "hello": "Privet",
@@ -396,7 +397,8 @@ class CodegenLoader extends AssetLoader {
     "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
     "languages": "Языки",
     "start_psytest": "Перейти",
-    "continue_button":"Продолжить"
+    "continue_button":"Продолжить",
+    "atlasSubtitle": "Краткий обзор профессий: ключевые задачи и требования и т.д."
   };
   static const Map<String, dynamic> en = {
     "hello": "Hello",
@@ -418,7 +420,8 @@ class CodegenLoader extends AssetLoader {
     "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
     "languages": "Языки",
     "start_psytest": "Перейти",
-    "continue_button":"Продолжить"
+    "continue_button":"Продолжить",
+    "atlasSubtitle": "Краткий обзор профессий: ключевые задачи и требования и т.д."
   };
   static const Map<String, Map<String, dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }

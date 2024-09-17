@@ -191,5 +191,5 @@ abstract class LocaleKeys {
   static const languages = "languages";
   static const start_psytest = "start_psytest";
   static const continue_button = "continue_button";
-  
+  static const atlasSubtitle = "atlasSubtitle";
 }

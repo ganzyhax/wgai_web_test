@@ -9,7 +9,6 @@ import 'package:http/http.dart' as http;
 
 class AuthUtils {
   static const FlutterSecureStorage storage = FlutterSecureStorage();
-
   static Future<dynamic> login(String username, String password) async {
     final url = Uri.parse(AppConstant.baseUrl + 'api/auth/login');
     try {
