@@ -9,9 +9,11 @@ import 'package:wg_app/app/screens/universities/universities_complete_screen.dar
 import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class SpecialitiesCompleteScreen extends StatefulWidget {
   final String speciesId;
@@ -53,24 +55,23 @@ class SpecialitiesCompleteScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: Text('Специальность'.tr(),
-            style: AppTextStyle.heading1.copyWith(
-              color: AppColors.calendarTextColor,
-            )),
-        actions: [
-          IconButton(
-            onPressed: () {
-              toggleBookmark();
-              print('Id: ${widget.speciesId}');
-            },
-            icon: isBookmarked
-                ? SvgPicture.asset('assets/icons/bookmark.svg')
-                : SvgPicture.asset('assets/icons/bookmark-open.svg'),
-          ),
-        ],
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppbar(
+            title: LocaleKeys.speciality.tr(),
+            withBackButton: true,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  toggleBookmark();
+                  print('Id: ${widget.speciesId}');
+                },
+                icon: isBookmarked
+                    ? SvgPicture.asset('assets/icons/bookmark.svg')
+                    : SvgPicture.asset('assets/icons/bookmark-open.svg'),
+              ),
+            ],
+          )),
       body: BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
         builder: (context, state) {
           if (state is SpecialitiesLoading) {

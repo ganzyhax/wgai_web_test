@@ -26,69 +26,58 @@ class PersonalGrowthCard extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+        padding: EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+        ),
+        child: Row(
+          crossAxisAlignment:
+              CrossAxisAlignment.center, // Center the row's children
+          children: [
+            Image.asset(
+              (type == 1)
+                  ? 'assets/images/personal_frame_1.png'
+                  : (type == 2)
+                      ? 'assets/images/personal_frame_2.png'
+                      : 'assets/images/personal_frame_3.png',
+              width: 80,
+              height: (type == 2) ? 120 : 80,
+            ),
+            SizedBox(width: 20),
+            Expanded(
+              child: Column(
+                mainAxisAlignment:
+                    MainAxisAlignment.center, // Center the column's content
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset(
-                    (type == 1)
-                        ? 'assets/images/personal_frame_1.png'
-                        : (type == 2)
-                            ? 'assets/images/personal_frame_2.png'
-                            : 'assets/images/personal_frame_3.png',
-                    width: 80,
-                    height: (type == 2) ? 120 : 80,
+                  Text(
+                    title,
+                    style: TextStyle(fontSize: 16),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                title,
-                                style: TextStyle(fontSize: 16),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                            if (isFinished == true && isTesting == true)
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                child: Text(
-                                  LocaleKeys.personalGrowthResultsButton.tr(),
-                                  style: TextStyle(fontSize: 14),
-                                ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Color(0xFFE5E5EA),
-                                ),
-                              ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          subTitle,
-                          style:
-                              TextStyle(color: Colors.grey[500], fontSize: 15),
-                        ),
-                      ],
-                    ),
+                  Text(
+                    subTitle,
+                    style: TextStyle(color: Colors.grey[500], fontSize: 15),
                   ),
                 ],
               ),
-            ],
-          )),
+            ),
+            if (isFinished == true && isTesting == true)
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Text(
+                  LocaleKeys.personalGrowthResultsButton.tr(),
+                  style: TextStyle(fontSize: 14),
+                ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  color: Color(0xFFE5E5EA),
+                ),
+              ),
+          ],
+        ),
+      ),
     );
   }
 }

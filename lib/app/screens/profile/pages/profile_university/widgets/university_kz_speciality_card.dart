@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
+import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 
 class UniversityKzSpecialityCard extends StatelessWidget {
@@ -24,16 +26,22 @@ class UniversityKzSpecialityCard extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              Text(
-                speciality,
-                style: AppTextStyle.heading4,
+              SizedBox(
+                width: MediaQuery.of(context).size.width / 1.45,
+                child: Text(
+                  speciality,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppTextStyle.heading4,
+                ),
               ),
             ],
           ),
           GestureDetector(
-              onTap: () {
+              onTap: () async {
                 BlocProvider.of<ProfileBloc>(context)
-                    .add(ProfileSetSpeciality(value: ''));
+                    .add(ProfileSetSpeciality(value: null));
+                await BookmarkData().clearList(AppHiveConstants.kzUniversities);
               },
               child: Icon(Icons.delete))
         ],

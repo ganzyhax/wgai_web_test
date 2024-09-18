@@ -5,6 +5,7 @@ import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/filter_bottom_sheet.dart';
 import 'package:wg_app/app/screens/universities/universities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/app/widgets/containers/item_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -31,22 +32,13 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: Text(
-          '',
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
-        ),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppbar(title: '', withBackButton: true)),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
         child: ListView(
           children: [
             Row(

@@ -51,14 +51,16 @@ class ProfileUniversityScreen extends StatelessWidget {
                       onButtonTap: () {},
                     ),
                     SizedBox(height: 16),
-                    (state.selectedSpeciality != '')
+                    (state.selectedSpeciality != null)
                         ? UniversityKzStorageContainer(
                             title: LocaleKeys.ent.tr(),
-                            mySpeciality: state.selectedSpeciality,
+                            mySpeciality: state.selectedSpeciality[
+                                context.locale.languageCode],
                           )
                         : SizedBox(),
                     SizedBox(height: 16),
-                    (state.selectedSpeciality == '')
+                    (state.selectedSpeciality == '' ||
+                            state.selectedSpeciality == null)
                         ? ProfileStorageContainer(
                             title: LocaleKeys.ent.tr(),
                             showLeftIcon: true,
@@ -66,7 +68,8 @@ class ProfileUniversityScreen extends StatelessWidget {
                             description:
                                 LocaleKeys.ent_universities_storage.tr(),
                             onButtonTap: () {
-                              if (state.selectedSpeciality == '') {
+                              if (state.selectedSpeciality == '' ||
+                                  state.selectedSpeciality == null) {
                                 showModalBottomSheet(
                                   isScrollControlled: true,
                                   context: context,

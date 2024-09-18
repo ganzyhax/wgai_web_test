@@ -61,26 +61,36 @@ class UniversitySpecialSelectModal extends StatelessWidget {
                                   BlocProvider.of<ProfileBloc>(context).add(
                                       ProfileSetSpeciality(
                                           value: state.specialities[index]
-                                              ['name']['kk']));
+                                              ['name']));
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(bottom: 10),
                                   padding: EdgeInsets.all(15),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(15),
-                                      color: (state.selectedSpeciality ==
-                                              state.specialities[index]['name']
-                                                  ['kk'])
-                                          ? AppColors.primary.withOpacity(0.3)
+                                      color: (state.selectedSpeciality != null)
+                                          ? (state.selectedSpeciality[context
+                                                      .locale.languageCode] ==
+                                                  state.specialities[index]
+                                                          ['name'][
+                                                      context
+                                                          .locale.languageCode])
+                                              ? AppColors.primary
+                                                  .withOpacity(0.3)
+                                              : Colors.white
                                           : Colors.white),
                                   child: Text(
-                                    state.specialities[index]['name']['kk'],
+                                    state.specialities[index]['name']
+                                        [context.locale.languageCode],
                                     style: AppTextStyle.heading3,
                                   ),
                                 ),
                               );
                             }),
-                      )
+                      ),
+                      SizedBox(
+                        height: 75,
+                      ),
                     ],
                   ),
                 ),

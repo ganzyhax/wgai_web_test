@@ -11,6 +11,7 @@ import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_social_container.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_special_container.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
@@ -61,20 +62,23 @@ class _UniversitiesCompleteScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: const Text('ВУЗ'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              toggleBookmark();
-              print('Id: ${widget.universityId}');
-            },
-            icon: isBookmarked
-                ? SvgPicture.asset('assets/icons/bookmark.svg')
-                : SvgPicture.asset('assets/icons/bookmark-open.svg'),
-          ),
-        ],
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppbar(
+            title: 'ВУЗ',
+            withBackButton: true,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  toggleBookmark();
+                  print('Id: ${widget.universityId}');
+                },
+                icon: isBookmarked
+                    ? SvgPicture.asset('assets/icons/bookmark.svg')
+                    : SvgPicture.asset('assets/icons/bookmark-open.svg'),
+              ),
+            ],
+          )),
       body: BlocBuilder<UniversitiesBloc, UniversitiesState>(
         builder: (context, state) {
           if (state is UniversitiesLoading) {
@@ -207,8 +211,7 @@ class _UniversitiesCompleteScreenState
                               'id': widget.universityId,
                               'data': {
                                 'universityCode': university?.code,
-                                'title': university.name
-                                    ?.getLocalizedString(context),
+                                'title': university.name!.toJson(),
                                 'type': 'dream'
                               }
                             });
@@ -235,8 +238,7 @@ class _UniversitiesCompleteScreenState
                               'id': widget.universityId,
                               'data': {
                                 'universityCode': university?.code,
-                                'title': university.name
-                                    ?.getLocalizedString(context),
+                                'title': university.name!.toJson(),
                                 'type': 'target'
                               }
                             });
@@ -264,8 +266,7 @@ class _UniversitiesCompleteScreenState
                               'id': widget.universityId,
                               'data': {
                                 'universityCode': university?.code,
-                                'title': university.name
-                                    ?.getLocalizedString(context),
+                                'title': university.name!.toJson(),
                                 'type': 'safe'
                               }
                             });

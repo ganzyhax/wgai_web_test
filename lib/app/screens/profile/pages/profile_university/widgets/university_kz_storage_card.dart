@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_speciality_card.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_type_card.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
 import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
@@ -14,6 +16,7 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class UniversityKzStorageContainer extends StatefulWidget {
   final String title;
@@ -74,7 +77,8 @@ class _UniversityKzStorageContainerState
                     mySpeciality: widget.mySpeciality,
                     type: data[index]['data']['type'],
                     universityCode: data[index]['data']['universityCode'],
-                    universityName: data[index]['data']['title']);
+                    universityName: data[index]['data']['title']
+                        [context.locale.languageCode]);
               }),
           const SizedBox(height: 15),
           (data.length > 5)
@@ -86,7 +90,7 @@ class _UniversityKzStorageContainerState
                 )
               : SizedBox(),
           CustomButton(
-              text: 'Browse universities',
+              text: LocaleKeys.university_overview.tr(),
               onTap: () async {
                 final result = await Navigator.push(
                   context,

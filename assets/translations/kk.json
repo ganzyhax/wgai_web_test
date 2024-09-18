@@ -129,11 +129,12 @@
     "top_50":"Топ 50",
     "scholarship":"Шәкіртақы",
     "choose":"Таңдау",
-    
+    "all_subjects":"Барлық пәндер",
     "language_study":"Оқу тілі",
     "tuition_fee":"Оқу ақысы (АҚШ доллары бойынша)",
     "apply":"Қолдану",
     "university":"ЖОО",
+    "speciality":"Мамандық",
     "country":"Ел",
     "short_description":"Қысқаша сипаттама:",
     "university_rating":"Рейтинг",

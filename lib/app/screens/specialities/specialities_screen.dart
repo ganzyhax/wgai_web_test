@@ -7,8 +7,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
 import 'package:wg_app/app/screens/specialities/specialities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class SpecialitiesScreen extends StatelessWidget {
   final String? specialityName;
@@ -19,24 +21,12 @@ class SpecialitiesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-
-        title: Text(
-          'Специальности'.tr(),
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
-        ),
-        //        BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
-        //   builder: (context, state) {
-        //     if (state is SpecialitiesLoaded) {
-
-        //     } else {
-        //       const CircularProgressIndicator();
-        //     }
-        //   },
-        // )
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppbar(
+            title: LocaleKeys.specialities.tr(),
+            withBackButton: true,
+          )),
       body:
           //BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
           //   builder: (context, state) {
@@ -53,7 +43,7 @@ class SpecialitiesScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Специальности'.tr(),
+                  LocaleKeys.specialities.tr(),
                   style: AppTextStyle.heading2
                       .copyWith(color: AppColors.blackForText),
                 ),
@@ -67,7 +57,7 @@ class SpecialitiesScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       Text(
-                        'Все предметы'.tr(),
+                        LocaleKeys.all_subjects.tr(),
                         style: AppTextStyle.heading4
                             .copyWith(color: AppColors.calendarTextColor),
                       ),

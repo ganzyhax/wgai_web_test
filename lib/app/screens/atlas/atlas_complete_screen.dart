@@ -8,8 +8,10 @@ import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/atlas/model/professions_model.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_container.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_title_container.dart';
+import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/app/widgets/containers/basic_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
@@ -39,16 +41,14 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
 
   void toggleBookmark() async {
     if (isBookmarked) {
-      await BookmarkData()
-          .removeItem(AppHiveConstants.professions, widget.professionsId);
+      BlocProvider.of<ProfileBloc>(context)
+        ..add(ProfileDeleteMyCareerBookmark(
+            occupationCode: widget.professionsId));
     } else {
-      await BookmarkData().addItem(AppHiveConstants.professions, {
-        'id': widget.professionsId,
-        'data': {
-          'title': widget.profession.title?.getLocalizedString(context) ?? '',
-          'areaIconCode': widget.profession.areaIconCode
-        }
-      });
+      BlocProvider.of<ProfileBloc>(context).add(ProfileAddMyCareerBookmark(
+          occupationCode: widget.professionsId,
+          title: widget.profession.title!.toJson(),
+          areaIconCode: widget.profession.areaIconCode!));
     }
     setState(() {
       isBookmarked = !isBookmarked;
@@ -59,40 +59,43 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(
-          'Профессии',
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: CustomAppbar(
+          title: LocaleKeys.professions.tr(),
+          withBackButton: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                toggleBookmark();
+                print('Id: ${widget.professionsId}');
+              },
+              icon: isBookmarked
+                  ? SvgPicture.asset('assets/icons/bookmark.svg')
+                  : SvgPicture.asset('assets/icons/bookmark-open.svg'),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            onPressed: () {
-              toggleBookmark();
-              print('Id: ${widget.professionsId}');
-            },
-            icon: isBookmarked
-                ? SvgPicture.asset('assets/icons/bookmark.svg')
-                : SvgPicture.asset('assets/icons/bookmark-open.svg'),
-          ),
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: BlocBuilder<AtlasBloc, AtlasState>(
-          builder: (context, state) {
-            if (state is AtlasLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is AtlasLoaded) {
-              return ListView(
-                children: _buildContainers(context, widget.profession),
-              );
-            } else if (state is SpecialitiesError) {
-              return Center(child: Text(state.message));
-            } else {
-              return Container();
-            }
-          },
+        child: BlocListener<ProfileBloc, ProfileState>(
+          listener: (context, state) {},
+          child: BlocBuilder<AtlasBloc, AtlasState>(
+            builder: (context, state) {
+              if (state is AtlasLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is AtlasLoaded) {
+                return ListView(
+                  children: _buildContainers(context, widget.profession),
+                );
+              } else if (state is SpecialitiesError) {
+                return Center(child: Text(state.message));
+              } else {
+                return Container();
+              }
+            },
+          ),
         ),
       ),
     );

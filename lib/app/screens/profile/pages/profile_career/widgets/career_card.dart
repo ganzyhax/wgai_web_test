@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
+import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
@@ -94,15 +96,17 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
                             SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.5,
                                 child: Text(
-                                  data[index]['data']['title'],
+                                  data[index]['data']['title']
+                                      [context.locale.languageCode],
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 )),
                             GestureDetector(
                                 onTap: () async {
-                                  await BookmarkData().removeItem(
-                                      AppHiveConstants.professions,
-                                      data[index]['id']);
+                                  BlocProvider.of<ProfileBloc>(context)
+                                    ..add(ProfileDeleteMyCareerBookmark(
+                                        occupationCode: data[index]['id']));
+
                                   setState(() {});
                                 },
                                 child: Icon(Icons.bookmark))

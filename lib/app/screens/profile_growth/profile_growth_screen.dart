@@ -7,6 +7,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wg_app/app/screens/profile_growth/bloc/profile_growth_bloc.dart';
 import 'package:wg_app/app/screens/profile_growth/widgets/growth_card.dart';
 import 'package:wg_app/app/screens/profile_growth/widgets/growth_test_card.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -20,14 +21,10 @@ class ProfileGrowthScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.background,
-        appBar: AppBar(
-          surfaceTintColor: Colors.transparent,
-          backgroundColor: AppColors.background,
-          title: Text(
-            LocaleKeys.personal_growth.tr(),
-            style: AppTextStyle.heading2,
-          ),
-        ),
+        appBar: PreferredSize(
+            preferredSize: Size.fromHeight(55),
+            child: CustomAppbar(
+                title: LocaleKeys.personal_growth.tr(), withBackButton: true)),
         body: SingleChildScrollView(
           child: BlocListener<ProfileGrowthBloc, ProfileGrowthState>(
             listener: (context, state) {

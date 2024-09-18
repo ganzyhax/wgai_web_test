@@ -3,12 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/atlas/atlas_complete_screen.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
-import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_icons.dart';
-import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class AtlasScreen extends StatelessWidget {
@@ -19,11 +17,15 @@ class AtlasScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: PreferredSize(
-          preferredSize: Size(60, 60),
+          preferredSize: Size.fromHeight(50),
           child: CustomAppbar(
-              title: LocaleKeys.atlas_professions.tr(), withBackButton: true)),
+            title: LocaleKeys.professions.tr(),
+            withBackButton: true,
+          )),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16,
+        ),
         child: BlocBuilder<AtlasBloc, AtlasState>(
           builder: (context, state) {
             if (state is AtlasLoading) {

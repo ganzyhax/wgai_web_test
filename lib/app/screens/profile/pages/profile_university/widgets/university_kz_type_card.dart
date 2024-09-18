@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 
 class UniversityKzTypeCard extends StatefulWidget {
@@ -26,9 +27,9 @@ class _UniversityKzTypeCardState extends State<UniversityKzTypeCard> {
           (widget.type == 'dream')
               ? Row(
                   children: [
-                    Icon(
-                      Icons.star,
-                      color: Colors.grey,
+                    SvgPicture.asset('assets/icons/dream_choice.svg'),
+                    SizedBox(
+                      width: 5,
                     ),
                     Text('Dream Choice')
                   ],
@@ -36,18 +37,18 @@ class _UniversityKzTypeCardState extends State<UniversityKzTypeCard> {
               : (widget.type == 'target')
                   ? Row(
                       children: [
-                        Icon(
-                          Icons.cabin,
-                          color: Colors.grey,
+                        SvgPicture.asset('assets/icons/target_choice.svg'),
+                        SizedBox(
+                          width: 5,
                         ),
                         Text('Target Choice')
                       ],
                     )
                   : Row(
                       children: [
-                        Icon(
-                          Icons.safety_check,
-                          color: Colors.grey,
+                        SvgPicture.asset('assets/icons/safe_choice.svg'),
+                        SizedBox(
+                          width: 5,
                         ),
                         Text('Safe Choice')
                       ],
