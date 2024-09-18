@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class  LocaleKeys {
+abstract class LocaleKeys {
   static const hello = 'hello';
   static const splash_subtitle = 'splash_subtitle';
   static const consultant = 'consultant';
@@ -116,7 +116,8 @@ abstract class  LocaleKeys {
   static const countries = 'countries';
   static const choose_countries = 'choose_countries';
   static const abroad_universities = 'abroad_universities';
-  static const choose_international_universities = 'choose_international_universities';
+  static const choose_international_universities =
+      'choose_international_universities';
   static const programs = 'programs';
   static const programs_abroad = 'programs_abroad';
   static const modules = 'modules';
@@ -187,9 +188,11 @@ abstract class  LocaleKeys {
   static const leaveComment = 'leaveComment';
   static const feedComments = 'feedComments';
   static const deleteAccount = 'deleteAccount';
-  static const savedSuccessfully = 'savedSuccessfully';
-  static const recommended_professions_storage = 'recommended_professions_storage';
-  static const chooseProfileSubjects = 'chooseProfileSubjects';
-  static const pleaseChooseProfileSubjects = 'pleaseChooseProfileSubjects';
-
+  static const savedSuccessfully = "savedSuccessfully";
+  static const recommended_professions_storage =
+      "recommended_professions_storage";
+  static const chooseProfileSubjects = "chooseProfileSubjects";
+  static const pleaseChooseProfileSubjects = "pleaseChooseProfileSubjects";
+  static const languages = "languages";
+  static const atlasSubtitle = "atlasSubtitle";
 }
