@@ -17,10 +17,11 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     var specialities;
     var fullName = "";
     var selectedSpeciality;
+    String selectedSubjectId = '';
     on<ProfileEvent>((event, emit) async {
       if (event is ProfileLoad) {
-        var sss = await ApiClient.get('api/portfolio/myUniversity');
-        log(sss.toString());
+        // var sss = await ApiClient.get('api/portfolio/myUniversity');
+
         specialities = await ApiClient.get('api/resources/kazSubjects');
         final userProfile = await ApiClient.get('api/user');
         if (userProfile['success']) {
@@ -50,8 +51,24 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               fullName: fullName));
         }
       }
+      if (event is ProfileSetSpecialityPost) {
+        var res = await ApiClient.post(
+            'api/portfolio/myUniversity/kaz/setProfileSubject',
+            {"subjectCode": selectedSubjectId});
+        if (!res['success']) {
+          emit(ProfileSetUniversitySubjectError());
+        } else {
+          emit(ProfileSetUniversitySubjectSuccess());
+        }
+        emit(ProfileLoaded(
+            data: data,
+            specialities: specialities['data']['subjects'],
+            selectedSpeciality: selectedSpeciality,
+            fullName: fullName));
+      }
       if (event is ProfileSetSpeciality) {
         selectedSpeciality = event.value;
+        selectedSubjectId = event.code;
         emit(ProfileLoaded(
             data: data,
             specialities: specialities['data']['subjects'],

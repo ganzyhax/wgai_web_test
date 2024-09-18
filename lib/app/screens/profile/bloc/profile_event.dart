@@ -13,10 +13,14 @@ final class ProfileChangeUserData extends ProfileEvent {
 
 final class ProfileSetSpeciality extends ProfileEvent {
   var value;
+  String code;
   ProfileSetSpeciality({
     required this.value,
+    required this.code,
   });
 }
+
+final class ProfileSetSpecialityPost extends ProfileEvent {}
 
 final class ProfileAddKazUniversity extends ProfileEvent {
   final String shortlistChoice;

@@ -73,12 +73,15 @@ class _UniversityKzStorageContainerState
               itemBuilder: (context, index) {
                 final IconData? resolvedIcon =
                     myIconMap[data[index]['data']['areaIconCode']];
-                return UniversityKzTypeCard(
-                    mySpeciality: widget.mySpeciality,
-                    type: data[index]['data']['type'],
-                    universityCode: data[index]['data']['universityCode'],
-                    universityName: data[index]['data']['title']
-                        [context.locale.languageCode]);
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: UniversityKzTypeCard(
+                      mySpeciality: widget.mySpeciality,
+                      type: data[index]['data']['type'],
+                      universityCode: data[index]['data']['universityCode'],
+                      universityName: data[index]['data']['title']
+                          [context.locale.languageCode]),
+                );
               }),
           const SizedBox(height: 15),
           (data.length > 5)

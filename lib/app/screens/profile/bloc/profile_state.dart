@@ -20,3 +20,7 @@ final class ProfileLoaded extends ProfileState {
 final class ProfileUpdatedSuccess extends ProfileState {}
 
 final class ProfileUpdateCareerError extends ProfileState {}
+
+final class ProfileSetUniversitySubjectError extends ProfileState {}
+
+final class ProfileSetUniversitySubjectSuccess extends ProfileState {}

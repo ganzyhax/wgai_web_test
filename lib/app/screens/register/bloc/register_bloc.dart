@@ -55,7 +55,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       }
       if (event is RegisterResendEmailVerification) {
         var data = await ApiClient.post('api/auth/sendVerificationEmail', {});
-        log(data.toString());
       }
       if (event is RegisterCheckVerifyEmail) {
         var req = await ApiClient.get('api/auth/checkVerificationStatus');

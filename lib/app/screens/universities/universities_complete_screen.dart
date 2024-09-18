@@ -172,11 +172,14 @@ class _UniversitiesCompleteScreenState
                                                       ?.getLocalizedString(
                                                           context) ??
                                                   '',
-                                              subject: spec
-                                                      ?.profileSubjects?[0].name
-                                                      ?.getLocalizedString(
-                                                          context) ??
-                                                  '',
+                                              subject: (spec?.profileSubjects ==
+                                                      null)
+                                                  ? ''
+                                                  : spec?.profileSubjects?[0]
+                                                          .name
+                                                          ?.getLocalizedString(
+                                                              context) ??
+                                                      '',
                                               grantScore: spec?.grants?.general
                                                       ?.grantScores?[0].max ??
                                                   0,

@@ -40,7 +40,7 @@ class UniversityKzSpecialityCard extends StatelessWidget {
           GestureDetector(
               onTap: () async {
                 BlocProvider.of<ProfileBloc>(context)
-                    .add(ProfileSetSpeciality(value: null));
+                    .add(ProfileSetSpeciality(value: null, code: ''));
                 await BookmarkData().clearList(AppHiveConstants.kzUniversities);
               },
               child: Icon(Icons.delete))
