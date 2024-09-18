@@ -1,6 +1,6 @@
 // DO NOT EDIT. This is code generated via package:easy_localization/generate.dart
 
-abstract class LocaleKeys {
+abstract class  LocaleKeys {
   static const hello = 'hello';
   static const splash_subtitle = 'splash_subtitle';
   static const consultant = 'consultant';
@@ -17,6 +17,8 @@ abstract class LocaleKeys {
   static const welcome = 'welcome';
   static const login = 'login';
   static const phoneOrEmail = 'phoneOrEmail';
+  static const continue_button = 'continue_button';
+  static const start_psytest = 'start_psytest';
   static const password = 'password';
   static const forgotPassword = 'forgotPassword';
   static const registrationQuestion = 'registrationQuestion';
@@ -101,6 +103,7 @@ abstract class LocaleKeys {
   static const leave_comment = 'leave_comment';
   static const delete = 'delete';
   static const atlas_professions = 'atlas_professions';
+  static const professions = 'professions';
   static const professions_directions = 'professions_directions';
   static const universities = 'universities';
   static const find_university = 'find_university';
@@ -184,12 +187,9 @@ abstract class LocaleKeys {
   static const leaveComment = 'leaveComment';
   static const feedComments = 'feedComments';
   static const deleteAccount = 'deleteAccount';
-  static const savedSuccessfully = "savedSuccessfully";
-  static const recommended_professions_storage = "recommended_professions_storage";
-  static const chooseProfileSubjects = "chooseProfileSubjects";
-  static const pleaseChooseProfileSubjects = "pleaseChooseProfileSubjects";
-  static const languages = "languages";
-  static const start_psytest = "start_psytest";
-  static const continue_button = "continue_button";
-  
+  static const savedSuccessfully = 'savedSuccessfully';
+  static const recommended_professions_storage = 'recommended_professions_storage';
+  static const chooseProfileSubjects = 'chooseProfileSubjects';
+  static const pleaseChooseProfileSubjects = 'pleaseChooseProfileSubjects';
+
 }

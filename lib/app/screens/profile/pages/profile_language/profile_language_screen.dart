@@ -39,7 +39,7 @@ class _ProfileLanguageScreenState extends State<ProfileLanguageScreen> {
         centerTitle: false,
         titleSpacing: 16,
         title: Text(
-          LocaleKeys.languages.tr(),
+          LocaleKeys.language.tr(),
           style:
               AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
         ),

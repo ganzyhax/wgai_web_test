@@ -1,11 +1,15 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/atlas/atlas_complete_screen.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class AtlasScreen extends StatelessWidget {
   const AtlasScreen({super.key});
@@ -14,22 +18,10 @@ class AtlasScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(
-          'Профессии', //Change
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
-        ),
-        //        BlocBuilder<AtlasBloc, AtlasState>(
-        //   builder: (context, state) {
-        //     if (state is SpecialitiesLoaded) {
-
-        //     } else {
-        //       const CircularProgressIndicator();
-        //     }
-        //   },
-        // )
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size(60, 60),
+          child: CustomAppbar(
+              title: LocaleKeys.atlas_professions.tr(), withBackButton: true)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: BlocBuilder<AtlasBloc, AtlasState>(

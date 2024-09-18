@@ -101,6 +101,7 @@
     "leave_comment":"коммент қалдырыңыз",
     "delete":"өшіру",
     "atlas_professions":"Мамандықтар атласы",
+    "professions":"Мамандықтар",
     "professions_directions":"Мамандықтар мен бағыттар таңдауыңызға арналған",
     "universities":"ЖОО",
     "find_university":"Мақсаттарыңызға сай университетті табыңыз",
@@ -128,6 +129,7 @@
     "top_50":"Топ 50",
     "scholarship":"Шәкіртақы",
     "choose":"Таңдау",
+    
     "language_study":"Оқу тілі",
     "tuition_fee":"Оқу ақысы (АҚШ доллары бойынша)",
     "apply":"Қолдану",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -52,7 +53,8 @@ class _HtmlWebViewState extends State<HtmlWebView> {
     String localLang = await LocalUtils.getLanguage();
     try {
       if (widget.isUrl) {
-        await _controller.loadRequest(Uri.parse(widget.contentUrl+"&lang="+localLang));
+        await _controller
+            .loadRequest(Uri.parse(widget.contentUrl + "&lang=" + localLang));
         setState(() {
           htmlTitle = widget.contentUrlTitle;
           textScale = calculateTextScale(htmlTitle);
@@ -80,24 +82,9 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: Text(
-          htmlTitle,
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          textAlign: TextAlign.center,
-          textScaler: TextScaler.linear(textScale),
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
-        ),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size(60, 60),
+          child: CustomAppbar(title: htmlTitle, withBackButton: true)),
       backgroundColor: AppColors.whiteForText,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 0),
