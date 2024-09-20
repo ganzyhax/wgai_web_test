@@ -40,17 +40,19 @@ class _GrowthTestCardState extends State<GrowthTestCard> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HtmlWebView(
-              contentCode: widget.interpretationLink,
-              isUrl: true,
-              contentUrl: widget.interpretationLink,
-              contentUrlTitle: widget.interpretationLink,
+        if (widget.interpretationLink != '') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HtmlWebView(
+                contentCode: widget.interpretationLink,
+                isUrl: true,
+                contentUrl: widget.interpretationLink,
+                contentUrlTitle: widget.interpretationLink,
+              ),
             ),
-          ),
-        );
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(
@@ -86,14 +88,16 @@ class _GrowthTestCardState extends State<GrowthTestCard> {
                         ],
                       ),
                       SizedBox(height: 5),
-                      (_isExpanded != true)
-                          ? Text(
-                              widget.subTitle,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  fontSize: 15, color: Colors.grey[400]),
-                            )
+                      (widget.subTitle != '')
+                          ? (_isExpanded != true)
+                              ? Text(
+                                  widget.subTitle,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontSize: 15, color: Colors.grey[400]),
+                                )
+                              : SizedBox()
                           : SizedBox()
                     ],
                   ),

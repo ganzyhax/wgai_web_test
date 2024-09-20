@@ -24,7 +24,7 @@ class _UniversityKzTypeCardState extends State<UniversityKzTypeCard> {
     return Container(
       child: Column(
         children: [
-          (widget.type == 'dream')
+          (widget.type == 'dreamChoice')
               ? Row(
                   children: [
                     SvgPicture.asset('assets/icons/dream_choice.svg'),
@@ -34,25 +34,35 @@ class _UniversityKzTypeCardState extends State<UniversityKzTypeCard> {
                     Text('Dream Choice')
                   ],
                 )
-              : (widget.type == 'target')
+              : (widget.type == 'targetChoice1')
                   ? Row(
                       children: [
                         SvgPicture.asset('assets/icons/target_choice.svg'),
                         SizedBox(
                           width: 5,
                         ),
-                        Text('Target Choice')
+                        Text('Target Choice 1')
                       ],
                     )
-                  : Row(
-                      children: [
-                        SvgPicture.asset('assets/icons/safe_choice.svg'),
-                        SizedBox(
-                          width: 5,
+                  : (widget.type == 'targetChoice2')
+                      ? Row(
+                          children: [
+                            SvgPicture.asset('assets/icons/target_choice.svg'),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text('Target2 Choice')
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            SvgPicture.asset('assets/icons/safe_choice.svg'),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text('Safe Choice')
+                          ],
                         ),
-                        Text('Safe Choice')
-                      ],
-                    ),
           SizedBox(
             height: 5,
           ),

@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
+import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
 import 'package:wg_app/app/screens/specialities/widgets/grants_container.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
+import 'package:wg_app/app/screens/universities/model/kaz_universities.dart';
 import 'package:wg_app/app/screens/universities/universities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_complete.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
@@ -18,11 +22,12 @@ import 'package:wg_app/generated/locale_keys.g.dart';
 class SpecialitiesCompleteScreen extends StatefulWidget {
   final String speciesId;
   final bool? isChooseUniversity;
-  const SpecialitiesCompleteScreen({
-    super.key,
-    this.isChooseUniversity,
-    required this.speciesId,
-  });
+  final Specialties data;
+  const SpecialitiesCompleteScreen(
+      {super.key,
+      this.isChooseUniversity,
+      required this.speciesId,
+      required this.data});
 
   @override
   State<SpecialitiesCompleteScreen> createState() =>
@@ -74,6 +79,7 @@ class SpecialitiesCompleteScreenState
           )),
       body: BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
         builder: (context, state) {
+          log(widget.data.toString());
           if (state is SpecialitiesLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is SpecialitiesLoaded) {
@@ -84,82 +90,69 @@ class SpecialitiesCompleteScreenState
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     UniComplete(
-                      code: state.specialResources?[0].code ?? '',
-                      title: state.specialResources?[0].name
-                              ?.getLocalizedString(context) ??
-                          '',
-                      description: state
-                              .specialResources?[0].profileSubjects?[0].name
-                              ?.getLocalizedString(context) ??
-                          '',
+                      code: widget.data.code ?? '',
+                      title: widget.data.name!
+                          .toJson()[context.locale.languageCode],
+                      description:
+                          widget.data.name!.getLocalizedString(context) ?? '',
                       isUnivesity: false,
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Гранты',
+                      LocaleKeys.grants.tr(),
                       style: AppTextStyle.titleHeading
                           .copyWith(color: AppColors.calendarTextColor),
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Общий конкурс',
+                      LocaleKeys.general_competition.tr(),
                       style: AppTextStyle.bodyTextMiddle
                           .copyWith(color: AppColors.calendarTextColor),
                     ),
                     const SizedBox(height: 16),
                     GrantsContainer(
-                      title: 'Количество грантов',
+                      title: LocaleKeys.number_of_grants.tr(),
                       isResults: false,
-                      grantItems: state.specialResources?[0].grants?.general
-                              ?.grantScores ??
-                          [],
-                      grantTotal: state.specialResources?[0].grants?.general
-                              ?.grantsTotal ??
-                          0,
+                      grantItems:
+                          widget.data.grants?.general?.grantScores ?? [],
+                      grantTotal: widget.data.grants?.general?.grantsTotal ?? 0,
                     ),
                     const SizedBox(height: 16),
                     GrantsContainer(
-                        title: 'Результаты прошлых ЕНТ',
+                        title: LocaleKeys.result_of_past_unt.tr(),
                         isResults: true,
-                        grantItems: state.specialResources?[0].grants?.general
-                                ?.grantScores ??
-                            [],
-                        grantTotal: state.specialResources?[0].grants?.general
-                                ?.grantsTotal ??
-                            0),
+                        grantItems:
+                            widget.data.grants?.general?.grantScores ?? [],
+                        grantTotal:
+                            widget.data.grants?.general?.grantsTotal ?? 0),
                     const SizedBox(height: 16),
                     Text(
-                      'Сельская квота',
+                      LocaleKeys.rural_quota.tr(),
                       style: AppTextStyle.bodyTextMiddle
                           .copyWith(color: AppColors.calendarTextColor),
                     ),
                     const SizedBox(height: 16),
                     GrantsContainer(
-                      title: 'Результаты прошлых ЕНТ',
+                      title: LocaleKeys.result_of_past_unt.tr(),
                       isResults: true,
-                      grantItems: state.specialResources?[0].grants?.rural
-                              ?.grantScores ??
-                          [],
-                      grantTotal: state.specialResources?[0].grants?.rural
-                              ?.grantsTotal ??
-                          0,
+                      grantItems: widget.data.grants?.rural?.grantScores ?? [],
+                      grantTotal: widget.data.grants?.rural?.grantsTotal ?? 0,
                     ),
                     const SizedBox(height: 16),
                     GrantsContainer(
-                      title: 'Количество грантов',
+                      title: LocaleKeys.number_of_grants.tr(),
                       isResults: false,
-                      grantItems: state.specialResources?[0].grants?.rural
-                              ?.grantScores ??
-                          [],
-                      grantTotal: state.specialResources?[0].grants?.rural
-                              ?.grantsTotal ??
-                          0,
+                      grantItems: widget.data.grants?.rural?.grantScores ?? [],
+                      grantTotal: widget.data.grants?.rural?.grantsTotal ?? 0,
                     ),
                     const SizedBox(height: 16),
                     Text(
                       'universities'.tr(),
                       style: AppTextStyle.titleHeading
                           .copyWith(color: AppColors.calendarTextColor),
+                    ),
+                    SizedBox(
+                      height: 10,
                     ),
                     BlocBuilder<UniversitiesBloc, UniversitiesState>(
                       builder: (context, state) {
@@ -172,9 +165,10 @@ class SpecialitiesCompleteScreenState
                             physics: NeverScrollableScrollPhysics(),
                             scrollDirection: Axis.vertical,
                             shrinkWrap: true,
-                            itemCount: state.universities?.length,
+                            itemCount: widget.data.universities!.length,
                             itemBuilder: (context, index) {
-                              final university = state.universities?[index];
+                              final university =
+                                  widget.data.universities?[index];
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 8),
                                 child: UniContainers(

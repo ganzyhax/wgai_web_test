@@ -178,12 +178,21 @@
     "choose_university": "Выберите ВУЗ своей мечты",
 
     "career_profession_name": "Название профессии",
-    
+    "military_department": "Военная кафедра",
+  "dormitory": "Общежитие"
+,"adress": "Адрес",
+"contacts": "Контакты",
+"social_media": "Социальные сети",
     "recommended_profession_name": "Рек. профессии",
-    
+    "grants": "Гранты",
+    "general_competition": "Общий конкурс",
+    "number_of_grants": "Количество грантов",
+    "result_of_past_unt": "Результат прошлого ЕНТ",
+    "rural_quota": "Сельская квота",
     "delete_subject_confirmation": "Вы действительно хотите удалить выбранный предмет?",
     "delete_subject_warning": "При удалении предмета, все выбранные университеты будут удалены.",
     "yes": "Да",
+    "type":"Тип",
     "no": "Нет",
     "personalGrowthResultsButton" : "Результат",
     "personalGrowthDescription": "Программа \"Личный Рост\"\nПоможет вам выбрать профессию, понять свои сильные стороны и узнать о нужных навыках для успешной жизни!",

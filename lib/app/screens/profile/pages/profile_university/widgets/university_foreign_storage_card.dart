@@ -7,7 +7,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
-import 'package:wg_app/app/screens/profile/pages/profile_career/bloc/profile_career_bloc.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
@@ -17,22 +16,24 @@ import 'package:wg_app/constants/app_icons.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
-class CareerStorageContainer extends StatefulWidget {
+class UniversityForeignStorageCard extends StatefulWidget {
   final String title;
 
-  const CareerStorageContainer({
+  const UniversityForeignStorageCard({
     super.key,
     required this.title,
   });
 
   @override
-  State<CareerStorageContainer> createState() => _CareerStorageContainerState();
+  State<UniversityForeignStorageCard> createState() =>
+      _UniversityForeignStorageCardState();
 }
 
-class _CareerStorageContainerState extends State<CareerStorageContainer> {
+class _UniversityForeignStorageCardState
+    extends State<UniversityForeignStorageCard> {
   @override
   Widget build(BuildContext context) {
-    var data = BookmarkData().getItems(AppHiveConstants.professions);
+    var data = BookmarkData().getItems(AppHiveConstants.globalUniversities);
 
     return (data.length > 0)
         ? Container(
@@ -97,17 +98,16 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
                             SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.5,
                                 child: Text(
-                                  data[index]['data']['name']
+                                  data[index]['data']['title']
                                       [context.locale.languageCode],
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 )),
                             GestureDetector(
                                 onTap: () async {
-                                  log('clicked!');
-                                  BlocProvider.of<ProfileCareerBloc>(context)
-                                    ..add(ProfileDeleteCareer(
-                                        occupationCode: data[index]['id']));
+                                  // BlocProvider.of<ProfileBloc>(context)
+                                  //   ..add(ProfileDeleteMyCareerBookmark(
+                                  //       occupationCode: data[index]['id']));
 
                                   setState(() {});
                                 },

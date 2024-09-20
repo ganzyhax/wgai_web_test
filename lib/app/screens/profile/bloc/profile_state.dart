@@ -10,9 +10,11 @@ final class ProfileLoaded extends ProfileState {
   final specialities;
   final selectedSpeciality;
   final String fullName;
+  final selectedForeignUniversities;
   ProfileLoaded(
       {required this.data,
       required this.specialities,
+      required this.selectedForeignUniversities,
       required this.selectedSpeciality,
       required this.fullName});
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -97,6 +99,7 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                             secondDescription:
                                 university?.specialties?.length ?? 0,
                             onTap: () {
+                              log(university!.code.toString());
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

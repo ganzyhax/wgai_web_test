@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
 import 'package:wg_app/app/screens/specialities/specialities_complete_screen.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
@@ -100,6 +101,7 @@ class SpecialitiesScreen extends StatelessWidget {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             SpecialitiesCompleteScreen(
+                                              data: specialResources!,
                                               speciesId:
                                                   specialResources?.code ?? '',
                                             )));
@@ -129,11 +131,15 @@ class SpecialitiesScreen extends StatelessWidget {
                                             .grants?.general?.grantsTotal ??
                                         0,
                                     onTap: () {
+                                      BlocProvider.of<ProfileBloc>(context)
+                                        ..add(ProfileSetUniSpecCode(
+                                            value: specialResources.code!));
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 SpecialitiesCompleteScreen(
+                                                  data: specialResources,
                                                   isChooseUniversity: true,
                                                   speciesId:
                                                       specialResources.code ??

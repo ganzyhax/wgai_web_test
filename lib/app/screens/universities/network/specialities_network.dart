@@ -8,7 +8,6 @@ class UniversitiesNetwork {
     final response = await ApiClient.get('api/resources/kazUniversities');
     if (response['success']) {
       final unisData = response['data'];
-      log('UniTest Data: $unisData');
       try {
         final unisModel = KazUniversity.fromJson(unisData);
         return unisModel;

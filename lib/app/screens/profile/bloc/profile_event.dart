@@ -20,34 +20,25 @@ final class ProfileSetSpeciality extends ProfileEvent {
   });
 }
 
+final class ProfileSetUniSpecCode extends ProfileEvent {
+  final String value;
+  ProfileSetUniSpecCode({required this.value});
+}
+
 final class ProfileSetSpecialityPost extends ProfileEvent {}
 
 final class ProfileAddKazUniversity extends ProfileEvent {
   final String shortlistChoice;
-  final String kazSpecCode;
+  final titleJson;
   final String kazUniCode;
+
   ProfileAddKazUniversity(
       {required this.shortlistChoice,
-      required this.kazSpecCode,
-      required this.kazUniCode});
+      required this.kazUniCode,
+      required this.titleJson});
 }
 
 final class ProfileSetKazUniversitySubject extends ProfileEvent {
   final String subjectCode;
   ProfileSetKazUniversitySubject({required this.subjectCode});
-}
-
-final class ProfileAddMyCareerBookmark extends ProfileEvent {
-  final String occupationCode;
-  var title;
-  final String areaIconCode;
-  ProfileAddMyCareerBookmark(
-      {required this.occupationCode,
-      required this.title,
-      required this.areaIconCode});
-}
-
-final class ProfileDeleteMyCareerBookmark extends ProfileEvent {
-  final String occupationCode;
-  ProfileDeleteMyCareerBookmark({required this.occupationCode});
 }

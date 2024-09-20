@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:hive/hive.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 
 class BookmarkData {
   static final BookmarkData _instance = BookmarkData._internal();
@@ -17,18 +18,11 @@ class BookmarkData {
     _box = await Hive.openBox('dataManager');
   }
 
-  /// Add an item to a specific list
   Future<void> addItem(String listName, Map<String, dynamic> item) async {
-    print(item);
-    // Retrieve the list from the Hive box, which should be a List<String> since we are storing JSON-encoded strings
     final List<dynamic> rawList = _box.get(listName, defaultValue: []);
     final List<String> list =
         List<String>.from(rawList.map((e) => e.toString()));
-
-    // Convert the Map to a JSON string
     String jsonString = jsonEncode(item);
-
-    // Check if an item with the same 'id' already exists in the JSON string
     if (!list.any((element) {
       final decodedItem = jsonDecode(element);
       return decodedItem['id'] == item['id'];
@@ -83,6 +77,11 @@ class BookmarkData {
       }
     }
     return res;
+  }
+
+  Future<void> loadData(String listName, List<dynamic> data) async {
+    final List<String> jsonList = data.map((item) => jsonEncode(item)).toList();
+    await _box.put(listName, jsonList);
   }
 
   /// Clear all items from a specific list

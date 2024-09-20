@@ -9,6 +9,7 @@ import 'package:wg_app/app/screens/atlas/model/professions_model.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_container.dart';
 import 'package:wg_app/app/screens/atlas/widgets/atlas_title_container.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_career/bloc/profile_career_bloc.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
@@ -41,11 +42,10 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
 
   void toggleBookmark() async {
     if (isBookmarked) {
-      BlocProvider.of<ProfileBloc>(context)
-        ..add(ProfileDeleteMyCareerBookmark(
-            occupationCode: widget.professionsId));
+      BlocProvider.of<ProfileCareerBloc>(context)
+        ..add(ProfileDeleteCareer(occupationCode: widget.professionsId));
     } else {
-      BlocProvider.of<ProfileBloc>(context).add(ProfileAddMyCareerBookmark(
+      BlocProvider.of<ProfileCareerBloc>(context).add(ProfileAddCareer(
           occupationCode: widget.professionsId,
           title: widget.profession.title!.toJson(),
           areaIconCode: widget.profession.areaIconCode!));
@@ -68,7 +68,6 @@ class _AtlasCompleteScreenState extends State<AtlasCompleteScreen> {
             IconButton(
               onPressed: () {
                 toggleBookmark();
-                print('Id: ${widget.professionsId}');
               },
               icon: isBookmarked
                   ? SvgPicture.asset('assets/icons/bookmark.svg')

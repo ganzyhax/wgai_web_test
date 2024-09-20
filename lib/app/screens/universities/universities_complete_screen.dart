@@ -1,7 +1,11 @@
+import 'dart:developer';
+
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
 import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
 import 'package:wg_app/app/screens/specialities/specialities_complete_screen.dart';
@@ -16,6 +20,7 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class UniversitiesCompleteScreen extends StatefulWidget {
   final String universityId;
@@ -114,13 +119,13 @@ class _UniversitiesCompleteScreenState
                       ),
                       const SizedBox(height: 16),
                       UniSocialContainer(
-                          titleAddress: "Адрес:",
+                          titleAddress: LocaleKeys.adress.tr() + ':',
                           address:
                               university.address?.getLocalizedString(context) ??
                                   '',
-                          titleContacts: "Контакты:",
+                          titleContacts: LocaleKeys.contacts.tr() + ':',
                           contacts: university.phoneNumbers ?? [],
-                          titleSocial: "Соц. сеть:",
+                          titleSocial: LocaleKeys.social_media.tr() + ':',
                           socialMedia: university.socialMedia
                                   ?.map((social) => {'link': social.link ?? ''})
                                   .toList() ??
@@ -128,8 +133,8 @@ class _UniversitiesCompleteScreenState
                           titleSite: "Сайт:",
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
-                      const Text(
-                        'Cпециальности',
+                      Text(
+                        LocaleKeys.specialities.tr(),
                         style: AppTextStyle.heading3,
                       ),
                       const SizedBox(height: 8),
@@ -161,6 +166,7 @@ class _UniversitiesCompleteScreenState
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             SpecialitiesCompleteScreen(
+                                                                data: spec!,
                                                                 speciesId: specialty
                                                                         .code ??
                                                                     '')),
@@ -201,26 +207,18 @@ class _UniversitiesCompleteScreenState
                         height: 5,
                       ),
                       CustomButton(
-                          isDisabled: (type == 'dream') ? true : false,
-                          text: (type == 'dream')
+                          isDisabled: (type == 'dreamChoice') ? true : false,
+                          text: (type == 'dreamChoice')
                               ? 'Selected for target Dream'
                               : 'Select for target Dream',
                           onTap: () async {
-                            await BookmarkData().removeItem(
-                                AppHiveConstants.kzUniversities,
-                                widget.universityId);
-                            await BookmarkData()
-                                .addItem(AppHiveConstants.kzUniversities, {
-                              'id': widget.universityId,
-                              'data': {
-                                'universityCode': university?.code,
-                                'title': university.name!.toJson(),
-                                'type': 'dream'
-                              }
-                            });
-                            type = BookmarkData().getDataType(
-                                AppHiveConstants.kzUniversities,
-                                widget.universityId);
+                            BlocProvider.of<ProfileBloc>(context)
+                              ..add(ProfileAddKazUniversity(
+                                  titleJson: university.name!.toJson(),
+                                  kazUniCode: university.code!,
+                                  shortlistChoice: 'dreamChoice'));
+
+                            type = 'dreamChoice';
 
                             setState(() {});
                           }),
@@ -228,27 +226,18 @@ class _UniversitiesCompleteScreenState
                         height: 5,
                       ),
                       CustomButton(
-                          isDisabled: (type == 'target') ? true : false,
-                          text: (type == 'target')
+                          isDisabled: (type == 'targetChoice1') ? true : false,
+                          text: (type == 'targetChoice1')
                               ? 'Selected for target Choice'
                               : 'Select for target Choice',
                           onTap: () async {
-                            await BookmarkData().removeItem(
-                                AppHiveConstants.kzUniversities,
-                                widget.universityId);
-                            await BookmarkData()
-                                .addItem(AppHiveConstants.kzUniversities, {
-                              'id': widget.universityId,
-                              'data': {
-                                'universityCode': university?.code,
-                                'title': university.name!.toJson(),
-                                'type': 'target'
-                              }
-                            });
+                            BlocProvider.of<ProfileBloc>(context)
+                              ..add(ProfileAddKazUniversity(
+                                  titleJson: university.name!.toJson(),
+                                  kazUniCode: university.code!,
+                                  shortlistChoice: 'targetChoice1'));
 
-                            type = BookmarkData().getDataType(
-                                AppHiveConstants.kzUniversities,
-                                widget.universityId);
+                            type = 'targetChoice1';
 
                             setState(() {});
                           }),
@@ -256,27 +245,37 @@ class _UniversitiesCompleteScreenState
                         height: 5,
                       ),
                       CustomButton(
-                          isDisabled: (type == 'safe') ? true : false,
-                          text: (type == 'safe')
+                          isDisabled: (type == 'targetChoice2') ? true : false,
+                          text: (type == 'targetChoice2')
+                              ? 'Selected for target2 Choice'
+                              : 'Select for target2 Choice',
+                          onTap: () async {
+                            BlocProvider.of<ProfileBloc>(context)
+                              ..add(ProfileAddKazUniversity(
+                                  titleJson: university.name!.toJson(),
+                                  kazUniCode: university.code!,
+                                  shortlistChoice: 'targetChoice2'));
+
+                            type = 'targetChoice2';
+
+                            setState(() {});
+                          }),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      CustomButton(
+                          isDisabled: (type == 'safeChoice') ? true : false,
+                          text: (type == 'safeChoice')
                               ? 'Selected for target Safe'
                               : 'Select for target Safe',
                           onTap: () async {
-                            await BookmarkData().removeItem(
-                                AppHiveConstants.kzUniversities,
-                                widget.universityId);
-                            await BookmarkData()
-                                .addItem(AppHiveConstants.kzUniversities, {
-                              'id': widget.universityId,
-                              'data': {
-                                'universityCode': university?.code,
-                                'title': university.name!.toJson(),
-                                'type': 'safe'
-                              }
-                            });
+                            BlocProvider.of<ProfileBloc>(context)
+                              ..add(ProfileAddKazUniversity(
+                                  titleJson: university.name!.toJson(),
+                                  kazUniCode: university.code!,
+                                  shortlistChoice: 'safeChoice'));
 
-                            type = BookmarkData().getDataType(
-                                AppHiveConstants.kzUniversities,
-                                widget.universityId);
+                            type = 'safeChoice';
 
                             setState(() {});
                           }),

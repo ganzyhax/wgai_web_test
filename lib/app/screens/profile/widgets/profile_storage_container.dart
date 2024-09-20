@@ -12,12 +12,14 @@ class ProfileStorageContainer extends StatelessWidget {
   final bool showRightIcon;
   final String buttonTitle;
   final String description;
+  final bool isViewAllButton;
 
   final Function() onButtonTap;
   const ProfileStorageContainer({
     super.key,
     required this.title,
     this.showLeftIcon = false,
+    this.isViewAllButton = false,
     this.showRightIcon = false,
     required this.buttonTitle,
     this.isMyCareer = false,

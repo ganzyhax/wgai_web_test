@@ -8,7 +8,6 @@ class QuestionnaireNetwork {
     // final response = await ApiClient.get('api/testingMaterials/qstnNine');
     if (response['success']) {
       final testData = response['data'];
-      // log('questionnaire Data: $testData');
       try {
         final testModel = TestingModel.fromJson(testData);
         return testModel;
@@ -22,13 +21,15 @@ class QuestionnaireNetwork {
     return null;
   }
 
-  Future<void> submitAnswers(List<List<int>> answers, String taskId, bool isGuidanceTask) async {
+  Future<void> submitAnswers(
+      List<List<int>> answers, String taskId, bool isGuidanceTask) async {
     var correctRoute = "guidanceTasks";
     if (!isGuidanceTask) {
       correctRoute = "counselorTasks";
     }
     print("before send");
-    var response = await ApiClient.post('api/$correctRoute/submitResponse', {"taskId": taskId, "taskResponse": answers});
+    var response = await ApiClient.post('api/$correctRoute/submitResponse',
+        {"taskId": taskId, "taskResponse": answers});
     if (response['success']) {
       print("successfully sent");
     }

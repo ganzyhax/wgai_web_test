@@ -8,7 +8,6 @@ class SpecialitiesNetwork {
     final response = await ApiClient.get('api/resources/kazSpecialties');
     if (response['success']) {
       final speciesData = response['data'];
-      log('Kaz Specialities Data: $speciesData');
       try {
         final speciesModel = KazSpecialties.fromJson(speciesData);
         return speciesModel;

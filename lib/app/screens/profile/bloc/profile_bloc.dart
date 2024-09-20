@@ -13,16 +13,45 @@ part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
   ProfileBloc() : super(ProfileInitial()) {
-    var data = [];
+    var data;
     var specialities;
     var fullName = "";
     var selectedSpeciality;
+    var selectedForeignUniversities;
+    var selectedUniSpecId = '';
     String selectedSubjectId = '';
+    List<String> keys = [
+      'safeChoice',
+      'targetChoice1',
+      'targetChoice2',
+      'dreamChoice'
+    ];
     on<ProfileEvent>((event, emit) async {
       if (event is ProfileLoad) {
-        // var sss = await ApiClient.get('api/portfolio/myUniversity');
+        data = await ApiClient.get('api/portfolio/myUniversity');
 
         specialities = await ApiClient.get('api/resources/kazSubjects');
+        selectedForeignUniversities =
+            data['data']['myUniversity']['foreignUniversities'];
+        selectedSubjectId = data['data']['myUniversity']['kazUniversities']
+            ['profileSubject']['code'];
+        selectedSpeciality = data['data']['myUniversity']['kazUniversities']
+            ['profileSubject']['name'];
+
+        List<Map<String, dynamic>?> resultList = keys
+            .map((key) {
+              final choice =
+                  data['data']['myUniversity']['kazUniversities'][key];
+              if (choice != null) {
+                return {'id': key, 'data': choice};
+              }
+              return null;
+            })
+            .where((item) => item != null) // Filter out null values
+            .toList();
+        log(resultList.toString());
+        await BookmarkData()
+            .loadData(AppHiveConstants.kzUniversities, resultList);
         final userProfile = await ApiClient.get('api/user');
         if (userProfile['success']) {
           fullName = userProfile['data']['firstName'] +
@@ -31,7 +60,8 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         }
         emit(
           ProfileLoaded(
-              data: data,
+              selectedForeignUniversities: selectedForeignUniversities,
+              data: data['data']['myUniversity'],
               specialities: specialities['data']['subjects'],
               selectedSpeciality: selectedSpeciality,
               fullName: fullName),
@@ -45,6 +75,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         if (req['success']) {
           emit(ProfileUpdatedSuccess());
           emit(ProfileLoaded(
+              selectedForeignUniversities: selectedForeignUniversities,
               data: data,
               specialities: specialities['data']['subjects'],
               selectedSpeciality: selectedSpeciality,
@@ -61,52 +92,61 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           emit(ProfileSetUniversitySubjectSuccess());
         }
         emit(ProfileLoaded(
+            selectedForeignUniversities: selectedForeignUniversities,
             data: data,
             specialities: specialities['data']['subjects'],
             selectedSpeciality: selectedSpeciality,
             fullName: fullName));
+      }
+      if (event is ProfileSetUniSpecCode) {
+        selectedUniSpecId = event.value;
       }
       if (event is ProfileSetSpeciality) {
         selectedSpeciality = event.value;
         selectedSubjectId = event.code;
+        log(selectedSubjectId);
         emit(ProfileLoaded(
+            selectedForeignUniversities: selectedForeignUniversities,
             data: data,
             specialities: specialities['data']['subjects'],
             selectedSpeciality: selectedSpeciality,
             fullName: fullName));
       }
-      if (event is ProfileAddMyCareerBookmark) {
-        var res = await ApiClient.post('api/portfolio/myCareer/addBookmark',
-            {'occupationCode': event.occupationCode});
-        if (res['success']) {
-          await BookmarkData().addItem(AppHiveConstants.professions, {
-            'id': event.occupationCode,
-            'data': {'title': event.title, 'areaIconCode': event.areaIconCode}
-          });
-        } else {
-          emit(ProfileUpdateCareerError());
-        }
-        emit(ProfileLoaded(
-            data: data,
-            specialities: specialities['data']['subjects'],
-            selectedSpeciality: selectedSpeciality,
-            fullName: fullName));
-      }
-      if (event is ProfileDeleteMyCareerBookmark) {
-        var res = await ApiClient.post('api/portfolio/myCareer/removeBookmark',
-            {'occupationCode': event.occupationCode});
 
+      if (event is ProfileAddKazUniversity) {
+        var res = await ApiClient.post(
+            'api/portfolio/myUniversity/kaz/setShortlistUniChoice', {
+          "kazUniCode": event.kazUniCode,
+          "kazSpecCode": selectedUniSpecId,
+          "shortlistChoice": event.shortlistChoice
+        });
+        log(res.toString());
         if (res['success']) {
-          await BookmarkData()
-              .removeItem(AppHiveConstants.professions, event.occupationCode);
+          await BookmarkData().removeItem(
+              AppHiveConstants.kzUniversities, event.shortlistChoice);
+          await BookmarkData().addItem(AppHiveConstants.kzUniversities, {
+            'id': event.shortlistChoice,
+            'data': {
+              'universityCode': event.kazUniCode,
+              'name': event.titleJson,
+              'type': event.shortlistChoice
+            }
+          });
+          emit(ProfileLoaded(
+              data: data,
+              selectedForeignUniversities: selectedForeignUniversities,
+              specialities: specialities['data']['subjects'],
+              selectedSpeciality: selectedSpeciality,
+              fullName: fullName));
         } else {
-          emit(ProfileUpdateCareerError());
+          log('cant select target');
+          emit(ProfileLoaded(
+              data: data,
+              selectedForeignUniversities: selectedForeignUniversities,
+              specialities: specialities['data']['subjects'],
+              selectedSpeciality: selectedSpeciality,
+              fullName: fullName));
         }
-        emit(ProfileLoaded(
-            data: data,
-            specialities: specialities['data']['subjects'],
-            selectedSpeciality: selectedSpeciality,
-            fullName: fullName));
       }
     });
   }

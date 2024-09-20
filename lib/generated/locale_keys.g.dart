@@ -138,6 +138,12 @@ abstract class  LocaleKeys {
   static const university = 'university';
   static const speciality = 'speciality';
   static const country = 'country';
+  static const adress = 'adress';
+  static const contacts = 'contacts';
+  static const social_media = 'social_media';
+  static const military_department = 'military_department';
+  static const dormitory = 'dormitory';
+  static const type = 'type';
   static const short_description = 'short_description';
   static const university_rating = 'university_rating';
   static const tuition_fee_university = 'tuition_fee_university';
@@ -146,6 +152,11 @@ abstract class  LocaleKeys {
   static const save = 'save';
   static const all_programs = 'all_programs';
   static const learn_yourself = 'learn_yourself';
+  static const grants = 'grants';
+  static const general_competition = 'general_competition';
+  static const number_of_grants = 'number_of_grants';
+  static const result_of_past_unt = 'result_of_past_unt';
+  static const rural_quota = 'rural_quota';
   static const settings = 'settings';
   static const profile_settings = 'profile_settings';
   static const change_password = 'change_password';

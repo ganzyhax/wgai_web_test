@@ -7,7 +7,7 @@ class TestNetwork {
     final response = await ApiClient.get('api/testingMaterials/psytestKlimov');
     if (response['success']) {
       final testData = response['data'];
-      log('PsyTest Data: $testData');
+
       try {
         final testModel = TestModel.fromJson(testData);
         return testModel;

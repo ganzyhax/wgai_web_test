@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_storage_card.dart';
-import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_special_select_modal.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_special_select_modal.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
@@ -17,25 +18,11 @@ class ProfileUniversityScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              LocaleKeys.my_universities_title.tr(),
-              style: AppTextStyle.titleHeading.copyWith(
-                color: AppColors.blackForText,
-              ),
-              maxLines: 2,
-              textAlign: TextAlign.left,
-            )),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
-        ),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppbar(
+              title: LocaleKeys.my_universities_title.tr(),
+              withBackButton: true)),
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoaded) {

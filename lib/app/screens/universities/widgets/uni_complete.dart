@@ -44,7 +44,9 @@ class UniComplete extends StatelessWidget {
           Row(
             children: [
               PhosphorIcon(
-                isUnivesity == true ? PhosphorIconsBold.bank : PhosphorIconsBold.chalkboardTeacher,
+                isUnivesity == true
+                    ? PhosphorIconsBold.bank
+                    : PhosphorIconsBold.chalkboardTeacher,
                 color: AppColors.primary,
                 size: 48,
               ),
@@ -52,7 +54,8 @@ class UniComplete extends StatelessWidget {
               Flexible(
                 child: Text(
                   title,
-                  style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.heading3
+                      .copyWith(color: AppColors.blackForText),
                 ),
               ),
             ],
@@ -60,20 +63,26 @@ class UniComplete extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             LocaleKeys.code.tr(),
-            style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
+            style:
+                AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
           ),
           Text(
             code,
-            style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
+            style:
+                AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
           ),
           const SizedBox(height: 8),
           Text(
-            isUnivesity == true ? 'Краткое описание' : 'Предметы',
-            style: AppTextStyle.interW600S12.copyWith(color: AppColors.blackForText),
+            isUnivesity == true
+                ? LocaleKeys.short_description.tr()
+                : LocaleKeys.all_subjects.tr(),
+            style: AppTextStyle.interW600S12
+                .copyWith(color: AppColors.blackForText),
           ),
           Text(
             description ?? '',
-            style: AppTextStyle.bodyTextVerySmall.copyWith(color: AppColors.blackForText),
+            style: AppTextStyle.bodyTextVerySmall
+                .copyWith(color: AppColors.blackForText),
           ),
           const SizedBox(height: 16),
           if (isUnivesity == true)
@@ -126,13 +135,15 @@ class UniversitiesTypesContainer extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  'Тип',
-                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.blackForText),
+                  LocaleKeys.type.tr(),
+                  style: AppTextStyle.bodyTextSmall
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 const Spacer(),
                 Text(
                   type ?? '',
-                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.primary),
+                  style: AppTextStyle.bodyTextSmall
+                      .copyWith(color: AppColors.primary),
                 ),
               ],
             ),
@@ -155,15 +166,20 @@ class UniversitiesTypesContainer extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  'Военная кафедра',
-                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.blackForText),
+                  LocaleKeys.military_department.tr(),
+                  style: AppTextStyle.bodyTextSmall
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 const Spacer(),
                 if (hasMilitaryDept == true)
                   Text(
-                    hasMilitaryDept == true ? 'Да' : 'Нет',
-                    style: AppTextStyle.bodyTextSmall
-                        .copyWith(color: hasMilitaryDept == true ? AppColors.actionGreen : AppColors.exit),
+                    hasMilitaryDept == true
+                        ? LocaleKeys.yes.tr()
+                        : LocaleKeys.no.tr(),
+                    style: AppTextStyle.bodyTextSmall.copyWith(
+                        color: hasMilitaryDept == true
+                            ? AppColors.actionGreen
+                            : AppColors.exit),
                   ),
               ],
             ),
@@ -187,15 +203,20 @@ class UniversitiesTypesContainer extends StatelessWidget {
                   width: 8,
                 ),
                 Text(
-                  'Общежитие',
-                  style: AppTextStyle.bodyTextSmall.copyWith(color: AppColors.blackForText),
+                  LocaleKeys.dormitory.tr(),
+                  style: AppTextStyle.bodyTextSmall
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 const Spacer(),
                 if (hasDormitory == true)
                   Text(
-                    hasDormitory == true ? 'Да' : 'Нет',
-                    style:
-                        AppTextStyle.bodyTextSmall.copyWith(color: hasDormitory == true ? AppColors.actionGreen : AppColors.exit),
+                    hasDormitory == true
+                        ? LocaleKeys.yes.tr()
+                        : LocaleKeys.no.tr(),
+                    style: AppTextStyle.bodyTextSmall.copyWith(
+                        color: hasDormitory == true
+                            ? AppColors.actionGreen
+                            : AppColors.exit),
                   ),
               ],
             ),
