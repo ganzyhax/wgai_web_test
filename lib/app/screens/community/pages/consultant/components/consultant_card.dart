@@ -16,7 +16,6 @@ import 'package:wg_app/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class ConsultantCard extends StatefulWidget {
   final data;
   final String localLang;
@@ -61,12 +60,12 @@ class _ConsultantCardState extends State<ConsultantCard> {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(25.0),
-          // child: Image.network( 
-          //   fit: BoxFit.cover,  
+          // child: Image.network(
+          //   fit: BoxFit.cover,
           //   'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGK3diR3Zi-mnOXEaj-3ewmFyRYVxGzVzZw&s',
-          //   height: 50.0,       
-          //   width: 50.0,        
-          // ),                    
+          //   height: 50.0,
+          //   width: 50.0,
+          // ),
           child: Container(
             width: 50,
             height: 50,
@@ -83,7 +82,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 );
               },
             ),
-          ),         
+          ),
         ),
         SizedBox(width: 15),
         Column(
@@ -91,7 +90,9 @@ class _ConsultantCardState extends State<ConsultantCard> {
           children: [
             Text(widget.data?['authorName'] ?? "",
                 style: TextStyle(fontWeight: FontWeight.bold)),
-            Text(HelperFunctions().timeAgo(widget.data['createdAt'], widget.localLang),
+            Text(
+                HelperFunctions()
+                    .timeAgo(widget.data['createdAt'], widget.localLang),
                 style: TextStyle(
                     color: AppColors.grayForText, fontWeight: FontWeight.w500)),
           ],
@@ -101,9 +102,12 @@ class _ConsultantCardState extends State<ConsultantCard> {
   }
 
   Widget _buildTaskSpecificWidget() {
+    log(widget.data.toString());
     switch (widget.data['type']) {
       case 'textbox':
-        if (widget.data['result']['textResponse'] == 'none') {
+        if (!widget.data.containsKey('result')) {
+          return _buildTextboxTask();
+        } else if (widget.data['result']['textResponse'] == 'none') {
           return _buildTextboxTask();
         } else {
           return answerWidget(
@@ -159,7 +163,8 @@ class _ConsultantCardState extends State<ConsultantCard> {
             textColor: Colors.black,
           )
         else ...[
-          Text(LocaleKeys.your_answer.tr(), style: TextStyle(color: Colors.grey[600])),
+          Text(LocaleKeys.your_answer.tr(),
+              style: TextStyle(color: Colors.grey[600])),
           SizedBox(height: 5),
           Row(
             children: [
@@ -378,20 +383,16 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HtmlWebView(
-                          contentCode: widget.data['result']['interpretationLink'],
-                          isUrl: true,
-                          contentUrl: widget.data['result']['interpretationLink'],
-                          contentUrlTitle: widget.data['result']['interpretationCode'],
-                        ),
+                      builder: (context) => HtmlWebView(
+                        contentCode: widget.data['result']
+                            ['interpretationLink'],
+                        isUrl: true,
+                        contentUrl: widget.data['result']['interpretationLink'],
+                        contentUrlTitle: widget.data['result']
+                            ['interpretationCode'],
                       ),
-                    );
-                    // MaterialPageRoute(
-                    //   builder: (context) => ResultsScreen(
-                    //     sId: widget.data['_id'],
-                    //   ),
-                    // ),
-                  // );
+                    ),
+                  );
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
@@ -402,16 +403,25 @@ class _ConsultantCardState extends State<ConsultantCard> {
     return (widget.data['status'] == 'new')
         ? CustomButton(
             text: LocaleKeys.start_psytest.tr(),
-            onTap: () {
+            onTap: () async {
               BlocProvider.of<ConsultantBloc>(context)
                 ..add(ConsultantUpdateStatus(
                     taskId: widget.data['_id'], status: 'incomplete'));
-              Navigator.push(
+              final res = await Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode'], taskId: widget.data['_id'], isGuidanceTask: false),
+                  builder: (context) => QuestionnaireScreen(
+                      testingCode: widget.data['testingCode'],
+                      taskId: widget.data['_id'],
+                      isGuidanceTask: false),
                 ),
               );
+              log(res.toString());
+              if (res) {
+                BlocProvider.of<ConsultantBloc>(context)
+                  ..add(ConsultantUpdateStatus(
+                      taskId: widget.data['_id'], status: 'complete'));
+              }
             },
             bgColor: AppColors.primary,
             textColor: Colors.white,
@@ -419,13 +429,22 @@ class _ConsultantCardState extends State<ConsultantCard> {
         : (widget.data['status'] == 'incomplete')
             ? CustomButton(
                 text: LocaleKeys.continue_button.tr(),
-                onTap: () {
-                  Navigator.push(
+                onTap: () async {
+                  final res = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => QuestionnaireScreen(testingCode: widget.data['testingCode'], taskId: widget.data['_id'], isGuidanceTask: false),
+                      builder: (context) => QuestionnaireScreen(
+                          testingCode: widget.data['testingCode'],
+                          taskId: widget.data['_id'],
+                          isGuidanceTask: false),
                     ),
                   );
+                  log(res.toString());
+                  if (res) {
+                    BlocProvider.of<ConsultantBloc>(context)
+                      ..add(ConsultantUpdateStatus(
+                          taskId: widget.data['_id'], status: 'complete'));
+                  }
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
@@ -436,19 +455,21 @@ class _ConsultantCardState extends State<ConsultantCard> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => HtmlWebView(
-                          contentCode: widget.data['result']['interpretationLink'],
-                          isUrl: true,
-                          contentUrl: widget.data['result']['interpretationLink'],
-                          contentUrlTitle: widget.data['result']['interpretationCode'],
-                        ),
+                      builder: (context) => HtmlWebView(
+                        contentCode: widget.data['result']
+                            ['interpretationLink'],
+                        isUrl: true,
+                        contentUrl: widget.data['result']['interpretationLink'],
+                        contentUrlTitle: widget.data['result']
+                            ['interpretationCode'],
                       ),
-                    );
-                    // MaterialPageRoute(
-                    //   builder: (context) => ResultsScreen(
-                    //     sId: widget.data['_id'],
-                    //   ),
-                    // ),
+                    ),
+                  );
+                  // MaterialPageRoute(
+                  //   builder: (context) => ResultsScreen(
+                  //     sId: widget.data['_id'],
+                  //   ),
+                  // ),
                   // );
                 },
                 bgColor: Colors.grey[200],
