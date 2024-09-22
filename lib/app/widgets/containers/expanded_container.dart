@@ -64,23 +64,22 @@ class _ExpandedContainerState extends State<ExpandedContainer> {
         if (_isExpanded)
           ConstrainedBox(
             constraints: BoxConstraints(
-                maxHeight: 200.0,
+                maxHeight: 200.0, // Max height to control the size
                 maxWidth: MediaQuery.of(context).size.width * 0.6),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: widget.items.map((item) {
-                  return ListTile(
-                    title: Text(item),
-                    onTap: () {
-                      widget.onItemSelected(item);
-                      _toggleExpansion();
-                    },
-                  );
-                }).toList(),
-              ),
+            child: ListView.builder(
+              itemCount: widget.items.length, // Number of items
+              itemBuilder: (context, index) {
+                final item = widget.items[index]; // Get each item
+                return ListTile(
+                  title: Text(item),
+                  onTap: () {
+                    widget.onItemSelected(item); // Handle item selection
+                    _toggleExpansion(); // Collapse after selection
+                  },
+                );
+              },
             ),
-          ),
+          )
       ],
     );
   }

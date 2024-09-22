@@ -20,8 +20,9 @@ class SpecialitiesBloc extends Bloc<SpecialitiesEvent, SpecialitiesState> {
     try {
       final KazSpecialties? specialtiesModel =
           await SpecialitiesNetwork().fetchSpecies();
+      var specialities = await ApiClient.get('api/resources/kazSubjects');
       if (specialtiesModel != null && specialtiesModel.specialties != null) {
-        emit(SpecialitiesLoaded(specialtiesModel.specialties));
+        emit(SpecialitiesLoaded(specialtiesModel.specialties, specialities));
       } else {
         emit(SpecialitiesError('Kaz universities Data not loaded'));
       }

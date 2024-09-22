@@ -9,8 +9,9 @@ final class SpecialitiesLoading extends SpecialitiesState {}
 
 final class SpecialitiesLoaded extends SpecialitiesState {
   final List<Specialties>? specialResources;
+  final specialities;
 
-  SpecialitiesLoaded(this.specialResources);
+  SpecialitiesLoaded(this.specialResources, this.specialities);
 }
 
 class SpecialitiesError extends SpecialitiesState {

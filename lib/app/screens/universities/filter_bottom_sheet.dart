@@ -84,7 +84,6 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
       }
     }
 
-    log(regions.length.toString());
     return StatefulBuilder(
       builder: (BuildContext context, StateSetter setState) {
         return Container(
@@ -123,16 +122,12 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
                     .toList(),
                 (selectedSpecialty) {
                   setState(() {
-                    // Find the selected specialty from the actual list of specialties
                     SpecialtiesUni? specialtyObj = specialties.firstWhere((s) =>
                         s.name!.getLocalizedString(context) ==
                         selectedSpecialty);
 
-                    selectedSpecialites = [
-                      specialtyObj
-                    ]; // Store the actual object
-                    selectedSpecialitesString =
-                        selectedSpecialty; // Store the string for UI
+                    selectedSpecialites = [specialtyObj];
+                    selectedSpecialitesString = selectedSpecialty;
                   });
                 },
                 false,
@@ -250,18 +245,14 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         ExpandedContainer(
           title: containerTitle,
           onTap: () {},
-          items: (isRegion)
-              ? options.map((option) {
-                  // Display the regionName in the UI
-                  return option['regionName'].toString();
-                }).toList()
-              : options.map((option) {
-                  // Display as string for other types of options
-                  return option.toString();
-                }).toList(),
+          items: options.map((option) {
+            return isRegion
+                ? option['regionName'].toString()
+                : option.toString();
+          }).toList(),
           onItemSelected: (selectedOptionName) {
             if (isRegion) {
-              var selectedOption = options.firstWhere(
+              final selectedOption = options.firstWhere(
                 (option) => option['regionName'] == selectedOptionName,
               );
               onOptionSelected(selectedOption);
