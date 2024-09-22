@@ -35,7 +35,7 @@ class ProfileCareerBloc extends Bloc<ProfileCareerEvent, ProfileCareerState> {
       if (event is ProfileAddCareer) {
         var res = await ApiClient.post('api/portfolio/myCareer/addBookmark',
             {'occupationCode': event.occupationCode});
-        log(res.toString());
+
         if (res['success']) {
           await BookmarkData().addItem(AppHiveConstants.professions, {
             'id': event.occupationCode,

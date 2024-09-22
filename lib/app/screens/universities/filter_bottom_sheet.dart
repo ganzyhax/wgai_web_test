@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,9 +10,10 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/containers/expanded_container.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class FilterBottomSheet extends StatefulWidget {
-  final Function(List<String>) onFilterApplied;
+  final Function(List<dynamic>) onFilterApplied;
   final String universityCode;
 
   const FilterBottomSheet({
@@ -27,8 +30,9 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
   bool isDormitorySwitchOn = false;
   bool isMilitarySwitchOn = false;
   String? selectedRegion;
+  String? selectedRegionId;
   List<SpecialtiesUni>? selectedSpecialites;
-
+  String? selectedSpecialitesString;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UniversitiesBloc, UniversitiesState>(
@@ -52,97 +56,152 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     );
   }
 
-  Widget _buildFilterContent(BuildContext context, List<Universities>? universities) {
-    print('Building Filter Content');
-    List<String> regions =
-        universities?.where((u) => u.regionName != null).map((u) => u.regionName!.getLocalizedString(context)).toSet().toList() ??
-            [];
-    List<String> specialties = universities
-            ?.expand((u) => (u.specialties ?? []).where((s) => s.name != null).map((s) => s.name!.getLocalizedString(context)))
+  Widget _buildFilterContent(
+      BuildContext context, List<Universities>? universities) {
+    List<SpecialtiesUni> specialties = universities
+            ?.expand((u) => (u.specialties ?? []).where((s) => s.name != null))
             .toSet()
             .toList() ??
         [];
 
-    print('Regions: $regions');
-    print('Specialties: $specialties');
+    List<Map<String, dynamic>> regions = universities
+            ?.where((u) => u.regionName != null && u.regionId != null)
+            .map((u) => {
+                  'regionName': u.regionName!.getLocalizedString(context),
+                  'regionId': u.regionId
+                })
+            .toSet() // Remove duplicates based on the entire map
+            .toList() ??
+        [];
+    //udalenie duplicates
+    List<Map<String, dynamic>> uniqueRegions = [];
+    final Set<String> regionIds = {};
 
-    return Container(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 20, bottom: 66),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildHeader(context),
-          const SizedBox(height: 16),
-          _buildFilterOption(context, 'Регион', 'all_regions'.tr(), regions, (region) {
-            setState(() {
-              selectedRegion = region;
-            });
-          }),
-          const SizedBox(height: 16),
-          _buildFilterOption(
-              context,
-              'Специальности',
-              selectedSpecialites != null && selectedSpecialites!.isNotEmpty
-                  ? selectedSpecialites!.map((s) => s.name?.getLocalizedString(context)).join(', ')
-                  : 'choose'.tr(),
-              specialties, (specialty) {
-            setState(() {
-              print(specialty.toString());
-              selectedSpecialites = [SpecialtiesUni(name: Name(specialty.toString()))];
-            });
-          }),
-          const SizedBox(height: 16),
-          _buildToggleOption(context, 'Общежитие', isDormitorySwitchOn, (val) {
-            setState(() {
-              isDormitorySwitchOn = val;
-            });
-          }),
-          const SizedBox(height: 16),
-          _buildToggleOption(context, 'Военная Кафедра', isMilitarySwitchOn, (val) {
-            setState(() {
-              isMilitarySwitchOn = val;
-            });
-          }),
-          const SizedBox(height: 16),
-          CustomButton(
-            text: 'apply'.tr(),
-            onTap: () {
-              print('Applying Filters:');
-              print('Region: $selectedRegion');
-              print('Specialties: $selectedSpecialites');
-              print('Dormitory: $isDormitorySwitchOn');
-              print('Military Dept: $isMilitarySwitchOn');
-              List<String> appliedFilters = [];
+    for (var region in regions) {
+      if (!regionIds.contains(region['regionId'])) {
+        regionIds.add(region['regionId']);
+        uniqueRegions.add(region);
+      }
+    }
 
-              if (selectedRegion != null && selectedRegion!.isNotEmpty) {
-                appliedFilters.add('$selectedRegion');
-              }
-              if (selectedSpecialites != null && selectedSpecialites!.isNotEmpty) {
-                appliedFilters
-                    .add('Specialty: ${selectedSpecialites!.map((e) => e.name?.getLocalizedString(context)).join(', ')}');
-              }
-              if (isDormitorySwitchOn) {
-                appliedFilters.add('Общежитие');
-              }
-              if (isMilitarySwitchOn) {
-                appliedFilters.add('Военная кафедра');
-              }
+    log(regions.length.toString());
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        return Container(
+          padding:
+              const EdgeInsets.only(left: 16, right: 16, top: 20, bottom: 66),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _buildHeader(context),
+              const SizedBox(height: 16),
+              _buildFilterOption(
+                context,
+                'Регион',
+                (selectedRegion == null)
+                    ? 'all_regions'.tr()
+                    : selectedRegion.toString(),
+                uniqueRegions,
+                (region) {
+                  setState(() {
+                    selectedRegion = region['regionName'];
+                    selectedRegionId = region['regionId'].toString();
+                  });
+                },
+                true,
+              ),
+              const SizedBox(height: 16),
+              _buildFilterOption(
+                context,
+                LocaleKeys.specialities.tr(),
+                selectedSpecialitesString != null &&
+                        selectedSpecialitesString!.isNotEmpty
+                    ? selectedSpecialitesString!
+                    : 'choose'.tr(),
+                specialties
+                    .map((s) => s.name!.getLocalizedString(context))
+                    .toList(),
+                (selectedSpecialty) {
+                  setState(() {
+                    // Find the selected specialty from the actual list of specialties
+                    SpecialtiesUni? specialtyObj = specialties.firstWhere((s) =>
+                        s.name!.getLocalizedString(context) ==
+                        selectedSpecialty);
 
-              widget.onFilterApplied(appliedFilters);
+                    selectedSpecialites = [
+                      specialtyObj
+                    ]; // Store the actual object
+                    selectedSpecialitesString =
+                        selectedSpecialty; // Store the string for UI
+                  });
+                },
+                false,
+              ),
+              const SizedBox(height: 16),
+              _buildToggleOption(
+                context,
+                'Общежитие',
+                isDormitorySwitchOn,
+                (val) {
+                  setState(() {
+                    isDormitorySwitchOn = val;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              _buildToggleOption(
+                context,
+                'Военная Кафедра',
+                isMilitarySwitchOn,
+                (val) {
+                  setState(() {
+                    isMilitarySwitchOn = val;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              CustomButton(
+                text: 'apply'.tr(),
+                onTap: () {
+                  List<dynamic> appliedFilters = [];
 
-              context.read<UniversitiesBloc>().add(LoadbyFilters(
-                    universityCode: widget.universityCode,
-                    regionId: selectedRegion ?? '',
-                    specialities: selectedSpecialites,
-                    hasDormitory: isDormitorySwitchOn,
-                    hasMilitaryDept: isMilitarySwitchOn,
-                  ));
+                  if (selectedRegion != null && selectedRegion!.isNotEmpty) {
+                    appliedFilters.add({
+                      'regionName': selectedRegion,
+                      'regionId': selectedRegionId
+                    });
+                  }
 
-              Navigator.pop(context);
-            },
+                  if (selectedSpecialites != null &&
+                      selectedSpecialites!.isNotEmpty) {
+                    appliedFilters.add(
+                        '${selectedSpecialites!.map((e) => e.name?.getLocalizedString(context)).join(', ')}');
+                  }
+
+                  if (isDormitorySwitchOn) {
+                    appliedFilters.add('Общежитие');
+                  }
+                  if (isMilitarySwitchOn) {
+                    appliedFilters.add('Военная кафедра');
+                  }
+
+                  widget.onFilterApplied(appliedFilters);
+
+                  context.read<UniversitiesBloc>().add(LoadbyFilters(
+                        universityCode: widget.universityCode,
+                        regionId: selectedRegionId,
+                        specialities: selectedSpecialites,
+                        hasDormitory: isDormitorySwitchOn,
+                        hasMilitaryDept: isMilitarySwitchOn,
+                      ));
+
+                  Navigator.pop(context);
+                },
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -178,7 +237,8 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
     String title,
     String containerTitle,
     List<dynamic> options,
-    Function(String) onOptionSelected,
+    Function(dynamic) onOptionSelected,
+    bool isRegion,
   ) {
     return Row(
       children: [
@@ -190,9 +250,24 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
         ExpandedContainer(
           title: containerTitle,
           onTap: () {},
-          items: options.map((option) => option.toString()).toList(),
-          onItemSelected: (selectedOption) {
-            onOptionSelected(selectedOption);
+          items: (isRegion)
+              ? options.map((option) {
+                  // Display the regionName in the UI
+                  return option['regionName'].toString();
+                }).toList()
+              : options.map((option) {
+                  // Display as string for other types of options
+                  return option.toString();
+                }).toList(),
+          onItemSelected: (selectedOptionName) {
+            if (isRegion) {
+              var selectedOption = options.firstWhere(
+                (option) => option['regionName'] == selectedOptionName,
+              );
+              onOptionSelected(selectedOption);
+            } else {
+              onOptionSelected(selectedOptionName);
+            }
           },
         ),
       ],

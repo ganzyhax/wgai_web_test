@@ -29,6 +29,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             if (token != '') {
               var resp = await ApiClient.post(
                   'api/user/addFcmToken', {"fcmToken": token});
+              log(token);
               if (resp['success']) {
                 print('Token added successfully');
               }

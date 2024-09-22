@@ -8,8 +8,8 @@ class ExpandedContainer extends StatefulWidget {
   final IconData? icon;
   final Function() onTap;
   final Color? color;
-  final List<String> items;
-  final Function(String) onItemSelected;
+  final List<dynamic> items;
+  final Function(dynamic) onItemSelected;
 
   const ExpandedContainer({
     super.key,

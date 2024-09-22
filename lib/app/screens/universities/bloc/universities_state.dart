@@ -9,8 +9,10 @@ final class UniversitiesLoading extends UniversitiesState {}
 
 final class UniversitiesLoaded extends UniversitiesState {
   final List<Universities>? universities;
+  final List<Universities>? filteredUniversities;
 
-  UniversitiesLoaded(this.universities);
+  UniversitiesLoaded(
+      {required this.universities, required this.filteredUniversities});
 }
 
 class FiltersApplied extends UniversitiesState {

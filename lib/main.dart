@@ -8,6 +8,7 @@ import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/firebase_options.dart';
 import 'package:wg_app/generated/codegen_loader.g.dart';
+import 'package:wg_app/utils/fcm_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ void main() async {
 
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-
+  await FCMService().initialize();
   await BookmarkData().init();
   await BookmarkData().clearList(AppHiveConstants.kzUniversities);
   await BookmarkData().clearList(AppHiveConstants.professions);

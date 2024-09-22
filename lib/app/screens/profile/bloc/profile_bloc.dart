@@ -28,35 +28,44 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ];
     on<ProfileEvent>((event, emit) async {
       if (event is ProfileLoad) {
+        List<Map<String, dynamic>?> resultList;
         data = await ApiClient.get('api/portfolio/myUniversity');
 
         specialities = await ApiClient.get('api/resources/kazSubjects');
         selectedForeignUniversities =
             data['data']['myUniversity']['foreignUniversities'];
-        selectedSubjectId = data['data']['myUniversity']['kazUniversities']
-            ['profileSubject']['code'];
-        selectedSpeciality = data['data']['myUniversity']['kazUniversities']
-            ['profileSubject']['name'];
+        if (data['data']['myUniversity'].containsKey('kazUniversities')) {
+          if (data['data']['myUniversity']['kazUniversities']
+              .containsKey('profileSubject')) {
+            selectedSubjectId = data['data']['myUniversity']['kazUniversities']
+                ['profileSubject']['code'];
+            selectedSpeciality = data['data']['myUniversity']['kazUniversities']
+                ['profileSubject']['name'];
+          }
+          List<Map<String, dynamic>?> resultList = keys
+              .map((key) {
+                final choice =
+                    data['data']['myUniversity']['kazUniversities'][key];
+                if (choice != null) {
+                  return {'id': key, 'data': choice};
+                }
+                return null;
+              })
+              .where((item) => item != null) // Filter out null values
+              .toList();
+          await BookmarkData()
+              .loadData(AppHiveConstants.kzUniversities, resultList);
+        }
 
-        List<Map<String, dynamic>?> resultList = keys
-            .map((key) {
-              final choice =
-                  data['data']['myUniversity']['kazUniversities'][key];
-              if (choice != null) {
-                return {'id': key, 'data': choice};
-              }
-              return null;
-            })
-            .where((item) => item != null) // Filter out null values
-            .toList();
-        log(resultList.toString());
-        await BookmarkData()
-            .loadData(AppHiveConstants.kzUniversities, resultList);
         final userProfile = await ApiClient.get('api/user');
         if (userProfile['success']) {
-          fullName = userProfile['data']['firstName'] +
-              " " +
-              userProfile['data']['lastName'];
+          if (userProfile['data'].containsKey('firstName')) {
+            fullName = userProfile['data']['firstName'] +
+                " " +
+                userProfile['data']['lastName'];
+          } else {
+            fullName = '';
+          }
         }
         emit(
           ProfileLoaded(
@@ -104,7 +113,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       if (event is ProfileSetSpeciality) {
         selectedSpeciality = event.value;
         selectedSubjectId = event.code;
-        log(selectedSubjectId);
         emit(ProfileLoaded(
             selectedForeignUniversities: selectedForeignUniversities,
             data: data,
@@ -120,7 +128,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
           "kazSpecCode": selectedUniSpecId,
           "shortlistChoice": event.shortlistChoice
         });
-        log(res.toString());
         if (res['success']) {
           await BookmarkData().removeItem(
               AppHiveConstants.kzUniversities, event.shortlistChoice);
@@ -139,7 +146,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               selectedSpeciality: selectedSpeciality,
               fullName: fullName));
         } else {
-          log('cant select target');
           emit(ProfileLoaded(
               data: data,
               selectedForeignUniversities: selectedForeignUniversities,

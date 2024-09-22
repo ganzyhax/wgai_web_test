@@ -12,6 +12,7 @@ class ApiClient {
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makeGetRequest() async {
       String token = await LocalUtils.getAccessToken() ?? '';
+
       return await http.get(
         url,
         headers: {

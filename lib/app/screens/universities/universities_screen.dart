@@ -22,7 +22,7 @@ class UniversitiesScreen extends StatefulWidget {
 }
 
 class _UniversitiesScreenState extends State<UniversitiesScreen> {
-  List<String> activeFilters = [];
+  List<dynamic> activeFilters = [];
 
   @override
   void initState() {
@@ -52,22 +52,31 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                       .copyWith(color: AppColors.blackForText),
                 ),
                 IconButton(
-                  onPressed: () {
-                    showModalBottomSheet(
+                  onPressed: () async {
+                    await showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
                       builder: (context) {
-                        final universityCode = '';
-                        return FilterBottomSheet(
-                          onFilterApplied: (filters) {
-                            setState(() {
-                              activeFilters = filters;
-                            });
+                        return StatefulBuilder(
+                          builder:
+                              (BuildContext context, StateSetter setState) {
+                            final universityCode = '';
+                            return FilterBottomSheet(
+                              onFilterApplied: (filters) {
+                                log(filters.toString() + ' hererer');
+
+                                setState(() {
+                                  activeFilters = filters;
+                                  log(activeFilters.toString() + ' hererer');
+                                });
+                              },
+                              universityCode: universityCode,
+                            );
                           },
-                          universityCode: universityCode,
                         );
                       },
                     );
+                    setState(() {});
                   },
                   icon: SvgPicture.asset('assets/icons/filter.svg'),
                 ),
@@ -83,9 +92,9 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                 } else if (state is UniversitiesLoaded) {
                   return Column(
                     children: List.generate(
-                      state.universities?.length ?? 0,
+                      state.filteredUniversities?.length ?? 0,
                       (index) {
-                        final university = state.universities?[index];
+                        final university = state.filteredUniversities?[index];
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: UniContainers(
@@ -99,7 +108,6 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                             secondDescription:
                                 university?.specialties?.length ?? 0,
                             onTap: () {
-                              log(university!.code.toString());
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
@@ -134,17 +142,36 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
             spacing: 8,
             runSpacing: 8,
             children: activeFilters.map((filter) {
-              return ItemContainer(
-                text: filter,
-                icon: 'assets/icons/x.svg',
-                color: AppColors.onTheBlue2,
-                onTap: () {
-                  setState(() {
-                    activeFilters.remove(filter);
-                    context.read<UniversitiesBloc>().add(LoadUniversities());
-                  });
-                },
-              );
+              if (filter is Map<String, dynamic>) {
+                if (filter.containsKey('regionName')) {
+                  return ItemContainer(
+                    text: filter['regionName'], // Display the region name
+                    icon: 'assets/icons/x.svg',
+                    color: AppColors.onTheBlue2,
+                    onTap: () {
+                      setState(() {
+                        activeFilters.remove(filter);
+                        context
+                            .read<UniversitiesBloc>()
+                            .add(LoadUniversities());
+                      });
+                    },
+                  );
+                }
+              } else if (filter is String) {
+                return ItemContainer(
+                  text: filter, // Specialty or other filters as strings
+                  icon: 'assets/icons/x.svg',
+                  color: AppColors.onTheBlue2,
+                  onTap: () {
+                    setState(() {
+                      activeFilters.remove(filter);
+                      context.read<UniversitiesBloc>().add(LoadUniversities());
+                    });
+                  },
+                );
+              }
+              return SizedBox.shrink();
             }).toList(),
           )
         : const SizedBox.shrink();
