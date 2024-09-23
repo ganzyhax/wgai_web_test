@@ -113,11 +113,10 @@ class _ConsultantCardState extends State<ConsultantCard> {
           return answerWidget(
               widget.data['result']['textResponse'].toString(),
               false,
-              widget.data['result']['timeSubmitted'] ??
-                  '2024-08-14T09:26:41.816Z');
+              widget.data['result']['timeSubmitted'] ?? DateTime.now().toString());
         }
       case 'options':
-        if (widget.data['result']['optionsResponse'].length == 0) {
+        if (widget.data == null || widget.data['result'] == null || widget.data['result']['optionsResponse'].length == 0) {
           return _buildOptionsTask();
         } else {
           return answerWidget(
@@ -125,7 +124,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                       [widget.data['result']['optionsResponse'][0][0]]
                   [widget.localLang],
               false,
-              widget.data['result']['timeSubmitted']);
+              widget.data['result']['timeSubmitted'] ?? DateTime.now().toString());
         }
       case 'external-link':
         return CustomButton(
@@ -380,6 +379,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
             : CustomButton(
                 text: LocaleKeys.results.tr(),
                 onTap: () {
+                  if (widget.data['result'] != null && widget.data['result']['interpretationLink'] != null)
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -389,7 +389,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                         isUrl: true,
                         contentUrl: widget.data['result']['interpretationLink'],
                         contentUrlTitle: widget.data['result']
-                            ['interpretationCode'],
+                            ['subtitle'][widget.localLang],
                       ),
                     ),
                   );
@@ -452,6 +452,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
             : CustomButton(
                 text: LocaleKeys.results.tr(),
                 onTap: () {
+                  if (widget.data['result'] != null && widget.data['result']['interpretationLink'] != null)
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -461,7 +462,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                         isUrl: true,
                         contentUrl: widget.data['result']['interpretationLink'],
                         contentUrlTitle: widget.data['result']
-                            ['interpretationCode'],
+                            ['subtitle'][widget.localLang],
                       ),
                     ),
                   );
