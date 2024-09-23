@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -115,63 +117,75 @@ class PersonalGrowthScreen extends StatelessWidget {
                             return Column(
                               children: [
                                 PersonalGrowthCard(
-                                  onTap: () {
-                                    if (item['availabilityStatus'] !=
-                                            'locked' &&
-                                        item['type'] == 'reading') {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HtmlWebView(
-                                            contentCode: item['contentCode'],
-                                            isUrl: false,
-                                            contentUrl: item['contentCode'],
-                                            contentUrlTitle: "",
+                                    onTap: () {
+                                      if (item['availabilityStatus'] !=
+                                              'locked' &&
+                                          item['type'] == 'reading') {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HtmlWebView(
+                                              contentCode: item['contentCode'],
+                                              isUrl: false,
+                                              contentUrl: item['contentCode'],
+                                              contentUrlTitle: "",
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    } else if (item['availabilityStatus'] != 'locked' && item['type'] == 'testing' && item['completionStatus'] != 'complete') {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => QuestionnaireScreen(
-                                            testingCode: item['testingCode'],
-                                            taskId: item['_id'],
-                                            isGuidanceTask: true,
+                                        );
+                                      } else if (item['availabilityStatus'] !=
+                                              'locked' &&
+                                          item['type'] == 'testing' &&
+                                          item['completionStatus'] !=
+                                              'complete') {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                QuestionnaireScreen(
+                                              testingCode: item['testingCode'],
+                                              taskId: item['_id'],
+                                              isGuidanceTask: true,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    } else if (item['availabilityStatus'] != 'locked' && item['type'] == 'testing' && item['completionStatus'] == 'complete') {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => HtmlWebView(
-                                            contentCode: item['result']['interpretationLink'],
-                                            isUrl: true,
-                                            contentUrl: item['result']['interpretationLink'],
-                                            contentUrlTitle: item['result']['interpretationCode'],
+                                        );
+                                      } else if (item['availabilityStatus'] !=
+                                              'locked' &&
+                                          item['type'] == 'testing' &&
+                                          item['completionStatus'] ==
+                                              'complete') {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => HtmlWebView(
+                                              contentCode: item['result']
+                                                  ['interpretationLink'],
+                                              isUrl: true,
+                                              contentUrl: item['result']
+                                                  ['interpretationLink'],
+                                              contentUrlTitle: item['result']
+                                                  ['interpretationCode'],
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    }
-                                  },
-                                  subTitle: item['subTitle']
-                                      [context.locale.languageCode],
-                                  type: (item['availabilityStatus'] == 'locked')
-                                      ? 3
-                                      : (item['completionStatus'] == 'new')
-                                          ? 2
-                                          : 1,
-                                  isFinished:
-                                      (item['availabilityStatus'] != 'locked' &&
-                                              (item['completionStatus'] ==
-                                                  'complete'))
-                                          ? true
-                                          : false,
-                                  title: item['title']
-                                      [context.locale.languageCode],
-                                  isTesting: item['type'] == 'testing'
-                                ),
+                                        );
+                                      }
+                                    },
+                                    subTitle: item['subTitle']
+                                        [context.locale.languageCode],
+                                    type: (item['availabilityStatus'] ==
+                                            'locked')
+                                        ? 3
+                                        : (item['completionStatus'] == 'new')
+                                            ? 2
+                                            : 1,
+                                    isFinished: (item['availabilityStatus'] !=
+                                                'locked' &&
+                                            (item['completionStatus'] ==
+                                                'complete'))
+                                        ? true
+                                        : false,
+                                    title: item['title']
+                                        [context.locale.languageCode],
+                                    isTesting: item['type'] == 'testing'),
                                 SizedBox(height: 20),
                               ],
                             );

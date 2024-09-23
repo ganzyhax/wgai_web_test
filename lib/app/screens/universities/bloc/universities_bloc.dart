@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
@@ -15,12 +17,16 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     on<ResetFilters>(_onResetFilters);
   }
 
-  Future<void> _onLoadUniversities(LoadUniversities event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onLoadUniversities(
+      LoadUniversities event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
     try {
-      final KazUniversity? uniModel = await UniversitiesNetwork().fetchSpecies();
+      final KazUniversity? uniModel =
+          await UniversitiesNetwork().fetchSpecies();
       if (uniModel != null && uniModel.universities != null) {
-        emit(UniversitiesLoaded(uniModel.universities));
+        emit(UniversitiesLoaded(
+            universities: uniModel.universities,
+            filteredUniversities: uniModel.universities));
       } else {
         emit(UniversitiesError('Kaz universities data not loaded'));
       }
@@ -29,48 +35,60 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
     }
   }
 
-  Future<void> _onFetchUniversities(LoadbyFilters event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onFetchUniversities(
+      LoadbyFilters event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesLoading());
     try {
-      final String url = 'api/resources/kazUniversities/${event.universityCode}';
-      final response = await ApiClient.get(url);
+      List<Universities> sortedUniversities = [];
 
-      if (response['success']) {
-        Universities university = Universities.fromJson(response['university']);
+      final KazUniversity? uniModel =
+          await UniversitiesNetwork().fetchSpecies();
 
-        if (event.regionId != null && university.regionId != event.regionId) {
-          emit(UniversitiesError('University does not match the region filter.'));
-          return;
-        }
+      for (var universityData in uniModel!.universities!) {
+        bool matchesRegion =
+            event.regionId == null || universityData.regionId == event.regionId;
+        bool matchesDormitory = event.hasDormitory == null ||
+            universityData.hasDormitory == event.hasDormitory;
+        bool matchesMilitaryDept = event.hasMilitaryDept == null ||
+            universityData.hasMilitaryDept == event.hasMilitaryDept;
 
-        if (event.hasDormitory != null && university.hasDormitory != event.hasDormitory) {
-          emit(UniversitiesError('University does not match the dormitory filter.'));
-          return;
-        }
-
-        if (event.hasMilitaryDept != null && university.hasMilitaryDept != event.hasMilitaryDept) {
-          emit(UniversitiesError('University does not match the military department filter.'));
-          return;
-        }
-
+        bool matchesSpecialties = true;
+        log(event.specialities.toString() + ' here is');
         if (event.specialities != null && event.specialities!.isNotEmpty) {
-          university.specialties = university.specialties?.where((spec) => event.specialities!.contains(spec.code)).toList();
-          if (university.specialties!.isEmpty) {
-            emit(UniversitiesError('No matching specialties found.'));
-            return;
-          }
+          // Get the selected specialties' codes
+          List<String?> selectedSpecialtiesCodes =
+              event.specialities!.map((s) => s.code).toList();
+
+          // Get the university's specialties' codes
+          List<String?> universitySpecialtyCodes =
+              universityData.specialties?.map((s) => s.code).toList() ?? [];
+
+          // Ensure there's a match between selected and university specialties
+          matchesSpecialties = selectedSpecialtiesCodes.any((selectedCode) =>
+              universitySpecialtyCodes.contains(selectedCode));
         }
 
-        emit(UniversitiesLoaded([university]));
+        if (matchesRegion && matchesSpecialties) {
+          sortedUniversities.add(universityData);
+        }
+      }
+
+      if (sortedUniversities.isNotEmpty) {
+        emit(UniversitiesLoaded(
+            universities: uniModel.universities,
+            filteredUniversities: sortedUniversities));
       } else {
-        emit(UniversitiesError('Failed to fetch the university by code'));
+        emit(UniversitiesLoaded(
+            universities: uniModel.universities,
+            filteredUniversities: sortedUniversities));
       }
     } catch (e) {
-      emit(UniversitiesError('Failed to fetch university by code'));
+      emit(UniversitiesError(e.toString()));
     }
   }
 
-  Future<void> _onResetFilters(ResetFilters event, Emitter<UniversitiesState> emit) async {
+  Future<void> _onResetFilters(
+      ResetFilters event, Emitter<UniversitiesState> emit) async {
     emit(UniversitiesInitial());
     add(LoadUniversities());
   }
