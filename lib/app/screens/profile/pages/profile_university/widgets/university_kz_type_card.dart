@@ -51,7 +51,7 @@ class _UniversityKzTypeCardState extends State<UniversityKzTypeCard> {
                             SizedBox(
                               width: 5,
                             ),
-                            Text('Target2 Choice')
+                            Text('Target Choice 2')
                           ],
                         )
                       : Row(
@@ -74,23 +74,47 @@ class _UniversityKzTypeCardState extends State<UniversityKzTypeCard> {
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,  // Align items to the top
               children: [
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.5,
-                    child: Text(widget.universityName)),
+                Expanded(  // Use Expanded to allow the Column to take up available space
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,  // Align text to the left
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 1.5,
+                        child: Text(
+                          widget.universityName,
+                          style: TextStyle(fontWeight: FontWeight.bold),  // Optional: make the university name bold
+                        ),
+                      ),
+                      // the variable name mySpeciality is actually profile subject need to fix
+                      // specialty name should be under the university name
+                      // SizedBox(height: 8),  // Add some vertical spacing between the text widgets
+                      // SizedBox(
+                      //   width: MediaQuery.of(context).size.width / 1.5,
+                      //   child: Text(
+                      //     widget.mySpeciality,  // Assuming this is the text you want to display
+                      //     style: TextStyle(fontSize: 14),  // Optional: make the speciality text slightly smaller
+                      //   ),
+                      // ),
+                    ],
+                  ),
+                ),
                 GestureDetector(
-                    onTap: () async {
-                      final result = await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SpecialitiesScreen(
-                                  specialityName: widget.mySpeciality,
-                                )),
-                      );
+                  onTap: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SpecialitiesScreen(
+                          specialityName: widget.mySpeciality,
+                        ),
+                      ),
+                    );
 
-                      setState(() {});
-                    },
-                    child: Icon(Icons.edit))
+                    setState(() {});
+                  },
+                  child: Icon(Icons.edit),
+                ),
               ],
             ),
           )

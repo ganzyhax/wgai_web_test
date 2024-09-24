@@ -133,11 +133,14 @@ class _UniversitiesCompleteScreenState
                           titleSite: "Сайт:",
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
+                      if (widget.isChooseUniversity == null)
                       Text(
                         LocaleKeys.specialities.tr(),
                         style: AppTextStyle.heading3,
                       ),
+                      if (widget.isChooseUniversity == null)
                       const SizedBox(height: 8),
+                      if (widget.isChooseUniversity == null)
                       BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
                         builder: (context, state) {
                           if (state is SpecialitiesLoading) {
@@ -203,14 +206,16 @@ class _UniversitiesCompleteScreenState
                           }
                         },
                       ),
+                      if (widget.isChooseUniversity != null)
                       SizedBox(
                         height: 5,
                       ),
+                      if (widget.isChooseUniversity != null)
                       CustomButton(
                           isDisabled: (type == 'dreamChoice') ? true : false,
                           text: (type == 'dreamChoice')
-                              ? 'Selected for target Dream'
-                              : 'Select for target Dream',
+                              ? LocaleKeys.selectedAsDreamChoice.tr()
+                              : LocaleKeys.selectAsDreamChoice.tr(),
                           onTap: () async {
                             BlocProvider.of<ProfileBloc>(context)
                               ..add(ProfileAddKazUniversity(
@@ -221,15 +226,25 @@ class _UniversitiesCompleteScreenState
                             type = 'dreamChoice';
 
                             setState(() {});
+                            // Just decided to pop 3 times instead of doing
+                            // complicated route naming and stuff
+                            for (int i = 0; i < 3; i++) {
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                break; // Exit the loop if we can't pop anymore
+                              }
+                            }
                           }),
                       SizedBox(
                         height: 5,
                       ),
+                      if (widget.isChooseUniversity != null)
                       CustomButton(
                           isDisabled: (type == 'targetChoice1') ? true : false,
                           text: (type == 'targetChoice1')
-                              ? 'Selected for target Choice'
-                              : 'Select for target Choice',
+                              ? LocaleKeys.selectedAsTargetChoice1.tr()
+                              : LocaleKeys.selectAsTargetChoice1.tr(),
                           onTap: () async {
                             BlocProvider.of<ProfileBloc>(context)
                               ..add(ProfileAddKazUniversity(
@@ -240,15 +255,24 @@ class _UniversitiesCompleteScreenState
                             type = 'targetChoice1';
 
                             setState(() {});
+
+                            for (int i = 0; i < 3; i++) {
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                break; // Exit the loop if we can't pop anymore
+                              }
+                            }
                           }),
                       SizedBox(
                         height: 5,
                       ),
+                      if (widget.isChooseUniversity != null)
                       CustomButton(
                           isDisabled: (type == 'targetChoice2') ? true : false,
                           text: (type == 'targetChoice2')
-                              ? 'Selected for target2 Choice'
-                              : 'Select for target2 Choice',
+                              ? LocaleKeys.selectedAsTargetChoice2.tr()
+                              : LocaleKeys.selectAsTargetChoice2.tr(),
                           onTap: () async {
                             BlocProvider.of<ProfileBloc>(context)
                               ..add(ProfileAddKazUniversity(
@@ -259,15 +283,25 @@ class _UniversitiesCompleteScreenState
                             type = 'targetChoice2';
 
                             setState(() {});
+
+                            for (int i = 0; i < 3; i++) {
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                break; // Exit the loop if we can't pop anymore
+                              }
+                            }
                           }),
+                      if (widget.isChooseUniversity != null)
                       SizedBox(
                         height: 5,
                       ),
+                      if (widget.isChooseUniversity != null)
                       CustomButton(
                           isDisabled: (type == 'safeChoice') ? true : false,
                           text: (type == 'safeChoice')
-                              ? 'Selected for target Safe'
-                              : 'Select for target Safe',
+                              ? LocaleKeys.selectedAsSafeChoice.tr()
+                              : LocaleKeys.selectAsSafeChoice.tr(),
                           onTap: () async {
                             BlocProvider.of<ProfileBloc>(context)
                               ..add(ProfileAddKazUniversity(
@@ -278,7 +312,18 @@ class _UniversitiesCompleteScreenState
                             type = 'safeChoice';
 
                             setState(() {});
+
+                            for (int i = 0; i < 3; i++) {
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                break; // Exit the loop if we can't pop anymore
+                              }
+                            }
                           }),
+                      SizedBox(
+                        height: 12,
+                      ),
                     ],
                   ),
                 ),

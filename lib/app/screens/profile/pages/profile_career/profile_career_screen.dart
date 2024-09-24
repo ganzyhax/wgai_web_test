@@ -12,6 +12,7 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 
 class ProfileCareerScreen extends StatefulWidget {
   const ProfileCareerScreen({super.key});
@@ -25,14 +26,11 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: AppColors.background,
-        title: Text(
-          LocaleKeys.my_career_title.tr(),
-          style: AppTextStyle.titleHeading
-              .copyWith(color: AppColors.calendarTextColor),
-        ),
-      ),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(55),
+          child: CustomAppbar(
+              title: LocaleKeys.my_career_title.tr(),
+              withBackButton: true)),
       body: BlocBuilder<ProfileCareerBloc, ProfileCareerState>(
         builder: (context, state) {
           if (state is ProfileCareerLoaded) {

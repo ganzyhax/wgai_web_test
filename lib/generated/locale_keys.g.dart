@@ -205,5 +205,13 @@ abstract class  LocaleKeys {
   static const chooseProfileSubjects = 'chooseProfileSubjects';
   static const pleaseChooseProfileSubjects = 'pleaseChooseProfileSubjects';
   static const atlasSubtitle = 'atlasSubtitle';
+  static const selectAsDreamChoice = 'selectAsDreamChoice';
+  static const selectedAsDreamChoice = 'selectedAsDreamChoice';
+  static const selectAsSafeChoice = 'selectAsSafeChoice';
+  static const selectedAsSafeChoice = 'selectedAsSafeChoice';
+  static const selectAsTargetChoice1 = 'selectAsTargetChoice1';
+  static const selectedAsTargetChoice1 = 'selectedAsTargetChoice1';
+  static const selectAsTargetChoice2 = 'selectAsTargetChoice2';
+  static const selectedAsTargetChoice2 = 'selectedAsTargetChoice2';
 
 }

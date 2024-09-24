@@ -207,5 +207,13 @@
     "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
     "chooseProfileSubjects": "Выбор профильных предметов",
     "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
-    "atlasSubtitle": "Краткий обзор профессий: ключевые задачи и требования и т.д."
+    "atlasSubtitle": "Краткий обзор профессий: ключевые задачи и требования и т.д.",
+    "selectAsDreamChoice": "Выбрать как Dream Choice",
+    "selectedAsDreamChoice": "Выбран как Dream Choice",
+    "selectAsSafeChoice": "Выбрать как Safe Choice",
+    "selectedAsSafeChoice": "Выбран как Safe Choice",
+    "selectAsTargetChoice1": "Выбрать как Target Choice 1",
+    "selectedAsTargetChoice1": "Выбран как Target Choice 1",
+    "selectAsTargetChoice2": "Выбрать как Target Choice 2",
+    "selectedAsTargetChoice2": "Выбран как Target Choice 2"
 }
