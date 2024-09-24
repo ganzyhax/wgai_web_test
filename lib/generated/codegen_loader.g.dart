@@ -218,7 +218,15 @@ class CodegenLoader extends AssetLoader{
   "recommended_professions_storage": "Сізге ұсынылған мамандықтар тізімі осында сақталады",
   "chooseProfileSubjects": "Бейіндік пәндерді таңдау",
   "pleaseChooseProfileSubjects": "Бейіндік пәндерді таңдаңыз",
-  "atlasSubtitle": "Мамандықтар туралы қысқаша мәлімет: негізгі міндеттер, талаптар және т.б."
+  "atlasSubtitle": "Мамандықтар туралы қысқаша мәлімет: негізгі міндеттер, талаптар және т.б.",
+  "selectAsDreamChoice": "Dream Choice ретінде таңдау",
+  "selectedAsDreamChoice": "Dream Choice ретінде таңдалды",
+  "selectAsSafeChoice": "Safe Choice ретінде таңдау",
+  "selectedAsSafeChoice": "Safe Choice ретінде таңдалды",
+  "selectAsTargetChoice1": "Target Choice 1 ретінде таңдау",
+  "selectedAsTargetChoice1": "Target Choice 1 ретінде таңдалды",
+  "selectAsTargetChoice2": "Target Choice 2 ретінде таңдау",
+  "selectedAsTargetChoice2": "Target Choice 2 ретінде таңдалды"
 };
 static const Map<String,dynamic> ru = {
   "hello": "Privet",
@@ -424,7 +432,15 @@ static const Map<String,dynamic> ru = {
   "recommended_professions_storage": "Здесь будут храниться рекомендованные профессии",
   "chooseProfileSubjects": "Выбор профильных предметов",
   "pleaseChooseProfileSubjects": "Пожалуйста, выберите ваши профильные предметы",
-  "atlasSubtitle": "Краткий обзор профессий: ключевые задачи и требования и т.д."
+  "atlasSubtitle": "Краткий обзор профессий: ключевые задачи и требования и т.д.",
+  "selectAsDreamChoice": "Выбрать как Dream Choice",
+  "selectedAsDreamChoice": "Выбран как Dream Choice",
+  "selectAsSafeChoice": "Выбрать как Safe Choice",
+  "selectedAsSafeChoice": "Выбран как Safe Choice",
+  "selectAsTargetChoice1": "Выбрать как Target Choice 1",
+  "selectedAsTargetChoice1": "Выбран как Target Choice 1",
+  "selectAsTargetChoice2": "Выбрать как Target Choice 2",
+  "selectedAsTargetChoice2": "Выбран как Target Choice 2"
 };
 static const Map<String,dynamic> en = {
   "hello": "Hello",
