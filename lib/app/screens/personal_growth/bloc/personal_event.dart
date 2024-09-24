@@ -9,3 +9,10 @@ final class PersonalChangeLang extends PersonalEvent {
   final String value;
   PersonalChangeLang({required this.value});
 }
+
+final class PersonalGuidanceTaskUpdateStatus extends PersonalEvent {
+  final String status;
+  final String guidanceTaskId;
+  PersonalGuidanceTaskUpdateStatus(
+      {required this.status, required this.guidanceTaskId});
+}

@@ -7,6 +7,7 @@ class CustomAppbar extends StatelessWidget {
   final String title;
   final bool withBackButton;
   final List<Widget>? actions;
+  
   const CustomAppbar(
       {super.key,
       required this.title,

@@ -29,6 +29,15 @@ class PersonalBloc extends Bloc<PersonalEvent, PersonalState> {
         emit(PersonalLoaded(
             data: data['data']['guidanceTasks'], localLang: localLang));
       }
+      if (event is PersonalGuidanceTaskUpdateStatus) {
+        var req = await ApiClient.post('api/guidanceTasks/updateStatus',
+            {"taskId": event.guidanceTaskId, "newStatus": event.status});
+        if (req['success']) {
+          add(PersonalLoad());
+        } else {
+          log('Error update guidance task');
+        }
+      }
     });
   }
 }
