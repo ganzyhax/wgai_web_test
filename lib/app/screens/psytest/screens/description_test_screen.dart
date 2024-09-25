@@ -84,7 +84,8 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                       const SizedBox(height: 16),
                       Text(
                         '${state.testType?.tr()} - тест на тип личности'.tr(),
-                        style: AppTextStyle.heading2.copyWith(color: AppColors.blackForText),
+                        style: AppTextStyle.heading2
+                            .copyWith(color: AppColors.blackForText),
                       ),
                       const SizedBox(height: 16),
                       Container(
@@ -93,17 +94,20 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                           borderRadius: BorderRadius.circular(16),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 18),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 'Выполнить до:'.tr(),
-                                style: AppTextStyle.bodyText.copyWith(color: AppColors.grayForText),
+                                style: AppTextStyle.bodyText
+                                    .copyWith(color: AppColors.grayForText),
                               ),
                               Text(
                                 '${state.timeLimit}',
-                                style: AppTextStyle.heading3.copyWith(color: AppColors.blackForText),
+                                style: AppTextStyle.heading3
+                                    .copyWith(color: AppColors.blackForText),
                               ),
                             ],
                           ),
@@ -118,18 +122,23 @@ class _DescriptionTestScreenState extends State<DescriptionTestScreen> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 18),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   'Описание'.tr(),
-                                  style: AppTextStyle.bodyText.copyWith(color: AppColors.grayForText),
+                                  style: AppTextStyle.bodyText
+                                      .copyWith(color: AppColors.grayForText),
                                 ),
                                 const SizedBox(height: 8),
                                 Text(
-                                  state.description?.getLocalizedString(context) ?? '',
-                                  style: AppTextStyle.bodyText.copyWith(color: AppColors.blackForText),
+                                  state.description
+                                          ?.getLocalizedString(context) ??
+                                      '',
+                                  style: AppTextStyle.bodyText
+                                      .copyWith(color: AppColors.blackForText),
                                 ),
                               ],
                             ),

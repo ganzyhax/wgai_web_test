@@ -113,10 +113,13 @@ class _ConsultantCardState extends State<ConsultantCard> {
           return answerWidget(
               widget.data['result']['textResponse'].toString(),
               false,
-              widget.data['result']['timeSubmitted'] ?? DateTime.now().toString());
+              widget.data['result']['timeSubmitted'] ??
+                  DateTime.now().toString());
         }
       case 'options':
-        if (widget.data == null || widget.data['result'] == null || widget.data['result']['optionsResponse'].length == 0) {
+        if (widget.data == null ||
+            widget.data['result'] == null ||
+            widget.data['result']['optionsResponse'].length == 0) {
           return _buildOptionsTask();
         } else {
           return answerWidget(
@@ -124,7 +127,8 @@ class _ConsultantCardState extends State<ConsultantCard> {
                       [widget.data['result']['optionsResponse'][0][0]]
                   [widget.localLang],
               false,
-              widget.data['result']['timeSubmitted'] ?? DateTime.now().toString());
+              widget.data['result']['timeSubmitted'] ??
+                  DateTime.now().toString());
         }
       case 'external-link':
         return CustomButton(
@@ -379,20 +383,22 @@ class _ConsultantCardState extends State<ConsultantCard> {
             : CustomButton(
                 text: LocaleKeys.results.tr(),
                 onTap: () {
-                  if (widget.data['result'] != null && widget.data['result']['interpretationLink'] != null)
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HtmlWebView(
-                        contentCode: widget.data['result']
-                            ['interpretationLink'],
-                        isUrl: true,
-                        contentUrl: widget.data['result']['interpretationLink'],
-                        contentUrlTitle: widget.data['result']
-                            ['subtitle'][widget.localLang],
+                  if (widget.data['result'] != null &&
+                      widget.data['result']['interpretationLink'] != null)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HtmlWebView(
+                          contentCode: widget.data['result']
+                              ['interpretationLink'],
+                          isUrl: true,
+                          contentUrl: widget.data['result']
+                              ['interpretationLink'],
+                          contentUrlTitle: widget.data['result']['subtitle']
+                              [widget.localLang],
+                        ),
                       ),
-                    ),
-                  );
+                    );
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
@@ -452,20 +458,23 @@ class _ConsultantCardState extends State<ConsultantCard> {
             : CustomButton(
                 text: LocaleKeys.results.tr(),
                 onTap: () {
-                  if (widget.data['result'] != null && widget.data['result']['interpretationLink'] != null)
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HtmlWebView(
-                        contentCode: widget.data['result']
-                            ['interpretationLink'],
-                        isUrl: true,
-                        contentUrl: widget.data['result']['interpretationLink'],
-                        contentUrlTitle: widget.data['result']
-                            ['subtitle'][widget.localLang],
+                  log(widget.data.toString());
+                  if (widget.data['result'] != null &&
+                      widget.data['result']['interpretationLink'] != null)
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HtmlWebView(
+                          contentCode: widget.data['result']
+                              ['interpretationLink'],
+                          isUrl: true,
+                          contentUrl: widget.data['result']
+                              ['interpretationLink'],
+                          contentUrlTitle: widget.data['result']['subtitle']
+                              [widget.localLang],
+                        ),
                       ),
-                    ),
-                  );
+                    );
                   // MaterialPageRoute(
                   //   builder: (context) => ResultsScreen(
                   //     sId: widget.data['_id'],

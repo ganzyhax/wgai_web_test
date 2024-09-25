@@ -26,3 +26,5 @@ final class ProfileUpdateCareerError extends ProfileState {}
 final class ProfileSetUniversitySubjectError extends ProfileState {}
 
 final class ProfileSetUniversitySubjectSuccess extends ProfileState {}
+
+final class ProfileLoading extends ProfileState{}

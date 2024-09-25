@@ -28,35 +28,6 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ];
     on<ProfileEvent>((event, emit) async {
       if (event is ProfileLoad) {
-        List<Map<String, dynamic>?> resultList;
-        data = await ApiClient.get('api/portfolio/myUniversity');
-
-        specialities = await ApiClient.get('api/resources/kazSubjects');
-        selectedForeignUniversities =
-            data['data']['myUniversity']['foreignUniversities'];
-        if (data['data']['myUniversity'].containsKey('kazUniversities')) {
-          if (data['data']['myUniversity']['kazUniversities']
-              .containsKey('profileSubject')) {
-            selectedSubjectId = data['data']['myUniversity']['kazUniversities']
-                ['profileSubject']['code'];
-            selectedSpeciality = data['data']['myUniversity']['kazUniversities']
-                ['profileSubject']['name'];
-          }
-          List<Map<String, dynamic>?> resultList = keys
-              .map((key) {
-                final choice =
-                    data['data']['myUniversity']['kazUniversities'][key];
-                if (choice != null) {
-                  return {'id': key, 'data': choice};
-                }
-                return null;
-              })
-              .where((item) => item != null) // Filter out null values
-              .toList();
-          await BookmarkData()
-              .loadData(AppHiveConstants.kzUniversities, resultList);
-        }
-
         final userProfile = await ApiClient.get('api/user');
         if (userProfile['success']) {
           if (userProfile['data'].containsKey('firstName')) {
@@ -70,11 +41,59 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         emit(
           ProfileLoaded(
               selectedForeignUniversities: selectedForeignUniversities,
-              data: data['data']['myUniversity'],
-              specialities: specialities['data']['subjects'],
+              data: [],
+              specialities: [],
               selectedSpeciality: selectedSpeciality,
               fullName: fullName),
         );
+      }
+      if (event is ProfileUniversitiesLoad) {
+        emit(ProfileLoading());
+        if (specialities == null) {
+          data = await ApiClient.get('api/portfolio/myUniversity');
+          specialities = await ApiClient.get('api/resources/kazSubjects');
+          selectedForeignUniversities =
+              data['data']['myUniversity']['foreignUniversities'];
+          if (data['data']['myUniversity'].containsKey('kazUniversities')) {
+            if (data['data']['myUniversity']['kazUniversities']
+                .containsKey('profileSubject')) {
+              selectedSubjectId = data['data']['myUniversity']
+                  ['kazUniversities']['profileSubject']['code'];
+              selectedSpeciality = data['data']['myUniversity']
+                  ['kazUniversities']['profileSubject']['name'];
+            }
+            List<Map<String, dynamic>?> resultList = keys
+                .map((key) {
+                  final choice =
+                      data['data']['myUniversity']['kazUniversities'][key];
+                  if (choice != null) {
+                    return {'id': key, 'data': choice};
+                  }
+                  return null;
+                })
+                .where((item) => item != null) // Filter out null values
+                .toList();
+            await BookmarkData()
+                .loadData(AppHiveConstants.kzUniversities, resultList);
+          }
+          emit(
+            ProfileLoaded(
+                selectedForeignUniversities: selectedForeignUniversities,
+                data: data['data']['myUniversity'],
+                specialities: specialities['data']['subjects'],
+                selectedSpeciality: selectedSpeciality,
+                fullName: fullName),
+          );
+        } else {
+          emit(
+            ProfileLoaded(
+                selectedForeignUniversities: selectedForeignUniversities,
+                data: data['data']['myUniversity'],
+                specialities: specialities['data']['subjects'],
+                selectedSpeciality: selectedSpeciality,
+                fullName: fullName),
+          );
+        }
       }
       if (event is ProfileChangeUserData) {
         var req = await ApiClient.post('api/user/updateUserProfile', {

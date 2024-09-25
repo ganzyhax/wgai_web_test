@@ -201,6 +201,7 @@ class ProfileScreen extends StatelessWidget {
                                 isUniversity: true,
                                 height: 144,
                                 onTap: () {
+                                  BlocProvider.of<ProfileBloc>(context)..add(ProfileUniversitiesLoad());
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

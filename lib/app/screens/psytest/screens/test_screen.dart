@@ -70,7 +70,9 @@ class _TestScreenState extends State<TestScreen> {
                           key: _listViewKey,
                           padding: const EdgeInsets.only(bottom: 232),
                           children: [
-                            _buildQuestionWithAnswers(state.questions[state.currentIndex], state.selectedAnswer),
+                            _buildQuestionWithAnswers(
+                                state.questions[state.currentIndex],
+                                state.selectedAnswer),
                           ],
                         ),
                       ),
@@ -125,7 +127,8 @@ class _TestScreenState extends State<TestScreen> {
         ),
         const SizedBox(height: 16),
         ...question.options!.map((option) {
-          final isSelected = selectedAnswer == option.answer?.getLocalizedString(context);
+          final isSelected =
+              selectedAnswer == option.answer?.getLocalizedString(context);
           return Padding(
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
@@ -133,7 +136,8 @@ class _TestScreenState extends State<TestScreen> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              tileColor: isSelected ? AppColors.primary : AppColors.grayProgressBar,
+              tileColor:
+                  isSelected ? AppColors.primary : AppColors.grayProgressBar,
               onTap: () {
                 setState(
                   () {
@@ -179,9 +183,13 @@ class _TestScreenState extends State<TestScreen> {
           child: CustomButton(
             height: 44,
             onTap: () {
-              context.read<TestBloc>().add(NextQuestion(state.selectedAnswer ?? ''));
+              context
+                  .read<TestBloc>()
+                  .add(NextQuestion(state.selectedAnswer ?? ''));
             },
-            text: state.currentIndex == state.questions.length - 1 ? LocaleKeys.completion.tr() : LocaleKeys.next.tr(),
+            text: state.currentIndex == state.questions.length - 1
+                ? LocaleKeys.completion.tr()
+                : LocaleKeys.next.tr(),
           ),
         ),
       ],

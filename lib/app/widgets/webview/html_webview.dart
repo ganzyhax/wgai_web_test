@@ -213,6 +213,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
                   text: LocaleKeys.cancel.tr(),
                   onTap: () {
                     Navigator.of(context).pop();
+                    Navigator.of(context).pop();
                   },
                 ),
               ),

@@ -59,25 +59,29 @@ class ResultsScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Защитник',
-                    style: AppTextStyle.heading2.copyWith(color: AppColors.blackForText),
+                    style: AppTextStyle.heading2
+                        .copyWith(color: AppColors.blackForText),
                   ),
                 ),
                 SizedBox(height: 16),
                 Text(
                   'Защитники (ISFJ) помогают вращать мир своим простым и сдержанным подходом. Люди с таким типом личности, трудолюбивые и преданные своему делу, глубоко чувствуют ответственность перед окружающими. Защитники опаздывают к назначенному сроку, не забывают дни рождения и особые дни, сохраняют традиции и оказывают заботу и поддержку близким.',
-                  style: AppTextStyle.bodyText.copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.bodyText
+                      .copyWith(color: AppColors.blackForText),
                 ),
                 SizedBox(height: 24),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Защитник',
-                    style: AppTextStyle.heading2.copyWith(color: AppColors.blackForText),
+                    style: AppTextStyle.heading2
+                        .copyWith(color: AppColors.blackForText),
                   ),
                 ),
                 Text(
                   'Но они редко требуют, чтобы другие видели и признавали то, что они сделали, вместо этого предпочитая действовать за кулисами.Это человек, обладающий разносторонними способностями. Несмотря на то, что защитники чувствительны и заботливы, они обладают отличными аналитическими способностями и следят за маленькими моментами. Кроме того, несмотря на свою сдержанность, они обладают хорошо развитыми навыками и прочными социальными отношениями. Защитники на самом деле состоят из комбинации различных способностей, и их различные сильные стороны сияют даже в самых элементарных аспектах их повседневной жизни.',
-                  style: AppTextStyle.bodyText.copyWith(color: AppColors.blackForText),
+                  style: AppTextStyle.bodyText
+                      .copyWith(color: AppColors.blackForText),
                 ),
               ],
             ),

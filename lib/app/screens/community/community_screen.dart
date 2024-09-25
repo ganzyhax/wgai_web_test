@@ -18,12 +18,12 @@ class CommunityScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is CommunityLoaded) {
           return Scaffold(
+            backgroundColor: AppColors.background,
+            appBar: AppBar(
+              surfaceTintColor: Colors.transparent,
               backgroundColor: AppColors.background,
-              appBar: AppBar(
-                surfaceTintColor: Colors.transparent,
-                backgroundColor: AppColors.background,
-                title: Center(
-                    child: Row(
+              title: Center(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     GestureDetector(
@@ -34,14 +34,15 @@ class CommunityScreen extends StatelessWidget {
                       child: Text(
                         LocaleKeys.feed.tr(),
                         style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                            color: (state.selectedTabIndex == 0)
-                                ? Colors.black
-                                : Colors.grey[400]),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          color: (state.selectedTabIndex == 0)
+                              ? Colors.black
+                              : Colors.grey[400],
+                        ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25,
                     ),
                     GestureDetector(
@@ -52,27 +53,24 @@ class CommunityScreen extends StatelessWidget {
                       child: Text(
                         LocaleKeys.consultant.tr(),
                         style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w800,
-                            color: (state.selectedTabIndex == 1)
-                                ? Colors.black
-                                : Colors.grey[400]),
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          color: (state.selectedTabIndex == 1)
+                              ? Colors.black
+                              : Colors.grey[400],
+                        ),
                       ),
                     ),
                   ],
-                )),
-              ),
-              body: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    (state.selectedTabIndex == 0)
-                        ? NewsScreen()
-                        : ConsultantPage()
-                  ],
                 ),
-              ));
+              ),
+            ),
+            body: state.selectedTabIndex == 0
+                ? const NewsScreen()
+                : const ConsultantPage(),
+          );
         }
-        return Center(
+        return const Center(
           child: CircularProgressIndicator(),
         );
       },

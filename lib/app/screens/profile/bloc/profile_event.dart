@@ -42,3 +42,7 @@ final class ProfileSetKazUniversitySubject extends ProfileEvent {
   final String subjectCode;
   ProfileSetKazUniversitySubject({required this.subjectCode});
 }
+
+final class ProfileUniversitiesLoad extends ProfileEvent{
+  
+}
