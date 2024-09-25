@@ -16,3 +16,8 @@ final class PersonalGuidanceTaskUpdateStatus extends PersonalEvent {
   PersonalGuidanceTaskUpdateStatus(
       {required this.status, required this.guidanceTaskId});
 }
+
+final class PersonalCheckGuidanceTask extends PersonalEvent {
+  final String guidanceTaskId;
+  PersonalCheckGuidanceTask({required this.guidanceTaskId});
+}

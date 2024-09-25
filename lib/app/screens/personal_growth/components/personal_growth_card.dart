@@ -10,16 +10,17 @@ class PersonalGrowthCard extends StatelessWidget {
   final int type;
   final Function() onTap;
   final bool? isTesting;
-
-  const PersonalGrowthCard({
-    Key? key,
-    this.isFinished = false,
-    required this.type,
-    required this.onTap,
-    required this.subTitle,
-    required this.title,
-    this.isTesting = false,
-  }) : super(key: key);
+  final String? interpretationLink;
+  const PersonalGrowthCard(
+      {Key? key,
+      this.isFinished = false,
+      required this.type,
+      required this.onTap,
+      required this.subTitle,
+      required this.title,
+      this.isTesting = false,
+      this.interpretationLink})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,15 +65,20 @@ class PersonalGrowthCard extends StatelessWidget {
               ),
             ),
             if (isFinished == true && isTesting == true)
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                child: Text(
-                  LocaleKeys.personalGrowthResultsButton.tr(),
-                  style: TextStyle(fontSize: 14),
-                ),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  color: Color(0xFFE5E5EA),
+              GestureDetector(
+                onTap: () {},
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Text(
+                    (interpretationLink != null)
+                        ? LocaleKeys.personalGrowthResultsButton.tr()
+                        : LocaleKeys.in_progress_check.tr(),
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Color(0xFFE5E5EA),
+                  ),
                 ),
               ),
           ],

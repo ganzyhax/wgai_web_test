@@ -85,17 +85,17 @@ class ProfileGrowthScreen extends StatelessWidget {
                                                         .data['personalGrowth']
                                                             ['psytests'][index]
                                                         .containsKey(
-                                                            'subTitle'))
+                                                            'subtitle'))
                                                     ? state.data['personalGrowth']
                                                                 ['psytests']
-                                                            [index]['subTitle'][
+                                                            [index]['subtitle'][
                                                         context.locale
                                                             .languageCode]
                                                     : '',
                                                 fullContent:
                                                     state.data['personalGrowth']
                                                                 ['psytests']
-                                                            [index]['subTitle'][
+                                                            [index]['subtitle'][
                                                         context.locale
                                                             .languageCode],
                                               )

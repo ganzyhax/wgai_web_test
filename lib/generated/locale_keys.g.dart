@@ -188,6 +188,7 @@ abstract class  LocaleKeys {
   static const choose_university = 'choose_university';
   static const you_must_pass_the_test = 'you_must_pass_the_test';
   static const career_profession_name = 'career_profession_name';
+  static const in_progress_check = 'in_progress_check';
   static const recommended_profession_name = 'recommended_profession_name';
   static const delete_subject_confirmation = 'delete_subject_confirmation';
   static const delete_subject_warning = 'delete_subject_warning';

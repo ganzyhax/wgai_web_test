@@ -445,20 +445,24 @@ class _ConsultantCardState extends State<ConsultantCard> {
                           isGuidanceTask: false),
                     ),
                   );
-                  log(res.toString());
+
                   if (res) {
                     BlocProvider.of<ConsultantBloc>(context)
                       ..add(ConsultantUpdateStatus(
                           taskId: widget.data['_id'], status: 'complete'));
+                    BlocProvider.of<ConsultantBloc>(context)
+                      ..add(ConsultantCheckTask(taskId: widget.data['_id']));
                   }
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
               )
             : CustomButton(
-                text: LocaleKeys.results.tr(),
+                text: (widget.data['result'] != null &&
+                        widget.data['result']['interpretationLink'] != null)
+                    ? LocaleKeys.results.tr()
+                    : LocaleKeys.in_progress_check.tr(),
                 onTap: () {
-                  log(widget.data.toString());
                   if (widget.data['result'] != null &&
                       widget.data['result']['interpretationLink'] != null)
                     Navigator.push(
@@ -475,12 +479,6 @@ class _ConsultantCardState extends State<ConsultantCard> {
                         ),
                       ),
                     );
-                  // MaterialPageRoute(
-                  //   builder: (context) => ResultsScreen(
-                  //     sId: widget.data['_id'],
-                  //   ),
-                  // ),
-                  // );
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,

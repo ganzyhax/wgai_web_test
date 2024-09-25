@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
-import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 
@@ -114,6 +113,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           ...categoryData.map((item) {
+                            log(item.toString());
                             return Column(
                               children: [
                                 PersonalGrowthCard(
@@ -145,7 +145,6 @@ class PersonalGrowthScreen extends StatelessWidget {
                                               ),
                                             ),
                                           );
-
                                           if (res != null && res) {
                                             BlocProvider.of<PersonalBloc>(
                                                 context)
@@ -235,6 +234,11 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                       status: 'complete',
                                                       guidanceTaskId:
                                                           item['_id']));
+                                            BlocProvider.of<PersonalBloc>(
+                                                    context)
+                                                .add(PersonalCheckGuidanceTask(
+                                                    guidanceTaskId:
+                                                        item['_id']));
                                           }
                                         }
                                         if (item['completionStatus'] ==
@@ -259,6 +263,11 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                       status: 'complete',
                                                       guidanceTaskId:
                                                           item['_id']));
+                                            BlocProvider.of<PersonalBloc>(
+                                                    context)
+                                                .add(PersonalCheckGuidanceTask(
+                                                    guidanceTaskId:
+                                                        item['_id']));
                                           }
                                         }
                                         if (item['completionStatus'] ==
@@ -278,22 +287,32 @@ class PersonalGrowthScreen extends StatelessWidget {
                                         }
                                       }
                                     },
-                                    subTitle: item['subTitle']
+                                    subTitle: item['subtitle']
                                         [context.locale.languageCode],
                                     type: (item['availabilityStatus'] ==
                                             'locked')
                                         ? 3
-                                        : (item['completionStatus'] == 'new')
+                                        : (item['completionStatus'] == 'new' ||
+                                                item['completionStatus'] ==
+                                                    'incomplete')
                                             ? 2
                                             : 1,
                                     isFinished: (item['availabilityStatus'] !=
                                                 'locked' &&
-                                            (item['completionStatus'] ==
-                                                'complete'))
+                                            item['completionStatus'] ==
+                                                'complete')
                                         ? true
                                         : false,
                                     title: item['title']
                                         [context.locale.languageCode],
+                                    interpretationLink:
+                                        (item.containsKey('result')
+                                            ? item['result'].containsKey(
+                                                    'interpretationLink')
+                                                ? item['result']
+                                                    ['interpretationLink']
+                                                : null
+                                            : null),
                                     isTesting: item['type'] == 'testing'),
                                 SizedBox(height: 20),
                               ],
