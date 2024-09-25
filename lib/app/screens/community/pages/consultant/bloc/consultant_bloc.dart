@@ -35,6 +35,11 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
           });
           // Wait for all futures to complete
           await Future.wait(authorInfoFutures);
+
+          // Sort the tasks by createdAt in descending order
+          List<dynamic> tasks = counselorData['data']['counselorTasks'];
+          sortTasksByCreatedAtDescending(tasks);
+
           // Now that all author info has been fetched, emit the event
           emit(ConsultantLoaded(
             localLang: localLang,
@@ -79,6 +84,16 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
           add(ConsultantLoad());
         }
       }
+    });
+  }
+  void sortTasksByCreatedAtDescending(List<dynamic> tasks) {
+    tasks.sort((a, b) {
+      // Parse the createdAt string to DateTime objects
+      DateTime dateA = DateTime.parse(a['createdAt']);
+      DateTime dateB = DateTime.parse(b['createdAt']);
+
+      // Compare dates for descending order
+      return dateB.compareTo(dateA);
     });
   }
 }
