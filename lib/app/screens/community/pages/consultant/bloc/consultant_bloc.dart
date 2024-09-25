@@ -74,34 +74,8 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
         userId = await LocalUtils.getUserId();
         counselorData = await ApiClient.get('api/counselorTasks/');
         if (counselorData['success']) {
-          List<Future> authorInfoFutures = [];
-          counselorData['data']['counselorTasks']
-              .asMap()
-              .forEach((index, counselor) {
-            var future =
-                ApiClient.get('api/user/profile/' + counselor['authorId'])
-                    .then((authorInfo) {
-              if (authorInfo['success']) {
-                final firstName =
-                    authorInfo['data']['user']?['firstName'] ?? "";
-                final lastName = authorInfo['data']['user']?['lastName'] ?? "";
-                counselorData['data']['counselorTasks'][index]["authorName"] =
-                    "$firstName $lastName";
-              } else {
-                counselorData['data']['counselorTasks'][index]["authorName"] =
-                    "";
-              }
-            });
-            authorInfoFutures.add(future);
-          });
-          // Wait for all futures to complete
-          await Future.wait(authorInfoFutures);
-
-          // Sort the tasks by createdAt in descending order
           List<dynamic> tasks = counselorData['data']['counselorTasks'];
           sortTasksByCreatedAtDescending(tasks);
-
-          // Now that all author info has been fetched, emit the event
           emit(ConsultantLoaded(
             localLang: localLang,
             counselorData: counselorData['data']['counselorTasks'],
