@@ -179,12 +179,14 @@ abstract class  LocaleKeys {
   static const professions_overview = 'professions_overview';
   static const personal_growth_difficulties = 'personal_growth_difficulties';
   static const view_all = 'view_all';
+  static const your_result = 'your_result';
   static const ent = 'ent';
   static const profile_subject = 'profile_subject';
   static const dream_choice = 'dream_choice';
   static const target_choice = 'target_choice';
   static const safe_choice = 'safe_choice';
   static const choose_university = 'choose_university';
+  static const you_must_pass_the_test = 'you_must_pass_the_test';
   static const career_profession_name = 'career_profession_name';
   static const recommended_profession_name = 'recommended_profession_name';
   static const delete_subject_confirmation = 'delete_subject_confirmation';

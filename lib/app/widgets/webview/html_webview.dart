@@ -99,7 +99,6 @@ class _HtmlWebViewState extends State<HtmlWebView> {
             onPressed: () {
               if (widget.quizData != null) {
                 if (isTestFinished) {
-                
                   Navigator.of(context).pop(true);
                 } else {
                   showTestDialog(context);
@@ -200,8 +199,8 @@ class _HtmlWebViewState extends State<HtmlWebView> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
-          title: const Text(
-            "You must pass the test",
+          title: Text(
+            LocaleKeys.you_must_pass_the_test.tr(),
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           content: Row(

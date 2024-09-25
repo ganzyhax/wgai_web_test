@@ -74,6 +74,7 @@
     "undestandable":"Түсінікті",
     "scheduled_date":"Жоспарланған күн:",
     "topic":"Тақырып",
+    
     "results":"Нәтижелер",
     "by_link":"Сілтемеге өту",
     "answer":"Жауап беру",
@@ -180,16 +181,16 @@
     "professions_overview": "Мамандықтарға шолу",
 
     "personal_growth_difficulties": "Таңдау қиындықтарын өтіңіз",
-
+    
     "view_all": "Барлығын көру",
-
+    "your_result":"Cіздің результатыңыз",
     "ent": "ҰБТ",
     "profile_subject": "Профильдік пән",
     "dream_choice": "Армандаған таңдау",
     "target_choice": "Нысаналы таңдау",
     "safe_choice": "Қауіпсіз таңдау",
     "choose_university": "Армандаған университетіңізді таңдаңыз",
-
+    "you_must_pass_the_test":"Сізге  мини-тестті өту қажет",
     "career_profession_name": "Мамандық атауы",
     
     "recommended_profession_name": "Ұсынылған мамандықтар",

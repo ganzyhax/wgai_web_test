@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class PersonalGrowthQuizModal extends StatefulWidget {
   final List<Map<String, dynamic>> quizData;
@@ -152,8 +153,8 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
           CustomButton(
             text: showCorrectAnswer ||
                     currentQuestionIndex < widget.quizData.length - 1
-                ? 'Дальше'
-                : 'Закончить',
+                ? LocaleKeys.next.tr()
+                : LocaleKeys.completion.tr(),
             onTap: onNextQuestion,
             isDisabled: selectedAnswer ==
                 null, // Disable button if no answer is selected
@@ -191,13 +192,13 @@ class QuizResultModal extends StatelessWidget {
         children: <Widget>[
           Icon(Icons.check_circle_outline, color: Colors.greenAccent, size: 60),
           const SizedBox(height: 16),
-          Text("Ваш результат",
+          Text(LocaleKeys.your_result.tr(),
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
           Text("$score/$total",
               style: TextStyle(fontSize: 36, color: Colors.blue)),
           const SizedBox(height: 48),
           CustomButton(
-            text: "Понятно",
+            text: LocaleKeys.undestandable.tr(),
             onTap: () {
               Navigator.of(context).pop(true);
             },
