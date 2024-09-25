@@ -23,14 +23,10 @@ class SplashStartScreen extends StatelessWidget {
                 // margin: EdgeInsets.all(20),
                 child: Stack(
                   children: [
-                    // Shadow
-
-                    // Image
                     ClipRect(
                       child: Align(
                         alignment: Alignment.topCenter,
-                        heightFactor:
-                            0.5, // This will cut the image vertically by 20%
+                        heightFactor: 0.5,
                         child: Image.asset(
                           'assets/images/splash_phone.png',
                         ),
@@ -48,8 +44,7 @@ class SplashStartScreen extends StatelessWidget {
                               color: Colors.white.withOpacity(0.9),
                               spreadRadius: 5,
                               blurRadius: 10,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
+                              offset: Offset(0, 3),
                             ),
                           ],
                         ),

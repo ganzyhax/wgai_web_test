@@ -29,7 +29,6 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
 
   void onAnswerSelected(int answerIndex) {
     if (!showCorrectAnswer) {
-      // Allow selection only if answers haven't been revealed yet
       setState(() {
         selectedAnswer = answerIndex;
         userAnswers[currentQuestionIndex] = answerIndex;
@@ -40,19 +39,17 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
   void onNextQuestion() {
     if (userAnswers[currentQuestionIndex] != null) {
       if (!showCorrectAnswer) {
-        // Reveal correct/incorrect answers
         setState(() {
           showCorrectAnswer = true;
         });
       } else if (currentQuestionIndex < widget.quizData.length - 1) {
-        // Move to the next question
         setState(() {
           currentQuestionIndex++;
           selectedAnswer = userAnswers[currentQuestionIndex];
-          showCorrectAnswer = false; // Reset for the new question
+          showCorrectAnswer = false;
         });
       } else {
-        _showResult(); // Show result in bottom modal
+        _showResult();
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -117,7 +114,6 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
                 bool isCorrect = index == correctAnswerIndex;
                 bool isAnswered = userAnswers[currentQuestionIndex] != null;
 
-                // Define color based on answer status
                 Color answerColor = AppColors.whiteForText;
                 if (showCorrectAnswer) {
                   if (isCorrect) {
@@ -156,8 +152,7 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
                 ? LocaleKeys.next.tr()
                 : LocaleKeys.completion.tr(),
             onTap: onNextQuestion,
-            isDisabled: selectedAnswer ==
-                null, // Disable button if no answer is selected
+            isDisabled: selectedAnswer == null,
           ),
         ],
       ),

@@ -6,6 +6,7 @@ import 'package:wg_app/app/screens/specialities/model/kaz_specialities.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class SpecialityFilterModal extends StatefulWidget {
   final specialResources;
@@ -105,7 +106,7 @@ class _SpecialityFilterModalState extends State<SpecialityFilterModal> {
           const SizedBox(height: 16.0),
           // Bottom "Выбрать" button
           CustomButton(
-            text: 'Выбрать',
+            text: LocaleKeys.choose.tr(),
             onTap: () {
               if (selectedItem != null) {
                 widget
