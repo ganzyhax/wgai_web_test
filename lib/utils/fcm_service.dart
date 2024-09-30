@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:wg_app/app/screens/community/community_screen.dart';
+import 'package:wg_app/app/screens/personal_growth/personal_growth_screen.dart';
 
 class FCMService {
   static final FCMService _instance = FCMService._internal();
@@ -31,7 +33,7 @@ class FCMService {
       return;
     }
     String? a = await getToken();
-    log(a.toString() + ' ala');
+    log(a.toString());
     // Listen to foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
@@ -73,6 +75,28 @@ class FCMService {
         print('Notification: ${message.notification?.title}');
         print(
             "Notification: ${message.notification?.title}, ${message.notification?.body}");
+        if (message.notification?.body == 'counselor') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const CommunityScreen(
+                      isCounsulant: true,
+                    )),
+          );
+        }
+        if (message.notification?.body == 'news') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const CommunityScreen()),
+          );
+        }
+        if (message.notification?.body == 'growth') {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => const PersonalGrowthScreen()),
+          );
+        }
         // You can navigate the user to a specific screen
         // Navigator.pushNamed(context, '/notification', arguments: message);
       }
