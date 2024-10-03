@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/screens/community/community_screen.dart';
-import 'package:wg_app/app/screens/consultant/consultant_screen.dart';
 import 'package:wg_app/app/screens/personal_growth/personal_growth_screen.dart';
 import 'package:wg_app/app/screens/profile/profile_screen.dart';
 import 'package:wg_app/app/screens/resources/resources_screen.dart';

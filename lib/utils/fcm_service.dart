@@ -78,10 +78,7 @@ class FCMService {
         if (message.notification?.body == 'counselor') {
           Navigator.push(
             context,
-            MaterialPageRoute(
-                builder: (context) => const CommunityScreen(
-                      isCounsulant: true,
-                    )),
+            MaterialPageRoute(builder: (context) => const CommunityScreen()),
           );
         }
         if (message.notification?.body == 'news') {

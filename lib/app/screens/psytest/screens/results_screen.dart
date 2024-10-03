@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/community/pages/news/news_screen.dart';
-import 'package:wg_app/app/screens/consultant/consultant_screen.dart';
 import 'package:wg_app/app/screens/personal_growth/personal_growth_screen.dart';
 import 'package:wg_app/app/screens/psytest/bloc/test_bloc.dart';
 import 'package:wg_app/app/screens/psytest/widgets/result_container.dart';
