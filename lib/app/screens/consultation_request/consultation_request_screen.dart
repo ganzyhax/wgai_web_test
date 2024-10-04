@@ -108,8 +108,12 @@ Widget _buildContent(List<SlotModel> slots) {
           CustomButton(
             text: LocaleKeys.sign_up_consultation.tr(),
             onTap: () {
-              final selectedSlot = slots.firstWhere((slot) => slot.isSelected, orElse: () => slots.first);
-              context.read<ConsultationRequestBloc>().add(SubmitConsultationRequest(selectedSlot.id));
+              // final selectedSlot = slots.firstWhere((slot) => slot.isSelected, orElse: () => slots.first);
+              // context.read<ConsultationRequestBloc>().add(SubmitConsultationRequest(selectedSlot.id));
+              final selectedSlot = slots.where((slot) => slot.isSelected).firstOrNull;
+              if (selectedSlot != null) {
+                context.read<ConsultationRequestBloc>().add(SubmitConsultationRequest(selectedSlot.id));
+              }
             },
           ),
           const SizedBox(height: 24),
