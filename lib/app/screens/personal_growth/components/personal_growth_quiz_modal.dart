@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PersonalGrowthQuizModal extends StatefulWidget {
   final List<Map<String, dynamic>> quizData;
@@ -196,6 +198,16 @@ class QuizResultModal extends StatelessWidget {
             text: LocaleKeys.undestandable.tr(),
             onTap: () {
               Navigator.of(context).pop(true);
+              // Navigator.pop(context, 'complete');
+              // for (int i = 0; i < 3; i++) {
+              //   if (Navigator.canPop(context)) {
+              //     Navigator.pop(context);
+              //   } else {
+              //     break; // Exit the loop if we can't pop anymore
+              //   }
+              // }
+              // BlocProvider.of<MainNavigatorBloc>(context)
+              //                 .add(MainNavigatorChangePage(index: 0));
             },
           ),
         ],
