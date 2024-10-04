@@ -104,7 +104,6 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
                                 )),
                             GestureDetector(
                                 onTap: () async {
-                                  log('clicked!');
                                   BlocProvider.of<ProfileCareerBloc>(context)
                                     ..add(ProfileDeleteCareer(
                                         occupationCode: data[index]['id']));

@@ -53,7 +53,6 @@ class UniversitiesBloc extends Bloc<UniversitiesEvent, UniversitiesState> {
             universityData.hasMilitaryDept == event.hasMilitaryDept;
 
         bool matchesSpecialties = true;
-        log(event.specialities.toString() + ' here is');
         if (event.specialities != null && event.specialities!.isNotEmpty) {
           // Get the selected specialties' codes
           List<String?> selectedSpecialtiesCodes =

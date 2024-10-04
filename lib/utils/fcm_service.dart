@@ -33,7 +33,6 @@ class FCMService {
       return;
     }
     String? a = await getToken();
-    log(a.toString());
     // Listen to foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {

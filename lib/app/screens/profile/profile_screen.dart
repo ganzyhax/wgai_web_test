@@ -51,10 +51,10 @@ class ProfileScreen extends StatelessWidget {
                 context: context,
                 color: AppColors.whiteForText,
                 position: RelativeRect.fromLTRB(
-                  MediaQuery.of(context).size.width, // left
-                  position.dy + 110, // top (under the button)
-                  10, // right
-                  0, // bottom (not used)
+                  MediaQuery.of(context).size.width, 
+                  position.dy + 110,
+                  10, 
+                  0, 
                 ),
                 items: [
                   PopupMenuItem<int>(

@@ -23,7 +23,11 @@ class CountryCard extends StatelessWidget {
           SizedBox(
             height: 5,
           ),
-          Text(text)
+          Text(
+            text,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          )
         ],
       ),
     );

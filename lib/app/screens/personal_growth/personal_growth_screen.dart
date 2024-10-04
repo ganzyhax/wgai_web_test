@@ -113,7 +113,6 @@ class PersonalGrowthScreen extends StatelessWidget {
                           ),
                           SizedBox(height: 10),
                           ...categoryData.map((item) {
-                            log(item.toString());
                             return Column(
                               children: [
                                 PersonalGrowthCard(
@@ -188,7 +187,6 @@ class PersonalGrowthScreen extends StatelessWidget {
                                         }
                                         if (item['completionStatus'] ==
                                             'complete') {
-                                          log(item.toString());
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(

@@ -11,10 +11,10 @@ class ForeignUniversityLoad extends ForeignUniversityEvent {
   final int? limit; // Make nullable
 
   ForeignUniversityLoad({
-    this.feeStartRange,
-    this.feeEndRange,
+    this.feeStartRange = 0,
+    this.feeEndRange = 100000000,
     this.countryCode,
-    this.page, // Remove default value
-    this.limit, // Remove default value
+    this.page = 1, // Remove default value
+    this.limit = 20, // Remove default value
   });
 }

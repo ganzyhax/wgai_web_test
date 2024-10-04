@@ -102,7 +102,6 @@ class _ConsultantCardState extends State<ConsultantCard> {
   }
 
   Widget _buildTaskSpecificWidget() {
-    log(widget.data.toString());
     switch (widget.data['type']) {
       case 'textbox':
         if (!widget.data.containsKey('result')) {
@@ -422,7 +421,6 @@ class _ConsultantCardState extends State<ConsultantCard> {
                       isGuidanceTask: false),
                 ),
               );
-              log(res.toString());
               if (res) {
                 BlocProvider.of<ConsultantBloc>(context)
                   ..add(ConsultantUpdateStatus(

@@ -26,7 +26,6 @@ class _SpecialityFilterModalState extends State<SpecialityFilterModal> {
 
   @override
   Widget build(BuildContext context) {
-    log(widget.specialResources.toString());
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),

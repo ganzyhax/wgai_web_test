@@ -63,11 +63,8 @@ class _UniversitiesScreenState extends State<UniversitiesScreen> {
                             final universityCode = '';
                             return FilterBottomSheet(
                               onFilterApplied: (filters) {
-                                log(filters.toString() + ' hererer');
-
                                 setState(() {
                                   activeFilters = filters;
-                                  log(activeFilters.toString() + ' hererer');
                                 });
                               },
                               universityCode: universityCode,

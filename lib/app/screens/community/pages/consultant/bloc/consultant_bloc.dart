@@ -55,16 +55,13 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
           log('Error checking counselor task');
         }
 
-        // If the result is not ready and we haven't hit the retry limit, wait for the next poll
         if (!isResultReady && retryCount < maxRetries) {
           await Future.delayed(pollingInterval);
         }
       }
 
-      // If the result wasn't ready after the retries, handle the failure
       if (!isResultReady) {
-        log('Max retries reached. Counselor task result is still not ready.');
-        // You can emit an error state here if needed
+        log('Max retries reached, counselor task result is still not ready');
       }
     }
 

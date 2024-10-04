@@ -134,193 +134,194 @@ class _UniversitiesCompleteScreenState
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
                       if (widget.isChooseUniversity == null)
-                      Text(
-                        LocaleKeys.specialities.tr(),
-                        style: AppTextStyle.heading3,
-                      ),
+                        Text(
+                          LocaleKeys.specialities.tr(),
+                          style: AppTextStyle.heading3,
+                        ),
                       if (widget.isChooseUniversity == null)
-                      const SizedBox(height: 8),
+                        const SizedBox(height: 8),
                       if (widget.isChooseUniversity == null)
-                      BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
-                        builder: (context, state) {
-                          if (state is SpecialitiesLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          } else if (state is SpecialitiesLoaded) {
-                            return Column(
-                              children:
-                                  university.specialties?.map((specialty) {
-                                        final spec =
-                                            state.specialResources?.firstWhere(
-                                          (spec) => spec.code == specialty.code,
-                                          orElse: () =>
-                                              Specialties(code: specialty.code),
-                                        );
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8),
-                                          child: UniSpecialContainer(
-                                              onTap: () {
-                                                if (widget.isChooseUniversity ==
-                                                    null) {
-                                                  Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            SpecialitiesCompleteScreen(
-                                                                data: spec!,
-                                                                speciesId: specialty
-                                                                        .code ??
-                                                                    '')),
-                                                  );
-                                                }
-                                              },
-                                              codeNumber: specialty.code ?? '',
-                                              title: spec?.name
-                                                      ?.getLocalizedString(
-                                                          context) ??
-                                                  '',
-                                              subject: (spec?.profileSubjects ==
-                                                      null)
-                                                  ? ''
-                                                  : spec?.profileSubjects?[0]
-                                                          .name
-                                                          ?.getLocalizedString(
-                                                              context) ??
-                                                      '',
-                                              grantScore: spec?.grants?.general
-                                                      ?.grantScores?[0].max ??
-                                                  0,
-                                              paidScore: spec?.grants?.general
-                                                      ?.grantScores?[0].max ??
-                                                  0),
-                                        );
-                                      }).toList() ??
-                                      [],
-                            );
-                          } else if (state is SpecialitiesError) {
-                            return Center(child: Text(state.message));
-                          } else {
-                            return Container();
-                          }
-                        },
-                      ),
+                        BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
+                          builder: (context, state) {
+                            if (state is SpecialitiesLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (state is SpecialitiesLoaded) {
+                              return Column(
+                                children: university.specialties
+                                        ?.map((specialty) {
+                                      final spec =
+                                          state.specialResources?.firstWhere(
+                                        (spec) => spec.code == specialty.code,
+                                        orElse: () =>
+                                            Specialties(code: specialty.code),
+                                      );
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 8),
+                                        child: UniSpecialContainer(
+                                            onTap: () {
+                                              if (widget.isChooseUniversity ==
+                                                  null) {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SpecialitiesCompleteScreen(
+                                                              data: spec!,
+                                                              speciesId: specialty
+                                                                      .code ??
+                                                                  '')),
+                                                );
+                                              }
+                                            },
+                                            codeNumber: specialty.code ?? '',
+                                            title: spec?.name
+                                                    ?.getLocalizedString(
+                                                        context) ??
+                                                '',
+                                            subject: (spec?.profileSubjects ==
+                                                    null)
+                                                ? ''
+                                                : spec?.profileSubjects?[0].name
+                                                        ?.getLocalizedString(
+                                                            context) ??
+                                                    '',
+                                            grantScore: spec?.grants?.general
+                                                    ?.grantScores?[0].max ??
+                                                0,
+                                            paidScore: spec?.grants?.general
+                                                    ?.grantScores?[0].max ??
+                                                0),
+                                      );
+                                    }).toList() ??
+                                    [],
+                              );
+                            } else if (state is SpecialitiesError) {
+                              return Center(child: Text(state.message));
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
                       if (widget.isChooseUniversity != null)
+                        SizedBox(
+                          height: 5,
+                        ),
+                      if (widget.isChooseUniversity != null)
+                        CustomButton(
+                            isDisabled: (type == 'dreamChoice') ? true : false,
+                            text: (type == 'dreamChoice')
+                                ? LocaleKeys.selectedAsDreamChoice.tr()
+                                : LocaleKeys.selectAsDreamChoice.tr(),
+                            onTap: () async {
+                              BlocProvider.of<ProfileBloc>(context)
+                                ..add(ProfileAddKazUniversity(
+                                    titleJson: university.name!.toJson(),
+                                    kazUniCode: university.code!,
+                                    shortlistChoice: 'dreamChoice'));
+
+                              type = 'dreamChoice';
+
+                              setState(() {});
+                              // Just decided to pop 3 times instead of doing
+                              // complicated route naming and stuff
+                              for (int i = 0; i < 3; i++) {
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                } else {
+                                  break; // Exit the loop if we can't pop anymore
+                                }
+                              }
+                            }),
                       SizedBox(
                         height: 5,
                       ),
                       if (widget.isChooseUniversity != null)
-                      CustomButton(
-                          isDisabled: (type == 'dreamChoice') ? true : false,
-                          text: (type == 'dreamChoice')
-                              ? LocaleKeys.selectedAsDreamChoice.tr()
-                              : LocaleKeys.selectAsDreamChoice.tr(),
-                          onTap: () async {
-                            BlocProvider.of<ProfileBloc>(context)
-                              ..add(ProfileAddKazUniversity(
-                                  titleJson: university.name!.toJson(),
-                                  kazUniCode: university.code!,
-                                  shortlistChoice: 'dreamChoice'));
+                        CustomButton(
+                            isDisabled:
+                                (type == 'targetChoice1') ? true : false,
+                            text: (type == 'targetChoice1')
+                                ? LocaleKeys.selectedAsTargetChoice1.tr()
+                                : LocaleKeys.selectAsTargetChoice1.tr(),
+                            onTap: () async {
+                              BlocProvider.of<ProfileBloc>(context)
+                                ..add(ProfileAddKazUniversity(
+                                    titleJson: university.name!.toJson(),
+                                    kazUniCode: university.code!,
+                                    shortlistChoice: 'targetChoice1'));
 
-                            type = 'dreamChoice';
+                              type = 'targetChoice1';
 
-                            setState(() {});
-                            // Just decided to pop 3 times instead of doing
-                            // complicated route naming and stuff
-                            for (int i = 0; i < 3; i++) {
-                              if (Navigator.canPop(context)) {
-                                Navigator.pop(context);
-                              } else {
-                                break; // Exit the loop if we can't pop anymore
+                              setState(() {});
+
+                              for (int i = 0; i < 3; i++) {
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                } else {
+                                  break; // Exit the loop if we can't pop anymore
+                                }
                               }
-                            }
-                          }),
+                            }),
                       SizedBox(
                         height: 5,
                       ),
                       if (widget.isChooseUniversity != null)
-                      CustomButton(
-                          isDisabled: (type == 'targetChoice1') ? true : false,
-                          text: (type == 'targetChoice1')
-                              ? LocaleKeys.selectedAsTargetChoice1.tr()
-                              : LocaleKeys.selectAsTargetChoice1.tr(),
-                          onTap: () async {
-                            BlocProvider.of<ProfileBloc>(context)
-                              ..add(ProfileAddKazUniversity(
-                                  titleJson: university.name!.toJson(),
-                                  kazUniCode: university.code!,
-                                  shortlistChoice: 'targetChoice1'));
+                        CustomButton(
+                            isDisabled:
+                                (type == 'targetChoice2') ? true : false,
+                            text: (type == 'targetChoice2')
+                                ? LocaleKeys.selectedAsTargetChoice2.tr()
+                                : LocaleKeys.selectAsTargetChoice2.tr(),
+                            onTap: () async {
+                              BlocProvider.of<ProfileBloc>(context)
+                                ..add(ProfileAddKazUniversity(
+                                    titleJson: university.name!.toJson(),
+                                    kazUniCode: university.code!,
+                                    shortlistChoice: 'targetChoice2'));
 
-                            type = 'targetChoice1';
+                              type = 'targetChoice2';
 
-                            setState(() {});
+                              setState(() {});
 
-                            for (int i = 0; i < 3; i++) {
-                              if (Navigator.canPop(context)) {
-                                Navigator.pop(context);
-                              } else {
-                                break; // Exit the loop if we can't pop anymore
+                              for (int i = 0; i < 3; i++) {
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                } else {
+                                  break; // Exit the loop if we can't pop anymore
+                                }
                               }
-                            }
-                          }),
-                      SizedBox(
-                        height: 5,
-                      ),
+                            }),
                       if (widget.isChooseUniversity != null)
-                      CustomButton(
-                          isDisabled: (type == 'targetChoice2') ? true : false,
-                          text: (type == 'targetChoice2')
-                              ? LocaleKeys.selectedAsTargetChoice2.tr()
-                              : LocaleKeys.selectAsTargetChoice2.tr(),
-                          onTap: () async {
-                            BlocProvider.of<ProfileBloc>(context)
-                              ..add(ProfileAddKazUniversity(
-                                  titleJson: university.name!.toJson(),
-                                  kazUniCode: university.code!,
-                                  shortlistChoice: 'targetChoice2'));
+                        SizedBox(
+                          height: 5,
+                        ),
+                      if (widget.isChooseUniversity != null)
+                        CustomButton(
+                            isDisabled: (type == 'safeChoice') ? true : false,
+                            text: (type == 'safeChoice')
+                                ? LocaleKeys.selectedAsSafeChoice.tr()
+                                : LocaleKeys.selectAsSafeChoice.tr(),
+                            onTap: () async {
+                              BlocProvider.of<ProfileBloc>(context)
+                                ..add(ProfileAddKazUniversity(
+                                    titleJson: university.name!.toJson(),
+                                    kazUniCode: university.code!,
+                                    shortlistChoice: 'safeChoice'));
 
-                            type = 'targetChoice2';
+                              type = 'safeChoice';
 
-                            setState(() {});
+                              setState(() {});
 
-                            for (int i = 0; i < 3; i++) {
-                              if (Navigator.canPop(context)) {
-                                Navigator.pop(context);
-                              } else {
-                                break; // Exit the loop if we can't pop anymore
+                              for (int i = 0; i < 3; i++) {
+                                if (Navigator.canPop(context)) {
+                                  Navigator.pop(context);
+                                } else {
+                                  break; // Exit the loop if we can't pop anymore
+                                }
                               }
-                            }
-                          }),
-                      if (widget.isChooseUniversity != null)
-                      SizedBox(
-                        height: 5,
-                      ),
-                      if (widget.isChooseUniversity != null)
-                      CustomButton(
-                          isDisabled: (type == 'safeChoice') ? true : false,
-                          text: (type == 'safeChoice')
-                              ? LocaleKeys.selectedAsSafeChoice.tr()
-                              : LocaleKeys.selectAsSafeChoice.tr(),
-                          onTap: () async {
-                            BlocProvider.of<ProfileBloc>(context)
-                              ..add(ProfileAddKazUniversity(
-                                  titleJson: university.name!.toJson(),
-                                  kazUniCode: university.code!,
-                                  shortlistChoice: 'safeChoice'));
-
-                            type = 'safeChoice';
-
-                            setState(() {});
-
-                            for (int i = 0; i < 3; i++) {
-                              if (Navigator.canPop(context)) {
-                                Navigator.pop(context);
-                              } else {
-                                break; // Exit the loop if we can't pop anymore
-                              }
-                            }
-                          }),
+                            }),
                       SizedBox(
                         height: 12,
                       ),

@@ -100,8 +100,11 @@ class ForeignUniversitiesScreen extends StatelessWidget {
                                   );
                             }
                           },
-                          child: Text('Previous'),
+                          child: Text('Предедущий'),
                         ),
+                        Text(state.data['currentPage'].toString() +
+                            '/' +
+                            state.data['totalPages'].toString()),
                         ElevatedButton(
                           onPressed: () {
                             // Handle next page logic
@@ -116,7 +119,7 @@ class ForeignUniversitiesScreen extends StatelessWidget {
                                   ),
                                 );
                           },
-                          child: Text('Next'),
+                          child: Text('Далее'),
                         ),
                       ],
                     ),

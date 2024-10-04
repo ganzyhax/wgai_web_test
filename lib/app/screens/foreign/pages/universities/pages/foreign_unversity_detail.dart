@@ -1,0 +1,90 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
+import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
+import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
+
+class ForeignUnversityDetail extends StatelessWidget {
+  final data;
+  const ForeignUnversityDetail({super.key, required this.data});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(55),
+        child: CustomAppbar(title: '', withBackButton: true),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white),
+                padding: EdgeInsets.all(15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height / 4,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  'https://images.pexels.com/photos/460672/pexels-photo-460672.jpeg?auto=compress&cs=tinysrgb&w=800'),
+                              fit: BoxFit.cover)),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Center(
+                      child: Text(
+                        data['name'][context.locale.languageCode],
+                        style: TextStyle(
+                            fontWeight: FontWeight.w600, fontSize: 22),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      LocaleKeys.country.tr(),
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      data['countryCode'],
+                      style:
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Text(
+                      LocaleKeys.short_description.tr(),
+                      style: TextStyle(color: Colors.grey[400]),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Html(
+                        data: data['description'][context.locale.languageCode]),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

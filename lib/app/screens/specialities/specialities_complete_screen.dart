@@ -79,7 +79,6 @@ class SpecialitiesCompleteScreenState
           )),
       body: BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
         builder: (context, state) {
-          log(widget.data.toString());
           if (state is SpecialitiesLoading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state is SpecialitiesLoaded) {

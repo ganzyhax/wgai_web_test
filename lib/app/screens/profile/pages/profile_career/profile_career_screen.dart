@@ -72,7 +72,7 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
 
                     description:
                         LocaleKeys.recommended_professions_storage.tr(),
-                    // 'asdas',
+                    
                     onButtonTap: () async {
                       // final res = await Navigator.push(
                       //   context,

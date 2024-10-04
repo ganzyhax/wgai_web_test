@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wg_app/app/screens/foreign/pages/universities/widget/foreign_university_fee_slider.dart';
 
 class FilterBottomSheet extends StatefulWidget {
   final Function(Map<String, dynamic>) onApplyFilters;
@@ -12,7 +13,7 @@ class FilterBottomSheet extends StatefulWidget {
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
   final TextEditingController _countryCodeController = TextEditingController();
-
+  var feeValues;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -39,13 +40,20 @@ class _FilterBottomSheetState extends State<FilterBottomSheet> {
             ),
           ),
           const SizedBox(height: 16),
+          TuitionFeeSlider(
+            onFeeChanged: (val) {
+              feeValues = val;
+              setState(() {});
+            },
+          ),
+          const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
-              // Pass the filter values back to the screen
               Map<String, dynamic> filters = {
                 'countryCode': _countryCodeController.text.isNotEmpty
                     ? _countryCodeController.text
                     : null,
+                'feeValues': feeValues
               };
               widget.onApplyFilters(filters);
               Navigator.pop(context);
