@@ -14,20 +14,24 @@ import 'package:wg_app/constants/app_text_style.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 
 class HtmlWebView extends StatefulWidget {
   final String contentCode;
   final bool isUrl;
   final String contentUrl;
   final String contentUrlTitle;
+  final String completionStatus;
   List<Map<String, dynamic>>? quizData;
+  
 
   HtmlWebView(
       {required this.contentCode,
       required this.isUrl,
       required this.contentUrl,
       this.quizData,
-      required this.contentUrlTitle});
+      required this.contentUrlTitle,
+      required this.completionStatus});
 
   @override
   _HtmlWebViewState createState() => _HtmlWebViewState();
@@ -97,9 +101,18 @@ class _HtmlWebViewState extends State<HtmlWebView> {
           backgroundColor: AppColors.background,
           leading: IconButton(
             onPressed: () {
-              if (widget.quizData != null) {
-                if (isTestFinished) {
+              if (widget.quizData != null && widget.quizData!.isNotEmpty) {
+                if (widget.completionStatus == "complete" || isTestFinished) {
                   Navigator.of(context).pop(true);
+              // for (int i = 0; i < 3; i++) {
+              //   if (Navigator.canPop(context)) {
+              //     Navigator.pop(context);
+              //   } else {
+              //     break; // Exit the loop if we can't pop anymore
+              //   }
+              // }
+              // BlocProvider.of<MainNavigatorBloc>(context)
+              //                 .add(MainNavigatorChangePage(index: 0));
                 } else {
                   showTestDialog(context);
                 }
@@ -124,7 +137,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 0),
         child: isLoading == false
-            ? (widget.quizData != null)
+            ? (widget.quizData != null && widget.quizData!.isNotEmpty)
                 ? Stack(
                     children: [
                       Column(
@@ -158,7 +171,11 @@ class _HtmlWebViewState extends State<HtmlWebView> {
                                           quizData: widget.quizData!);
                                     },
                                   );
-                                  if (res != null && res) {}
+                                  if (res != null && res) {
+                                    setState(() {
+                                      isTestFinished = true;
+                                  });
+                                  }
                                 }),
                           ),
                         ),

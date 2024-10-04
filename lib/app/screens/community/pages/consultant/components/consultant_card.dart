@@ -396,6 +396,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                               ['interpretationLink'],
                           contentUrlTitle: widget.data['result']['subtitle']
                               [widget.localLang],
+                          completionStatus: widget.data['status']
                         ),
                       ),
                     );
@@ -476,6 +477,7 @@ class _ConsultantCardState extends State<ConsultantCard> {
                               ['interpretationLink'],
                           contentUrlTitle: widget.data['result']['subtitle']
                               [widget.localLang],
+                            completionStatus: widget.data['status']
                         ),
                       ),
                     );

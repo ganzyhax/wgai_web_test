@@ -122,10 +122,14 @@ class PersonalGrowthScreen extends StatelessWidget {
                                               'locked' &&
                                           item['type'] == 'reading') {
                                         if (item['completionStatus'] == 'new') {
+                                          var newstatus = "incomplete";
+                                          if (item['completionQuiz'] == null || item['completionQuiz'].length == 0) {
+                                            newstatus = "complete";
+                                          }
                                           BlocProvider.of<PersonalBloc>(context)
                                             ..add(
                                                 PersonalGuidanceTaskUpdateStatus(
-                                                    status: 'incomplete',
+                                                    status: newstatus,
                                                     guidanceTaskId:
                                                         item['_id']));
                                           List<Map<String, dynamic>> quizData =
@@ -142,6 +146,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                 contentUrl: item['contentCode'],
                                                 contentUrlTitle: "",
                                                 quizData: quizData,
+                                                completionStatus: item['completionStatus']
                                               ),
                                             ),
                                           );
@@ -172,6 +177,7 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                 contentUrl: item['contentCode'],
                                                 contentUrlTitle: "",
                                                 quizData: quizData,
+                                                completionStatus: item['completionStatus']
                                               ),
                                             ),
                                           );
@@ -198,8 +204,8 @@ class PersonalGrowthScreen extends StatelessWidget {
                                                 isUrl: false,
                                                 contentUrl: item['contentCode'],
                                                 contentUrlTitle: "",
-                                                quizData:
-                                                    item['completionQuiz'],
+
+                                                completionStatus: item['completionStatus']
                                               ),
                                             ),
                                           );
@@ -227,13 +233,13 @@ class PersonalGrowthScreen extends StatelessWidget {
                                             ),
                                           );
                                           if (res != null && res) {
-                                            BlocProvider.of<PersonalBloc>(
-                                                context)
-                                              ..add(
-                                                  PersonalGuidanceTaskUpdateStatus(
-                                                      status: 'complete',
-                                                      guidanceTaskId:
-                                                          item['_id']));
+                                            // BlocProvider.of<PersonalBloc>(
+                                            //     context)
+                                            //   ..add(
+                                            //       PersonalGuidanceTaskUpdateStatus(
+                                            //           status: 'complete',
+                                            //           guidanceTaskId:
+                                            //               item['_id']));
                                             BlocProvider.of<PersonalBloc>(
                                                     context)
                                                 .add(PersonalCheckGuidanceTask(
@@ -256,13 +262,13 @@ class PersonalGrowthScreen extends StatelessWidget {
                                             ),
                                           );
                                           if (res != null && res) {
-                                            BlocProvider.of<PersonalBloc>(
-                                                context)
-                                              ..add(
-                                                  PersonalGuidanceTaskUpdateStatus(
-                                                      status: 'complete',
-                                                      guidanceTaskId:
-                                                          item['_id']));
+                                            // BlocProvider.of<PersonalBloc>(
+                                            //     context)
+                                            //   ..add(
+                                            //       PersonalGuidanceTaskUpdateStatus(
+                                            //           status: 'complete',
+                                            //           guidanceTaskId:
+                                            //               item['_id']));
                                             BlocProvider.of<PersonalBloc>(
                                                     context)
                                                 .add(PersonalCheckGuidanceTask(
