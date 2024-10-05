@@ -51,9 +51,12 @@ class _TuitionFeeSliderState extends State<TuitionFeeSlider> {
               Expanded(
                 child: TextField(
                   controller: _minController,
+                  cursorColor: Colors.black,
                   decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                  ),
+                      border: OutlineInputBorder(),
+                      focusColor: Colors.grey[400],
+                      fillColor: Colors.grey[400],
+                      hoverColor: Colors.grey[400]),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     double min =

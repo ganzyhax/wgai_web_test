@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/pages/foreign_unversity_detail.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ForeignUniverCard extends StatelessWidget {
@@ -53,7 +54,8 @@ class ForeignUniverCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      data['countryCode'],
+                      AppConstant.countriesCode[data['countryCode']]![
+                          context.locale.languageCode]!,
                       style: TextStyle(color: Colors.grey[400]),
                     ),
                     Text('', style: TextStyle(color: Colors.grey[400])),

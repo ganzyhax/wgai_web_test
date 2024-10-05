@@ -4,6 +4,7 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ForeignUnversityDetail extends StatelessWidget {
@@ -62,9 +63,10 @@ class ForeignUnversityDetail extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      data['countryCode'],
+                      AppConstant.countriesCode[data['countryCode']]![
+                          context.locale.languageCode]!,
                       style:
-                          TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                          TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
                     ),
                     SizedBox(
                       height: 15,

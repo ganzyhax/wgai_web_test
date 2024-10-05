@@ -10,7 +10,8 @@ import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class CommunityScreen extends StatelessWidget {
-  const CommunityScreen({super.key});
+  final bool? isCounsulant;
+  const CommunityScreen({super.key, this.isCounsulant});
 
   @override
   Widget build(BuildContext context) {

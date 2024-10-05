@@ -8,9 +8,11 @@ part 'foreign_university_state.dart';
 
 class ForeignUniversityBloc
     extends Bloc<ForeignUniversityEvent, ForeignUniversityState> {
+  List<dynamic> _universityData = []; // Global list for storing universities
+
   ForeignUniversityBloc() : super(ForeignUniversityInitial()) {
     on<ForeignUniversityLoad>((event, emit) async {
-      // Create a map for the query parameters
+      // Prepare query parameters
       final queryParams = {
         'feeStartRange': event.feeStartRange?.toString(),
         'feeEndRange': event.feeEndRange?.toString(),
@@ -19,21 +21,40 @@ class ForeignUniversityBloc
         'limit': event.limit.toString(),
       }..removeWhere((key, value) => value == null);
 
-      // Construct the query string from parameters
       final queryString = Uri(queryParameters: queryParams).query;
 
-      // Make the API call with the constructed URL
-      final data = await ApiClient.get(
-        'api/resources/foreign/universities?$queryString', // Append the query string to the endpoint
-      );
+      try {
+        // API call to fetch universities
+        final data = await ApiClient.get(
+            'api/resources/foreign/universities?$queryString');
 
-      if (data['success']) {
-        log(data.toString());
-        emit(ForeignUniversityLoaded(
-          data: data['data'],
-          currentCountryCode: event.countryCode, // Pass current country code
-          currentPage: event.page!, // Pass current page
-        ));
+        if (data['success']) {
+          // Check data structure before accessing
+          if (data['data'] is Map && data['data']['data'] is List) {
+            List<dynamic> newUniversities = data['data']['data'];
+            int totalPages = data['data']['totalPages'] ?? 1;
+
+            // Reset data if page is 1
+            if (event.page == 1) {
+              _universityData = [];
+            }
+
+            // Append new universities to the global list
+            _universityData.addAll(newUniversities);
+
+            // Emit updated state with appended data and total pages
+            emit(ForeignUniversityLoaded(
+              data: _universityData, // Global list of universities
+              currentCountryCode: event.countryCode,
+              currentPage: event.page ?? 1, // Current page
+              totalPages: totalPages, // Total pages from the API response
+            ));
+          } else {
+            log('Unexpected data format: ${data['data']}');
+          }
+        }
+      } catch (error) {
+        log('Error loading universities: $error');
       }
     });
   }

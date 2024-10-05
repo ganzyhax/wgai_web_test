@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,8 +11,53 @@ import 'package:wg_app/constants/app_text_style.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
-class ForeignUniversitiesScreen extends StatelessWidget {
+class ForeignUniversitiesScreen extends StatefulWidget {
   const ForeignUniversitiesScreen({super.key});
+
+  @override
+  _ForeignUniversitiesScreenState createState() =>
+      _ForeignUniversitiesScreenState();
+}
+
+class _ForeignUniversitiesScreenState extends State<ForeignUniversitiesScreen> {
+  final ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  // Trigger pagination when reaching the bottom of the list
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+        _scrollController.position.maxScrollExtent) {
+      final state = context.read<ForeignUniversityBloc>().state;
+      if (state is ForeignUniversityLoaded) {
+        final currentPage = state.currentPage;
+        final totalPages = state.totalPages;
+
+        if (currentPage < totalPages) {
+          // Load next page
+          context.read<ForeignUniversityBloc>().add(
+                ForeignUniversityLoad(
+                  feeStartRange: null,
+                  feeEndRange: null,
+                  countryCode: state.currentCountryCode,
+                  page: currentPage + 1, // Load next page
+                  limit: 20,
+                ),
+              );
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +71,7 @@ class ForeignUniversitiesScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is ForeignUniversityLoaded) {
             return SingleChildScrollView(
+              controller: _scrollController, // Attach scroll controller
               child: Padding(
                 padding: const EdgeInsets.only(left: 14.0, right: 14.0),
                 child: Column(
@@ -48,10 +95,12 @@ class ForeignUniversitiesScreen extends StatelessWidget {
                                   onApplyFilters: (filters) {
                                     context.read<ForeignUniversityBloc>().add(
                                           ForeignUniversityLoad(
-                                            feeStartRange: null,
-                                            feeEndRange: null,
+                                            feeStartRange: filters['feeValues']
+                                                [0],
+                                            feeEndRange: filters['feeValues']
+                                                [1],
                                             countryCode: filters['countryCode'],
-                                            page: 1,
+                                            page: 1, // Reset to page 1
                                             limit: 20,
                                           ),
                                         );
@@ -62,7 +111,6 @@ class ForeignUniversitiesScreen extends StatelessWidget {
                           },
                           icon: SvgPicture.asset(
                             'assets/icons/filter.svg',
-                            color: AppColors.primary,
                           ),
                         ),
                       ],
@@ -71,58 +119,21 @@ class ForeignUniversitiesScreen extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: state.data['data'].length,
+                      itemCount: state.data.length, // Use the global data list
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 8.0),
                           child: ForeignUniverCard(
-                              data: state.data['data'][index]),
+                            data: state.data[index], // Display each university
+                          ),
                         );
                       },
                     ),
-                    // Add pagination controls
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle previous page logic
-                            if (state.currentPage > 1) {
-                              context.read<ForeignUniversityBloc>().add(
-                                    ForeignUniversityLoad(
-                                      feeStartRange: null,
-                                      feeEndRange: null,
-                                      countryCode: state.currentCountryCode,
-                                      page: state.currentPage! -
-                                          1, // Use `!` to assert it is non-null
-                                      limit: 20, // Default limit
-                                    ),
-                                  );
-                            }
-                          },
-                          child: Text('Предедущий'),
-                        ),
-                        Text(state.data['currentPage'].toString() +
-                            '/' +
-                            state.data['totalPages'].toString()),
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle next page logic
-                            context.read<ForeignUniversityBloc>().add(
-                                  ForeignUniversityLoad(
-                                    feeStartRange: null,
-                                    feeEndRange: null,
-                                    countryCode: state.currentCountryCode,
-                                    page: (state.currentPage ?? 0) +
-                                        1, // Ensure it's not null
-                                    limit: 20, // Default limit
-                                  ),
-                                );
-                          },
-                          child: Text('Далее'),
-                        ),
-                      ],
-                    ),
+                    if (state.currentPage < state.totalPages)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: CircularProgressIndicator(),
+                      ),
                   ],
                 ),
               ),

@@ -196,6 +196,7 @@ class QuizResultModal extends StatelessWidget {
             text: LocaleKeys.undestandable.tr(),
             onTap: () {
               Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
             },
           ),
         ],
