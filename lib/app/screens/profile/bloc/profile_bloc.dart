@@ -110,6 +110,13 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
               fullName: fullName));
         }
       }
+
+      if (event is ProfileDeleteAccount) {
+        var req = await ApiClient.post('api/user/deleteAccount', {});
+        if (req['success']) {
+          emit(AccountDeletedState());
+        }
+      }
       if (event is ProfileSetSpecialityPost) {
         var res = await ApiClient.post(
             'api/portfolio/myUniversity/kaz/setProfileSubject',

@@ -119,12 +119,8 @@ class ProfileSettingsPage extends StatelessWidget {
                   CustomButton(
                     text: LocaleKeys.deleteAccount.tr(),
                     onTap: () async {
-                      await LocalUtils.logout();
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => WeGlobalApp()),
-                          (route) => true);
+                      BlocProvider.of<ProfileBloc>(context)
+                          ..add(ProfileDeleteAccount());
                     },
                     bgColor: Colors.red,
                   ),

@@ -10,6 +10,7 @@ final class ProfileChangeUserData extends ProfileEvent {
   final String surname;
   ProfileChangeUserData({required this.name, required this.surname});
 }
+final class ProfileDeleteAccount extends ProfileEvent {}
 
 final class ProfileSetSpeciality extends ProfileEvent {
   var value;

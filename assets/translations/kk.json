@@ -220,6 +220,7 @@
     "selectAsTargetChoice1": "Target Choice 1 ретінде таңдау",
     "selectedAsTargetChoice1": "Target Choice 1 ретінде таңдалды",
     "selectAsTargetChoice2": "Target Choice 2 ретінде таңдау",
-    "selectedAsTargetChoice2": "Target Choice 2 ретінде таңдалды"
-
+    "selectedAsTargetChoice2": "Target Choice 2 ретінде таңдалды",
+    "youGotAppointment": "Сізде жоспарланған консультация бар!",
+    "consultationTime": "Уақыты"
 }

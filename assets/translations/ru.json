@@ -220,5 +220,7 @@
     "selectAsTargetChoice1": "Выбрать как Target Choice 1",
     "selectedAsTargetChoice1": "Выбран как Target Choice 1",
     "selectAsTargetChoice2": "Выбрать как Target Choice 2",
-    "selectedAsTargetChoice2": "Выбран как Target Choice 2"
+    "selectedAsTargetChoice2": "Выбран как Target Choice 2",
+    "youGotAppointment": "У вас есть консультация, на которую вы записались!",
+    "consultationTime": "Время"
 }
