@@ -73,6 +73,6 @@ class SlotModel {
 
   String get formattedTimeSlot {
     final formatter = DateFormat('HH:mm');
-    return '${formatter.format(startDate)} - ${formatter.format(endDate)}';
+    return '${formatter.format(startDate.toLocal())} - ${formatter.format(endDate.toLocal())}';
   }
 }
