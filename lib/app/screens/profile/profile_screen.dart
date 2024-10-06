@@ -112,10 +112,21 @@ class ProfileScreen extends StatelessWidget {
         ],
       ),
       body: BlocListener<ProfileBloc, ProfileState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is ProfileUpdatedSuccess) {
             CustomSnackbar()
                 .showCustomSnackbar(context, 'Updated successfully!', true);
+          } else if (state is AccountDeletedState) {
+            CustomSnackbar()
+                .showCustomSnackbar(context, 'Аккаунт жойылды / Аккаунт удален', true);
+                // So the user can see the message that they have actually deleted the account
+                await Future.delayed(Duration(seconds: 3));
+                await LocalUtils.logout();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WeGlobalApp()),
+                    (route) => true);
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(

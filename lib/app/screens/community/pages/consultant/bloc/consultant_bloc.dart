@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -12,6 +13,7 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
   ConsultantBloc() : super(ConsultantInitial()) {
     var counselorData;
     var authors = [];
+    var appointmentData;
     String localLang = 'ru';
     String userId;
     Future<void> _checkCounselorTask(
@@ -45,6 +47,7 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
               emit(ConsultantLoaded(
                 localLang: localLang,
                 counselorData: counselorData['data']['counselorTasks'],
+                appointmentData: appointmentData
               ));
               isResultReady = true;
             }
@@ -73,9 +76,11 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
         if (counselorData['success']) {
           List<dynamic> tasks = counselorData['data']['counselorTasks'];
           sortTasksByCreatedAtDescending(tasks);
+          var appointmentDataReq = await ApiClient.get('api/slots/upcomingAppointment');
           emit(ConsultantLoaded(
             localLang: localLang,
             counselorData: counselorData['data']['counselorTasks'],
+            appointmentData: appointmentDataReq['data']['data']
           ));
         }
       }

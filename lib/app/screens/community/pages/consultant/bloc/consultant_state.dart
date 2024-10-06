@@ -7,6 +7,7 @@ final class ConsultantInitial extends ConsultantState {}
 
 final class ConsultantLoaded extends ConsultantState {
   final counselorData;
+  final appointmentData;
   final String localLang;
-  ConsultantLoaded({required this.counselorData, required this.localLang});
+  ConsultantLoaded({required this.counselorData, required this.localLang, required this.appointmentData});
 }
