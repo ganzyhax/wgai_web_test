@@ -82,7 +82,77 @@ class ForeignUnversityDetail extends StatelessWidget {
                         data: data['description'][context.locale.languageCode]),
                   ],
                 ),
-              )
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          LocaleKeys.website.tr(),
+                          style: TextStyle(
+                              fontSize: 19, fontWeight: FontWeight.w600),
+                        ),
+                        Text(
+                          data['website'].toString(),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.w400),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Divider(),
+              SizedBox(
+                height: 15,
+              ),
+              ListView.builder(
+                  itemCount: data['majors'].length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                data['majors'][index]['name'],
+                                style: TextStyle(
+                                    fontSize: 19, fontWeight: FontWeight.w600),
+                              ),
+                              Text(
+                                data['majors'][index]['department'],
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w400),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  })
             ],
           ),
         ),

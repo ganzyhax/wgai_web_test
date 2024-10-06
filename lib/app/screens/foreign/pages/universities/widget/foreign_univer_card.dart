@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -12,6 +14,7 @@ class ForeignUniverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(data.toString());
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -58,12 +61,12 @@ class ForeignUniverCard extends StatelessWidget {
                           context.locale.languageCode]!,
                       style: TextStyle(color: Colors.grey[400]),
                     ),
-                    Text('', style: TextStyle(color: Colors.grey[400])),
+                    SizedBox(width: 100),
                     Text(
-                      'fEE',
-                    )
+                        'tuitionFee:' + data['tuitionFeeUSD'].toString() + '\$',
+                        style: TextStyle()),
                   ],
-                )
+                ),
               ],
             )
           ],

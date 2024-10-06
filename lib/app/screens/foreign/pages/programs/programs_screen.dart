@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wg_app/app/screens/foreign/pages/programs/bloc/programs_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/bloc/foreign_university_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/widget/filter_modal.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/widget/foreign_univer_card.dart';
@@ -25,38 +26,6 @@ class _ForeignUniversitiesScreenState extends State<ForeignUniversitiesScreen> {
   @override
   void initState() {
     super.initState();
-    _scrollController.addListener(_onScroll);
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  // Trigger pagination when reaching the bottom of the list
-  void _onScroll() {
-    if (_scrollController.position.pixels ==
-        _scrollController.position.maxScrollExtent) {
-      final state = context.read<ForeignUniversityBloc>().state;
-      if (state is ForeignUniversityLoaded) {
-        final currentPage = state.currentPage;
-        final totalPages = state.totalPages;
-
-        if (currentPage < totalPages) {
-          // Load next page, preserving current filter values
-          context.read<ForeignUniversityBloc>().add(
-                ForeignUniversityLoad(
-                  feeStartRange: state.feeStartRange,
-                  feeEndRange: state.feeEndRange,
-                  countryCode: state.currentCountryCode,
-                  page: currentPage + 1, // Load next page
-                  limit: 20,
-                ),
-              );
-        }
-      }
-    }
   }
 
   @override
@@ -67,11 +36,10 @@ class _ForeignUniversitiesScreenState extends State<ForeignUniversitiesScreen> {
         preferredSize: Size.fromHeight(55),
         child: CustomAppbar(title: '', withBackButton: true),
       ),
-      body: BlocBuilder<ForeignUniversityBloc, ForeignUniversityState>(
+      body: BlocBuilder<ProgramsBloc, ProgramsState>(
         builder: (context, state) {
-          if (state is ForeignUniversityLoaded) {
+          if (state is ProgramsLoaded) {
             return SingleChildScrollView(
-              controller: _scrollController, // Attach scroll controller
               child: Padding(
                 padding: const EdgeInsets.only(left: 14.0, right: 14.0),
                 child: Column(
@@ -80,7 +48,7 @@ class _ForeignUniversitiesScreenState extends State<ForeignUniversitiesScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          LocaleKeys.universities.tr(),
+                          LocaleKeys.programs.tr(),
                           style: AppTextStyle.titleHeading
                               .copyWith(color: AppColors.blackForText),
                         ),
@@ -130,11 +98,6 @@ class _ForeignUniversitiesScreenState extends State<ForeignUniversitiesScreen> {
                         );
                       },
                     ),
-                    if (state.currentPage < state.totalPages)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: CircularProgressIndicator(),
-                      ),
                   ],
                 ),
               ),

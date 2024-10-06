@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 class BasicExpandableContainer extends StatefulWidget {
   final String title;
   final String content;
+  final bool? isHtmlContent;
 
-  BasicExpandableContainer({required this.title, required this.content});
+  BasicExpandableContainer(
+      {required this.title, required this.content, this.isHtmlContent = false});
 
   @override
   _BasicExpandableContainerState createState() =>
@@ -51,10 +54,12 @@ class _BasicExpandableContainerState extends State<BasicExpandableContainer> {
           if (_isExpanded)
             Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Text(
-                widget.content,
-                style: TextStyle(fontSize: 16),
-              ),
+              child: (widget.isHtmlContent == true)
+                  ? Html(data: widget.content)
+                  : Text(
+                      widget.content,
+                      style: TextStyle(fontSize: 16),
+                    ),
             ),
         ],
       ),

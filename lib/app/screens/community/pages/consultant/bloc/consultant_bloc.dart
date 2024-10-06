@@ -26,8 +26,7 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
         log('Checking status of Counselor task id ' + event.taskId.toString());
         retryCount++;
 
-        var req =
-            await ApiClient.post('api/counselorTasks/' + event.taskId, {});
+        var req = await ApiClient.get('api/counselorTasks/' + event.taskId);
 
         if (req['success']) {
           if (req['data']['task'].containsKey('result')) {

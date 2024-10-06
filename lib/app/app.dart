@@ -10,6 +10,7 @@ import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bl
 import 'package:wg_app/app/screens/community/pages/news/bloc/news_bloc.dart';
 import 'package:wg_app/app/screens/consultation_request/bloc/consultation_request_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/countries/bloc/country_bloc.dart';
+import 'package:wg_app/app/screens/foreign/pages/programs/bloc/programs_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/bloc/foreign_university_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
@@ -88,6 +89,9 @@ class WeGlobalApp extends StatelessWidget {
           BlocProvider(
             create: (context) =>
                 ForeignUniversityBloc()..add(ForeignUniversityLoad()),
+          ),
+          BlocProvider(
+            create: (context) => ProgramsBloc()..add(ProgramsLoad()),
           ),
         ],
         child: MaterialApp(

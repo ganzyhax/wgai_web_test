@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/screens/foreign/pages/countries/widgets/country_expanded_card.dart';
@@ -13,6 +15,7 @@ class CountryDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(data.toString());
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -65,24 +68,22 @@ class CountryDetailScreen extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              CountryExpandableContainer(
-                data: data,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              BasicExpandableContainer(
-                  title: LocaleKeys.learning.tr(), content: ''),
-              SizedBox(
-                height: 10,
-              ),
-              BasicExpandableContainer(
-                  title: LocaleKeys.universities.tr(), content: ''),
-              SizedBox(
-                height: 10,
-              ),
-              BasicExpandableContainer(
-                  title: LocaleKeys.programs.tr(), content: ''),
+              ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: data['sections'].length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0),
+                      child: BasicExpandableContainer(
+                        isHtmlContent: true,
+                        title: data['sections'][index]['title']
+                            [context.locale.languageCode],
+                        content: data['sections'][index]['content']
+                            [context.locale.languageCode],
+                      ),
+                    );
+                  }),
               SizedBox(
                 height: 10,
               ),
