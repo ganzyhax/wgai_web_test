@@ -63,7 +63,10 @@ class _ConsultantPageState extends State<ConsultantPage> {
                             child: ConsultationRequestScreen(),
                           );
                         },
-                      );
+                      ).then((_) {
+                        // Refresh the page after the modal is closed
+                        _loadConsultants();
+                      });
                     }),
                 const SizedBox(
                   height: 15,
