@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/screens/foreign/pages/countries/country_screen.dart';
+import 'package:wg_app/app/screens/foreign/pages/programs/programs_screen.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/foreign_universities_screen.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
@@ -75,7 +76,7 @@ class ForeignScreen extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => UniversitiesScreen(),
+                      builder: (context) => ForeignProgramsScreen(),
                     ),
                   );
                 },

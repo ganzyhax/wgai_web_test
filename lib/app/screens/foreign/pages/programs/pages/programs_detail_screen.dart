@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -7,12 +9,13 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
-class ForeignUnversityDetail extends StatelessWidget {
+class ForeignProgramsDetail extends StatelessWidget {
   final data;
-  const ForeignUnversityDetail({super.key, required this.data});
+  const ForeignProgramsDetail({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
+    log(data.toString());
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: PreferredSize(
@@ -121,39 +124,39 @@ class ForeignUnversityDetail extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
-              ListView.builder(
-                  itemCount: data['majors'].length,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.only(bottom: 10),
-                      padding: EdgeInsets.all(15),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                data['majors'][index]['name'],
-                                style: TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.w600),
-                              ),
-                              Text(
-                                data['majors'][index]['department'],
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.w400),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    );
-                  })
+              // ListView.builder(
+              //     itemCount: data['majors'].length,
+              //     shrinkWrap: true,
+              //     physics: NeverScrollableScrollPhysics(),
+              //     itemBuilder: (context, index) {
+              //       return Container(
+              //         margin: EdgeInsets.only(bottom: 10),
+              //         padding: EdgeInsets.all(15),
+              //         decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(15),
+              //             color: Colors.white),
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           children: [
+              //             Column(
+              //               crossAxisAlignment: CrossAxisAlignment.start,
+              //               children: [
+              //                 Text(
+              //                   data['majors'][index]['name'],
+              //                   style: TextStyle(
+              //                       fontSize: 19, fontWeight: FontWeight.w600),
+              //                 ),
+              //                 Text(
+              //                   data['majors'][index]['department'],
+              //                   style: TextStyle(
+              //                       fontSize: 16, fontWeight: FontWeight.w400),
+              //                 ),
+              //               ],
+              //             )
+              //           ],
+              //         ),
+              //       );
+              //     })
             ],
           ),
         ),

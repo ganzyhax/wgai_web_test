@@ -33,6 +33,8 @@ class ForeignUniverCard extends StatelessWidget {
           color: Colors.white,
         ),
         child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SvgPicture.asset(
               'assets/icons/universities.svg',
@@ -56,15 +58,29 @@ class ForeignUniverCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      AppConstant.countriesCode[data['countryCode']]![
-                          context.locale.languageCode]!,
-                      style: TextStyle(color: Colors.grey[400]),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppConstant.countriesCode[data['countryCode']]![
+                              context.locale.languageCode]!,
+                          style: TextStyle(color: Colors.grey[400]),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 100),
-                    Text(
-                        'tuitionFee:' + data['tuitionFeeUSD'].toString() + '\$',
-                        style: TextStyle()),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width / 14,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                            'tuitionFee:' +
+                                data['tuitionFeeUSD'].toString() +
+                                '\$',
+                            style: TextStyle()),
+                      ],
+                    ),
                   ],
                 ),
               ],
