@@ -71,7 +71,7 @@ class GrowthCard extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      'Пройдите ' + '"' + resultText + '"',
+                      resultText,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,

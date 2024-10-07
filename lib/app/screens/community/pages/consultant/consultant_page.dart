@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/components/consultant_card.dart';
+import 'package:wg_app/app/screens/community/pages/consultant/components/appointment_card.dart';
 import 'package:wg_app/app/screens/consultation_request/consultation_request_screen.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
@@ -40,6 +41,12 @@ class _ConsultantPageState extends State<ConsultantPage> {
             return ListView(
               padding: const EdgeInsets.all(12),
               children: [
+                if (state.appointmentData["hasBooking"])
+                AppointmentCard(
+                  slotDate: state.appointmentData["slotDate"], // Replace with actual time
+                  counselorName: state.appointmentData["counselorName"],
+                ),
+                if (!state.appointmentData["hasBooking"])
                 CustomButton(
                     text: LocaleKeys.sign_up_consultation.tr(),
                     onTap: () {
@@ -56,7 +63,10 @@ class _ConsultantPageState extends State<ConsultantPage> {
                             child: ConsultationRequestScreen(),
                           );
                         },
-                      );
+                      ).then((_) {
+                        // Refresh the page after the modal is closed
+                        _loadConsultants();
+                      });
                     }),
                 const SizedBox(
                   height: 15,
