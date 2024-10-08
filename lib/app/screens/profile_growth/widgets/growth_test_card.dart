@@ -48,7 +48,7 @@ class _GrowthTestCardState extends State<GrowthTestCard> {
                 contentCode: widget.interpretationLink,
                 isUrl: true,
                 contentUrl: widget.interpretationLink,
-                contentUrlTitle: widget.interpretationLink,
+                contentUrlTitle: widget.title,
                 completionStatus: "complete"
               ),
             ),
