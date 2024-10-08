@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,8 +8,8 @@ import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class ForeignUniverCard extends StatelessWidget {
-  final data;
-  const ForeignUniverCard({super.key, required this.data});
+  final Map<String, dynamic> data;
+  const ForeignUniverCard({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,71 +19,57 @@ class ForeignUniverCard extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ForeignUnversityDetail(
-              data: data,
-            ),
+            builder: (context) => ForeignUnversityDetail(data: data),
           ),
         );
       },
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: Colors.white,
         ),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SvgPicture.asset(
               'assets/icons/universities.svg',
               color: AppColors.primary,
+              width: 40,
+              height: 40,
             ),
-            SizedBox(
-              width: 10,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.3,
-                  child: Text(
+            const SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
                     data['name'][context.locale.languageCode],
+                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          AppConstant.countriesCode[data['countryCode']]![
-                              context.locale.languageCode]!,
+                  const SizedBox(height: 5),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          AppConstant.countriesCode[data['countryCode']]![context.locale.languageCode]!,
                           style: TextStyle(color: Colors.grey[400]),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width / 14,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                            'tuitionFee:' +
-                                data['tuitionFeeUSD'].toString() +
-                                '\$',
-                            style: TextStyle()),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            )
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        LocaleKeys.tuitionFee.tr() + ': \$${data['tuitionFeeUSD']}',
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

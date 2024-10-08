@@ -218,4 +218,5 @@ abstract class  LocaleKeys {
   static const selectedAsTargetChoice2 = 'selectedAsTargetChoice2';
   static const youGotAppointment = 'youGotAppointment';
   static const consultationTime = 'consultationTime';
+  static const tuitionFee = 'tuitionFee';
 }
