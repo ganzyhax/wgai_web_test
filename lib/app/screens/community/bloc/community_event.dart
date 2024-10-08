@@ -9,3 +9,5 @@ final class CommunitySelectTabIndex extends CommunityEvent {
   int selectedTabIndex;
   CommunitySelectTabIndex({required this.selectedTabIndex});
 }
+
+final class CommunitySetIsOpened extends CommunityEvent {}

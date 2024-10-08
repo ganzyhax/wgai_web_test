@@ -48,6 +48,7 @@ dependencies:
   hive: ^2.2.3
   phosphor_flutter: ^2.1.0
   firebase_messaging:
+  flutter_local_notifications:
   firebase_core:
   url_launcher: ^6.1.10
   flutter_html:

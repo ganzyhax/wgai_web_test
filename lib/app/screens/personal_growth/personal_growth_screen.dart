@@ -13,9 +13,28 @@ import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:wg_app/utils/fcm_service.dart';
 
-class PersonalGrowthScreen extends StatelessWidget {
+class PersonalGrowthScreen extends StatefulWidget {
   const PersonalGrowthScreen({super.key});
+
+  @override
+  State<PersonalGrowthScreen> createState() => _PersonalGrowthScreenState();
+}
+
+class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
+  final FCMService _fcmService = FCMService();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Handle the case when the app is opened via a notification click
+    _fcmService.handleInitialMessage(context);
+
+    // Listen for notification taps when the app is in the background/foreground
+    _fcmService.configureNotificationActions(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,7 +141,9 @@ class PersonalGrowthScreen extends StatelessWidget {
                                           item['type'] == 'reading') {
                                         if (item['completionStatus'] == 'new') {
                                           var newstatus = "incomplete";
-                                          if (item['completionQuiz'] == null || item['completionQuiz'].length == 0) {
+                                          if (item['completionQuiz'] == null ||
+                                              item['completionQuiz'].length ==
+                                                  0) {
                                             newstatus = "complete";
                                           }
                                           BlocProvider.of<PersonalBloc>(context)
@@ -139,14 +160,15 @@ class PersonalGrowthScreen extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => HtmlWebView(
-                                                contentCode:
-                                                    item['contentCode'],
-                                                isUrl: false,
-                                                contentUrl: item['contentCode'],
-                                                contentUrlTitle: "",
-                                                quizData: quizData,
-                                                completionStatus: item['completionStatus']
-                                              ),
+                                                  contentCode:
+                                                      item['contentCode'],
+                                                  isUrl: false,
+                                                  contentUrl:
+                                                      item['contentCode'],
+                                                  contentUrlTitle: "",
+                                                  quizData: quizData,
+                                                  completionStatus:
+                                                      item['completionStatus']),
                                             ),
                                           );
                                           if (res != null && res) {
@@ -170,14 +192,15 @@ class PersonalGrowthScreen extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => HtmlWebView(
-                                                contentCode:
-                                                    item['contentCode'],
-                                                isUrl: false,
-                                                contentUrl: item['contentCode'],
-                                                contentUrlTitle: "",
-                                                quizData: quizData,
-                                                completionStatus: item['completionStatus']
-                                              ),
+                                                  contentCode:
+                                                      item['contentCode'],
+                                                  isUrl: false,
+                                                  contentUrl:
+                                                      item['contentCode'],
+                                                  contentUrlTitle: "",
+                                                  quizData: quizData,
+                                                  completionStatus:
+                                                      item['completionStatus']),
                                             ),
                                           );
 
@@ -197,14 +220,14 @@ class PersonalGrowthScreen extends StatelessWidget {
                                             context,
                                             MaterialPageRoute(
                                               builder: (context) => HtmlWebView(
-                                                contentCode:
-                                                    item['contentCode'],
-                                                isUrl: false,
-                                                contentUrl: item['contentCode'],
-                                                contentUrlTitle: "",
-
-                                                completionStatus: item['completionStatus']
-                                              ),
+                                                  contentCode:
+                                                      item['contentCode'],
+                                                  isUrl: false,
+                                                  contentUrl:
+                                                      item['contentCode'],
+                                                  contentUrlTitle: "",
+                                                  completionStatus:
+                                                      item['completionStatus']),
                                             ),
                                           );
                                         }

@@ -7,5 +7,6 @@ final class CommunityInitial extends CommunityState {}
 
 final class CommunityLoaded extends CommunityState {
   int selectedTabIndex;
-  CommunityLoaded({required this.selectedTabIndex});
+  bool isOpened;
+  CommunityLoaded({required this.selectedTabIndex, required this.isOpened});
 }
