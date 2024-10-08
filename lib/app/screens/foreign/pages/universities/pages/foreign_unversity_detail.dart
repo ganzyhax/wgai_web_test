@@ -6,6 +6,7 @@ import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_constant.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ForeignUnversityDetail extends StatelessWidget {
   final data;
@@ -104,11 +105,24 @@ class ForeignUnversityDetail extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 19, fontWeight: FontWeight.w600),
                         ),
-                        Text(
-                          data['website'].toString(),
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w400),
-                        ),
+                        InkWell(
+                          onTap: () {
+                            final website = data["website"];
+                            if (website != null && website.toString().isNotEmpty) {
+                              _launchURL(website.toString());
+                            }
+                          },
+                          child: Text(
+                            data['website']?.toString() ?? "",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.blue,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Colors.blue
+                            ),
+                          ),
+                        )
                       ],
                     )
                   ],
@@ -159,5 +173,15 @@ class ForeignUnversityDetail extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+
+Future<void> _launchURL(String urlString) async {
+  final Uri? url = Uri.tryParse(urlString);
+  if (url != null && await canLaunchUrl(url)) {
+    await launchUrl(url, mode: LaunchMode.externalApplication);
+  } else {
+    throw 'Could not launch $urlString';
   }
 }

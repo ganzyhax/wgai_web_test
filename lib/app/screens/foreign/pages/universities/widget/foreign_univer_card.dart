@@ -63,7 +63,7 @@ class ForeignUniverCard extends StatelessWidget {
                       const SizedBox(width: 10),
                       Text(
                         LocaleKeys.tuitionFee.tr() + ': \$${data['tuitionFeeUSD']}',
-                        style: const TextStyle(fontWeight: FontWeight.w500),
+                        style: TextStyle(color: Colors.grey[400]),
                       ),
                     ],
                   ),

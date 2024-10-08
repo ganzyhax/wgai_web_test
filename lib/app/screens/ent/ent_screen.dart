@@ -79,56 +79,51 @@ class EntScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(15),
                                 color: Colors.white),
                             child: ExpansionTile(
-                                title: Text(
-                                    section['title']
-                                        [context.locale.languageCode],
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w600)),
-                                leading: Icon(Icons.book),
-                                children: List.generate(
+                              title: Text(
+                                  section['title'][context.locale.languageCode],
+                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)
+                              ),
+                              leading: Icon(Icons.book),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                              ),
+                              collapsedShape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15),
+                              ),
+                              children: List.generate(
                                   section['subModules'].length,
                                   (subIndex) {
-                                    var subModule =
-                                        section['subModules'][subIndex];
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(15),
-                                            color: AppColors.background),
-                                        child: ListTile(
-                                          trailing:
-                                              Icon(Icons.keyboard_arrow_right),
-                                          title: Text(
-                                            subModule['title']
-                                                [context.locale.languageCode],
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WebViewHtml(
-                                                  content: subModule['content'][
-                                                      context
-                                                          .locale.languageCode],
-                                                  contentTitle:
-                                                      subModule['title'][context
-                                                          .locale.languageCode],
-                                                ),
+                                      var subModule = section['subModules'][subIndex];
+                                      return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(15),
+                                                  color: AppColors.background
                                               ),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    );
+                                              child: ListTile(
+                                                  trailing: Icon(Icons.keyboard_arrow_right),
+                                                  title: Text(
+                                                      subModule['title'][context.locale.languageCode],
+                                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                                                  ),
+                                                  onTap: () {
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => WebViewHtml(
+                                                                  content: subModule['content'][context.locale.languageCode],
+                                                                  contentTitle: subModule['title'][context.locale.languageCode],
+                                                              ),
+                                                          ),
+                                                      );
+                                                  },
+                                              ),
+                                          ),
+                                      );
                                   },
-                                )),
+                              ),
+                          )
                           );
                         })
                   ],
