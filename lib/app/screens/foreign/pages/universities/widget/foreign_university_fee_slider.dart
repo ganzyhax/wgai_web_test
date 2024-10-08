@@ -11,9 +11,9 @@ class TuitionFeeSlider extends StatefulWidget {
 }
 
 class _TuitionFeeSliderState extends State<TuitionFeeSlider> {
-  RangeValues _currentRangeValues = RangeValues(0, 999999);
+  RangeValues _currentRangeValues = RangeValues(0, 100000);
   TextEditingController _minController = TextEditingController(text: "0");
-  TextEditingController _maxController = TextEditingController(text: "999999");
+  TextEditingController _maxController = TextEditingController(text: "100000");
 
   @override
   Widget build(BuildContext context) {
@@ -30,8 +30,8 @@ class _TuitionFeeSliderState extends State<TuitionFeeSlider> {
           RangeSlider(
             values: _currentRangeValues,
             min: 0,
-            max: 999999,
-            divisions: 1000,
+            max: 100000,
+            divisions: 100,
             activeColor: AppColors.primary,
             inactiveColor: Colors.grey.shade300,
             onChanged: (RangeValues values) {

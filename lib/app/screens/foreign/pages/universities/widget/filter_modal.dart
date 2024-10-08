@@ -17,7 +17,7 @@ class FilterBottomSheet extends StatefulWidget {
 }
 
 class _FilterBottomSheetState extends State<FilterBottomSheet> {
-  var feeValues = [0, 0];
+  var feeValues = [0, 100000];
   String? selectedCountryCode; // Holds the selected country code
 
   @override

@@ -17,9 +17,15 @@ class ForeignUniversityBloc
   ForeignUniversityBloc() : super(ForeignUniversityInitial()) {
     on<ForeignUniversityLoad>((event, emit) async {
       // Use event filters or fallback to saved filters
-      _feeStartRange = event.feeStartRange ?? _feeStartRange;
-      _feeEndRange = event.feeEndRange ?? _feeEndRange;
-      _countryCode = event.countryCode ?? _countryCode;
+      _feeStartRange = event.feeStartRange ?? null;
+      _feeEndRange = event.feeEndRange ?? null;
+      _countryCode = event.countryCode ?? null;
+
+      if (_feeEndRange == 100000) {
+        _feeEndRange = 999999;
+      }
+
+
 
       // Prepare query parameters
       final queryParams = {
@@ -31,6 +37,7 @@ class ForeignUniversityBloc
       }..removeWhere((key, value) => value == null);
 
       final queryString = Uri(queryParameters: queryParams).query;
+      print(queryString);
 
       try {
         final data = await ApiClient.get(
