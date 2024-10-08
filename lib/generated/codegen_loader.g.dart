@@ -231,7 +231,8 @@ class CodegenLoader extends AssetLoader{
   "selectAsTargetChoice2": "Target Choice 2 ретінде таңдау",
   "selectedAsTargetChoice2": "Target Choice 2 ретінде таңдалды",
   "youGotAppointment": "Сізде жоспарланған консультация бар!",
-  "consultationTime": "Уақыты"
+  "consultationTime": "Уақыты",
+  "tuitionFee": "Оқу ақысы"
 };
 static const Map<String,dynamic> ru = {
   "hello": "Privet",
@@ -450,7 +451,8 @@ static const Map<String,dynamic> ru = {
   "selectAsTargetChoice2": "Выбрать как Target Choice 2",
   "selectedAsTargetChoice2": "Выбран как Target Choice 2",
   "youGotAppointment": "У вас есть консультация, на которую вы записались!",
-  "consultationTime": "Время"
+  "consultationTime": "Время",
+  "tuitionFee": "Стоимость обучения"
 };
 static const Map<String,dynamic> en = {
   "hello": "Hello",
@@ -461,7 +463,8 @@ static const Map<String,dynamic> en = {
   "profile": "Profile",
   "personalGrowthResultsButton": "Results",
   "youGotAppointment": "Сізде жоспарланған консультация бар!",
-  "consultationTime": "Уақыты"
+  "consultationTime": "Уақыты",
+  "tuitionFee": "Стоимость обучения"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"kk": kk, "ru": ru, "en": en};
 }
