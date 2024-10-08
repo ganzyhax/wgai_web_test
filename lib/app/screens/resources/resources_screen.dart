@@ -66,9 +66,9 @@ class ResourcesScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'Зарубеж',
+                title: LocaleKeys.abroad.tr(),
                 // subTitle: 'Вузы итд'.tr(),
-                subTitle: 'Различные тесты для познания самого себя ',
+                subTitle: '',
                 iconPath: 'assets/icons/global_unversities.svg',
                 height: 122,
                 onTap: () {
@@ -98,8 +98,9 @@ class ResourcesScreen extends StatelessWidget {
               // ),
               const SizedBox(height: 8),
               ResourcesContainer(
-                title: 'ЕНТ'.tr(),
-                subTitle: 'Различные тесты для познания самого себя',
+                title: LocaleKeys.ent.tr(),
+                // subTitle: 'Различные тесты для познания самого себя',
+                subTitle: '',
                 iconPath: 'assets/icons/resources.svg',
                 height: 122,
                 onTap: () {

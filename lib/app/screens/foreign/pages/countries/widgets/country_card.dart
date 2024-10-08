@@ -15,8 +15,8 @@ class CountryCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SvgPicture.network(
-            'https://flagcdn.com/' + icon + '.svg',
+          SvgPicture.asset(
+            'assets/flags/' + icon + '.svg',
             width: 35,
             height: 35,
           ),
@@ -27,6 +27,8 @@ class CountryCard extends StatelessWidget {
             text,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+            style: TextStyle(fontSize: 12),
+            textAlign: TextAlign.center
           )
         ],
       ),
