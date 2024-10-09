@@ -76,6 +76,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             await BookmarkData()
                 .loadData(AppHiveConstants.kzUniversities, resultList);
           }
+          log(data.toString());
           emit(
             ProfileLoaded(
                 selectedForeignUniversities: selectedForeignUniversities,

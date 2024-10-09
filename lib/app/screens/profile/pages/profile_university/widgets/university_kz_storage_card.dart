@@ -71,6 +71,7 @@ class _UniversityKzStorageContainerState
               itemCount: (data.length > 5) ? 5 : data.length,
               padding: EdgeInsets.all(0),
               itemBuilder: (context, index) {
+                log(data.toString());
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: UniversityKzTypeCard(

@@ -1,6 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wg_app/app/screens/foreign/pages/universities/foreign_universities_screen.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_foreign_storage_card.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_storage_card.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_university/widgets/university_kz_special_select_modal.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
@@ -31,12 +35,24 @@ class ProfileUniversityScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    ProfileStorageContainer(
-                      title: LocaleKeys.my_universities_title.tr(),
-                      buttonTitle: LocaleKeys.university_overview.tr(),
-                      description: LocaleKeys.universities_storage.tr(),
-                      onButtonTap: () {},
-                    ),
+                    (state.selectedForeignUniversities.length == 0)
+                        ? ProfileStorageContainer(
+                            title: LocaleKeys.my_universities_title.tr(),
+                            buttonTitle: LocaleKeys.university_overview.tr(),
+                            description: LocaleKeys.universities_storage.tr(),
+                            onButtonTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ForeignUniversitiesScreen(),
+                                ),
+                              );
+                            },
+                          )
+                        : UniversityForeignStorageCard(
+                            title: LocaleKeys.my_universities_title.tr(),
+                          ),
                     SizedBox(height: 16),
                     (state.selectedSpeciality != null)
                         ? UniversityKzStorageContainer(

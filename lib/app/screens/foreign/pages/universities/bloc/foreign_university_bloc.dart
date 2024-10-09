@@ -25,8 +25,6 @@ class ForeignUniversityBloc
         _feeEndRange = 999999;
       }
 
-
-
       // Prepare query parameters
       final queryParams = {
         'feeStartRange': _feeStartRange?.toString(),
@@ -44,7 +42,6 @@ class ForeignUniversityBloc
             'api/resources/foreign/universities?$queryString');
         // if(data['message'].contains(''))
         if (data['success']) {
-          log(data['data'].toString());
           if (data['data'] is Map && data['data']['data'] is List) {
             List<dynamic> newUniversities = data['data']['data'];
             int totalPages = data['data']['totalPages'] ?? 1;

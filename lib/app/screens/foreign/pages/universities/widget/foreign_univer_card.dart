@@ -13,7 +13,6 @@ class ForeignUniverCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(data.toString());
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -45,7 +44,8 @@ class ForeignUniverCard extends StatelessWidget {
                 children: [
                   Text(
                     data['name'][context.locale.languageCode],
-                    style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w500, fontSize: 17),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -55,14 +55,16 @@ class ForeignUniverCard extends StatelessWidget {
                     children: [
                       Flexible(
                         child: Text(
-                          AppConstant.countriesCode[data['countryCode']]![context.locale.languageCode]!,
+                          AppConstant.countriesCode[data['countryCode']]![
+                              context.locale.languageCode]!,
                           style: TextStyle(color: Colors.grey[400]),
                           overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       const SizedBox(width: 10),
                       Text(
-                        LocaleKeys.tuitionFee.tr() + ': \$${data['tuitionFeeUSD']}',
+                        LocaleKeys.tuitionFee.tr() +
+                            ': \$${data['tuitionFeeUSD']}',
                         style: TextStyle(color: Colors.grey[400]),
                       ),
                     ],

@@ -16,7 +16,6 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
             selectedTabIndex: selectedTabIndex, isOpened: isOpened));
       }
       if (event is CommunitySelectTabIndex) {
-        log('Tab selected');
         selectedTabIndex = event.selectedTabIndex;
         emit(CommunityLoaded(
             selectedTabIndex: selectedTabIndex, isOpened: isOpened));

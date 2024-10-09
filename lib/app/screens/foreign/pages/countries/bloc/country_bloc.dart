@@ -14,7 +14,6 @@ class CountryBloc extends Bloc<CountryEvent, CountryState> {
       if (event is CountryLoad) {
         data = await ApiClient.get('api/resources/foreign/countries');
         if (data['success']) {
-          log(data['data'].toString());
           emit(CountryLoaded(data: data['data']));
         }
       }

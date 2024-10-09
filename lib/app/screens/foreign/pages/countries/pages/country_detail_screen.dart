@@ -15,7 +15,6 @@ class CountryDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(data.toString());
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(

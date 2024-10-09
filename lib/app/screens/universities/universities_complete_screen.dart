@@ -50,19 +50,6 @@ class _UniversitiesCompleteScreenState
     context.read<SpecialitiesBloc>().add(LoadSpecialities());
   }
 
-  void toggleBookmark() async {
-    if (!isBookmarked) {
-      await BookmarkData().addItem(AppHiveConstants.kzUniversities,
-          {'id': widget.universityId, 'data': widget.universityId});
-    } else {
-      await BookmarkData()
-          .removeItem(AppHiveConstants.kzUniversities, widget.universityId);
-    }
-    setState(() {
-      isBookmarked = !isBookmarked;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,17 +59,6 @@ class _UniversitiesCompleteScreenState
           child: CustomAppbar(
             title: 'ВУЗ',
             withBackButton: true,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  toggleBookmark();
-                  print('Id: ${widget.universityId}');
-                },
-                icon: isBookmarked
-                    ? SvgPicture.asset('assets/icons/bookmark.svg')
-                    : SvgPicture.asset('assets/icons/bookmark-open.svg'),
-              ),
-            ],
           )),
       body: BlocBuilder<UniversitiesBloc, UniversitiesState>(
         builder: (context, state) {

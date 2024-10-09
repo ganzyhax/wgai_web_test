@@ -13,7 +13,7 @@ class EntBloc extends Bloc<EntEvent, EntState> {
     on<EntEvent>((event, emit) async {
       if (event is EntLoad) {
         data = await ApiClient.get('api/resources/UntContentMultiLang');
-        log(data.toString());
+
         if (data['success']) {}
 
         emit(EntLoaded(data: data));

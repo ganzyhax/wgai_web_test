@@ -1,16 +1,55 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_info_start_page.dart';
+import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_constant.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ForeignUnversityDetail extends StatelessWidget {
+class ForeignUnversityDetail extends StatefulWidget {
   final data;
   const ForeignUnversityDetail({super.key, required this.data});
+
+  @override
+  State<ForeignUnversityDetail> createState() => _ForeignUnversityDetailState();
+}
+
+class _ForeignUnversityDetailState extends State<ForeignUnversityDetail> {
+  late bool isBookmarked;
+  late String type;
+  @override
+  void initState() {
+    isBookmarked = BookmarkData()
+        .containsItem(AppHiveConstants.globalUniversities, widget.data['_id']);
+
+    super.initState();
+  }
+
+  void toggleBookmark() async {
+    if (!isBookmarked) {
+      await BookmarkData().addItem(AppHiveConstants.globalUniversities,
+          {'id': widget.data['_id'], 'data': widget.data['_id']});
+
+      await ApiClient.post('api/portfolio/myUniversity/foreign/addBookmark',
+          {'universityCode': widget.data['code']});
+    } else {
+      await BookmarkData()
+          .removeItem(AppHiveConstants.globalUniversities, widget.data['_id']);
+      await ApiClient.post('api/portfolio/myUniversity/foreign/removeBookmark',
+          {'universityCode': widget.data['code']});
+    }
+    setState(() {
+      isBookmarked = !isBookmarked;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +57,24 @@ class ForeignUnversityDetail extends StatelessWidget {
       backgroundColor: AppColors.background,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(55),
-        child:
-            CustomAppbar(title: "Университет", withBackButton: true),
+        child: CustomAppbar(
+          title: LocaleKeys.university.tr(),
+          withBackButton: true,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: IconButton(
+                onPressed: () {
+                  toggleBookmark();
+                  print('Id: ${widget.data['_id']}');
+                },
+                icon: isBookmarked
+                    ? SvgPicture.asset('assets/icons/bookmark.svg')
+                    : SvgPicture.asset('assets/icons/bookmark-open.svg'),
+              ),
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -49,7 +104,7 @@ class ForeignUnversityDetail extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        data['name'][context.locale.languageCode],
+                        widget.data['name'][context.locale.languageCode],
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 22),
                       ),
@@ -65,7 +120,7 @@ class ForeignUnversityDetail extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      AppConstant.countriesCode[data['countryCode']]![
+                      AppConstant.countriesCode[widget.data['countryCode']]![
                           context.locale.languageCode]!,
                       style:
                           TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
@@ -81,14 +136,14 @@ class ForeignUnversityDetail extends StatelessWidget {
                       height: 5,
                     ),
                     Html(
-                        data: data['description'][context.locale.languageCode]),
+                        data: widget.data['description']
+                            [context.locale.languageCode]),
                   ],
                 ),
               ),
               SizedBox(
                 height: 15,
               ),
-              
               Container(
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(15),
@@ -108,20 +163,20 @@ class ForeignUnversityDetail extends StatelessWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            final website = data["website"];
-                            if (website != null && website.toString().isNotEmpty) {
+                            final website = widget.data["website"];
+                            if (website != null &&
+                                website.toString().isNotEmpty) {
                               _launchURL(website.toString());
                             }
                           },
                           child: Text(
-                            data['website']?.toString() ?? "",
+                            widget.data['website']?.toString() ?? "",
                             style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.blue,
-                              decoration: TextDecoration.underline,
-                              decorationColor: Colors.blue
-                            ),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.blue,
+                                decoration: TextDecoration.underline,
+                                decorationColor: Colors.blue),
                           ),
                         )
                       ],
@@ -138,7 +193,8 @@ class ForeignUnversityDetail extends StatelessWidget {
               ),
               Text(
                 LocaleKeys.programs.tr(),
-                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                style:
+                    const TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -146,7 +202,7 @@ class ForeignUnversityDetail extends StatelessWidget {
                 height: 15,
               ),
               ListView.builder(
-                  itemCount: data['majors'].length,
+                  itemCount: widget.data['majors'].length,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
@@ -163,12 +219,12 @@ class ForeignUnversityDetail extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                data['majors'][index]['name'],
+                                widget.data['majors'][index]['name'],
                                 style: TextStyle(
                                     fontSize: 19, fontWeight: FontWeight.w600),
                               ),
                               Text(
-                                data['majors'][index]['department'],
+                                widget.data['majors'][index]['department'],
                                 style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.w400),
                               ),
@@ -185,7 +241,6 @@ class ForeignUnversityDetail extends StatelessWidget {
     );
   }
 }
-
 
 Future<void> _launchURL(String urlString) async {
   final Uri? url = Uri.tryParse(urlString);
