@@ -12,7 +12,8 @@ import 'package:wg_app/generated/locale_keys.g.dart';
 
 class CommunityScreen extends StatelessWidget {
   final bool? isCounsulant;
-  const CommunityScreen({super.key, this.isCounsulant});
+  final String? scrollId;
+  const CommunityScreen({super.key, this.isCounsulant, this.scrollId});
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +99,11 @@ class CommunityScreen extends StatelessWidget {
               ),
             ),
             body: state.selectedTabIndex == 0
-                ? const NewsScreen()
+                ? (scrollId != null)
+                    ? NewsScreen(
+                        newsID: scrollId,
+                      )
+                    : NewsScreen()
                 : const ConsultantPage(),
           );
         }

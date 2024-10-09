@@ -133,20 +133,19 @@ class FCMService {
 
   void _handleNotificationNavigation(
       BuildContext context, Map<String, dynamic> notificationBody) {
-    log(notificationBody.toString());
     if (notificationBody['type'] == 'counselor') {
       log('ITS WORKS');
       WeGlobalApp.navigatorKey.currentState?.push(
         MaterialPageRoute(
-          builder: (context) => const CommunityScreen(
-            isCounsulant: true,
-          ),
+          builder: (context) => CommunityScreen(
+              isCounsulant: true, scrollId: notificationBody['id']),
         ),
       );
     } else if (notificationBody['type'] == 'news') {
       WeGlobalApp.navigatorKey.currentState?.push(
         MaterialPageRoute(
-          builder: (context) => const CommunityScreen(
+          builder: (context) => CommunityScreen(
+            scrollId: notificationBody['id'],
             isCounsulant: false,
           ),
         ),
