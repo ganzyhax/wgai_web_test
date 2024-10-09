@@ -20,6 +20,9 @@ void main() async {
   Hive.init(appDocumentDir.path);
   await FCMService().subscribeToAllTopicBeforeLogin();
   await BookmarkData().init();
+  await BookmarkData().clearList(AppHiveConstants.kzUniversities);
+  await BookmarkData().clearList(AppHiveConstants.professions);
+  await BookmarkData().clearList(AppHiveConstants.globalUniversities);
 
   runApp(EasyLocalization(
       supportedLocales: [

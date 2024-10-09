@@ -28,7 +28,7 @@ class _ForeignUnversityDetailState extends State<ForeignUnversityDetail> {
   @override
   void initState() {
     isBookmarked = BookmarkData()
-        .containsItem(AppHiveConstants.globalUniversities, widget.data['_id']);
+        .containsItem(AppHiveConstants.globalUniversities, widget.data['code']);
 
     super.initState();
   }
@@ -36,13 +36,13 @@ class _ForeignUnversityDetailState extends State<ForeignUnversityDetail> {
   void toggleBookmark() async {
     if (!isBookmarked) {
       await BookmarkData().addItem(AppHiveConstants.globalUniversities,
-          {'id': widget.data['_id'], 'data': widget.data['_id']});
+          {'id': widget.data['code'], 'data': widget.data});
 
       await ApiClient.post('api/portfolio/myUniversity/foreign/addBookmark',
           {'universityCode': widget.data['code']});
     } else {
       await BookmarkData()
-          .removeItem(AppHiveConstants.globalUniversities, widget.data['_id']);
+          .removeItem(AppHiveConstants.globalUniversities, widget.data['code']);
       await ApiClient.post('api/portfolio/myUniversity/foreign/removeBookmark',
           {'universityCode': widget.data['code']});
     }

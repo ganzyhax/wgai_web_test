@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dart';
@@ -34,7 +35,7 @@ class _UniversityForeignStorageCardState
   @override
   Widget build(BuildContext context) {
     var data = BookmarkData().getItems(AppHiveConstants.globalUniversities);
-
+    log(data.toString());
     return (data.length > 0)
         ? Container(
             padding: EdgeInsets.all(12),
@@ -81,24 +82,15 @@ class _UniversityForeignStorageCardState
                     itemCount: (data.length > 5) ? 5 : data.length,
                     padding: EdgeInsets.all(0),
                     itemBuilder: (context, index) {
-                      final IconData? resolvedIcon =
-                          myIconMap[data[index]['data']['areaIconCode']];
                       return Container(
                         padding: EdgeInsets.all(5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            (resolvedIcon != null)
-                                ? PhosphorIcon(
-                                    resolvedIcon,
-                                    color: AppColors.primary,
-                                    size: 24,
-                                  )
-                                : SizedBox(),
                             SizedBox(
                                 width: MediaQuery.of(context).size.width / 1.5,
                                 child: Text(
-                                  data[index]['data']['title']
+                                  data[index]['data']['name']
                                       [context.locale.languageCode],
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -108,6 +100,12 @@ class _UniversityForeignStorageCardState
                                   // BlocProvider.of<ProfileBloc>(context)
                                   //   ..add(ProfileDeleteMyCareerBookmark(
                                   //       occupationCode: data[index]['id']));
+                                  await BookmarkData().removeItem(
+                                      AppHiveConstants.globalUniversities,
+                                      data[index]['id']);
+                                  await ApiClient.post(
+                                      'api/portfolio/myUniversity/foreign/removeBookmark',
+                                      {'universityCode': data[index]['id']});
 
                                   setState(() {});
                                 },

@@ -52,8 +52,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
         if (specialities == null) {
           data = await ApiClient.get('api/portfolio/myUniversity');
           specialities = await ApiClient.get('api/resources/kazSubjects');
-          selectedForeignUniversities =
-              data['data']['myUniversity']['foreignUniversities'];
+
           if (data['data']['myUniversity'].containsKey('kazUniversities')) {
             if (data['data']['myUniversity']['kazUniversities']
                 .containsKey('profileSubject')) {
@@ -75,6 +74,29 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
                 .toList();
             await BookmarkData()
                 .loadData(AppHiveConstants.kzUniversities, resultList);
+          }
+          if (data['data']['myUniversity'].containsKey('foreignUniversities')) {
+            selectedForeignUniversities =
+                data['data']['myUniversity']['foreignUniversities'];
+            List<dynamic> resultList =
+                selectedForeignUniversities.map((university) {
+              // Extract the code and other data
+              String code = university['code'];
+              Map<String, dynamic> name = university['name'];
+              String countryCode = university['countryCode'];
+
+              // Create the desired structure
+              return {
+                'id': code, // Set id to the code
+                'data': {
+                  'name': name, // Directly use the name object
+                  'countryCode': countryCode // Add countryCode
+                }
+              };
+            }).toList();
+
+            await BookmarkData()
+                .loadData(AppHiveConstants.globalUniversities, resultList);
           }
           log(data.toString());
           emit(
