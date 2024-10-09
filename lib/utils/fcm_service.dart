@@ -20,10 +20,8 @@ class FCMService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  // Метод для подписки на тему до логина
   Future<void> subscribeToAllTopicBeforeLogin() async {
     try {
-      // Подписка на тему "all" до логина
       await _firebaseMessaging.subscribeToTopic("all");
       print("Successfully subscribed to topic 'all' before login");
     } catch (e) {
@@ -31,9 +29,7 @@ class FCMService {
     }
   }
 
-  // Полная инициализация после логина
   Future<void> initializeAfterLogin(BuildContext context) async {
-    // Запросить разрешение для iOS
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
@@ -42,21 +38,29 @@ class FCMService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
-    } else if (settings.authorizationStatus ==
-        AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
       print('User granted provisional permission');
     } else {
       print('User declined or has not accepted permission');
       return;
     }
 
-    // Инициализация локальных уведомлений
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
+    final DarwinInitializationSettings initializationSettingsDarwin =
+        DarwinInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
+        // Handle the received notification for iOS <10
+      },
+    );
+
+    final InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
+      iOS: initializationSettingsDarwin,
     );
 
     await _flutterLocalNotificationsPlugin.initialize(
@@ -90,8 +94,14 @@ class FCMService {
       priority: Priority.high,
       showWhen: false,
     );
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    
+    const DarwinNotificationDetails iOSPlatformChannelSpecifics =
+        DarwinNotificationDetails();
+    
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
+    );
 
     await _flutterLocalNotificationsPlugin.show(
       0,
