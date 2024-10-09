@@ -20,8 +20,10 @@ class FCMService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  // Метод для подписки на тему до логина
   Future<void> subscribeToAllTopicBeforeLogin() async {
     try {
+      // Подписка на тему "all" до логина
       await _firebaseMessaging.subscribeToTopic("all");
       print("Successfully subscribed to topic 'all' before login");
     } catch (e) {
@@ -29,7 +31,9 @@ class FCMService {
     }
   }
 
+  // Полная инициализация после логина
   Future<void> initializeAfterLogin(BuildContext context) async {
+    // Запросить разрешение для iOS
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
@@ -45,20 +49,21 @@ class FCMService {
       return;
     }
 
+    // Инициализация локальных уведомлений
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
-
     final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(
-      requestSoundPermission: false,
-      requestBadgePermission: false,
-      requestAlertPermission: false,
-      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
+      DarwinInitializationSettings(
+        requestSoundPermission: false,
+        requestBadgePermission: false,
+        requestAlertPermission: false,
+        onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
         // Handle the received notification for iOS <10
       },
     );
 
-    final InitializationSettings initializationSettings = InitializationSettings(
+    InitializationSettings initializationSettings =
+        InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
     );
@@ -95,13 +100,12 @@ class FCMService {
       showWhen: false,
     );
     
+
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
         DarwinNotificationDetails();
     
-    const NotificationDetails platformChannelSpecifics = NotificationDetails(
-      android: androidPlatformChannelSpecifics,
-      iOS: iOSPlatformChannelSpecifics,
-    );
+    const NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
 
     await _flutterLocalNotificationsPlugin.show(
       0,

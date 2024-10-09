@@ -42,7 +42,7 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
     var data = BookmarkData().getItems(AppHiveConstants.professions);
 
     return (!widget.isRecommendation)
-    ? (data.length > 0)
+    ? (data != null && data.length > 0)
         ? Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -144,7 +144,7 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
               setState(() {});
             },
           )
-    : (widget.professions.length > 0)
+    : (widget.professions != null && widget.professions.length > 0)
         ? Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
