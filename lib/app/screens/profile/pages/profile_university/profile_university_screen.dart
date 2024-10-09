@@ -11,6 +11,8 @@ import 'package:wg_app/app/screens/profile/widgets/profile_storage_container.dar
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -30,16 +32,18 @@ class ProfileUniversityScreen extends StatelessWidget {
       body: BlocBuilder<ProfileBloc, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoaded) {
+            var data =  BookmarkData().getItems(AppHiveConstants.globalUniversities);
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Column(
                   children: [
-                    (state.selectedForeignUniversities.length == 0)
+                    (data != null && data.length == 0)
                         ? ProfileStorageContainer(
                             title: LocaleKeys.my_universities_title.tr(),
                             buttonTitle: LocaleKeys.university_overview.tr(),
                             description: LocaleKeys.universities_storage.tr(),
+                            showRightIcon: true,
                             onButtonTap: () {
                               Navigator.push(
                                 context,
@@ -49,6 +53,7 @@ class ProfileUniversityScreen extends StatelessWidget {
                                 ),
                               );
                             },
+                            isForeignUni: true,
                           )
                         : UniversityForeignStorageCard(
                             title: LocaleKeys.my_universities_title.tr(),
@@ -90,6 +95,7 @@ class ProfileUniversityScreen extends StatelessWidget {
                                 );
                               }
                             },
+                            isForeignUni: false,
                           )
                         : SizedBox()
                   ],
