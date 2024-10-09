@@ -35,7 +35,6 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
         builder: (context, state) {
           if (state is ProfileCareerLoaded) {
             var data = BookmarkData().getItems(AppHiveConstants.professions);
-
             return Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -59,27 +58,18 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
                         )
                       : CareerStorageContainer(
                           title: LocaleKeys.my_professions.tr(),
+                          doNavigate: true,
+                          isRecommendation: false,
+                          professions: state.myCareers,
                         ),
                   SizedBox(
                     height: 15,
                   ),
-                  ProfileStorageContainer(
+                  CareerStorageContainer(
                     title: LocaleKeys.recommended_profession_name.tr(),
-                    buttonTitle: LocaleKeys.view_all.tr(),
-                    isMyCareer: true,
-                    showLeftIcon: true,
-                    showRightIcon: false,
-
-                    description:
-                        LocaleKeys.recommended_professions_storage.tr(),
-                    
-                    onButtonTap: () async {
-                      // final res = await Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) => AtlasScreen()),
-                      // );
-                      // setState(() {});
-                    },
+                    doNavigate: false,
+                    isRecommendation: true,
+                    professions: state.recCareers,
                   ),
                 ],
               ),
