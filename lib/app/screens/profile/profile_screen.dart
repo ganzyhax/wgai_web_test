@@ -15,6 +15,8 @@ import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
+import 'package:wg_app/app/screens/login/login_screen.dart';
+
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -100,10 +102,10 @@ class ProfileScreen extends StatelessWidget {
                   }
                   if (value == 3) {
                     await LocalUtils.logout();
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => WeGlobalApp()),
-                        (route) => true);
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                      (Route<dynamic> route) => false,
+                    );
                   }
                 }
               });
@@ -122,11 +124,10 @@ class ProfileScreen extends StatelessWidget {
                 // So the user can see the message that they have actually deleted the account
                 await Future.delayed(Duration(seconds: 3));
                 await LocalUtils.logout();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WeGlobalApp()),
-                    (route) => true);
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  (Route<dynamic> route) => false,
+                );
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
