@@ -30,6 +30,8 @@ import 'package:wg_app/app/screens/splash/splash_screen.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 
 class WeGlobalApp extends StatelessWidget {
+  static final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
   const WeGlobalApp({super.key});
 
   @override
@@ -99,6 +101,7 @@ class WeGlobalApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
+          navigatorKey: navigatorKey,
           builder: (BuildContext context, Widget? child) {
             return MediaQuery(
               data: MediaQuery.of(context).copyWith(

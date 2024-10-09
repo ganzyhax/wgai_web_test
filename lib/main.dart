@@ -18,7 +18,7 @@ void main() async {
 
   final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
   Hive.init(appDocumentDir.path);
-  await FCMService().initialize();
+  await FCMService().subscribeToAllTopicBeforeLogin();
   await BookmarkData().init();
   await BookmarkData().clearList(AppHiveConstants.kzUniversities);
   await BookmarkData().clearList(AppHiveConstants.professions);

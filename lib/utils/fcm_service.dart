@@ -1,8 +1,9 @@
+import 'dart:convert';
 import 'dart:developer';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/community/community_screen.dart';
 import 'package:wg_app/app/screens/personal_growth/personal_growth_screen.dart';
 
@@ -19,8 +20,20 @@ class FCMService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  Future<void> initialize() async {
-    // Request permission for iOS
+  // Метод для подписки на тему до логина
+  Future<void> subscribeToAllTopicBeforeLogin() async {
+    try {
+      // Подписка на тему "all" до логина
+      await _firebaseMessaging.subscribeToTopic("all");
+      print("Successfully subscribed to topic 'all' before login");
+    } catch (e) {
+      print("Failed to subscribe to topic 'all' before login: $e");
+    }
+  }
+
+  // Полная инициализация после логина
+  Future<void> initializeAfterLogin(BuildContext context) async {
+    // Запросить разрешение для iOS
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
@@ -37,48 +50,42 @@ class FCMService {
       return;
     }
 
-    // Initialize local notifications for showing foreground notifications
+    // Инициализация локальных уведомлений
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher'); // Change the icon
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
       android: initializationSettingsAndroid,
     );
 
-    // Initialize the plugin and handle notification taps
-    await _flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: (NotificationResponse response) {
-      // Log when a notification is clicked
-      log('Notification clicked with payload: ${response.payload}');
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        log('Notification clicked with payload: ${response.payload}');
+        if (response.payload != null) {
+          _onNotificationClick(context, response.payload);
+        }
+      },
+    );
 
-      if (response.payload != null) {
-        print('Notification payload: ${response.payload}');
-      }
-    });
-
-    // Listen to foreground messages
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null) {
-        print(
-            'Notification received in foreground: ${message.notification?.title}');
         _showForegroundNotification(message);
       }
     });
 
-    // Handle background messages
     FirebaseMessaging.onBackgroundMessage(_backgroundMessageHandler);
 
-    // Handle notification tap when app is opened from terminated state
-    // Replace `context` with the actual context from your app
+    handleInitialMessage(context);
   }
 
   Future<void> _showForegroundNotification(RemoteMessage message) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
-      'wg_notification_1', // Replace with your channel ID
-      'wg_notification_1', // Replace with your channel name
-      channelDescription: 'Wg Notification', // Add a description
+      'wg_notification_1',
+      'wg_notification_1',
+      channelDescription: 'Wg Notification',
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,
@@ -87,11 +94,11 @@ class FCMService {
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await _flutterLocalNotificationsPlugin.show(
-      0, // Notification ID
+      0,
       message.notification?.title,
       message.notification?.body,
       platformChannelSpecifics,
-      payload: message.notification?.body, // Pass additional info as payload
+      payload: jsonEncode(message.data),
     );
   }
 
@@ -111,7 +118,6 @@ class FCMService {
     if (initialMessage != null) {
       print("App opened from a terminated state due to a notification:");
       if (initialMessage.notification != null) {
-        print('Notification: ${initialMessage.notification?.title}');
         _handleNotificationNavigation(context, initialMessage.data);
       }
     }
@@ -125,34 +131,50 @@ class FCMService {
     });
   }
 
-  void _handleNotificationNavigation(BuildContext context, notificationBody) {
-    // Handle navigation based on the notification body
-
+  void _handleNotificationNavigation(
+      BuildContext context, Map<String, dynamic> notificationBody) {
+    log(notificationBody.toString());
     if (notificationBody['type'] == 'counselor') {
-      Navigator.push(
-        context,
+      log('ITS WORKS');
+      WeGlobalApp.navigatorKey.currentState?.push(
         MaterialPageRoute(
-            builder: (context) => const CommunityScreen(
-                  isCounsulant: true,
-                )),
+          builder: (context) => const CommunityScreen(
+            isCounsulant: true,
+          ),
+        ),
       );
     } else if (notificationBody['type'] == 'news') {
-      Navigator.push(
-        context,
+      WeGlobalApp.navigatorKey.currentState?.push(
         MaterialPageRoute(
-            builder: (context) => const CommunityScreen(
-                  isCounsulant: false,
-                )),
+          builder: (context) => const CommunityScreen(
+            isCounsulant: false,
+          ),
+        ),
+      );
+    } else if (notificationBody['type'] == 'growth') {
+      WeGlobalApp.navigatorKey.currentState?.push(
+        MaterialPageRoute(
+          builder: (context) => const PersonalGrowthScreen(),
+        ),
       );
     }
   }
 
-  // Callback for handling notification tap
   Future<void> _onNotificationClick(
       BuildContext context, String? payload) async {
     if (payload != null) {
-      log('Notification clicked with payload: $payload'); // Log the click action
-      _handleNotificationNavigation(context, payload);
+      log('Notification clicked with payload: $payload');
+      Map<String, dynamic> notificationData = parsePayload(payload);
+      _handleNotificationNavigation(context, notificationData);
+    }
+  }
+
+  Map<String, dynamic> parsePayload(String payload) {
+    try {
+      return jsonDecode(payload);
+    } catch (e) {
+      log('Failed to parse notification payload: $e');
+      return {};
     }
   }
 }

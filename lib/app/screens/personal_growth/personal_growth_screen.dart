@@ -28,7 +28,7 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
   @override
   void initState() {
     super.initState();
-
+    _fcmService.initializeAfterLogin(context);
     // Handle the case when the app is opened via a notification click
     _fcmService.handleInitialMessage(context);
 

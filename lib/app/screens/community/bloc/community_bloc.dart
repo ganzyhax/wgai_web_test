@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -14,12 +16,17 @@ class CommunityBloc extends Bloc<CommunityEvent, CommunityState> {
             selectedTabIndex: selectedTabIndex, isOpened: isOpened));
       }
       if (event is CommunitySelectTabIndex) {
+        log('Tab selected');
         selectedTabIndex = event.selectedTabIndex;
         emit(CommunityLoaded(
             selectedTabIndex: selectedTabIndex, isOpened: isOpened));
       }
       if (event is CommunitySetIsOpened) {
-        isOpened = true;
+        if (isOpened) {
+          isOpened = false;
+        } else {
+          isOpened = true;
+        }
         emit(CommunityLoaded(
             selectedTabIndex: selectedTabIndex, isOpened: isOpened));
       }

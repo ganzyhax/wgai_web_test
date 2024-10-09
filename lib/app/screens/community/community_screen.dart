@@ -23,11 +23,11 @@ class CommunityScreen extends StatelessWidget {
             if (isCounsulant != null) {
               if (isCounsulant == false) {
                 BlocProvider.of<CommunityBloc>(context)
-                  ..add(CommunitySelectTabIndex(selectedTabIndex: 1));
+                  ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
               }
               if (isCounsulant == true) {
                 BlocProvider.of<CommunityBloc>(context)
-                  ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
+                  ..add(CommunitySelectTabIndex(selectedTabIndex: 1));
               }
               BlocProvider.of<CommunityBloc>(context)
                 ..add(CommunitySetIsOpened());
@@ -44,7 +44,8 @@ class CommunityScreen extends StatelessWidget {
                       onPressed: () {
                         BlocProvider.of<CommunityBloc>(context)
                           ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
-
+                        BlocProvider.of<CommunityBloc>(context)
+                          ..add(CommunitySetIsOpened());
                         Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
