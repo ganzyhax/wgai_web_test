@@ -65,16 +65,14 @@ class ProfileGrowthScreen extends StatelessWidget {
                                             const EdgeInsets.only(top: 8.0),
                                         child: (state.data['personalGrowth']
                                                     ['psytests'][index]
-                                                .containsKey('iconCode'))
+                                                .containsKey('interpretationLink'))
                                             ? GrowthTestCard(
                                                 interpretationLink:
                                                     state.data['personalGrowth']
                                                             ['psytests'][index]
                                                         ['interpretationLink'],
                                                 icon:
-                                                    state.data['personalGrowth']
-                                                            ['psytests'][index]
-                                                        ['iconCode'],
+                                                    "starfour",
                                                 title:
                                                     state.data['personalGrowth']
                                                                 ['psytests']

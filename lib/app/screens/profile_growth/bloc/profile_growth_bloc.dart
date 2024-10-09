@@ -14,6 +14,7 @@ class ProfileGrowthBloc extends Bloc<ProfileGrowthEvent, ProfileGrowthState> {
       if (event is ProfileGrowthLoad) {
         data = await ApiClient.get('api/portfolio/myPersonalGrowth');
         if (data['success']) {
+          print(data['data']['myPersonalGrowth']);
           emit(ProfileGrowthLoaded(data: data['data']['myPersonalGrowth']));
         } else {
           emit(ProfileGrowthError(errorText: data['data']['message']));

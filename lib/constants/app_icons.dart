@@ -19,5 +19,6 @@ final Map<String, dynamic> myIconMap = {
   "suitcaseSimple": PhosphorIcons.suitcaseSimple((PhosphorIconsStyle.regular)),
   "chalkboardTeacher":
       PhosphorIcons.chalkboardTeacher((PhosphorIconsStyle.regular)),
-  "storefront": PhosphorIcons.storefront((PhosphorIconsStyle.regular))
+  "storefront": PhosphorIcons.storefront((PhosphorIconsStyle.regular)),
+  "starfour": PhosphorIcons.starFour((PhosphorIconsStyle.fill)),
 };

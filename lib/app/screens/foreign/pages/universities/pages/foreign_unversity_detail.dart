@@ -19,7 +19,7 @@ class ForeignUnversityDetail extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(55),
         child:
-            CustomAppbar(title: LocaleKeys.programs.tr(), withBackButton: true),
+            CustomAppbar(title: "Университет", withBackButton: true),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -88,6 +88,7 @@ class ForeignUnversityDetail extends StatelessWidget {
               SizedBox(
                 height: 15,
               ),
+              
               Container(
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.all(15),
@@ -132,6 +133,15 @@ class ForeignUnversityDetail extends StatelessWidget {
                 height: 15,
               ),
               Divider(),
+              SizedBox(
+                height: 8,
+              ),
+              Text(
+                LocaleKeys.programs.tr(),
+                style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 17),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
               SizedBox(
                 height: 15,
               ),
