@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/screens/foreign/pages/universities/foreign_universities_screen.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
@@ -36,7 +37,7 @@ class _UniversityForeignStorageCardState
   Widget build(BuildContext context) {
     var data = BookmarkData().getItems(AppHiveConstants.globalUniversities);
     log(data.toString());
-    return (data.length > 0)
+    return (data != null && data.length > 0)
         ? Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -49,7 +50,7 @@ class _UniversityForeignStorageCardState
                   onTap: () async {
                     await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => AtlasScreen()),
+                      MaterialPageRoute(builder: (context) => ForeignUniversitiesScreen()),
                     );
                     setState(() {});
                   },
@@ -127,19 +128,20 @@ class _UniversityForeignStorageCardState
             ),
           )
         : ProfileStorageContainer(
-            title: LocaleKeys.my_professions.tr(),
-            buttonTitle: LocaleKeys.professions_overview.tr(),
+            title: LocaleKeys.my_universities_title.tr(),
+            buttonTitle: LocaleKeys.university_overview.tr(),
             isMyCareer: true,
             showLeftIcon: true,
             showRightIcon: true,
-            description: LocaleKeys.my_professions_storage.tr(),
+            description: LocaleKeys.universities_storage.tr(),
             onButtonTap: () async {
               final res = await Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AtlasScreen()),
+                MaterialPageRoute(builder: (context) => ForeignUniversitiesScreen()),
               );
               setState(() {});
             },
+            isForeignUni: true,
           );
   }
 }

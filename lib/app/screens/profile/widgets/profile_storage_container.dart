@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
+import 'package:wg_app/app/screens/foreign/pages/universities/foreign_universities_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -13,6 +14,7 @@ class ProfileStorageContainer extends StatelessWidget {
   final String buttonTitle;
   final String description;
   final bool isViewAllButton;
+  final bool isForeignUni;
 
   final Function() onButtonTap;
   const ProfileStorageContainer({
@@ -25,6 +27,7 @@ class ProfileStorageContainer extends StatelessWidget {
     this.isMyCareer = false,
     required this.description,
     required this.onButtonTap,
+    required this.isForeignUni,
   });
 
   @override
@@ -39,10 +42,21 @@ class ProfileStorageContainer extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AtlasScreen()),
-              );
+              if (isForeignUni) {
+                Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ForeignUniversitiesScreen(),
+                                ),
+                              );
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AtlasScreen()),
+                );
+              }
+              
             },
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,

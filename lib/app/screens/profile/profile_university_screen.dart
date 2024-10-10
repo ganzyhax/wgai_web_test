@@ -25,12 +25,13 @@ class ProfileUniversityScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileStorageContainer(
-              title: 'Мои ВУЗ-ы',
+              title: 'Мои иностранные ВУЗ-ы',
               buttonTitle: 'Browse universities',
               description: LocaleKeys.universities_storage.tr(),
               onButtonTap: () {
                 print('tapped my uni 1');
               },
+              isForeignUni: false,
             ),
             SizedBox(height: 16),
             ProfileStorageContainer(
@@ -42,6 +43,7 @@ class ProfileUniversityScreen extends StatelessWidget {
               onButtonTap: () {
                 print('tapped my uni 2');
               },
+              isForeignUni: false,
             ),
           ],
         ),

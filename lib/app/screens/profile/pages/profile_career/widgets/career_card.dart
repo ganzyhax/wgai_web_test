@@ -23,13 +23,15 @@ class CareerStorageContainer extends StatefulWidget {
   final bool isRecommendation;
   // ignore: prefer_typing_uninitialized_variables
   final professions;
+  final isForeign;
 
   const CareerStorageContainer({
     super.key,
     required this.title,
     required this.doNavigate,
     required this.isRecommendation,
-    required this.professions
+    required this.professions,
+    required this.isForeign
   });
 
   @override
@@ -42,7 +44,7 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
     var data = BookmarkData().getItems(AppHiveConstants.professions);
 
     return (!widget.isRecommendation)
-    ? (data.length > 0)
+    ? (data != null && data.length > 0)
         ? Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -143,8 +145,9 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
               );
               setState(() {});
             },
+            isForeignUni: true,
           )
-    : (widget.professions.length > 0)
+    : (widget.professions != null && widget.professions.length > 0)
         ? Container(
             padding: EdgeInsets.all(12),
             decoration: BoxDecoration(
@@ -242,6 +245,7 @@ class _CareerStorageContainerState extends State<CareerStorageContainer> {
               );
               setState(() {});
             },
+            isForeignUni: true,
           );
   }
 }

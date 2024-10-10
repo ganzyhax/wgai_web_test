@@ -55,12 +55,14 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
                             );
                             setState(() {});
                           },
+                          isForeignUni: false,
                         )
                       : CareerStorageContainer(
                           title: LocaleKeys.my_professions.tr(),
                           doNavigate: true,
                           isRecommendation: false,
                           professions: state.myCareers,
+                          isForeign: false,
                         ),
                   SizedBox(
                     height: 15,
@@ -70,6 +72,7 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
                     doNavigate: false,
                     isRecommendation: true,
                     professions: state.recCareers,
+                    isForeign: false,
                   ),
                 ],
               ),

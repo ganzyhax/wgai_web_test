@@ -64,7 +64,7 @@ class _NewsScreenState extends State<NewsScreen> {
           },
           child: BlocBuilder<NewsBloc, NewsState>(
             builder: (context, state) {
-              if (state is NewsLoaded) {
+              if (state is NewsLoaded && state.data != null && state.data.length > 0) {
                 return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
@@ -79,9 +79,7 @@ class _NewsScreenState extends State<NewsScreen> {
                 );
               }
               return Center(
-                child: CircularProgressIndicator(
-                  color: Colors.red,
-                ),
+                child: CircularProgressIndicator(),
               );
             },
           ),
