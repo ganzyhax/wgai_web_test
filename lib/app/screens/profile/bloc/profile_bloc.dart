@@ -1,13 +1,9 @@
 import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
-import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
-import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
-
 part 'profile_event.dart';
 part 'profile_state.dart';
 
@@ -98,7 +94,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             await BookmarkData()
                 .loadData(AppHiveConstants.globalUniversities, resultList);
           }
-          log(data.toString());
+
           emit(
             ProfileLoaded(
                 selectedForeignUniversities: selectedForeignUniversities,

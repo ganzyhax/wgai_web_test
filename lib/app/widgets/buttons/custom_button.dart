@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
   final bool? isLoading;
   final IconData? icon;
   final Color? iconColor;
+  final bool? spaceBetweenOnIcon;
   final double? borderRadius;
   final bool? iconOnRight;
   final FontWeight? textWeight;
@@ -20,6 +21,7 @@ class CustomButton extends StatelessWidget {
       this.isDisabled,
       this.icon,
       this.iconColor,
+      this.spaceBetweenOnIcon,
       this.bgColor,
       this.borderRadius,
       this.textWeight,
@@ -65,7 +67,9 @@ class CustomButton extends StatelessWidget {
                   ))
               : (icon != null)
                   ? Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: (spaceBetweenOnIcon == null)
+                          ? MainAxisAlignment.center
+                          : MainAxisAlignment.spaceBetween,
                       children: (iconOnRight == null)
                           ? [
                               Icon(
@@ -91,39 +95,49 @@ class CustomButton extends StatelessWidget {
                               ),
                             ]
                           : [
-                              Text(
-                                text,
-                                style: TextStyle(
-                                    fontSize:
-                                        (textSize == null) ? 16 : textSize,
-                                    fontWeight: (textWeight == null)
-                                        ? FontWeight.w500
-                                        : textWeight,
-                                    color: (textColor == null)
-                                        ? Colors.white
-                                        : textColor),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8.0),
+                                child: Text(
+                                  text,
+                                  style: TextStyle(
+                                      fontSize:
+                                          (textSize == null) ? 16 : textSize,
+                                      fontWeight: (textWeight == null)
+                                          ? FontWeight.w500
+                                          : textWeight,
+                                      color: (textColor == null)
+                                          ? Colors.white
+                                          : textColor),
+                                ),
                               ),
                               SizedBox(
                                 width: 5,
                               ),
-                              Icon(
-                                icon,
-                                color: (iconColor == null)
-                                    ? Colors.white
-                                    : iconColor,
+                              Padding(
+                                padding: const EdgeInsets.only(right: 8.0),
+                                child: Icon(
+                                  icon,
+                                  color: (iconColor == null)
+                                      ? Colors.white
+                                      : iconColor,
+                                ),
                               ),
                             ],
                     )
                   : Container(
-                      child: Text(
-                        text,
-                        style: TextStyle(
-                            fontSize: (textSize == null) ? 16 : textSize,
-                            fontWeight: (textWeight == null)
-                                ? FontWeight.w500
-                                : textWeight,
-                            color:
-                                (textColor == null) ? Colors.white : textColor),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Text(
+                          text,
+                          style: TextStyle(
+                              fontSize: (textSize == null) ? 16 : textSize,
+                              fontWeight: (textWeight == null)
+                                  ? FontWeight.w500
+                                  : textWeight,
+                              color: (textColor == null)
+                                  ? Colors.white
+                                  : textColor),
+                        ),
                       ),
                     ),
         ),

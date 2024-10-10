@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/app.dart';
+import 'package:wg_app/app/screens/ai/ai_screen.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_language/profile_language_screen.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_settings/profile_settings_page.dart';
@@ -51,10 +52,10 @@ class ProfileScreen extends StatelessWidget {
                 context: context,
                 color: AppColors.whiteForText,
                 position: RelativeRect.fromLTRB(
-                  MediaQuery.of(context).size.width, 
+                  MediaQuery.of(context).size.width,
                   position.dy + 110,
-                  10, 
-                  0, 
+                  10,
+                  0,
                 ),
                 items: [
                   PopupMenuItem<int>(
@@ -117,16 +118,15 @@ class ProfileScreen extends StatelessWidget {
             CustomSnackbar()
                 .showCustomSnackbar(context, 'Updated successfully!', true);
           } else if (state is AccountDeletedState) {
-            CustomSnackbar()
-                .showCustomSnackbar(context, 'Аккаунт жойылды / Аккаунт удален', true);
-                // So the user can see the message that they have actually deleted the account
-                await Future.delayed(Duration(seconds: 3));
-                await LocalUtils.logout();
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WeGlobalApp()),
-                    (route) => true);
+            CustomSnackbar().showCustomSnackbar(
+                context, 'Аккаунт жойылды / Аккаунт удален', true);
+            // So the user can see the message that they have actually deleted the account
+            await Future.delayed(Duration(seconds: 3));
+            await LocalUtils.logout();
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => WeGlobalApp()),
+                (route) => true);
           }
         },
         child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -212,7 +212,8 @@ class ProfileScreen extends StatelessWidget {
                                 isUniversity: true,
                                 height: 144,
                                 onTap: () {
-                                  BlocProvider.of<ProfileBloc>(context)..add(ProfileUniversitiesLoad());
+                                  BlocProvider.of<ProfileBloc>(context)
+                                    ..add(ProfileUniversitiesLoad());
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -239,6 +240,19 @@ class ProfileScreen extends StatelessWidget {
                             MaterialPageRoute(
                                 builder: (context) =>
                                     const ProfileGrowthScreen()),
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 8),
+                      ProfileContainer(
+                        text: LocaleKeys.advice.tr().split(' ')[0],
+                        isUniversity: false,
+                        height: 144,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const AiScreen()),
                           );
                         },
                       ),
