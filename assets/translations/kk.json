@@ -223,5 +223,6 @@
     "selectedAsTargetChoice2": "Target Choice 2 ретінде таңдалды",
     "youGotAppointment": "Сізде жоспарланған консультация бар!",
     "consultationTime": "Уақыты",
-    "tuitionFee": "Оқу ақысы"
+    "tuitionFee": "Оқу ақысы",
+    "no_slot_selected": "Кеңес уақыты таңдалмады"
 }

@@ -223,5 +223,6 @@
     "selectedAsTargetChoice2": "Выбран как Target Choice 2",
     "youGotAppointment": "У вас есть консультация, на которую вы записались!",
     "consultationTime": "Время",
-    "tuitionFee": "Стоимость обучения"
+    "tuitionFee": "Стоимость обучения",
+    "no_slot_selected": "Выберите время для консультации"
 }

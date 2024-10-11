@@ -19,7 +19,6 @@ class ConsultationRequestScreen extends StatefulWidget {
 }
 
 class _ConsultationRequestScreenState extends State<ConsultationRequestScreen> {
-
   DateTime _selectedDay = DateTime.now();
 
   @override
@@ -36,93 +35,109 @@ class _ConsultationRequestScreenState extends State<ConsultationRequestScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<ConsultationRequestBloc, ConsultationRequestState>(
-      listener: (context, state) {
-        // if (state is ConsultationRequestSubmitted) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(content: Text(state.message)),
-        //   );
-        //   Navigator.of(context).pop(); // Or navigate to a confirmation screen
-        // } else if (state is ConsultationRequestError) {
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     SnackBar(content: Text(state.message)),
-        //   );
-        // }
-        if (state is ConsultationRequestSubmitted) {
-          _showResultAlert(context, state.message, true);
-        } else if (state is ConsultationRequestError) {
-          _showResultAlert(context, state.message, false);
-        }
-      },
-      builder: (context, state) {
-        if (state is ConsultationRequestInitial || state is ConsultationRequestLoading) {
-          return _buildLoading();
-        } else if (state is ConsultationRequestLoaded) {
-          return _buildContent(state.slots);
-        } else {
-          return _buildError();
-        }
-      },
+    return ScaffoldMessenger(
+      child: Builder(
+        builder: (BuildContext context) {
+          return Scaffold(
+            body: BlocConsumer<ConsultationRequestBloc, ConsultationRequestState>(
+              listener: (context, state) {
+                if (state is ConsultationRequestSubmitted) {
+                  _showResultAlert(context, state.message, true);
+                } else if (state is ConsultationRequestError) {
+                  _showResultAlert(context, state.message, false);
+                }
+              },
+              builder: (context, state) {
+                if (state is ConsultationRequestInitial || state is ConsultationRequestLoading) {
+                  return _buildLoading();
+                } else if (state is ConsultationRequestLoaded) {
+                  return _buildContent(context, state.slots);
+                } else {
+                  return _buildError();
+                }
+              },
+            ),
+          );
+        },
+      ),
     );
   }
 
-Widget _buildContent(List<SlotModel> slots) {
-  return SingleChildScrollView(
-    child: Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                LocaleKeys.request_advice.tr(),
-                style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: SvgPicture.asset('assets/icons/rounded_x.svg'),
-              )
-            ],
-          ),
-          const SizedBox(height: 24),
-          CustomCalendar(
-            onDaySelected: (selectedDay, _, __) {
-              setState(() {
-                _selectedDay = selectedDay;
-              });
-            },
-            language: context.locale.languageCode,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            LocaleKeys.select_slot.tr(),
-            style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
-          ),
-          const SizedBox(height: 16),
-          TimeSlotWidget(slots: slots, selectedDay: _selectedDay),
-          const SizedBox(height: 24),
-          CustomButton(
-            text: LocaleKeys.sign_up_consultation.tr(),
-            onTap: () {
-              // final selectedSlot = slots.firstWhere((slot) => slot.isSelected, orElse: () => slots.first);
-              // context.read<ConsultationRequestBloc>().add(SubmitConsultationRequest(selectedSlot.id));
-              final selectedSlot = slots.where((slot) => slot.isSelected).firstOrNull;
-              if (selectedSlot != null) {
-                context.read<ConsultationRequestBloc>().add(SubmitConsultationRequest(selectedSlot.id));
-              }
-            },
-          ),
-          const SizedBox(height: 24),
-        ],
-      ),
-    ),
-  );
-}
+  Widget _buildContent(BuildContext context, List<SlotModel> slots) {
+    final availableDates = slots.where((slot) => !slot.isBooked).map((slot) => DateTime(
+      slot.startDate.year,
+      slot.startDate.month,
+      slot.startDate.day,
+    )).toSet().toList();
 
+    final bookedDates = slots.where((slot) => slot.isBooked).map((slot) => DateTime(
+      slot.startDate.year,
+      slot.startDate.month,
+      slot.startDate.day,
+    )).toSet().toList();
+
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  LocaleKeys.request_advice.tr(),
+                  style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: SvgPicture.asset('assets/icons/rounded_x.svg'),
+                )
+              ],
+            ),
+            const SizedBox(height: 24),
+            CustomCalendar(
+              onDaySelected: (selectedDay, _, __) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                });
+              },
+              language: context.locale.languageCode,
+              availableDates: availableDates,
+              bookedDates: bookedDates,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              LocaleKeys.select_slot.tr(),
+              style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
+            ),
+            const SizedBox(height: 16),
+            TimeSlotWidget(slots: slots, selectedDay: _selectedDay),
+            const SizedBox(height: 24),
+            CustomButton(
+              text: LocaleKeys.sign_up_consultation.tr(),
+              onTap: () {
+                final selectedSlot = slots.firstWhere(
+                  (slot) => slot.isSelected,
+                  orElse: () => SlotModel(id: '', counselorId: '', schoolId: '', grade: 0, startDate: DateTime.now(), endDate: DateTime.now(), isBooked: false, isSelected: false),
+                );
+                if (selectedSlot.id.isNotEmpty) {
+                  context.read<ConsultationRequestBloc>().add(SubmitConsultationRequest(selectedSlot.id));
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text(LocaleKeys.no_slot_selected.tr())),
+                  );
+                }
+              },
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
 
   void _showResultAlert(BuildContext context, String message, bool isSuccess) {
     showDialog(

@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
-import 'package:wg_app/constants/app_constant.dart';
 
 class CustomCalendar extends StatefulWidget {
   final Function(DateTime, DateTime, DateTime) onDaySelected;
   final String language;
+  final List<DateTime> availableDates;
+  final List<DateTime> bookedDates;  // New parameter for fully booked dates
   
-  const CustomCalendar({Key? key, required this.onDaySelected, required this.language}) : super(key: key);
+  const CustomCalendar({
+    Key? key,
+    required this.onDaySelected,
+    required this.language,
+    required this.availableDates,
+    required this.bookedDates,  // Add this line
+  }) : super(key: key);
 
   @override
   State<CustomCalendar> createState() => _CustomCalendarState();
@@ -49,7 +56,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   Widget _buildMonthHeader() {
     final month = DateFormat.MMMM(widget.language).format(_currentDate);
-    final capitalizedMonth = month[0].toUpperCase() + month.substring(1);;
+    final capitalizedMonth = month[0].toUpperCase() + month.substring(1);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,6 +118,14 @@ class _CustomCalendarState extends State<CustomCalendar> {
           currentDay.year == _selectedDate!.year &&
           currentDay.month == _selectedDate!.month &&
           currentDay.day == _selectedDate!.day;
+      final hasAvailableSlot = widget.availableDates.any((date) =>
+          date.year == currentDay.year &&
+          date.month == currentDay.month &&
+          date.day == currentDay.day);
+      final isFullyBooked = widget.bookedDates.any((date) =>
+          date.year == currentDay.year &&
+          date.month == currentDay.month &&
+          date.day == currentDay.day);
 
       dayWidgets.add(
         SizedBox(
@@ -118,21 +133,38 @@ class _CustomCalendarState extends State<CustomCalendar> {
           height: 32,
           child: GestureDetector(
             onTap: isWeekend ? null : () => _onDaySelected(currentDay),
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: isSelected ? AppColors.primary : Colors.transparent,
-              ),
-              child: Center(
-                child: Text(
-                  day.toString(),
-                  style: AppTextStyle.bodyText.copyWith(
-                    color: isSelected
-                        ? Colors.white
-                        : (isWeekend ? Colors.grey : Colors.black),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: isSelected ? AppColors.primary : Colors.transparent,
+                  ),
+                  child: Center(
+                    child: Text(
+                      day.toString(),
+                      style: AppTextStyle.bodyText.copyWith(
+                        color: isSelected
+                            ? Colors.white
+                            : (isWeekend ? Colors.grey : Colors.black),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                if (hasAvailableSlot || isFullyBooked)
+                  Positioned(
+                    bottom: 2,
+                    child: Container(
+                      width: 4,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: hasAvailableSlot ? Colors.green : Colors.grey,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
         ),
