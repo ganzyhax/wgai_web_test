@@ -25,7 +25,7 @@ class ProfileUniversityScreen extends StatelessWidget {
         child: Column(
           children: [
             ProfileStorageContainer(
-              title: 'Мои иностранные ВУЗ-ы',
+              title: 'Мои ВУЗ-ы',
               buttonTitle: 'Browse universities',
               description: LocaleKeys.universities_storage.tr(),
               onButtonTap: () {
