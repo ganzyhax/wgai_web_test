@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -15,10 +16,14 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   await EasyLocalization.ensureInitialized();
+  if (kIsWeb) {
+  } else {
+    final appDocumentDir =
+        await path_provider.getApplicationDocumentsDirectory();
+    Hive.init(appDocumentDir.path);
+    await FCMService().subscribeToAllTopicBeforeLogin();
+  }
 
-  final appDocumentDir = await path_provider.getApplicationDocumentsDirectory();
-  Hive.init(appDocumentDir.path);
-  await FCMService().subscribeToAllTopicBeforeLogin();
   await BookmarkData().init();
   await BookmarkData().clearList(AppHiveConstants.kzUniversities);
   await BookmarkData().clearList(AppHiveConstants.professions);

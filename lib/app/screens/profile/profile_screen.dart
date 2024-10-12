@@ -244,19 +244,19 @@ class ProfileScreen extends StatelessWidget {
                           );
                         },
                       ),
-                      const SizedBox(height: 8),
-                      ProfileContainer(
-                        text: LocaleKeys.advice.tr().split(' ')[0],
-                        isUniversity: false,
-                        height: 144,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AiScreen()),
-                          );
-                        },
-                      ),
+                      // const SizedBox(height: 8),
+                      // ProfileContainer(
+                      //   text: LocaleKeys.advice.tr().split(' ')[0],
+                      //   isUniversity: false,
+                      //   height: 144,
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (context) => const AiScreen()),
+                      //     );
+                      //   },
+                      // ),
                     ],
                   ),
                 ),

@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:ffi';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -44,10 +43,9 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
                 }
               }
               emit(ConsultantLoaded(
-                localLang: localLang,
-                counselorData: counselorData['data']['counselorTasks'],
-                appointmentData: appointmentData
-              ));
+                  localLang: localLang,
+                  counselorData: counselorData['data']['counselorTasks'],
+                  appointmentData: appointmentData));
               isResultReady = true;
             }
           } else {
@@ -75,12 +73,12 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
         if (counselorData['success']) {
           List<dynamic> tasks = counselorData['data']['counselorTasks'];
           sortTasksByCreatedAtDescending(tasks);
-          var appointmentDataReq = await ApiClient.get('api/slots/upcomingAppointment');
+          var appointmentDataReq =
+              await ApiClient.get('api/slots/upcomingAppointment');
           emit(ConsultantLoaded(
-            localLang: localLang,
-            counselorData: counselorData['data']['counselorTasks'],
-            appointmentData: appointmentDataReq['data']['data']
-          ));
+              localLang: localLang,
+              counselorData: counselorData['data']['counselorTasks'],
+              appointmentData: appointmentDataReq['data']['data']));
         }
       }
       if (event is ConsultantUpdateStatus) {

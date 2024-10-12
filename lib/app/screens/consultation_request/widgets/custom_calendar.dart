@@ -7,14 +7,14 @@ class CustomCalendar extends StatefulWidget {
   final Function(DateTime, DateTime, DateTime) onDaySelected;
   final String language;
   final List<DateTime> availableDates;
-  final List<DateTime> bookedDates;  // New parameter for fully booked dates
-  
+  final List<DateTime> bookedDates;
+
   const CustomCalendar({
     Key? key,
     required this.onDaySelected,
     required this.language,
     required this.availableDates,
-    required this.bookedDates,  // Add this line
+    required this.bookedDates,
   }) : super(key: key);
 
   @override
@@ -67,7 +67,8 @@ class _CustomCalendarState extends State<CustomCalendar> {
         ),
         Text(
           capitalizedMonth,
-          style: AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
+          style:
+              AppTextStyle.heading2.copyWith(color: AppColors.alternativeBlack),
         ),
         IconButton(
           icon: Icon(Icons.arrow_forward_ios, size: 18),
@@ -107,10 +108,16 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
     List<Widget> dayWidgets = [];
 
+    // Calculate the screen width and day size dynamically
+    final screenWidth = MediaQuery.of(context).size.width;
+    final daySize = screenWidth / 7 - 8; // Adjust based on padding/margins
+
+    // Add empty boxes for days before the first day of the month
     for (int i = 1; i < firstWeekday; i++) {
-      dayWidgets.add(SizedBox(width: 32, height: 32));
+      dayWidgets.add(SizedBox(width: daySize, height: daySize));
     }
 
+    // Add day widgets
     for (int day = 1; day <= daysInMonth; day++) {
       final currentDay = DateTime(_currentDate.year, _currentDate.month, day);
       final isWeekend = currentDay.weekday == 6 || currentDay.weekday == 7;
@@ -129,10 +136,12 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
       dayWidgets.add(
         SizedBox(
-          width: 32,
-          height: 32,
+          width: daySize,
+          height: daySize,
           child: GestureDetector(
-            onTap: isWeekend ? null : () => _onDaySelected(currentDay),
+            onTap: isWeekend || isFullyBooked
+                ? null
+                : () => _onDaySelected(currentDay),
             child: Stack(
               alignment: Alignment.center,
               children: [
@@ -147,7 +156,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
                       style: AppTextStyle.bodyText.copyWith(
                         color: isSelected
                             ? Colors.white
-                            : (isWeekend ? Colors.grey : Colors.black),
+                            : (isWeekend || isFullyBooked
+                                ? Colors.grey
+                                : Colors.black),
                       ),
                     ),
                   ),
@@ -160,7 +171,9 @@ class _CustomCalendarState extends State<CustomCalendar> {
                       height: 4,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: hasAvailableSlot ? Colors.green : Colors.grey,
+                        color: hasAvailableSlot
+                            ? Colors.green
+                            : Colors.red, // Fully booked dates in red
                       ),
                     ),
                   ),
@@ -170,9 +183,12 @@ class _CustomCalendarState extends State<CustomCalendar> {
         ),
       );
     }
-    return Wrap(
-      spacing: 16.0,
-      runSpacing: 16.0,
+
+    return GridView.count(
+      shrinkWrap: true,
+      crossAxisCount: 7, // Fixed number of columns (days of the week)
+      crossAxisSpacing: 8.0, // Adjust spacing
+      mainAxisSpacing: 8.0,
       children: dayWidgets,
     );
   }

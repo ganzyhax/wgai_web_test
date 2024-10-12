@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/screens/questionnaire/model/testing_model.dart';
@@ -19,16 +17,15 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
     on<NextQuestion>(_onNextQuestion);
     on<PreviousQuestion>(_onPreviousQuestion);
     on<CompleteQuestionnaire>(_onCompleteQuestionnaire);
-
   }
 
   Future<void> _onLoadQuestionnaire(
       LoadQuestionnaire event, Emitter<QuestionnaireState> emit) async {
     emit(QuestionnaireLoadingState());
     try {
-      final TestingModel? data = await QuestionnaireNetwork().getQuestionnaire(event.testingCode);
-      
-      
+      final TestingModel? data =
+          await QuestionnaireNetwork().getQuestionnaire(event.testingCode);
+
       if (data != null) {
         final localLang = await LocalUtils.getLanguage();
         var testingTitle = data.testingMaterial?.title?.ru ?? '';
@@ -55,7 +52,8 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
       AnswerQuestion event, Emitter<QuestionnaireState> emit) {
     final currentState = state;
     if (currentState is QuestionnaireSuccessState) {
-      final selectedIndices = List<int>.from(currentState.selectedAnswerIndices);
+      final selectedIndices =
+          List<int>.from(currentState.selectedAnswerIndices);
       if (event.isMultipleChoice) {
         if (selectedIndices.contains(event.answerIndex)) {
           selectedIndices.remove(event.answerIndex);
@@ -74,30 +72,42 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
     final currentState = state;
     if (currentState is QuestionnaireSuccessState) {
       if (currentState.currentIndex <= currentState.questions.length - 1) {
-        final currentAnswers = List<int>.from(currentState.selectedAnswerIndices);
+        final currentAnswers =
+            List<int>.from(currentState.selectedAnswerIndices);
         _answers[currentState.currentIndex] = currentAnswers;
         if (currentState.currentIndex == currentState.questions.length - 1) {
-          if (currentState.questions[currentState.currentIndex].problemType == 'poster' || currentState.selectedAnswerIndices.length > 0) {
+          if (currentState.questions[currentState.currentIndex].problemType ==
+                  'poster' ||
+              currentState.selectedAnswerIndices.length > 0) {
             emit(QuestionnaireCompletedState(_answers));
           }
-        } else if (currentState.selectedAnswerIndices.length > 0 || currentState.questions[currentState.currentIndex].problemType == 'poster') {
+        } else if (currentState.selectedAnswerIndices.length > 0 ||
+            currentState.questions[currentState.currentIndex].problemType ==
+                'poster') {
           // next index is provided in the document unless the question is a poster, in which case just go to the next index
-          final nextIndex = currentState.selectedAnswerIndices.length > 0 ? currentState.questions[currentState.currentIndex].options![currentState.selectedAnswerIndices[0]].nextQuestionIndex : currentState.currentIndex + 1;
+          final nextIndex = currentState.selectedAnswerIndices.length > 0
+              ? currentState
+                  .questions[currentState.currentIndex]
+                  .options![currentState.selectedAnswerIndices[0]]
+                  .nextQuestionIndex
+              : currentState.currentIndex + 1;
           emit(currentState.copyWith(
             currentIndex: nextIndex,
             selectedAnswerIndices: _answers[currentState.currentIndex + 1],
-          )); 
+          ));
         }
       }
     }
   }
+
   // left it out for now, will implement later
   void _onPreviousQuestion(
       PreviousQuestion event, Emitter<QuestionnaireState> emit) {
     final currentState = state;
     if (currentState is QuestionnaireSuccessState) {
       if (currentState.currentIndex > 0) {
-        final currentAnswers = List<int>.from(currentState.selectedAnswerIndices);
+        final currentAnswers =
+            List<int>.from(currentState.selectedAnswerIndices);
         _answers[currentState.currentIndex] = currentAnswers;
         emit(currentState.copyWith(
           currentIndex: currentState.currentIndex - 1,
@@ -107,10 +117,12 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
     }
   }
 
-  void _onCompleteQuestionnaire(CompleteQuestionnaire event, Emitter<QuestionnaireState> emit) async {
+  void _onCompleteQuestionnaire(
+      CompleteQuestionnaire event, Emitter<QuestionnaireState> emit) async {
     try {
       // upon completing the questionnaire, the answers are sent to the backend for processing
-      await QuestionnaireNetwork().submitAnswers(event.answers, event.taskId, event.isGuidanceTask);
+      await QuestionnaireNetwork()
+          .submitAnswers(event.answers, event.taskId, event.isGuidanceTask);
       emit(QuestionnaireSubmittedState());
     } catch (e) {
       emit(QuestionnaireErrorState("Failed to submit questionnaire"));
