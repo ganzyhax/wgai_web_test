@@ -28,7 +28,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:879472760468:android:cd20581be64d77aeaa0681",
         "android_client_info": {
-          "package_name": "com.example.wg_app"
+          "package_name": "ai.weglobal.mobile"
         }
       },
       "oauth_client": [],
