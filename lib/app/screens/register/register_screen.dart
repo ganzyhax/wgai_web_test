@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/login_screen.dart';
@@ -9,6 +10,7 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -47,7 +49,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       });
     } else {
       setState(() {
-        emailValidator = 'Введите корректный email-адрес';
+        emailValidator = LocaleKeys.enter_true_email.tr();
       });
     }
   }
@@ -55,12 +57,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _onTextChangedPass() {
     setState(() {});
     if (pass.text.length < 8) {
-      passwordValidator =
-          'Пароль должен содержать минимум 8 символов, включая как минимум одну цифру';
+      passwordValidator = LocaleKeys.password_must_be_min_8.tr();
     } else {
       if (rPass.text.length > 8) {
         if (rPass.text != pass.text) {
-          passwordMatchValidator = 'Введенные пароли не совпадают';
+          passwordMatchValidator = LocaleKeys.password_are_not_match.tr();
         } else {
           passwordMatchValidator = '';
         }
@@ -73,7 +74,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void _onTextChangedRPass() {
     setState(() {});
     if (pass.text != rPass.text) {
-      passwordMatchValidator = 'Введенные пароли не совпадают';
+      passwordMatchValidator = LocaleKeys.password_are_not_match.tr();
     } else {
       passwordMatchValidator = '';
     }
@@ -106,7 +107,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: MediaQuery.of(context).size.height / 5,
                     ),
                     Text(
-                      'Регистрация',
+                      LocaleKeys.register.tr(),
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
@@ -116,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 15,
                     ),
                     Text(
-                      'Добро пожаловать!',
+                      LocaleKeys.welcome.tr(),
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.black87),
                     ),
@@ -133,7 +134,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 10,
                               ),
                               CustomTextField(
-                                  hintText: 'Электронная почта',
+                                  hintText: LocaleKeys.email.tr(),
                                   controller: email),
                               (emailValidator == '' || emailValidator == null)
                                   ? const SizedBox()
@@ -146,7 +147,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 10,
                               ),
                               Text(
-                                'Пароль',
+                                LocaleKeys.password.tr(),
                                 style: TextStyle(color: AppColors.grayForText),
                               ),
                               SizedBox(
@@ -178,7 +179,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 height: 10,
                               ),
                               Text(
-                                'Повторите пароль',
+                                LocaleKeys.repeat_password.tr(),
                                 style: TextStyle(color: AppColors.grayForText),
                               ),
                               SizedBox(
@@ -220,7 +221,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                               CustomButton(
                                 isLoading: state.isLoading,
-                                text: 'Далее',
+                                text: LocaleKeys.next.tr(),
                                 isDisabled: (email.text.isEmpty ||
                                     email.text.isEmpty ||
                                     emailValidator != '' ||
@@ -253,7 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 },
                                 child: Center(
                                   child: Text(
-                                    'У меня есть аккаунт',
+                                    LocaleKeys.haveAnAccount.tr(),
                                     style: TextStyle(
                                         color: AppColors.primary,
                                         fontWeight: FontWeight.w500),

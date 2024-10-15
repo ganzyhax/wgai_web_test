@@ -1,6 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/register/register_info_page.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class RegisterVerifySuccessPage extends StatelessWidget {
   const RegisterVerifySuccessPage({super.key});
@@ -35,7 +38,7 @@ class RegisterVerifySuccessPage extends StatelessWidget {
                   height: 25,
                 ),
                 Text(
-                  'Почта подтверждена!',
+                  LocaleKeys.email_verified.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
                 ),

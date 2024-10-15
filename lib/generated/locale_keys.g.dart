@@ -17,9 +17,18 @@ abstract class  LocaleKeys {
   static const welcome = 'welcome';
   static const login = 'login';
   static const phoneOrEmail = 'phoneOrEmail';
+  static const register = 'register';
   static const continue_button = 'continue_button';
   static const start_psytest = 'start_psytest';
+  static const enter_true_email = 'enter_true_email';
+  static const password_must_be_min_8 = 'password_must_be_min_8';
+  static const password_are_not_match = 'password_are_not_match';
   static const password = 'password';
+  static const enter_school_code = 'enter_school_code';
+  static const lets_meet = 'lets_meet';
+  static const confirm_your_email = 'confirm_your_email';
+  static const resend_in = 'resend_in';
+  static const send_again = 'send_again';
   static const forgotPassword = 'forgotPassword';
   static const registrationQuestion = 'registrationQuestion';
   static const codeTeacher = 'codeTeacher';
@@ -220,4 +229,5 @@ abstract class  LocaleKeys {
   static const consultationTime = 'consultationTime';
   static const tuitionFee = 'tuitionFee';
   static const no_slot_selected = 'no_slot_selected';
+
 }

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/register/register_school_code_screen.dart';
+import 'package:wg_app/app/screens/register/register_screen.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
@@ -119,14 +120,24 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 25,
                           ),
-                          // Center(
-                          //   child: Text(
-                          //     'Забыли пароль?',
-                          //     style: TextStyle(
-                          //         color: AppColors.primary,
-                          //         fontWeight: FontWeight.w500),
-                          //   ),
-                          // ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        RegisterSchoolCodePage()),
+                              );
+                            },
+                            child: Center(
+                              child: Text(
+                                LocaleKeys.register.tr(),
+                                style: TextStyle(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     )
