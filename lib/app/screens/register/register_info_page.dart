@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/login/login_screen.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/register/bloc/register_bloc.dart';
@@ -7,6 +9,7 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
 import 'package:wg_app/app/widgets/textfields/phone_textfield.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class RegisterInfoPage extends StatefulWidget {
   const RegisterInfoPage({super.key});
@@ -43,7 +46,7 @@ class _RegisterInfoPageState extends State<RegisterInfoPage> {
                     ),
                     Center(
                       child: Text(
-                        'Давайте знакомиться!',
+                        LocaleKeys.lets_meet.tr(),
                         style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w700,
@@ -56,32 +59,33 @@ class _RegisterInfoPageState extends State<RegisterInfoPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Ваше имя',
+                                LocaleKeys.your_name.tr(),
                                 style: TextStyle(color: AppColors.grayForText),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               CustomTextField(
-                                  hintText: 'Ваше имя', controller: name),
+                                  hintText: LocaleKeys.your_name.tr(),
+                                  controller: name),
                               SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                'Фамилия',
+                                LocaleKeys.surname.tr(),
                                 style: TextStyle(color: AppColors.grayForText),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               CustomTextField(
-                                  hintText: 'Ваша фамилия',
+                                  hintText: LocaleKeys.your_surname.tr(),
                                   controller: surname),
                               SizedBox(
                                 height: 10,
                               ),
                               Text(
-                                'Номер телефона',
+                                LocaleKeys.phone_number.tr(),
                                 style: TextStyle(color: AppColors.grayForText),
                               ),
                               SizedBox(
@@ -126,7 +130,7 @@ class _RegisterInfoPageState extends State<RegisterInfoPage> {
                                     ),
                                     Flexible(
                                       child: TextFieldInput(
-                                        hintText: 'Номер телефона',
+                                        hintText: LocaleKeys.phone_number.tr(),
                                         textInputType: TextInputType.phone,
                                         textEditingController: phone,
                                         isPhoneInput: true,
@@ -140,7 +144,7 @@ class _RegisterInfoPageState extends State<RegisterInfoPage> {
                                 height: 25,
                               ),
                               CustomButton(
-                                text: 'Далее',
+                                text: LocaleKeys.next.tr(),
                                 onTap: () {
                                   BlocProvider.of<RegisterBloc>(context)
                                     ..add(RegisterFillUserInfo(

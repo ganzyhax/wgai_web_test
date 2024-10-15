@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/login_screen.dart';
@@ -9,6 +10,7 @@ import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/app/widgets/textfields/custom_textfield.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class RegisterSchoolCodePage extends StatefulWidget {
   const RegisterSchoolCodePage({super.key});
@@ -44,7 +46,7 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                   height: MediaQuery.of(context).size.height / 5,
                 ),
                 Text(
-                  'Регистрация',
+                  LocaleKeys.registration.tr(),
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w700,
@@ -54,7 +56,7 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                   height: 15,
                 ),
                 Text(
-                  'Введите код вашей школы, который вам предоставил профориентатор',
+                  LocaleKeys.enter_school_code.tr(),
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16, color: Colors.black87),
                 ),
@@ -71,7 +73,8 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                             height: 10,
                           ),
                           CustomTextField(
-                              hintText: 'Код школы', controller: code),
+                              hintText: LocaleKeys.schoolCode.tr(),
+                              controller: code),
                           SizedBox(
                             height: 10,
                           ),
@@ -86,7 +89,7 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                             height: 10,
                           ),
                           CustomButton(
-                            text: 'Далее',
+                            text: LocaleKeys.next.tr(),
                             onTap: () {
                               BlocProvider.of<RegisterBloc>(context)
                                 ..add(RegisterCheckClassCode(code: code.text));
@@ -104,7 +107,7 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
                             },
                             child: Center(
                               child: Text(
-                                'У меня есть аккаунт',
+                                LocaleKeys.haveAnAccount.tr(),
                                 style: TextStyle(
                                     color: AppColors.primary,
                                     fontWeight: FontWeight.w500),

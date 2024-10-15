@@ -1,12 +1,15 @@
 import 'dart:async'; // Import for Timer
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/register/bloc/register_bloc.dart';
 import 'package:wg_app/app/screens/register/register_verify_success_page.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class RegisterVerifyPage extends StatefulWidget {
   const RegisterVerifyPage({super.key});
@@ -93,7 +96,7 @@ class _RegisterVerifyPageState extends State<RegisterVerifyPage> {
                 height: 10,
               ),
               Text(
-                'Подтвердите вашу почту',
+                LocaleKeys.confirm_your_email.tr(),
                 style: AppTextStyle.heading1,
               ),
               Padding(
@@ -104,7 +107,9 @@ class _RegisterVerifyPageState extends State<RegisterVerifyPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Повторная отправка через:'),
+                        Text(
+                          LocaleKeys.resend_in.tr(),
+                        ),
                         Text(_formatTime(_secondsRemaining)),
                       ],
                     ),
@@ -118,7 +123,7 @@ class _RegisterVerifyPageState extends State<RegisterVerifyPage> {
                           ..add(RegisterResendEmailVerification());
                       },
                       isDisabled: (_secondsRemaining != 0) ? true : false,
-                      text: 'Отправить еще раз',
+                      text: LocaleKeys.send_again.tr(),
                       textColor: Colors.black,
                       bgColor: AppColors.grayForText,
                     ),
@@ -131,7 +136,7 @@ class _RegisterVerifyPageState extends State<RegisterVerifyPage> {
                       },
                       child: Center(
                         child: Text(
-                          'Изменить почту',
+                          LocaleKeys.change_email.tr(),
                           style: TextStyle(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w500,
