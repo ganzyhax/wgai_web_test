@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
@@ -37,20 +40,37 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       if (event is RegisterRegister) {
         isLoading = true;
         em();
-        var data = await ApiClient.postUnAuth('api/auth/register', {
-          'email': event.email,
-          'password': event.password,
-          'registrationCode': shcoolCode
-        });
-        if (data['success']) {
-          isLoading = false;
-          await LocalUtils.setAccessToken(data['data']['accessToken']);
-          emit(RegisterReturnVerifyPage());
-          em();
-        } else {
-          isLoading = false;
-          emit(RegisterError(message: data['data']['message']));
-          em();
+        var checkPhoneRes = await ApiClient.getUnAuth(
+            'api/auth/checkRegisteredNumber/' + event.email);
+        if (checkPhoneRes['success']) {
+          if (checkPhoneRes['data']['alreadyRegistered']) {
+            emit(RegisterError(message: 'Phone already registered!'));
+            isLoading = false;
+            em();
+          } else {
+            var data = await ApiClient.postUnAuth('api/auth/register', {
+              'email': event.email.replaceAll('+7', '8'),
+              'password': event.password,
+              'registrationCode': shcoolCode
+            });
+            final random = Random();
+            int randomNumber = 1000 + random.nextInt(9000);
+
+            String phoneNumber = event.email.replaceAll('+', '');
+
+            var sendMessage =
+                await sendSmsCode(phoneNumber, randomNumber.toString());
+            if (sendMessage['success']) {
+              isLoading = false;
+              // await LocalUtils.setAccessToken(data['data']['accessToken']);
+              emit(RegisterReturnVerifyPage(pinCode: randomNumber.toString()));
+              em();
+            } else {
+              isLoading = false;
+              emit(RegisterError(message: 'error'));
+              em();
+            }
+          }
         }
       }
       if (event is RegisterResendEmailVerification) {
@@ -83,5 +103,20 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         }
       }
     });
+  }
+  sendSmsCode(phone, code) async {
+    final url = Uri.parse(
+        'https://api.mobizon.kz/service/message/sendsmsmessage?recipient=$phone&text=WeGlobal Ваш код - $code&apiKey=kzff7e39f70c4780fb84cf85e6ee93a92de9bbe56d2aa095bc2d12efca0c183315ff94');
+    final response = await http.get(url, headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      // 'Mobapp-Version': mbVer
+    });
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return {'success': true, 'data': jsonDecode(response.body)};
+    } else {
+      return {'success': false, 'data': jsonDecode(response.body)};
+    }
   }
 }

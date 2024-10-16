@@ -1,7 +1,9 @@
 import 'dart:async'; // Import for Timer
+import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/register/bloc/register_bloc.dart';
 import 'package:wg_app/app/screens/register/register_verify_success_page.dart';
@@ -12,7 +14,8 @@ import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class RegisterVerifyPage extends StatefulWidget {
-  const RegisterVerifyPage({super.key});
+  final String pinCode;
+  const RegisterVerifyPage({super.key, required this.pinCode});
 
   @override
   State<RegisterVerifyPage> createState() => _RegisterVerifyPageState();
@@ -28,7 +31,7 @@ class _RegisterVerifyPageState extends State<RegisterVerifyPage> {
   void initState() {
     super.initState();
     _startTimer();
-    _startCheckRequest();
+    // _startCheckRequest();
   }
 
   @override
@@ -86,68 +89,100 @@ class _RegisterVerifyPageState extends State<RegisterVerifyPage> {
           }
         },
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 5,
-              ),
-              Image.asset('assets/images/verify_email.png'),
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                LocaleKeys.confirm_your_email.tr(),
-                style: AppTextStyle.heading1,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(35.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          LocaleKeys.resend_in.tr(),
-                        ),
-                        Text(_formatTime(_secondsRemaining)),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    CustomButton(
-                      onTap: () {
-                        _startTimer();
-                        BlocProvider.of<RegisterBloc>(context)
-                          ..add(RegisterResendEmailVerification());
-                      },
-                      isDisabled: (_secondsRemaining != 0) ? true : false,
-                      text: LocaleKeys.send_again.tr(),
-                      textColor: Colors.black,
-                      bgColor: AppColors.grayForText,
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pop(context);
-                      },
-                      child: Center(
-                        child: Text(
-                          LocaleKeys.change_email.tr(),
-                          style: TextStyle(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w500,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 5,
+                ),
+                Image.asset('assets/images/verify_email.png'),
+                SizedBox(
+                  height: 10,
+                ),
+                Center(
+                  child: Text(
+                    LocaleKeys.confirm_your_email.tr(),
+                    textAlign: TextAlign.center,
+                    style: AppTextStyle.heading1,
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                OtpTextField(
+                  numberOfFields: 4,
+                  borderColor: AppColors.primary,
+                  //set to true to show as box or false to show as dash
+                  showFieldAsBox: true,
+                  //runs when a code is typed in
+                  onCodeChanged: (String code) {
+                    //handle validation or checks here
+                  },
+                  //runs when every textfield is filled
+                  onSubmit: (String verificationCode) {
+                    log(verificationCode);
+                    log(widget.pinCode);
+                    if (verificationCode == widget.pinCode.toString()) {
+                      log('Verified');
+                      CustomSnackbar()
+                          .showCustomSnackbar(context, 'Verified', true);
+                    }
+                  }, // end onSubmit
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(35.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            LocaleKeys.resend_in.tr(),
+                          ),
+                          Text(_formatTime(_secondsRemaining)),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      CustomButton(
+                        onTap: () {
+                          _startTimer();
+                          BlocProvider.of<RegisterBloc>(context)
+                            ..add(RegisterResendEmailVerification());
+                        },
+                        isDisabled: (_secondsRemaining != 0) ? true : false,
+                        text: LocaleKeys.send_again.tr(),
+                        textColor: Colors.black,
+                        bgColor: AppColors.grayForText,
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Center(
+                          child: Text(
+                            LocaleKeys.change_email.tr(),
+                            style: TextStyle(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

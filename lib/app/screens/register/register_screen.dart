@@ -40,10 +40,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String? passwordMatchValidator;
   void _onTextChangedEmail() {
     setState(() {});
-    bool res = RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(email.text.toString());
-    if (res == true) {
+
+    if (email.text.length == 12) {
       setState(() {
         emailValidator = '';
       });
@@ -94,7 +92,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             }
             if (state is RegisterReturnVerifyPage) {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => RegisterVerifyPage()),
+                MaterialPageRoute(
+                    builder: (context) =>
+                        RegisterVerifyPage(pinCode: state.pinCode)),
               );
             }
           },
@@ -127,15 +127,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Email',
+                                LocaleKeys.phone_number.tr(),
                                 style: TextStyle(color: AppColors.grayForText),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
                               CustomTextField(
-                                  hintText: LocaleKeys.email.tr(),
-                                  controller: email),
+                                  hintText: '+7', controller: email),
                               (emailValidator == '' || emailValidator == null)
                                   ? const SizedBox()
                                   : Text(

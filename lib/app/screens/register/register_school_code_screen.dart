@@ -34,7 +34,6 @@ class _RegisterSchoolCodePageState extends State<RegisterSchoolCodePage> {
               );
             }
             if (state is RegisterError) {
-              log('Snackbar on CODE SCHOOL SCREEN');
               CustomSnackbar()
                   .showCustomSnackbar(context, state.message, false);
             }

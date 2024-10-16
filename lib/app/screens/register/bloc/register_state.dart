@@ -12,7 +12,10 @@ final class RegisterLoaded extends RegisterState {
 
 final class RegisterReturnRegisterPage extends RegisterState {}
 
-final class RegisterReturnVerifyPage extends RegisterState {}
+final class RegisterReturnVerifyPage extends RegisterState {
+  final String pinCode;
+  RegisterReturnVerifyPage({required this.pinCode});
+}
 
 final class RegisterError extends RegisterState {
   final String message;
