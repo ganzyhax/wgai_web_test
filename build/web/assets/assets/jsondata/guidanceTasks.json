@@ -1,0 +1,163 @@
+[
+    {
+        "taskId": "k1l2m3n4o5",
+        "createdAt": "2024-08-06T08:00:00Z",
+        "guidanceGroupId": "enlightenment",
+        "orderInteger": 1,
+        "studentId": "28LoMk07hhTkXgxkbXlIQ5VJdjl2",
+        "taskType": "reading",
+        "completionStatus": "new",
+        "availabilityStatus": "available",
+        "title": {
+            "kk": "Кіріспе",
+            "ru": "Введение",
+            "en": "Introduction"
+        },
+        "contentId": "enlightenment0001",
+        "testId": "none",
+        "completionQuiz": [
+            {
+                "question": {
+                    "kk": "Сұрақ 1",
+                    "ru": "Вопрос 1",
+                    "en": "Question 1"
+                },
+                "options": [
+                    {
+                        "kk": "опция 1",
+                        "ru": "вариант 1",
+                        "en": "option 1"
+                    },
+                    {
+                        "kk": "опция 2",
+                        "ru": "вариант 2",
+                        "en": "option 2"
+                    }
+                ],
+                "correctIndex": 0
+            }
+        ],
+        "result": {
+            "textResponse": "none",
+            "optionsResponse": [],
+            "attributeScores": [],
+            "interpretationCode": "none",
+            "timeSubmitted": "none"
+        }
+    },
+    {
+        "taskId": "k1l2m3n4o5",
+        "createdAt": "2024-08-06T10:00:00Z",
+        "guidanceGroupId": "enlightenment",
+        "orderInteger": 2,
+        "studentId": "28LoMk07hhTkXgxkbXlIQ5VJdjl2",
+        "taskType": "testing",
+        "completionStatus": "complete",
+        "availabilityStatus": "available",
+        "title": {
+            "kk": "Кіріспе",
+            "ru": "Введение",
+            "en": "Introduction"
+        },
+        "contentId": "enlightenment0001",
+        "testId": "none",
+        "completionQuiz": [
+            {
+                "question": {
+                    "kk": "Сұрақ 1",
+                    "ru": "Вопрос 1",
+                    "en": "Question 1"
+                },
+                "options": [
+                    {
+                        "kk": "опция 1",
+                        "ru": "вариант 1",
+                        "en": "option 1"
+                    },
+                    {
+                        "kk": "опция 2",
+                        "ru": "вариант 2",
+                        "en": "option 2"
+                    }
+                ],
+                "correctIndex": 0
+            }
+        ],
+        "result": {
+            "textResponse": "none",
+            "optionsResponse": [],
+            "attributeScores": [],
+            "interpretationCode": "none",
+            "timeSubmitted": "2024-08-06T11:00:00Z"
+        }
+    },
+    {
+        "taskId": "f6g7h8i9j0",
+        "createdAt": "2024-08-06T12:00:00Z",
+        "guidanceGroupId": "enlightenment",
+        "orderInteger": 3,
+        "studentId": "28LoMk07hhTkXgxkbXlIQ5VJdjl2",
+        "taskType": "testing",
+        "completionStatus": "new",
+        "availabilityStatus": "available",
+        "title": {
+            "kk": "MBTI тестін тапсырыңыз",
+            "ru": "Пройдите тест MBTI",
+            "en": "Take MBTI test"
+        },
+        "contentId": "enlightenment0002",
+        "testId": "mbti",
+        "completionQuiz": [],
+        "result": {
+            "textResponse": "none",
+            "optionsResponse": [],
+            "attributeScores": [],
+            "interpretationCode": "none",
+            "timeSubmitted": "none"
+        }
+    },
+    {
+        "taskId": "f6g7h8i9j0",
+        "createdAt": "2024-08-06T14:00:00Z",
+        "guidanceGroupId": "enlightenment",
+        "orderInteger": 4,
+        "studentId": "28LoMk07hhTkXgxkbXlIQ5VJdjl2",
+        "taskType": "testing",
+        "completionStatus": "complete",
+        "availabilityStatus": "available",
+        "title": {
+            "kk": "MBTI тестін тапсырыңыз",
+            "ru": "Пройдите тест MBTI",
+            "en": "Take MBTI test"
+        },
+        "contentId": "enlightenment0002",
+        "testId": "mbti",
+        "completionQuiz": [],
+        "result": {
+            "textResponse": "none",
+            "optionsResponse": [],
+            "attributeScores": [
+                {
+                    "attributeName": {
+                        "kk": "Экстраверт",
+                        "ru": "Экстраверт",
+                        "en": "Extraverted"
+                    },
+                    "attributeScore": 0.7,
+                    "totalScore": 1.0
+                },
+                {
+                    "attributeName": {
+                        "kk": "Интроверт",
+                        "ru": "Интроверт",
+                        "en": "Introverted"
+                    },
+                    "attributeScore": 0.3,
+                    "totalScore": 1.0
+                }
+            ],
+            "interpretationCode": "ENFP",
+            "timeSubmitted": "2024-08-06T15:00:00Z"
+        }
+    }
+]
