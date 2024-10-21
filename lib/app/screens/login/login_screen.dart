@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_settings/pages/profile_settings_change_password_screen.dart';
 import 'package:wg_app/app/screens/register/register_school_code_screen.dart';
 import 'package:wg_app/app/screens/register/register_screen.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
@@ -37,6 +38,55 @@ class _LoginScreenState extends State<LoginScreen> {
               MaterialPageRoute(builder: (context) => CustomNavigationBar()),
               (Route<dynamic> route) => false,
             );
+            if (state.mustChangePassword) {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    title: Text(
+                      LocaleKeys.please_change_your_password.tr(),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    content: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: CustomButton(
+                            height: 45,
+                            bgColor: Colors.grey[400],
+                            text: LocaleKeys.cancel.tr(),
+                            onTap: () {
+                              Navigator.of(context).pop();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: CustomButton(
+                            height: 45,
+                            text: LocaleKeys.change.tr(),
+                            onTap: () async {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        ProfileSettingsChangePasswordScreen()),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(

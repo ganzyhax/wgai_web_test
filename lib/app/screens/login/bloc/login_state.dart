@@ -10,7 +10,10 @@ final class LoginLoaded extends LoginState {
   LoginLoaded({required this.isLoading});
 }
 
-final class LoginSuccess extends LoginState {}
+final class LoginSuccess extends LoginState {
+  final bool mustChangePassword;
+  LoginSuccess({required this.mustChangePassword});
+}
 
 final class LoginError extends LoginState {
   final String message;

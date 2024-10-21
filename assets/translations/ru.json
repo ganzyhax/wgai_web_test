@@ -28,6 +28,9 @@
     "email":"E-mail",
     "emailKz":"Электронная почта",
     "repeat_password":"Повторите пароль",
+    "current_password":"Текущий пароль",
+    "new_password":"Новый пароль",
+    "repeat_new_password":"Повторите новый пароль",
     "confirm_email":"Подтвердите вашу почту",
     "by_forwarding":"Повторная отправка через:",
     "resend":"Отправить повторно",
@@ -84,7 +87,7 @@
     "results":"Понятно",
     "by_link":"Перейти по ссылке",
     "start_psytest":"Перейти",
-    
+    "please_change_your_password":"Мы рекомендуем вам изменить пароль для повышения безопасности.",
     "answer":"Ответить",
     "your_answer":"Ваш ответ",
     "enter_answer":"Введите ответ",

@@ -24,11 +24,15 @@ abstract class  LocaleKeys {
   static const password_must_be_min_8 = 'password_must_be_min_8';
   static const password_are_not_match = 'password_are_not_match';
   static const password = 'password';
+  static const current_password = 'current_password';
+  static const new_password = 'new_password';
+  static const repeat_new_password = 'repeat_new_password';
   static const enter_school_code = 'enter_school_code';
   static const lets_meet = 'lets_meet';
   static const confirm_your_email = 'confirm_your_email';
   static const resend_in = 'resend_in';
   static const send_again = 'send_again';
+  static const please_change_your_password = 'please_change_your_password';
   static const forgotPassword = 'forgotPassword';
   static const registrationQuestion = 'registrationQuestion';
   static const codeTeacher = 'codeTeacher';

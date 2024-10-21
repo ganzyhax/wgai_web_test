@@ -37,8 +37,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           } catch (e) {
             print('Token adding error: ' + e.toString());
           }
+          if (event.password == '12345678') {
+            emit(LoginSuccess(mustChangePassword: true));
+          } else {
+            emit(LoginSuccess(mustChangePassword: false));
+          }
 
-          emit(LoginSuccess());
           isLoading = false;
         } else {
           emit(LoginError(message: attemp));
