@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:wg_app/app/widgets/webview/html_loader.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_icons.dart';
@@ -41,18 +43,29 @@ class _GrowthTestCardState extends State<GrowthTestCard> {
     return GestureDetector(
       onTap: () {
         if (widget.interpretationLink != '') {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HtmlWebView(
-                contentCode: widget.interpretationLink,
-                isUrl: true,
-                contentUrl: widget.interpretationLink,
-                contentUrlTitle: widget.title,
-                completionStatus: "complete"
-              ),
-            ),
-          );
+          (!kIsWeb)
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HtmlWebView(
+                        contentCode: widget.interpretationLink,
+                        isUrl: true,
+                        contentUrl: widget.interpretationLink,
+                        contentUrlTitle: widget.title,
+                        completionStatus: "complete"),
+                  ),
+                )
+              : Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HtmlLoader(
+                        contentCode: widget.interpretationLink,
+                        isUrl: true,
+                        contentUrl: widget.interpretationLink,
+                        contentUrlTitle: widget.title,
+                        completionStatus: "complete"),
+                  ),
+                );
         }
       },
       child: Container(

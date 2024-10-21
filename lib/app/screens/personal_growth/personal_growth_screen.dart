@@ -1,12 +1,14 @@
 import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
+import 'package:wg_app/app/widgets/webview/html_loader.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 
@@ -156,21 +158,36 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
                                               (item['completionQuiz']
                                                       as List<dynamic>)
                                                   .cast<Map<String, dynamic>>();
-                                          final res = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => HtmlWebView(
-                                                  contentCode:
-                                                      item['contentCode'],
-                                                  isUrl: false,
-                                                  contentUrl:
-                                                      item['contentCode'],
-                                                  contentUrlTitle: "",
-                                                  quizData: quizData,
-                                                  completionStatus:
-                                                      item['completionStatus']),
-                                            ),
-                                          );
+                                          final res = (!kIsWeb)
+                                              ? await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => HtmlWebView(
+                                                        contentCode:
+                                                            item['contentCode'],
+                                                        isUrl: false,
+                                                        contentUrl:
+                                                            item['contentCode'],
+                                                        contentUrlTitle: "",
+                                                        quizData: quizData,
+                                                        completionStatus: item[
+                                                            'completionStatus']),
+                                                  ),
+                                                )
+                                              : await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => HtmlLoader(
+                                                        contentCode:
+                                                            item['contentCode'],
+                                                        isUrl: false,
+                                                        contentUrl:
+                                                            item['contentCode'],
+                                                        contentUrlTitle: "",
+                                                        quizData: quizData,
+                                                        completionStatus: item[
+                                                            'completionStatus']),
+                                                  ));
                                           if (res != null && res) {
                                             BlocProvider.of<PersonalBloc>(
                                                 context)
@@ -188,21 +205,37 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
                                                       as List<dynamic>)
                                                   .cast<Map<String, dynamic>>();
 
-                                          final res = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => HtmlWebView(
-                                                  contentCode:
-                                                      item['contentCode'],
-                                                  isUrl: false,
-                                                  contentUrl:
-                                                      item['contentCode'],
-                                                  contentUrlTitle: "",
-                                                  quizData: quizData,
-                                                  completionStatus:
-                                                      item['completionStatus']),
-                                            ),
-                                          );
+                                          final res = (!kIsWeb)
+                                              ? await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => HtmlWebView(
+                                                        contentCode:
+                                                            item['contentCode'],
+                                                        isUrl: false,
+                                                        contentUrl:
+                                                            item['contentCode'],
+                                                        contentUrlTitle: "",
+                                                        quizData: quizData,
+                                                        completionStatus: item[
+                                                            'completionStatus']),
+                                                  ),
+                                                )
+                                              : await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => HtmlLoader(
+                                                        contentCode:
+                                                            item['contentCode'],
+                                                        isUrl: false,
+                                                        contentUrl:
+                                                            item['contentCode'],
+                                                        contentUrlTitle: "",
+                                                        quizData: quizData,
+                                                        completionStatus: item[
+                                                            'completionStatus']),
+                                                  ),
+                                                );
 
                                           if (res != null && res) {
                                             BlocProvider.of<PersonalBloc>(
@@ -216,20 +249,36 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
                                         }
                                         if (item['completionStatus'] ==
                                             'complete') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => HtmlWebView(
-                                                  contentCode:
-                                                      item['contentCode'],
-                                                  isUrl: false,
-                                                  contentUrl:
-                                                      item['contentCode'],
-                                                  contentUrlTitle: "",
-                                                  completionStatus:
-                                                      item['completionStatus']),
-                                            ),
-                                          );
+                                          log('Heres ');
+                                          (!kIsWeb)
+                                              ? Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => HtmlWebView(
+                                                        contentCode:
+                                                            item['contentCode'],
+                                                        isUrl: false,
+                                                        contentUrl:
+                                                            item['contentCode'],
+                                                        contentUrlTitle: "",
+                                                        completionStatus: item[
+                                                            'completionStatus']),
+                                                  ),
+                                                )
+                                              : Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => HtmlLoader(
+                                                        contentCode:
+                                                            item['contentCode'],
+                                                        isUrl: false,
+                                                        contentUrl:
+                                                            item['contentCode'],
+                                                        contentUrlTitle: "",
+                                                        completionStatus: item[
+                                                            'completionStatus']),
+                                                  ),
+                                                );
                                         }
                                       } else if (item['availabilityStatus'] !=
                                               'locked' &&

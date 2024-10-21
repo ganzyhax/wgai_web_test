@@ -1,19 +1,20 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_quiz_modal.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
-import 'package:webview_flutter_web/webview_flutter_web.dart';
+import 'package:flutter_html/flutter_html.dart'; // New package import
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class HtmlWebView extends StatefulWidget {
+class HtmlLoader extends StatefulWidget {
   final String contentCode;
   final bool isUrl;
   final String contentUrl;
@@ -21,7 +22,8 @@ class HtmlWebView extends StatefulWidget {
   final String completionStatus;
   final List<Map<String, dynamic>>? quizData;
 
-  HtmlWebView({
+  const HtmlLoader({
+    super.key,
     required this.contentCode,
     required this.isUrl,
     required this.contentUrl,
@@ -31,32 +33,19 @@ class HtmlWebView extends StatefulWidget {
   });
 
   @override
-  _HtmlWebViewState createState() => _HtmlWebViewState();
+  _HtmlLoaderState createState() => _HtmlLoaderState();
 }
 
-class _HtmlWebViewState extends State<HtmlWebView> {
-  late final WebViewController _controller;
+class _HtmlLoaderState extends State<HtmlLoader> {
   bool isLoading = true;
   String? htmlContent;
   String htmlTitle = "";
-  double textScale = 1.0;
   bool isTestFinished = false;
+  String style = '';
 
   @override
   void initState() {
     super.initState();
-
-    _controller = WebViewController()
-      ..setNavigationDelegate(
-        NavigationDelegate(
-          onPageFinished: (String url) {
-            setState(() {
-              isLoading = false;
-            });
-          },
-        ),
-      );
-
     _loadContent();
   }
 
@@ -64,27 +53,63 @@ class _HtmlWebViewState extends State<HtmlWebView> {
     String localLang = await LocalUtils.getLanguage();
     try {
       if (widget.isUrl) {
-        await _controller
-            .loadRequest(Uri.parse('${widget.contentUrl}&lang=$localLang'));
+        // Fetch the HTML content from the URL
+        final response = await ApiClient.get(widget.contentUrl);
+
+        // Fetch the external CSS file
+        final cssResponse = await ApiClient.get(
+            'https://v2.api.weglobal.ai/api/cognition/styles.css');
+        log(cssResponse['data']);
+        // Append the CSS content to the HTML inside a <style> tag
         setState(() {
+          htmlContent = """
+          <html>
+            <head>
+              <meta charset="UTF-8">
+              <meta content="width=device-width,initial-scale=1" name="viewport">
+              <style>
+                ${cssResponse.toString()}  // Appending the CSS content
+              </style>
+            </head>
+            <body>
+              ${response.toString()}
+            </body>
+          </html>
+        """;
           htmlTitle = widget.contentUrlTitle;
-          textScale = _calculateTextScale(htmlTitle);
+          isLoading = false;
         });
       } else {
         final data =
             await ApiClient.get('api/contentMaterials/${widget.contentCode}');
+
         if (data['success']) {
-          setState(() {
-            htmlContent = data['data']['contentMaterial']['content'][localLang];
-            htmlTitle =
-                data['data']['contentMaterial']['contentTitle'][localLang];
-            textScale = _calculateTextScale(htmlTitle);
-          });
-          _controller.loadHtmlString(Uri.dataFromString(
-            htmlContent!,
-            mimeType: 'text/html',
-            encoding: Encoding.getByName('utf-8'),
-          ).toString());
+          final response = await http.get(
+              Uri.parse('https://v2.api.weglobal.ai/api/cognition/styles.css'));
+
+          if (response.statusCode == 200) {
+            // Success: parse the JSON data
+
+            setState(() {
+              htmlContent = """
+            <html>
+              <head>
+                <meta charset="UTF-8">
+                <meta content="width=device-width,initial-scale=1" name="viewport">
+                
+              </head>
+              <body>
+                ${data['data']['contentMaterial']['content'][localLang]}
+              </body>
+            </html>
+          """;
+              log(htmlContent.toString());
+
+              htmlTitle =
+                  data['data']['contentMaterial']['contentTitle'][localLang];
+              isLoading = false;
+            });
+          }
         }
       }
     } catch (e) {
@@ -98,44 +123,61 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(60, 60),
-        child: AppBar(
-          forceMaterialTransparency: true,
-          backgroundColor: AppColors.background,
-          leading: IconButton(
-            onPressed: _onBackPressed,
-            icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
-          ),
-          title: Text(
-            htmlTitle,
-            style: AppTextStyle.titleHeading
-                .copyWith(color: AppColors.blackForText),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            textAlign: TextAlign.center,
-          ),
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        leading: IconButton(
+          onPressed: _onBackPressed,
+          icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
+        ),
+        title: Text(
+          htmlTitle,
+          style:
+              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          textAlign: TextAlign.center,
         ),
       ),
       backgroundColor: AppColors.whiteForText,
-      body: Padding(
-        padding: EdgeInsets.zero,
-        child: isLoading
-            ? Center(child: CircularProgressIndicator())
-            : _buildWebView(),
-      ),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _buildHtmlContent(),
     );
   }
 
-  Widget _buildWebView() {
+  Widget _buildHtmlContent() {
     return Stack(
       children: [
         Column(
           children: [
             Expanded(
-              child: WebViewWidget(controller: _controller),
+              child: SingleChildScrollView(
+                child: Html(
+                  data: htmlContent ?? 'Failed to load content.',
+                  style: {
+                    "body": Style(
+                      fontSize: FontSize(16), // Set a default font size
+                      fontFamily: 'Inter', // Use the Inter font
+                      color: Colors.black,
+                    ),
+                    ".chapter-subtitle": Style(
+                      margin: Margins(bottom: Margin(12), top: Margin(12)),
+                      fontWeight: FontWeight.bold,
+                      fontSize: FontSize(18),
+                      color: Colors.black, // Subtitle color
+                    ),
+                    ".chapter-description": Style(
+                      margin: Margins(
+                          bottom: Margin(16)), // Margin for descriptions
+                    ),
+                    ".image-section": Style(
+                        alignment: Alignment.center,
+                        border: Border(bottom: BorderSide())),
+                  },
+                ),
+              ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
           ],
         ),
         if (widget.quizData != null && widget.quizData!.isNotEmpty)
@@ -189,17 +231,6 @@ class _HtmlWebViewState extends State<HtmlWebView> {
     }
   }
 
-  double _calculateTextScale(String title) {
-    const double maxScale = 1.0;
-    const double minScale = 0.5;
-    const int targetLength = 20;
-
-    if (title.isEmpty) return maxScale;
-
-    double scale = targetLength / max(title.length, 20);
-    return scale.clamp(minScale, maxScale);
-  }
-
   void _showTestDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -210,7 +241,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
           ),
           title: Text(
             LocaleKeys.you_must_pass_the_test.tr(),
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           content: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

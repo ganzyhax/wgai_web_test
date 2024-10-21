@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
@@ -9,6 +10,7 @@ import 'package:wg_app/app/screens/psytest/screens/test_screen.dart';
 import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 import 'package:wg_app/app/utils/helper_functions.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
+import 'package:wg_app/app/widgets/webview/html_loader.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
@@ -384,21 +386,30 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 onTap: () {
                   if (widget.data['result'] != null &&
                       widget.data['result']['interpretationLink'] != null)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HtmlWebView(
-                          contentCode: widget.data['result']
-                              ['interpretationLink'],
-                          isUrl: true,
-                          contentUrl: widget.data['result']
-                              ['interpretationLink'],
-                          contentUrlTitle: widget.data['result']['subtitle']
-                              [widget.localLang],
-                          completionStatus: widget.data['status']
-                        ),
-                      ),
-                    );
+                    (!kIsWeb)
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HtmlWebView(
+                                  contentCode: widget.data['result']
+                                      ['interpretationLink'],
+                                  isUrl: true,
+                                  contentUrl: widget.data['result']
+                                      ['interpretationLink'],
+                                  contentUrlTitle: widget.data['result']
+                                      ['subtitle'][widget.localLang],
+                                  completionStatus: widget.data['status']),
+                            ),
+                          )
+                        : HtmlLoader(
+                            contentCode: widget.data['result']
+                                ['interpretationLink'],
+                            isUrl: true,
+                            contentUrl: widget.data['result']
+                                ['interpretationLink'],
+                            contentUrlTitle: widget.data['result']['subtitle']
+                                [widget.localLang],
+                            completionStatus: widget.data['status']);
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
@@ -464,21 +475,35 @@ class _ConsultantCardState extends State<ConsultantCard> {
                 onTap: () {
                   if (widget.data['result'] != null &&
                       widget.data['result']['interpretationLink'] != null)
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HtmlWebView(
-                          contentCode: widget.data['result']
-                              ['interpretationLink'],
-                          isUrl: true,
-                          contentUrl: widget.data['result']
-                              ['interpretationLink'],
-                          contentUrlTitle: widget.data['result']['subtitle']
-                              [widget.localLang],
-                            completionStatus: widget.data['status']
-                        ),
-                      ),
-                    );
+                    (!kIsWeb)
+                        ? Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HtmlWebView(
+                                  contentCode: widget.data['result']
+                                      ['interpretationLink'],
+                                  isUrl: true,
+                                  contentUrl: widget.data['result']
+                                      ['interpretationLink'],
+                                  contentUrlTitle: widget.data['result']
+                                      ['subtitle'][widget.localLang],
+                                  completionStatus: widget.data['status']),
+                            ),
+                          )
+                        : Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HtmlLoader(
+                                  contentCode: widget.data['result']
+                                      ['interpretationLink'],
+                                  isUrl: true,
+                                  contentUrl: widget.data['result']
+                                      ['interpretationLink'],
+                                  contentUrlTitle: widget.data['result']
+                                      ['subtitle'][widget.localLang],
+                                  completionStatus: widget.data['status']),
+                            ),
+                          );
                 },
                 bgColor: Colors.grey[200],
                 textColor: Colors.black,
