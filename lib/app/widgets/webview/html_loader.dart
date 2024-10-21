@@ -84,14 +84,10 @@ class _HtmlLoaderState extends State<HtmlLoader> {
             await ApiClient.get('api/contentMaterials/${widget.contentCode}');
 
         if (data['success']) {
-          final response = await http.get(
-              Uri.parse('https://v2.api.weglobal.ai/api/cognition/styles.css'));
+          // Success: parse the JSON data
 
-          if (response.statusCode == 200) {
-            // Success: parse the JSON data
-
-            setState(() {
-              htmlContent = """
+          setState(() {
+            htmlContent = """
             <html>
               <head>
                 <meta charset="UTF-8">
@@ -103,13 +99,11 @@ class _HtmlLoaderState extends State<HtmlLoader> {
               </body>
             </html>
           """;
-              log(htmlContent.toString());
 
-              htmlTitle =
-                  data['data']['contentMaterial']['contentTitle'][localLang];
-              isLoading = false;
-            });
-          }
+            htmlTitle =
+                data['data']['contentMaterial']['contentTitle'][localLang];
+            isLoading = false;
+          });
         }
       }
     } catch (e) {
