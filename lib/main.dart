@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
@@ -21,8 +20,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   if (kIsWeb) {
-    log('Initializeing web Instanta');
-    WebViewPlatform.instance = WebWebViewPlatform();
   } else {
     final appDocumentDir =
         await path_provider.getApplicationDocumentsDirectory();

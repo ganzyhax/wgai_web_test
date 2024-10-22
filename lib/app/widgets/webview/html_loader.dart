@@ -46,6 +46,7 @@ class _HtmlLoaderState extends State<HtmlLoader> {
   @override
   void initState() {
     super.initState();
+
     _loadContent();
   }
 

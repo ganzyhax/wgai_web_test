@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/widgets/webview/html_loader.dart';
@@ -70,6 +72,8 @@ class PersonalGrowthCard extends StatelessWidget {
             if (isFinished == true && isTesting == true)
               GestureDetector(
                 onTap: () {
+                  log('adadadad');
+                  log(interpretationLink.toString());
                   (!kIsWeb)
                       ? Navigator.push(
                           context,

@@ -249,7 +249,7 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
                                         }
                                         if (item['completionStatus'] ==
                                             'complete') {
-                                          log('Heres ');
+                                          log(item.toString());
                                           (!kIsWeb)
                                               ? Navigator.push(
                                                   context,
