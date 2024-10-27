@@ -9,6 +9,12 @@ class AppTextStyle {
     fontWeight: FontWeight.w800,
   );
 
+  static const TextStyle titleHeading = TextStyle(
+    fontFamily: kInterFontFamily,
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  );
+
   static const TextStyle heading2 = TextStyle(
     fontFamily: kInterFontFamily,
     fontSize: 20,
@@ -16,6 +22,12 @@ class AppTextStyle {
   );
 
   static const TextStyle heading3 = TextStyle(
+    fontFamily: kInterFontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
+  static const TextStyle heading4 = TextStyle(
     fontFamily: kInterFontFamily,
     fontSize: 16,
     fontWeight: FontWeight.bold,
@@ -27,10 +39,22 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
   );
 
+  static const TextStyle bodyTextMiddle = TextStyle(
+    fontFamily: kInterFontFamily,
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+  );
+
   static const TextStyle bodyTextSmall = TextStyle(
     fontFamily: kInterFontFamily,
     fontSize: 14,
     fontWeight: FontWeight.w400,
+  );
+
+  static const TextStyle interW600S12 = TextStyle(
+    fontFamily: kInterFontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w600,
   );
 
   static const TextStyle bodyTextVerySmall = TextStyle(

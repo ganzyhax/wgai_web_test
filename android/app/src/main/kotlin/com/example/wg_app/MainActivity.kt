@@ -1,4 +1,4 @@
-package com.example.wg_app
+package ai.weglobal.mobile
 
 import io.flutter.embedding.android.FlutterActivity
 

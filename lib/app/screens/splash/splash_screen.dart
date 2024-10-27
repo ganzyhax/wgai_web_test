@@ -1,11 +1,17 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:wg_app/app/api/api_utils.dart';
-import 'package:wg_app/app/data/const/app_colors.dart';
+
+import 'package:wg_app/app/screens/login/login_screen.dart';
+import 'package:wg_app/app/screens/navigator/main_navigator.dart';
+import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
+
+import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class SplashScreen extends StatefulWidget {
-  //tolko spashka stateful , baskaga bloc
   const SplashScreen({super.key});
 
   @override
@@ -14,6 +20,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   bool isLogged = false;
+  bool isFirstTime = false;
   @override
   initState() {
     super.initState();
@@ -21,31 +28,69 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeState() async {
-    isLogged = await AuthUtils.isAccess();
+    isLogged = await LocalUtils.isLogged();
+    isFirstTime = await LocalUtils.isFirstTime();
+    Future.delayed(Duration(seconds: 2), () {
+      // Code to run after 3 seconds
+      if (isLogged) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => CustomNavigationBar()),
+          (Route<dynamic> route) => false,
+        );
+      } else {
+        if (isFirstTime) {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => SplashChooseLanguagePage()),
+            (Route<dynamic> route) => false,
+          );
+        } else {
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginScreen()),
+            (Route<dynamic> route) => false,
+          );
+        }
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.backgroundColor,
+      backgroundColor: AppColors.background,
+      // backgroundColor: Colors.green,
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset('assets/images/splash_image.png'),
-            SizedBox(
-              height: 25,
-            ),
-            Text('WEGLOBAL.AI'),
-            SizedBox(
-              height: 25,
-            ),
-            Text(
-              LocaleKeys.splash_subtitle.tr(),
-              style: TextStyle(fontSize: 16, color: Colors.grey[400]),
-            )
-          ],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 2.9,
+              ),
+              Image.asset('assets/images/splash_image.png'),
+              SizedBox(
+                height: 25,
+              ),
+              Text(
+                'WEGLOBAL.AI',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 22),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Text(
+                  LocaleKeys.splash_subtitle.tr(),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[500]),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
