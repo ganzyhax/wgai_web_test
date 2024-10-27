@@ -25,7 +25,7 @@ class ForeignScreen extends StatelessWidget {
             centerTitle: false,
             titleSpacing: 16,
             title: Text(
-              'Foreign',
+              LocaleKeys.abroad.tr(),
               style: AppTextStyle.titleHeading
                   .copyWith(color: AppColors.blackForText),
             )),
