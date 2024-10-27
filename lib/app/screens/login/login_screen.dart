@@ -170,29 +170,29 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 25,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           RegisterSchoolCodePage()),
-                              // );
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => RegisterScreen()),
-                              );
-                            },
-                            child: Center(
-                              child: Text(
-                                LocaleKeys.register.tr(),
-                                style: TextStyle(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                            ),
-                          ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     // Navigator.push(
+                          //     //   context,
+                          //     //   MaterialPageRoute(
+                          //     //       builder: (context) =>
+                          //     //           RegisterSchoolCodePage()),
+                          //     // );
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) => RegisterScreen()),
+                          //     );
+                          //   },
+                          //   child: Center(
+                          //     child: Text(
+                          //       LocaleKeys.register.tr(),
+                          //       style: TextStyle(
+                          //           color: AppColors.primary,
+                          //           fontWeight: FontWeight.w500),
+                          //     ),
+                          //   ),
+                          // ),
                         ],
                       ),
                     )
