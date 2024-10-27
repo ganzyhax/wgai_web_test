@@ -28,7 +28,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: CustomAppbar(
-          title: 'Чат с ИИ',
+          title: 'WeGlobal.ai',
           withBackButton: true,
         ),
       ),
@@ -80,7 +80,8 @@ class _AiChatScreenState extends State<AiChatScreen> {
                                 child: TextField(
                                   controller: message,
                                   decoration: InputDecoration(
-                                    hintText: 'Введите сообщение...',
+                                    hintText:
+                                        LocaleKeys.enter_text.tr() + '...',
                                     border: InputBorder.none,
                                   ),
                                 ),

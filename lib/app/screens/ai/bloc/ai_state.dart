@@ -8,5 +8,9 @@ final class AiInitial extends AiState {}
 final class AiLoaded extends AiState {
   final data;
   final currentChatData;
-  AiLoaded({required this.data, required this.currentChatData});
+  final String userName;
+  AiLoaded(
+      {required this.data,
+      required this.currentChatData,
+      required this.userName});
 }

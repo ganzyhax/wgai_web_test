@@ -51,7 +51,7 @@ class AiScreen extends StatelessWidget {
                 padding: EdgeInsets.only(left: 10, top: 35, right: 10),
                 children: <Widget>[
                   Text(
-                    'Все чаты',
+                    LocaleKeys.all_chats.tr(),
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
                   ),
                   SizedBox(
@@ -116,13 +116,15 @@ class AiScreen extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        LocaleKeys.hello.tr(),
+                        LocaleKeys.good_afternoon.tr() +
+                            ', ' +
+                            state.userName.toString(),
                         style: TextStyle(fontSize: 18, color: Colors.grey[500]),
                       ),
                     ),
                     Center(
                       child: Text(
-                        'Задайте мне вопрос!',
+                        LocaleKeys.ask_me_question.tr() + '!',
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w600),
                       ),
@@ -131,7 +133,7 @@ class AiScreen extends StatelessWidget {
                       height: 20,
                     ),
                     Text(
-                      'Такырыптар',
+                      LocaleKeys.topics.tr(),
                       style:
                           TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
                     ),

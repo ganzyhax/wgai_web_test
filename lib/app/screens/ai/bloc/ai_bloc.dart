@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/screens/ai/service/ai_service.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 
 part 'ai_event.dart';
 part 'ai_state.dart';
@@ -13,8 +14,17 @@ class AiBloc extends Bloc<AiEvent, AiState> {
   AiBloc() : super(AiInitial()) {
     var data = {};
     var currentChatData;
+    String userName = '';
     on<AiEvent>((event, emit) async {
       if (event is AiLoad) {
+        final userProfile = await ApiClient.get('api/user');
+        if (userProfile['success']) {
+          if (userProfile['data'].containsKey('firstName')) {
+            userName = userProfile['data']['firstName'];
+          } else {
+            userName = '';
+          }
+        }
         var prompts = await ApiClient.get('api/chats/prompts');
         if (prompts['success']) {
           data['prompts'] = prompts['data']['prompts'];
@@ -24,20 +34,25 @@ class AiBloc extends Bloc<AiEvent, AiState> {
         if (history['success']) {
           data['history'] = history['data']['chatHistory'];
         }
-        emit(AiLoaded(data: data, currentChatData: currentChatData));
+        emit(AiLoaded(
+            data: data, currentChatData: currentChatData, userName: userName));
       }
       if (event is AiNewChat) {
         currentChatData = null;
         var chatData = await ApiClient.post('api/chats/create',
             {"promptId": event.promptId, "languageCode": event.langCode});
         if (chatData['success']) {
-          emit(AiLoaded(data: data, currentChatData: chatData['data']['chat']));
+          emit(AiLoaded(
+              data: data,
+              currentChatData: chatData['data']['chat'],
+              userName: userName));
         }
       }
       if (event is AiChatHistorySetCurrentChat) {
         currentChatData = event.data;
 
-        emit(AiLoaded(data: data, currentChatData: currentChatData));
+        emit(AiLoaded(
+            data: data, currentChatData: currentChatData, userName: userName));
       }
       if (event is AiChatUserSendMessage) {
         DateTime now = DateTime.now();
@@ -54,7 +69,10 @@ class AiBloc extends Bloc<AiEvent, AiState> {
             'content': event.message,
             'createdAt': formattedDate
           });
-          emit(AiLoaded(data: data, currentChatData: currentChatData));
+          emit(AiLoaded(
+              data: data,
+              currentChatData: currentChatData,
+              userName: userName));
           List<dynamic> updatedMessages =
               currentChatData['messages'].map((message) {
             Map<String, dynamic> newMessage = Map.of(message);
@@ -76,7 +94,10 @@ class AiBloc extends Bloc<AiEvent, AiState> {
             "chatId": event.chatId,
             "message": {"role": "assistant", "content": response}
           });
-          emit(AiLoaded(data: data, currentChatData: currentChatData));
+          emit(AiLoaded(
+              data: data,
+              currentChatData: currentChatData,
+              userName: userName));
         }
       }
     });

@@ -44,6 +44,7 @@
     "phone_number":"Номер телефона",
     "enter_number":"Введите номер",
     "exit":"Выйти",
+    "topics":"Темы",
     "whatsapp_number":"Whatsapp номер",
     "number_registered":"Данный номер уже зарегистрирован",
     "verification":"Верификация",
@@ -236,5 +237,10 @@
     "youGotAppointment": "У вас есть консультация, на которую вы записались!",
     "consultationTime": "Время",
     "tuitionFee": "Стоимость обучения",
-    "no_slot_selected": "Выберите время для консультации"
+    "ask_me_quesation":"Задайте мне вопрос",
+    "no_slot_selected": "Выберите время для консультации",
+    "good_afternoon":"Добрый день",
+    "all_chats":"Все чаты",
+    "enter_text":"Введите текст",
+    "you":"Вы"
 }

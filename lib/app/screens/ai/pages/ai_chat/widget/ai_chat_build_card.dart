@@ -1,8 +1,10 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class AiChatBuildCard extends StatelessWidget {
   final List<dynamic> messages;
@@ -51,7 +53,7 @@ class AiChatBuildCard extends StatelessWidget {
                             ),
                           ),
                           SizedBox(width: 5),
-                          Text('Вы')
+                          Text(LocaleKeys.you.tr())
                         ],
                 ),
                 SizedBox(height: 10),
