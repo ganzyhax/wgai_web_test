@@ -1,20 +1,27 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 
 class AiChatBuildCard extends StatelessWidget {
-  final List<Map<String, dynamic>> messages;
+  final List<dynamic> messages;
   const AiChatBuildCard({super.key, required this.messages});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    var filteredMessage =
+        messages?.where((message) => message['role'] != 'system').toList();
+    return Container(
+      // Changed from Expanded to Container
+      height:
+          MediaQuery.of(context).size.height - 200, // Set an appropriate height
       child: ListView.builder(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        itemCount: messages.length,
+        itemCount: filteredMessage!.length,
         itemBuilder: (context, index) {
-          final message = messages[index];
-          final isBot = message['isBot'];
+          final message = filteredMessage[index];
+          final isBot = (message['role'] == 'assistant') ? true : false;
 
           return Align(
             alignment: isBot ? Alignment.centerLeft : Alignment.centerRight,
@@ -33,27 +40,21 @@ class AiChatBuildCard extends StatelessWidget {
                             height: 35,
                             fit: BoxFit.contain,
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
+                          SizedBox(width: 5),
                           Text('WEGLOBAL.AI')
                         ]
                       : [
                           CircleAvatar(
                             radius: 16,
                             backgroundImage: NetworkImage(
-                              'https://gratisography.com/wp-content/uploads/2024/01/gratisography-cyber-kitty-800x525.jpg',
+                              'https://i.pinimg.com/736x/61/f7/5e/61f75ea9a680def2ed1c6929fe75aeee.jpg',
                             ),
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text('Mukhammed Yeraliev')
+                          SizedBox(width: 5),
+                          Text('Вы')
                         ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
+                SizedBox(height: 10),
                 Container(
                   margin: EdgeInsets.only(bottom: 10),
                   padding: EdgeInsets.all(15),
@@ -69,7 +70,7 @@ class AiChatBuildCard extends StatelessWidget {
                         : CrossAxisAlignment.end,
                     children: [
                       Text(
-                        message['text'],
+                        message['content'],
                         style: TextStyle(
                           color: isBot ? Colors.white : Colors.black,
                           fontSize: 16,

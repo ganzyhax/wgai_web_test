@@ -5,12 +5,13 @@ import 'package:wg_app/constants/app_text_style.dart';
 
 class CustomAppbar extends StatelessWidget {
   final String title;
+  final Widget? titleWidget;
   final bool withBackButton;
   final List<Widget>? actions;
-  
   const CustomAppbar(
       {super.key,
       required this.title,
+      this.titleWidget,
       required this.withBackButton,
       this.actions});
 
@@ -19,28 +20,29 @@ class CustomAppbar extends StatelessWidget {
     return PreferredSize(
       preferredSize: Size(40, 40),
       child: AppBar(
-        forceMaterialTransparency: true,
-        backgroundColor: AppColors.background,
-        automaticallyImplyLeading: withBackButton,
-        actions: (actions != null) ? actions : null,
-        leading: (withBackButton)
-            ? IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
-              )
-            : null,
-        title: Text(
-          title,
-          style:
-              AppTextStyle.titleHeading.copyWith(color: AppColors.blackForText),
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          textAlign: TextAlign.center,
-          textScaler: TextScaler.linear(1),
-        ),
-      ),
+          forceMaterialTransparency: true,
+          backgroundColor: AppColors.background,
+          automaticallyImplyLeading: withBackButton,
+          actions: (actions != null) ? actions : null,
+          leading: (withBackButton)
+              ? IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
+                )
+              : null,
+          title: (titleWidget == null)
+              ? Text(
+                  title,
+                  style: AppTextStyle.titleHeading
+                      .copyWith(color: AppColors.blackForText),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                  textScaler: TextScaler.linear(1),
+                )
+              : titleWidget),
     );
   }
 }

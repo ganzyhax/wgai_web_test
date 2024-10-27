@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/app.dart';
+import 'package:wg_app/app/screens/ai/bloc/ai_bloc.dart';
 import 'package:wg_app/app/screens/ai/pages/ai_chat/ai_chat_screen.dart';
+import 'package:wg_app/app/screens/ai/pages/ai_chat_history/widgets/ai_chat_history_card.dart';
+import 'package:wg_app/app/screens/ai/widgets/ai_chat_history_card.dart';
+import 'package:wg_app/app/screens/ai/widgets/ai_chat_title_card.dart';
 import 'package:wg_app/app/screens/ai/widgets/ai_last_dialog_card.dart';
 import 'package:wg_app/app/screens/ai/widgets/ai_questions_card.dart';
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
@@ -17,101 +24,137 @@ class AiScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(70),
         child: CustomAppbar(
-          title: 'WEGLOBAL.AI',
-          withBackButton: true,
-          actions: [
-            Icon(Icons.notifications),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => AiChatScreen(),
+          title: '',
+          titleWidget: Row(
+            children: [
+              Builder(builder: (context) {
+                return GestureDetector(
+                  onTap: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: Icon(
+                    Icons.menu,
+                    size: 30.0,
                   ),
                 );
-              },
-              child: Padding(
-                padding: const EdgeInsets.only(left: 12.0, right: 12),
-                child: Icon(Icons.chat),
-              ),
-            ),
-          ],
+              }),
+            ],
+          ),
+          withBackButton: false,
+        ),
+      ),
+      drawer: Drawer(
+        child: BlocBuilder<AiBloc, AiState>(
+          builder: (context, state) {
+            if (state is AiLoaded) {
+              return ListView(
+                padding: EdgeInsets.only(left: 10, top: 35, right: 10),
+                children: <Widget>[
+                  Text(
+                    'Все чаты',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Column(
+                    children: state.data['history'].map<Widget>((e) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            BlocProvider.of<AiBloc>(context)
+                              ..add(AiChatHistorySetCurrentChat(data: e));
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AiChatScreen()),
+                            );
+                          },
+                          child: AiChatHistoryCardNew(
+                            date: e['messages'][e['messages'].length - 1]
+                                ['createdAt'],
+                            title: e['messages'][e['messages'].length - 1]
+                                ['content'],
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          },
         ),
       ),
       backgroundColor: AppColors.background,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 15,
-              ),
-              Center(
-                child: Image.asset(
-                  'assets/images/splash_image.png',
-                  width: 140,
-                  height: 140,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Center(
-                child: Text(
-                  LocaleKeys.hello.tr() + ' ' + 'Name!',
-                  style: TextStyle(fontSize: 18, color: Colors.grey[500]),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'Last dialogy',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              AiLastDialogCard(
-                title: 'Holland test',
-                description:
-                    'ALSKdjaslkdjsalkdjmas ALSKdjaslkdjsalkdjmas ALSKdjaslkdjsalkdjmas ALSKdjaslkdjsalkdjmas ',
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Text(
-                'AI көмекшіге сұрақ қою...',
-                style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 4.2,
-                child: ListView.builder(
-                    padding: EdgeInsets.all(0),
-                    itemCount: 3,
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: AiQuestionsCard(
-                          title: 'Adsadasdasdasasdasdasdasdd',
-                          description:
-                              'asdsadasdaasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdsassd',
-                        ),
-                      );
-                    }),
-              )
-            ],
+          padding: const EdgeInsets.all(15.0),
+          child: BlocBuilder<AiBloc, AiState>(
+            builder: (context, state) {
+              if (state is AiLoaded) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Center(
+                      child: Image.asset(
+                        'assets/images/splash_image.png',
+                        width: 140,
+                        height: 140,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Center(
+                      child: Text(
+                        LocaleKeys.hello.tr(),
+                        style: TextStyle(fontSize: 18, color: Colors.grey[500]),
+                      ),
+                    ),
+                    Center(
+                      child: Text(
+                        'Задайте мне вопрос!',
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.w600),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    Text(
+                      'Такырыптар',
+                      style:
+                          TextStyle(fontSize: 19, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    Column(
+                      children: state.data['prompts'].map<Widget>((e) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 8.0),
+                          child: AiChatTitleCard(
+                            data: e,
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                );
+              }
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            },
           ),
         ),
       ),
