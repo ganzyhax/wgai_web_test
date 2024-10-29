@@ -239,5 +239,8 @@ abstract class  LocaleKeys {
   static const all_chats = 'all_chats';
   static const enter_text = 'enter_text';
   static const you = 'you';
+  static const updateRequiredTitle = 'updateRequiredTitle';
+  static const updateRequiredMessage = 'updateRequiredMessage';
+  static const updateNow = 'updateNow';
 
 }

@@ -252,7 +252,10 @@ class CodegenLoader extends AssetLoader{
   "good_afternoon": "Қайырлы күн",
   "all_chats": "Барлық чаттар",
   "enter_text": "Мәтінді енгізіңіз",
-  "you": "Сіз"
+  "you": "Сіз",
+  "updateRequiredTitle": "Жаңарту қажет",
+  "updateRequiredMessage": "Қосымшаның жаңа нұсқасы қолжетімді. Қолдануды жалғастыру үшін жаңартыңыз.",
+  "updateNow": "Жаңарту"
 };
 static const Map<String,dynamic> ru = {
   "hello": "Privet",
@@ -492,7 +495,10 @@ static const Map<String,dynamic> ru = {
   "good_afternoon": "Добрый день",
   "all_chats": "Все чаты",
   "enter_text": "Введите текст",
-  "you": "Вы"
+  "you": "Вы",
+  "updateRequiredTitle": "Требуется обновление",
+  "updateRequiredMessage": "Доступна новая версия приложения. Пожалуйста, обновите, чтобы продолжить использование.",
+  "updateNow": "Обновить сейчас"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"kk": kk, "ru": ru};
 }
