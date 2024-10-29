@@ -105,7 +105,7 @@ class _AiChatBuildCardState extends State<AiChatBuildCard> {
             ),
             SizedBox(width: 10),
             Text(
-              'Ойлануда...',
+              LocaleKeys.thinking.tr() + '...',
               style: TextStyle(color: Colors.black, fontSize: 16),
             ),
           ],

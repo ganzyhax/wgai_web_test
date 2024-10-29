@@ -255,7 +255,8 @@ class CodegenLoader extends AssetLoader{
   "you": "Сіз",
   "updateRequiredTitle": "Жаңарту қажет",
   "updateRequiredMessage": "Қосымшаның жаңа нұсқасы қолжетімді. Қолдануды жалғастыру үшін жаңартыңыз.",
-  "updateNow": "Жаңарту"
+  "updateNow": "Жаңарту",
+  "thinking": "Ойлануда"
 };
 static const Map<String,dynamic> ru = {
   "hello": "Privet",
@@ -498,7 +499,8 @@ static const Map<String,dynamic> ru = {
   "you": "Вы",
   "updateRequiredTitle": "Требуется обновление",
   "updateRequiredMessage": "Доступна новая версия приложения. Пожалуйста, обновите, чтобы продолжить использование.",
-  "updateNow": "Обновить сейчас"
+  "updateNow": "Обновить сейчас",
+  "thinking": "Думает"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"kk": kk, "ru": ru};
 }
