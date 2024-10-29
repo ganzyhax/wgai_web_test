@@ -15,6 +15,7 @@ class AiBloc extends Bloc<AiEvent, AiState> {
     var data = {};
     var currentChatData;
     String userName = '';
+    bool isGptThinking = false;
     on<AiEvent>((event, emit) async {
       if (event is AiLoad) {
         final userProfile = await ApiClient.get('api/user');
@@ -35,15 +36,23 @@ class AiBloc extends Bloc<AiEvent, AiState> {
           data['history'] = history['data']['chatHistory'];
         }
         emit(AiLoaded(
-            data: data, currentChatData: currentChatData, userName: userName));
+            isGptThinking: isGptThinking,
+            data: data,
+            currentChatData: currentChatData,
+            userName: userName));
       }
       if (event is AiNewChat) {
         currentChatData = null;
         var chatData = await ApiClient.post('api/chats/create',
             {"promptId": event.promptId, "languageCode": event.langCode});
         if (chatData['success']) {
+          var history = await ApiClient.get('api/chats/history');
+          if (history['success']) {
+            data['history'] = history['data']['chatHistory'];
+          }
           emit(AiLoaded(
               data: data,
+              isGptThinking: isGptThinking,
               currentChatData: chatData['data']['chat'],
               userName: userName));
         }
@@ -52,9 +61,19 @@ class AiBloc extends Bloc<AiEvent, AiState> {
         currentChatData = event.data;
 
         emit(AiLoaded(
-            data: data, currentChatData: currentChatData, userName: userName));
+            isGptThinking: isGptThinking,
+            data: data,
+            currentChatData: currentChatData,
+            userName: userName));
       }
       if (event is AiChatUserSendMessage) {
+        isGptThinking = true;
+        emit(AiLoaded(
+            data: data,
+            isGptThinking: isGptThinking,
+            currentChatData: currentChatData,
+            userName: userName));
+
         DateTime now = DateTime.now();
         String formattedDate =
             DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(now.toUtc());
@@ -71,6 +90,7 @@ class AiBloc extends Bloc<AiEvent, AiState> {
           });
           emit(AiLoaded(
               data: data,
+              isGptThinking: isGptThinking,
               currentChatData: currentChatData,
               userName: userName));
           List<dynamic> updatedMessages =
@@ -94,9 +114,12 @@ class AiBloc extends Bloc<AiEvent, AiState> {
             "chatId": event.chatId,
             "message": {"role": "assistant", "content": response}
           });
+          isGptThinking = false;
+
           emit(AiLoaded(
               data: data,
               currentChatData: currentChatData,
+              isGptThinking: isGptThinking,
               userName: userName));
         }
       }

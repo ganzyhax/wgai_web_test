@@ -42,10 +42,13 @@ class _AiChatScreenState extends State<AiChatScreen> {
                 child: BlocBuilder<AiBloc, AiState>(
                   builder: (context, state) {
                     if (state is AiLoaded) {
-                      log(state.currentChatData.toString());
                       return (state.currentChatData != null)
-                          ? AiChatBuildCard(
-                              messages: state.currentChatData['messages'])
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 67.0),
+                              child: AiChatBuildCard(
+                                  isLoading: state.isGptThinking,
+                                  messages: state.currentChatData['messages']),
+                            )
                           : Center(child: CircularProgressIndicator());
                     } else {
                       return Center(child: CircularProgressIndicator());
@@ -78,6 +81,8 @@ class _AiChatScreenState extends State<AiChatScreen> {
                                   color: Colors.white,
                                 ),
                                 child: TextField(
+                                  enabled:
+                                      (!state.isGptThinking) ? true : false,
                                   controller: message,
                                   decoration: InputDecoration(
                                     hintText:
@@ -90,10 +95,13 @@ class _AiChatScreenState extends State<AiChatScreen> {
                             SizedBox(width: 10),
                             GestureDetector(
                               onTap: () {
-                                BlocProvider.of<AiBloc>(context)
-                                  ..add(AiChatUserSendMessage(
-                                      message: message.text,
-                                      chatId: state.currentChatData['_id']));
+                                if (!state.isGptThinking) {
+                                  BlocProvider.of<AiBloc>(context)
+                                    ..add(AiChatUserSendMessage(
+                                        message: message.text,
+                                        chatId: state.currentChatData['_id']));
+                                  message.text = '';
+                                }
                               },
                               child: CircleAvatar(
                                 radius: 22,
