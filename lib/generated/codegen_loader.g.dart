@@ -34,6 +34,7 @@ class CodegenLoader extends AssetLoader{
   "register": "Тiркелу",
   "continue_button": "Жалғастыру",
   "start_psytest": "Өту",
+  "topics": "Тақырыптар",
   "enter_true_email": "Дұрыс email-адрес енгізіңіз",
   "password_must_be_min_8": "Құпия сөз кемінде 8 таңбадан тұруы керек, оның ішінде бір сан болуы қажет",
   "password_are_not_match": "Енгізілген құпия сөздер сәйкес келмейді",
@@ -246,7 +247,12 @@ class CodegenLoader extends AssetLoader{
   "youGotAppointment": "Сізде жоспарланған консультация бар!",
   "consultationTime": "Уақыты",
   "tuitionFee": "Оқу ақысы",
-  "no_slot_selected": "Кеңес уақыты таңдалмады"
+  "ask_me_question": "Маған сұрақ қойыңыз",
+  "no_slot_selected": "Кеңес уақыты таңдалмады",
+  "good_afternoon": "Қайырлы күн",
+  "all_chats": "Барлық чаттар",
+  "enter_text": "Мәтінді енгізіңіз",
+  "you": "Сіз"
 };
 static const Map<String,dynamic> ru = {
   "hello": "Privet",
@@ -294,6 +300,7 @@ static const Map<String,dynamic> ru = {
   "phone_number": "Номер телефона",
   "enter_number": "Введите номер",
   "exit": "Выйти",
+  "topics": "Темы",
   "whatsapp_number": "Whatsapp номер",
   "number_registered": "Данный номер уже зарегистрирован",
   "verification": "Верификация",
@@ -480,7 +487,12 @@ static const Map<String,dynamic> ru = {
   "youGotAppointment": "У вас есть консультация, на которую вы записались!",
   "consultationTime": "Время",
   "tuitionFee": "Стоимость обучения",
-  "no_slot_selected": "Выберите время для консультации"
+  "ask_me_quesation": "Задайте мне вопрос",
+  "no_slot_selected": "Выберите время для консультации",
+  "good_afternoon": "Добрый день",
+  "all_chats": "Все чаты",
+  "enter_text": "Введите текст",
+  "you": "Вы"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"kk": kk, "ru": ru};
 }

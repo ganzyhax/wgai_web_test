@@ -100,6 +100,46 @@ class ApiClient {
     return {'success': false, 'data': jsonDecode(response.body)};
   }
 
+  static Future<dynamic> put(
+    String endpoint,
+    Map<String, dynamic> data,
+  ) async {
+    String localLang = await LocalUtils.getLanguage();
+
+    final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
+    Future<http.Response> makePostRequest() async {
+      String token = await LocalUtils.getAccessToken() ?? '';
+
+      return await http.put(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'appLanguage': localLang,
+          'Authorization': 'Bearer $token',
+          // 'Mobapp-Version': mbVer
+        },
+        body: jsonEncode(data),
+      );
+    }
+
+    http.Response response = await makePostRequest();
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return {'success': true, 'data': jsonDecode(response.body)};
+    }
+    if (response.statusCode == 401) {
+      await _refreshToken(response);
+      response = await makePostRequest();
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return {'success': true, 'data': jsonDecode(response.body)};
+      } else {
+        return {'success': false, 'data': jsonDecode(response.body)};
+      }
+    }
+    return {'success': false, 'data': jsonDecode(response.body)};
+  }
+
   static Future<dynamic> postUnAuth(
     String endpoint,
     Map<String, dynamic> data,

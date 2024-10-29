@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:wg_app/app/screens/ai/bloc/ai_bloc.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
 import 'package:wg_app/app/screens/community/pages/consultant/bloc/consultant_bloc.dart';
@@ -98,6 +99,9 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => EntBloc()..add(EntLoad()),
+          ),
+          BlocProvider(
+            create: (context) => AiBloc()..add(AiLoad()),
           ),
         ],
         child: MaterialApp(
