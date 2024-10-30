@@ -243,5 +243,9 @@
     "good_afternoon":"Қайырлы күн",
     "all_chats":"Барлық чаттар",
     "enter_text":"Мәтінді енгізіңіз",
-    "you":"Сіз"
+    "you":"Сіз",
+    "updateRequiredTitle": "Жаңарту қажет",
+    "updateRequiredMessage": "Қосымшаның жаңа нұсқасы қолжетімді. Қолдануды жалғастыру үшін жаңартыңыз.",
+    "updateNow": "Жаңарту",
+    "thinking":"Ойлануда"
 }
