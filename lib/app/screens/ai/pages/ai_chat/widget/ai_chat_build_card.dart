@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
@@ -25,7 +24,7 @@ class _AiChatBuildCardState extends State<AiChatBuildCard> {
   @override
   void initState() {
     super.initState();
-    // Add post-frame callback to scroll after widget is built
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (widget.messages.length > 5) {
         _scrollDown(isFirst: false);
@@ -67,7 +66,7 @@ class _AiChatBuildCardState extends State<AiChatBuildCard> {
       height: MediaQuery.of(context).size.height,
       child: ListView.builder(
         controller: _scrollController,
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         itemCount: filteredMessage.length + (widget.isLoading ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == filteredMessage.length && widget.isLoading) {

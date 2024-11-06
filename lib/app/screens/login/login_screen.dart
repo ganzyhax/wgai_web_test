@@ -39,52 +39,57 @@ class _LoginScreenState extends State<LoginScreen> {
               (Route<dynamic> route) => false,
             );
             if (state.mustChangePassword) {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    title: Text(
-                      LocaleKeys.please_change_your_password.tr(),
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    content: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: CustomButton(
-                            height: 45,
-                            bgColor: Colors.grey[400],
-                            text: LocaleKeys.cancel.tr(),
-                            onTap: () {
-                              Navigator.of(context).pop();
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: CustomButton(
-                            height: 45,
-                            text: LocaleKeys.change.tr(),
-                            onTap: () async {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        ProfileSettingsChangePasswordScreen()),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+              // showDialog(
+              //   context: context,
+              //   builder: (BuildContext context) {
+              //     return AlertDialog(
+              //       shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(15),
+              //       ),
+              //       title: Text(
+              //         LocaleKeys.please_change_your_password.tr(),
+              //         style:
+              //             TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              //       ),
+              //       content: Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Expanded(
+              //             child: CustomButton(
+              //               height: 45,
+              //               bgColor: Colors.grey[400],
+              //               text: LocaleKeys.cancel.tr(),
+              //               onTap: () {
+              //                 Navigator.of(context).pop();
+              //               },
+              //             ),
+              //           ),
+              //           const SizedBox(width: 16),
+              //           Expanded(
+              //             child: CustomButton(
+              //               height: 45,
+              //               text: LocaleKeys.change.tr(),
+              //               onTap: () async {
+              //                 Navigator.pop(context);
+              //                 Navigator.push(
+              //                   context,
+              //                   MaterialPageRoute(
+              //                       builder: (context) =>
+              //                           ProfileSettingsChangePasswordScreen()),
+              //                 );
+              //               },
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   },
+              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) =>
+                        ProfileSettingsChangePasswordScreen()),
               );
             }
           }

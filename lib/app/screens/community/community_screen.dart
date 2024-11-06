@@ -98,13 +98,19 @@ class CommunityScreen extends StatelessWidget {
                 ),
               ),
             ),
-            body: state.selectedTabIndex == 0
-                ? (scrollId != null)
-                    ? NewsScreen(
-                        newsID: scrollId,
-                      )
-                    : NewsScreen()
-                : const ConsultantPage(),
+            body: PageView(
+              controller: PageController(initialPage: state.selectedTabIndex),
+              onPageChanged: (index) {
+                BlocProvider.of<CommunityBloc>(context)
+                  ..add(CommunitySelectTabIndex(selectedTabIndex: index));
+              },
+              children: [
+                (scrollId != null)
+                    ? NewsScreen(newsID: scrollId)
+                    : NewsScreen(),
+                const ConsultantPage(),
+              ],
+            ),
           );
         }
         return const Center(
