@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +49,8 @@ class AiScreen extends StatelessWidget {
           builder: (context, state) {
             if (state is AiLoaded) {
               return ListView(
-                padding: EdgeInsets.only(left: 10, top: 35, right: 10),
+                padding: EdgeInsets.only(
+                    left: 10, top: (Platform.isIOS) ? 80 : 35, right: 10),
                 children: <Widget>[
                   Text(
                     LocaleKeys.all_chats.tr(),

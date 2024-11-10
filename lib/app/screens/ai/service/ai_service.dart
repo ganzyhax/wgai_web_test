@@ -17,7 +17,6 @@ class ChatGPT {
         body: jsonEncode({
           'model': 'gpt-4',
           'messages': prompt,
-          'max_tokens': 250,
           'temperature': 0.1,
         }),
       );

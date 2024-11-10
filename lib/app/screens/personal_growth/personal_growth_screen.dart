@@ -72,340 +72,359 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
         "en": "Apply to NU",
       }
     };
+    Future<void> refreshPage() async {
+      BlocProvider.of<PersonalBloc>(context).add(PersonalLoad());
+    }
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: BlocBuilder<PersonalBloc, PersonalState>(
-        builder: (context, state) {
-          if (state is PersonalLoaded) {
-            // Group data by taskCode
-            var groupedData = _groupDataByTaskCode(state.data, mainCategories);
+      body: RefreshIndicator(
+        onRefresh: refreshPage,
+        child: BlocBuilder<PersonalBloc, PersonalState>(
+          builder: (context, state) {
+            if (state is PersonalLoaded) {
+              // Group data by taskCode
+              var groupedData =
+                  _groupDataByTaskCode(state.data, mainCategories);
 
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    SizedBox(height: 50),
-                    Center(
-                      child: Text(
-                        LocaleKeys.personal_growth.tr(),
-                        style: AppTextStyle.heading1,
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      SizedBox(height: 50),
+                      Center(
+                        child: Text(
+                          LocaleKeys.personal_growth.tr(),
+                          style: AppTextStyle.heading1,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 25),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.white),
-                      padding: EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // Text(
-                          //   LocaleKeys.personal_growth.tr(),
-                          //   style: AppTextStyle.heading1,
-                          // ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            LocaleKeys.personalGrowthDescription.tr(),
-                            style: TextStyle(
-                                color: Colors.grey[500], fontSize: 19),
-                          )
-                        ],
+                      SizedBox(height: 25),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.white),
+                        padding: EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Text(
+                            //   LocaleKeys.personal_growth.tr(),
+                            //   style: AppTextStyle.heading1,
+                            // ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              LocaleKeys.personalGrowthDescription.tr(),
+                              style: TextStyle(
+                                  color: Colors.grey[500], fontSize: 19),
+                            )
+                          ],
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 25),
-                    ...groupedData.entries.map((entry) {
-                      var taskCode = entry.key;
-                      var categoryData = entry.value;
+                      SizedBox(height: 25),
+                      ...groupedData.entries.map((entry) {
+                        var taskCode = entry.key;
+                        var categoryData = entry.value;
 
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PersonalGrowthTestCard(
-                            title: mainCategories[taskCode]
-                                    ?[context.locale.languageCode] ??
-                                'Error',
-                            asset: 'assets/icons/brain.svg',
-                          ),
-                          SizedBox(height: 10),
-                          ...categoryData.map((item) {
-                            return Column(
-                              children: [
-                                PersonalGrowthCard(
-                                    onTap: () async {
-                                      if (item['availabilityStatus'] !=
-                                              'locked' &&
-                                          item['type'] == 'reading') {
-                                        if (item['completionStatus'] == 'new') {
-                                          var newstatus = "incomplete";
-                                          if (item['completionQuiz'] == null ||
-                                              item['completionQuiz'].length ==
-                                                  0) {
-                                            newstatus = "complete";
-                                          }
-                                          BlocProvider.of<PersonalBloc>(context)
-                                            ..add(
-                                                PersonalGuidanceTaskUpdateStatus(
-                                                    status: newstatus,
-                                                    guidanceTaskId:
-                                                        item['_id']));
-                                          List<Map<String, dynamic>> quizData =
-                                              (item['completionQuiz']
-                                                      as List<dynamic>)
-                                                  .cast<Map<String, dynamic>>();
-                                          final res = (!kIsWeb)
-                                              ? await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => HtmlWebView(
-                                                        contentCode:
-                                                            item['contentCode'],
-                                                        isUrl: false,
-                                                        contentUrl:
-                                                            item['contentCode'],
-                                                        contentUrlTitle: "",
-                                                        quizData: quizData,
-                                                        completionStatus: item[
-                                                            'completionStatus']),
-                                                  ),
-                                                )
-                                              : await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => HtmlLoader(
-                                                        contentCode:
-                                                            item['contentCode'],
-                                                        isUrl: false,
-                                                        contentUrl:
-                                                            item['contentCode'],
-                                                        contentUrlTitle: "",
-                                                        quizData: quizData,
-                                                        completionStatus: item[
-                                                            'completionStatus']),
-                                                  ));
-                                          if (res != null && res) {
-                                            BlocProvider.of<PersonalBloc>(
-                                                context)
-                                              ..add(
-                                                  PersonalGuidanceTaskUpdateStatus(
-                                                      status: 'complete',
-                                                      guidanceTaskId:
-                                                          item['_id']));
-                                          }
-                                        }
-                                        if (item['completionStatus'] ==
-                                            'incomplete') {
-                                          List<Map<String, dynamic>> quizData =
-                                              (item['completionQuiz']
-                                                      as List<dynamic>)
-                                                  .cast<Map<String, dynamic>>();
-
-                                          final res = (!kIsWeb)
-                                              ? await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => HtmlWebView(
-                                                        contentCode:
-                                                            item['contentCode'],
-                                                        isUrl: false,
-                                                        contentUrl:
-                                                            item['contentCode'],
-                                                        contentUrlTitle: "",
-                                                        quizData: quizData,
-                                                        completionStatus: item[
-                                                            'completionStatus']),
-                                                  ),
-                                                )
-                                              : await Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => HtmlLoader(
-                                                        contentCode:
-                                                            item['contentCode'],
-                                                        isUrl: false,
-                                                        contentUrl:
-                                                            item['contentCode'],
-                                                        contentUrlTitle: "",
-                                                        quizData: quizData,
-                                                        completionStatus: item[
-                                                            'completionStatus']),
-                                                  ),
-                                                );
-
-                                          if (res != null && res) {
-                                            BlocProvider.of<PersonalBloc>(
-                                                context)
-                                              ..add(
-                                                  PersonalGuidanceTaskUpdateStatus(
-                                                      status: 'complete',
-                                                      guidanceTaskId:
-                                                          item['_id']));
-                                          }
-                                        }
-                                        if (item['completionStatus'] ==
-                                            'complete') {
-                                          log(item.toString());
-                                          (!kIsWeb)
-                                              ? Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => HtmlWebView(
-                                                        contentCode:
-                                                            item['contentCode'],
-                                                        isUrl: false,
-                                                        contentUrl:
-                                                            item['contentCode'],
-                                                        contentUrlTitle: "",
-                                                        completionStatus: item[
-                                                            'completionStatus']),
-                                                  ),
-                                                )
-                                              : Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => HtmlLoader(
-                                                        contentCode:
-                                                            item['contentCode'],
-                                                        isUrl: false,
-                                                        contentUrl:
-                                                            item['contentCode'],
-                                                        contentUrlTitle: "",
-                                                        completionStatus: item[
-                                                            'completionStatus']),
-                                                  ),
-                                                );
-                                        }
-                                      } else if (item['availabilityStatus'] !=
-                                              'locked' &&
-                                          item['type'] == 'testing') {
-                                        if (item['completionStatus'] == 'new') {
-                                          BlocProvider.of<PersonalBloc>(context)
-                                            ..add(
-                                                PersonalGuidanceTaskUpdateStatus(
-                                                    status: 'incomplete',
-                                                    guidanceTaskId:
-                                                        item['_id']));
-                                          final res = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  QuestionnaireScreen(
-                                                testingCode:
-                                                    item['testingCode'],
-                                                taskId: item['_id'],
-                                                isGuidanceTask: true,
-                                              ),
-                                            ),
-                                          );
-                                          if (res != null && res) {
-                                            // BlocProvider.of<PersonalBloc>(
-                                            //     context)
-                                            //   ..add(
-                                            //       PersonalGuidanceTaskUpdateStatus(
-                                            //           status: 'complete',
-                                            //           guidanceTaskId:
-                                            //               item['_id']));
-                                            BlocProvider.of<PersonalBloc>(
-                                                    context)
-                                                .add(PersonalCheckGuidanceTask(
-                                                    guidanceTaskId:
-                                                        item['_id']));
-                                          }
-                                        }
-                                        if (item['completionStatus'] ==
-                                            'incomplete') {
-                                          final res = await Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  QuestionnaireScreen(
-                                                testingCode:
-                                                    item['testingCode'],
-                                                taskId: item['_id'],
-                                                isGuidanceTask: true,
-                                              ),
-                                            ),
-                                          );
-                                          if (res != null && res) {
-                                            // BlocProvider.of<PersonalBloc>(
-                                            //     context)
-                                            //   ..add(
-                                            //       PersonalGuidanceTaskUpdateStatus(
-                                            //           status: 'complete',
-                                            //           guidanceTaskId:
-                                            //               item['_id']));
-                                            BlocProvider.of<PersonalBloc>(
-                                                    context)
-                                                .add(PersonalCheckGuidanceTask(
-                                                    guidanceTaskId:
-                                                        item['_id']));
-                                          }
-                                        }
-                                        if (item['completionStatus'] ==
-                                            'complete') {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  QuestionnaireScreen(
-                                                testingCode:
-                                                    item['testingCode'],
-                                                taskId: item['_id'],
-                                                isGuidanceTask: true,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      }
-                                    },
-                                    subTitle: item['subtitle']
-                                        [context.locale.languageCode],
-                                    type: (item['availabilityStatus'] ==
-                                            'locked')
-                                        ? 3
-                                        : (item['completionStatus'] == 'new' ||
-                                                item['completionStatus'] ==
-                                                    'incomplete')
-                                            ? 2
-                                            : 1,
-                                    isFinished: (item['availabilityStatus'] !=
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            PersonalGrowthTestCard(
+                              title: mainCategories[taskCode]
+                                      ?[context.locale.languageCode] ??
+                                  'Error',
+                              asset: 'assets/icons/brain.svg',
+                            ),
+                            SizedBox(height: 10),
+                            ...categoryData.map((item) {
+                              return Column(
+                                children: [
+                                  PersonalGrowthCard(
+                                      onTap: () async {
+                                        if (item['availabilityStatus'] !=
                                                 'locked' &&
-                                            item['completionStatus'] ==
-                                                'complete')
-                                        ? true
-                                        : false,
-                                    title: item['title']
-                                        [context.locale.languageCode],
-                                    interpretationLink:
-                                        (item.containsKey('result')
-                                            ? item['result'].containsKey(
-                                                    'interpretationLink')
-                                                ? item['result']
-                                                    ['interpretationLink']
-                                                : null
-                                            : null),
-                                    isTesting: item['type'] == 'testing'),
-                                SizedBox(height: 20),
-                              ],
-                            );
-                          }).toList(),
-                        ],
-                      );
-                    }).toList(),
-                  ],
+                                            item['type'] == 'reading') {
+                                          if (item['completionStatus'] ==
+                                              'new') {
+                                            var newstatus = "incomplete";
+                                            if (item['completionQuiz'] ==
+                                                    null ||
+                                                item['completionQuiz'].length ==
+                                                    0) {
+                                              newstatus = "complete";
+                                            }
+                                            BlocProvider.of<PersonalBloc>(
+                                                context)
+                                              ..add(
+                                                  PersonalGuidanceTaskUpdateStatus(
+                                                      status: newstatus,
+                                                      guidanceTaskId:
+                                                          item['_id']));
+                                            List<Map<String, dynamic>>
+                                                quizData =
+                                                (item['completionQuiz']
+                                                        as List<dynamic>)
+                                                    .cast<
+                                                        Map<String, dynamic>>();
+                                            final res = (!kIsWeb)
+                                                ? await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => HtmlWebView(
+                                                          contentCode: item[
+                                                              'contentCode'],
+                                                          isUrl: false,
+                                                          contentUrl: item[
+                                                              'contentCode'],
+                                                          contentUrlTitle: "",
+                                                          quizData: quizData,
+                                                          completionStatus: item[
+                                                              'completionStatus']),
+                                                    ),
+                                                  )
+                                                : await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => HtmlLoader(
+                                                          contentCode: item[
+                                                              'contentCode'],
+                                                          isUrl: false,
+                                                          contentUrl: item[
+                                                              'contentCode'],
+                                                          contentUrlTitle: "",
+                                                          quizData: quizData,
+                                                          completionStatus: item[
+                                                              'completionStatus']),
+                                                    ));
+                                            if (res != null && res) {
+                                              BlocProvider.of<PersonalBloc>(
+                                                  context)
+                                                ..add(
+                                                    PersonalGuidanceTaskUpdateStatus(
+                                                        status: 'complete',
+                                                        guidanceTaskId:
+                                                            item['_id']));
+                                            }
+                                          }
+                                          if (item['completionStatus'] ==
+                                              'incomplete') {
+                                            List<Map<String, dynamic>>
+                                                quizData =
+                                                (item['completionQuiz']
+                                                        as List<dynamic>)
+                                                    .cast<
+                                                        Map<String, dynamic>>();
+
+                                            final res = (!kIsWeb)
+                                                ? await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => HtmlWebView(
+                                                          contentCode: item[
+                                                              'contentCode'],
+                                                          isUrl: false,
+                                                          contentUrl: item[
+                                                              'contentCode'],
+                                                          contentUrlTitle: "",
+                                                          quizData: quizData,
+                                                          completionStatus: item[
+                                                              'completionStatus']),
+                                                    ),
+                                                  )
+                                                : await Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => HtmlLoader(
+                                                          contentCode: item[
+                                                              'contentCode'],
+                                                          isUrl: false,
+                                                          contentUrl: item[
+                                                              'contentCode'],
+                                                          contentUrlTitle: "",
+                                                          quizData: quizData,
+                                                          completionStatus: item[
+                                                              'completionStatus']),
+                                                    ),
+                                                  );
+
+                                            if (res != null && res) {
+                                              BlocProvider.of<PersonalBloc>(
+                                                  context)
+                                                ..add(
+                                                    PersonalGuidanceTaskUpdateStatus(
+                                                        status: 'complete',
+                                                        guidanceTaskId:
+                                                            item['_id']));
+                                            }
+                                          }
+                                          if (item['completionStatus'] ==
+                                              'complete') {
+                                            log(item.toString());
+                                            (!kIsWeb)
+                                                ? Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => HtmlWebView(
+                                                          contentCode: item[
+                                                              'contentCode'],
+                                                          isUrl: false,
+                                                          contentUrl: item[
+                                                              'contentCode'],
+                                                          contentUrlTitle: "",
+                                                          completionStatus: item[
+                                                              'completionStatus']),
+                                                    ),
+                                                  )
+                                                : Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) => HtmlLoader(
+                                                          contentCode: item[
+                                                              'contentCode'],
+                                                          isUrl: false,
+                                                          contentUrl: item[
+                                                              'contentCode'],
+                                                          contentUrlTitle: "",
+                                                          completionStatus: item[
+                                                              'completionStatus']),
+                                                    ),
+                                                  );
+                                          }
+                                        } else if (item['availabilityStatus'] !=
+                                                'locked' &&
+                                            item['type'] == 'testing') {
+                                          if (item['completionStatus'] ==
+                                              'new') {
+                                            BlocProvider.of<PersonalBloc>(
+                                                context)
+                                              ..add(
+                                                  PersonalGuidanceTaskUpdateStatus(
+                                                      status: 'incomplete',
+                                                      guidanceTaskId:
+                                                          item['_id']));
+                                            final res = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QuestionnaireScreen(
+                                                  testingCode:
+                                                      item['testingCode'],
+                                                  taskId: item['_id'],
+                                                  isGuidanceTask: true,
+                                                ),
+                                              ),
+                                            );
+                                            if (res != null && res) {
+                                              // BlocProvider.of<PersonalBloc>(
+                                              //     context)
+                                              //   ..add(
+                                              //       PersonalGuidanceTaskUpdateStatus(
+                                              //           status: 'complete',
+                                              //           guidanceTaskId:
+                                              //               item['_id']));
+                                              BlocProvider.of<PersonalBloc>(
+                                                      context)
+                                                  .add(
+                                                      PersonalCheckGuidanceTask(
+                                                          guidanceTaskId:
+                                                              item['_id']));
+                                            }
+                                          }
+                                          if (item['completionStatus'] ==
+                                              'incomplete') {
+                                            final res = await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QuestionnaireScreen(
+                                                  testingCode:
+                                                      item['testingCode'],
+                                                  taskId: item['_id'],
+                                                  isGuidanceTask: true,
+                                                ),
+                                              ),
+                                            );
+                                            if (res != null && res) {
+                                              // BlocProvider.of<PersonalBloc>(
+                                              //     context)
+                                              //   ..add(
+                                              //       PersonalGuidanceTaskUpdateStatus(
+                                              //           status: 'complete',
+                                              //           guidanceTaskId:
+                                              //               item['_id']));
+                                              BlocProvider.of<PersonalBloc>(
+                                                      context)
+                                                  .add(
+                                                      PersonalCheckGuidanceTask(
+                                                          guidanceTaskId:
+                                                              item['_id']));
+                                            }
+                                          }
+                                          if (item['completionStatus'] ==
+                                              'complete') {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    QuestionnaireScreen(
+                                                  testingCode:
+                                                      item['testingCode'],
+                                                  taskId: item['_id'],
+                                                  isGuidanceTask: true,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                      subTitle: item['subtitle']
+                                          [context.locale.languageCode],
+                                      type: (item['availabilityStatus'] ==
+                                              'locked')
+                                          ? 3
+                                          : (item['completionStatus'] ==
+                                                      'new' ||
+                                                  item['completionStatus'] ==
+                                                      'incomplete')
+                                              ? 2
+                                              : 1,
+                                      isFinished: (item['availabilityStatus'] !=
+                                                  'locked' &&
+                                              item['completionStatus'] ==
+                                                  'complete')
+                                          ? true
+                                          : false,
+                                      title: item['title']
+                                          [context.locale.languageCode],
+                                      interpretationLink:
+                                          (item.containsKey('result')
+                                              ? item['result'].containsKey(
+                                                      'interpretationLink')
+                                                  ? item['result']
+                                                      ['interpretationLink']
+                                                  : null
+                                              : null),
+                                      isTesting: item['type'] == 'testing'),
+                                  SizedBox(height: 20),
+                                ],
+                              );
+                            }).toList(),
+                          ],
+                        );
+                      }).toList(),
+                    ],
+                  ),
                 ),
-              ),
+              );
+            }
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          }
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+          },
+        ),
       ),
     );
   }
