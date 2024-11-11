@@ -21,10 +21,12 @@ class AiChatTitleCard extends StatelessWidget {
         String langCode = context.locale.languageCode;
         BlocProvider.of<AiBloc>(context)
           ..add(AiNewChat(promptId: data['_id'], langCode: langCode));
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AiChatScreen()),
-        );
+        Future.delayed(Duration(seconds: 1), () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AiChatScreen()),
+          );
+        });
       },
       child: Container(
         decoration: BoxDecoration(
@@ -46,18 +48,18 @@ class AiChatTitleCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.36,
+                  width: MediaQuery.of(context).size.width / 1.4,
                   child: Text(
                     data['title'][context.locale.languageCode],
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   ),
                 ),
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 1.36,
+                  width: MediaQuery.of(context).size.width / 1.4,
                   child: Text(
-                    maxLines: 1,
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     data['description'][context.locale.languageCode],
                     style: TextStyle(fontSize: 17, color: Colors.grey[500]),

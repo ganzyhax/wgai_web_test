@@ -17,7 +17,6 @@ class PersonalBloc extends Bloc<PersonalEvent, PersonalState> {
         PersonalCheckGuidanceTask event, Emitter<PersonalState> emit) async {
       localLang = await LocalUtils.getLanguage();
 
-
       // Poll every 2 seconds to check if the test is complete
       const pollingInterval = Duration(seconds: 2);
       const maxRetries = 5; // Maximum retries
@@ -38,7 +37,7 @@ class PersonalBloc extends Bloc<PersonalEvent, PersonalState> {
             print("result is there");
             if (req['data']['task']['result']
                 .containsKey('interpretationLink')) {
-                  print("interpretationlink is there");
+              print("interpretationlink is there");
               // Update the guidance task data in the local state
               for (var i = 0; i < data['data']['guidanceTasks'].length; i++) {
                 if (data['data']['guidanceTasks'][i]['_id'] ==
@@ -47,11 +46,11 @@ class PersonalBloc extends Bloc<PersonalEvent, PersonalState> {
                 }
               }
 
-
               // Emit the updated state
               emit(PersonalLoaded(
                   data: data['data']['guidanceTasks'], localLang: localLang));
               isResultReady = true;
+              add(PersonalLoad());
             }
           } else {
             log('Result not ready yet, retrying...');

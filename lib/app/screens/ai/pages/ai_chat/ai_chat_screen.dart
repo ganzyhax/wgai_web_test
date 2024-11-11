@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +68,11 @@ class _AiChatScreenState extends State<AiChatScreen> {
                       left: 0,
                       right: 0,
                       child: Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.only(
+                            left: 10,
+                            right: 10,
+                            bottom: (Platform.isIOS) ? 45 : 10,
+                            top: 10),
                         decoration: BoxDecoration(
                           color: Color.fromARGB(255, 235, 235, 241),
                         ),

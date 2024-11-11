@@ -10,10 +10,29 @@ import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
-class CommunityScreen extends StatelessWidget {
+class CommunityScreen extends StatefulWidget {
   final bool? isCounsulant;
   final String? scrollId;
   const CommunityScreen({super.key, this.isCounsulant, this.scrollId});
+
+  @override
+  _CommunityScreenState createState() => _CommunityScreenState();
+}
+
+class _CommunityScreenState extends State<CommunityScreen> {
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +40,12 @@ class CommunityScreen extends StatelessWidget {
       builder: (context, state) {
         if (state is CommunityLoaded) {
           if (!state.isOpened) {
-            if (isCounsulant != null) {
-              if (isCounsulant == false) {
+            if (widget.isCounsulant != null) {
+              if (widget.isCounsulant == false) {
                 BlocProvider.of<CommunityBloc>(context)
                   ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
               }
-              if (isCounsulant == true) {
+              if (widget.isCounsulant == true) {
                 BlocProvider.of<CommunityBloc>(context)
                   ..add(CommunitySelectTabIndex(selectedTabIndex: 1));
               }
@@ -39,7 +58,7 @@ class CommunityScreen extends StatelessWidget {
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
               backgroundColor: AppColors.background,
-              leading: (isCounsulant != null)
+              leading: (widget.isCounsulant != null)
                   ? IconButton(
                       icon: Icon(Icons.arrow_back, color: Colors.black),
                       onPressed: () {
@@ -63,6 +82,9 @@ class CommunityScreen extends StatelessWidget {
                       onTap: () {
                         BlocProvider.of<CommunityBloc>(context)
                           ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
+                        _pageController.animateToPage(0,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.ease);
                       },
                       child: Text(
                         LocaleKeys.feed.tr(),
@@ -82,6 +104,9 @@ class CommunityScreen extends StatelessWidget {
                       onTap: () {
                         BlocProvider.of<CommunityBloc>(context)
                           ..add(CommunitySelectTabIndex(selectedTabIndex: 1));
+                        _pageController.animateToPage(1,
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.ease);
                       },
                       child: Text(
                         LocaleKeys.consultant.tr(),
@@ -99,14 +124,14 @@ class CommunityScreen extends StatelessWidget {
               ),
             ),
             body: PageView(
-              controller: PageController(initialPage: state.selectedTabIndex),
+              controller: _pageController,
               onPageChanged: (index) {
                 BlocProvider.of<CommunityBloc>(context)
                   ..add(CommunitySelectTabIndex(selectedTabIndex: index));
               },
               children: [
-                (scrollId != null)
-                    ? NewsScreen(newsID: scrollId)
+                (widget.scrollId != null)
+                    ? NewsScreen(newsID: widget.scrollId)
                     : NewsScreen(),
                 const ConsultantPage(),
               ],
