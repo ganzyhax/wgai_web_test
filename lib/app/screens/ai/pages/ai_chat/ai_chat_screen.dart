@@ -22,6 +22,7 @@ class AiChatScreen extends StatefulWidget {
 
 class _AiChatScreenState extends State<AiChatScreen> {
   TextEditingController message = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +38,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
         children: [
           SingleChildScrollView(
             child: SizedBox(
-              height: MediaQuery.of(context).size.height - 100,
+              height: MediaQuery.of(context).size.height,
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: BlocBuilder<AiBloc, AiState>(
@@ -45,7 +46,7 @@ class _AiChatScreenState extends State<AiChatScreen> {
                     if (state is AiLoaded) {
                       return (state.currentChatData != null)
                           ? Padding(
-                              padding: const EdgeInsets.only(bottom: 67.0),
+                              padding: const EdgeInsets.only(bottom: 167.0),
                               child: AiChatBuildCard(
                                   isLoading: state.isGptThinking,
                                   messages: state.currentChatData['messages']),
@@ -61,64 +62,68 @@ class _AiChatScreenState extends State<AiChatScreen> {
           ),
           BlocBuilder<AiBloc, AiState>(builder: (context, state) {
             if (state is AiLoaded) {
-              return (state.currentChatData['messages'].length >= 20)
-                  ? SizedBox()
-                  : Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.only(
-                            left: 10,
-                            right: 10,
-                            bottom: (Platform.isIOS) ? 45 : 10,
-                            top: 10),
-                        decoration: BoxDecoration(
-                          color: Color.fromARGB(255, 235, 235, 241),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: Colors.white,
-                                ),
-                                child: TextField(
-                                  enabled:
-                                      (!state.isGptThinking) ? true : false,
-                                  controller: message,
-                                  decoration: InputDecoration(
-                                    hintText:
-                                        LocaleKeys.enter_text.tr() + '...',
-                                    border: InputBorder.none,
+              return (state.currentChatData != null)
+                  ? (state.currentChatData['messages'].length >= 20)
+                      ? SizedBox()
+                      : Positioned(
+                          bottom: 0,
+                          left: 0,
+                          right: 0,
+                          child: Container(
+                            padding: EdgeInsets.only(
+                                left: 10,
+                                right: 10,
+                                bottom: (Platform.isIOS) ? 45 : 10,
+                                top: 10),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 235, 235, 241),
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.white,
+                                    ),
+                                    child: TextField(
+                                      enabled:
+                                          (!state.isGptThinking) ? true : false,
+                                      controller: message,
+                                      decoration: InputDecoration(
+                                        hintText:
+                                            LocaleKeys.enter_text.tr() + '...',
+                                        border: InputBorder.none,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
+                                SizedBox(width: 10),
+                                GestureDetector(
+                                  onTap: () {
+                                    if (!state.isGptThinking) {
+                                      BlocProvider.of<AiBloc>(context)
+                                        ..add(AiChatUserSendMessage(
+                                            message: message.text,
+                                            chatId:
+                                                state.currentChatData['_id']));
+                                      message.text = '';
+                                    }
+                                  },
+                                  child: CircleAvatar(
+                                    radius: 22,
+                                    backgroundColor: AppColors.primary,
+                                    child: Icon(Icons.arrow_upward,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 10),
-                            GestureDetector(
-                              onTap: () {
-                                if (!state.isGptThinking) {
-                                  BlocProvider.of<AiBloc>(context)
-                                    ..add(AiChatUserSendMessage(
-                                        message: message.text,
-                                        chatId: state.currentChatData['_id']));
-                                  message.text = '';
-                                }
-                              },
-                              child: CircleAvatar(
-                                radius: 22,
-                                backgroundColor: AppColors.primary,
-                                child: Icon(Icons.arrow_upward,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
+                          ),
+                        )
+                  : SizedBox();
             } else {
               return SizedBox();
             }

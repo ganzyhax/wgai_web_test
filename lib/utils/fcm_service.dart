@@ -2,9 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/screens/community/community_screen.dart';
+import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/personal_growth_screen.dart';
 
 class FCMService {
@@ -42,7 +44,8 @@ class FCMService {
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
-    } else if (settings.authorizationStatus == AuthorizationStatus.provisional) {
+    } else if (settings.authorizationStatus ==
+        AuthorizationStatus.provisional) {
       print('User granted provisional permission');
     } else {
       print('User declined or has not accepted permission');
@@ -53,17 +56,17 @@ class FCMService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/ic_launcher');
     final DarwinInitializationSettings initializationSettingsDarwin =
-      DarwinInitializationSettings(
-        requestSoundPermission: false,
-        requestBadgePermission: false,
-        requestAlertPermission: false,
-        onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
+        DarwinInitializationSettings(
+      requestSoundPermission: false,
+      requestBadgePermission: false,
+      requestAlertPermission: false,
+      onDidReceiveLocalNotification:
+          (int id, String? title, String? body, String? payload) async {
         // Handle the received notification for iOS <10
       },
     );
 
-    InitializationSettings initializationSettings =
-        InitializationSettings(
+    InitializationSettings initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsDarwin,
     );
@@ -99,13 +102,13 @@ class FCMService {
       priority: Priority.high,
       showWhen: false,
     );
-    
 
     const DarwinNotificationDetails iOSPlatformChannelSpecifics =
         DarwinNotificationDetails();
-    
-    const NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics, iOS: iOSPlatformChannelSpecifics);
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics);
 
     await _flutterLocalNotificationsPlugin.show(
       0,
@@ -148,28 +151,34 @@ class FCMService {
   void _handleNotificationNavigation(
       BuildContext context, Map<String, dynamic> notificationBody) {
     if (notificationBody['type'] == 'counselor') {
-      log('ITS WORKS');
-      WeGlobalApp.navigatorKey.currentState?.push(
-        MaterialPageRoute(
-          builder: (context) => CommunityScreen(
-              isCounsulant: true, scrollId: notificationBody['id']),
-        ),
-      );
+      BlocProvider.of<MainNavigatorBloc>(context)
+        ..add(MainNavigatorChangePage(index: 2, notificationCounselor: true));
+      // WeGlobalApp.navigatorKey.currentState?.push(
+      //   MaterialPageRoute(
+      //     builder: (context) => CommunityScreen(
+      //         isCounsulant: true, scrollId: notificationBody['id']),
+      //   ),
+      // );
     } else if (notificationBody['type'] == 'news') {
-      WeGlobalApp.navigatorKey.currentState?.push(
-        MaterialPageRoute(
-          builder: (context) => CommunityScreen(
-            scrollId: notificationBody['id'],
-            isCounsulant: false,
-          ),
-        ),
-      );
+      BlocProvider.of<MainNavigatorBloc>(context)
+        ..add(MainNavigatorChangePage(
+            index: 2, newsScrollId: notificationBody['id']));
+      // WeGlobalApp.navigatorKey.currentState?.push(
+      //   MaterialPageRoute(
+      //     builder: (context) => CommunityScreen(
+      //       scrollId: notificationBody['id'],
+      //       isCounsulant: false,
+      //     ),
+      //   ),
+      // );
     } else if (notificationBody['type'] == 'growth') {
-      WeGlobalApp.navigatorKey.currentState?.push(
-        MaterialPageRoute(
-          builder: (context) => const PersonalGrowthScreen(),
-        ),
-      );
+      BlocProvider.of<MainNavigatorBloc>(context)
+        ..add(MainNavigatorChangePage(index: 1));
+      // WeGlobalApp.navigatorKey.currentState?.push(
+      //   MaterialPageRoute(
+      //     builder: (context) => const PersonalGrowthScreen(),
+      //   ),
+      // );
     }
   }
 

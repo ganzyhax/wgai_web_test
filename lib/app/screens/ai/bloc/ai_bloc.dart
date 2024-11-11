@@ -50,10 +50,14 @@ class AiBloc extends Bloc<AiEvent, AiState> {
           if (history['success']) {
             data['history'] = history['data']['chatHistory'];
           }
+          log(currentChatData.toString());
+          currentChatData = chatData['data']['chat'];
+
+          emit(AiOpenChat());
           emit(AiLoaded(
               data: data,
               isGptThinking: isGptThinking,
-              currentChatData: chatData['data']['chat'],
+              currentChatData: currentChatData,
               userName: userName));
         }
       }

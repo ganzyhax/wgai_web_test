@@ -21,44 +21,39 @@ class AiChatBuildCard extends StatefulWidget {
 
 class _AiChatBuildCardState extends State<AiChatBuildCard> {
   final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (widget.messages.length > 5) {
-        _scrollDown(isFirst: false);
-      } else {
-        _scrollDown(isFirst: true);
-      }
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
   }
 
   @override
   void didUpdateWidget(covariant AiChatBuildCard oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _scrollDown();
+
+    // Scroll when messages are added or loading state changes
+    if (widget.messages.length > oldWidget.messages.length ||
+        widget.isLoading != oldWidget.isLoading) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => _scrollToBottom());
+    }
   }
 
-  void _scrollDown({bool? isFirst = false}) {
-    if (isFirst == true) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: Duration(seconds: 1),
-        curve: Curves.fastOutSlowIn,
-      );
-    } else {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent + 2000,
-        duration: Duration(seconds: 1),
-        curve: Curves.fastOutSlowIn,
-      );
+  void _scrollToBottom() {
+    if (_scrollController.hasClients) {
+      Future.delayed(Duration(milliseconds: 300), () {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeOut,
+        );
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    var filteredMessage = widget.messages
+    var filteredMessages = widget.messages
         .where((message) => message['role'] != 'system')
         .toList();
 
@@ -67,13 +62,13 @@ class _AiChatBuildCardState extends State<AiChatBuildCard> {
       child: ListView.builder(
         controller: _scrollController,
         padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        itemCount: filteredMessage.length + (widget.isLoading ? 1 : 0),
+        itemCount: filteredMessages.length + (widget.isLoading ? 1 : 0),
         itemBuilder: (context, index) {
-          if (index == filteredMessage.length && widget.isLoading) {
+          if (index == filteredMessages.length && widget.isLoading) {
             return _buildLoadingIndicator();
           }
 
-          final message = filteredMessage[index];
+          final message = filteredMessages[index];
           final isBot = message['role'] == 'assistant';
 
           return _buildMessageBubble(context, message, isBot, index);
@@ -83,8 +78,6 @@ class _AiChatBuildCardState extends State<AiChatBuildCard> {
   }
 
   Widget _buildLoadingIndicator() {
-    _scrollDown();
-
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(

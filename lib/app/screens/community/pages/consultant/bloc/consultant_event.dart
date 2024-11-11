@@ -22,7 +22,8 @@ final class ConsultantTextBoxSubmitResponse extends ConsultantEvent {
   final String answer;
   ConsultantTextBoxSubmitResponse({required this.taskId, required this.answer});
 }
-final class ConsultantCheckTask extends ConsultantEvent{
-    final String taskId;
-ConsultantCheckTask({required this.taskId});
+
+final class ConsultantCheckTask extends ConsultantEvent {
+  final String taskId;
+  ConsultantCheckTask({required this.taskId});
 }
