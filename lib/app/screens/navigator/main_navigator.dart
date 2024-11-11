@@ -45,7 +45,7 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 1));
                         },
                         child: NavigationItem(
-                          assetImage: 'assets/icons/consultant.svg',
+                          assetImage: 'assets/icons/route.svg',
                           isSelected: (state.index == 1) ? true : false,
                         ),
                       ),
@@ -65,7 +65,7 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 3));
                         },
                         child: NavigationItem(
-                          assetImage: 'assets/icons/resources.svg',
+                          assetImage: 'assets/icons/books.svg',
                           isSelected: (state.index == 3) ? true : false,
                         ),
                       ),

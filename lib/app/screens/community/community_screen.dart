@@ -58,22 +58,6 @@ class _CommunityScreenState extends State<CommunityScreen> {
             appBar: AppBar(
               surfaceTintColor: Colors.transparent,
               backgroundColor: AppColors.background,
-              leading: (widget.isCounsulant != null)
-                  ? IconButton(
-                      icon: Icon(Icons.arrow_back, color: Colors.black),
-                      onPressed: () {
-                        BlocProvider.of<CommunityBloc>(context)
-                          ..add(CommunitySelectTabIndex(selectedTabIndex: 0));
-                        BlocProvider.of<CommunityBloc>(context)
-                          ..add(CommunitySetIsOpened());
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    CustomNavigationBar()),
-                            (Route<dynamic> route) => false);
-                      })
-                  : null,
               title: Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

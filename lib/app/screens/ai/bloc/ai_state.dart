@@ -16,3 +16,5 @@ final class AiLoaded extends AiState {
       required this.currentChatData,
       required this.userName});
 }
+
+final class AiOpenChat extends AiState {}

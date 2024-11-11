@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -26,8 +28,45 @@ class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
       }
 
       if (event is MainNavigatorChangePage) {
-        index = event.index;
+        if (event.index == 2) {
+          index = event.index;
+          if (event.newsScrollId != null) {
+            index = event.index;
+            screens = [
+              AiScreen(),
+              PersonalGrowthScreen(),
+              CommunityScreen(
+                scrollId: event.newsScrollId,
+              ),
+              ResourcesScreen(),
+              ProfileScreen(),
+            ];
+          }
+          if (event.notificationCounselor == true) {
+            log('Open counsleo');
+            index = event.index;
+            screens = [
+              AiScreen(),
+              PersonalGrowthScreen(),
+              CommunityScreen(
+                isCounsulant: true,
+              ),
+              ResourcesScreen(),
+              ProfileScreen(),
+            ];
+          }
+        } else {
+          index = event.index;
+        }
+
         emit(MainNavigatorLoaded(index: index, screens: screens));
+        screens = [
+          AiScreen(),
+          PersonalGrowthScreen(),
+          CommunityScreen(),
+          ResourcesScreen(),
+          ProfileScreen(),
+        ];
       }
       if (event is MainNavigatorClear) {
         emit(MainNavigatorInitial());

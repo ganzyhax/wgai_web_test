@@ -8,7 +8,10 @@ class MainNavigatorLoad extends MainNavigatorEvent {}
 // ignore: must_be_immutable
 class MainNavigatorChangePage extends MainNavigatorEvent {
   int index;
-  MainNavigatorChangePage({required this.index});
+  String? newsScrollId;
+  bool? notificationCounselor;
+  MainNavigatorChangePage(
+      {required this.index, this.newsScrollId, this.notificationCounselor});
 }
 
 class MainNavigatorClear extends MainNavigatorEvent {}

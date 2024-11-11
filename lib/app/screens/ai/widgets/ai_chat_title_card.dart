@@ -21,12 +21,6 @@ class AiChatTitleCard extends StatelessWidget {
         String langCode = context.locale.languageCode;
         BlocProvider.of<AiBloc>(context)
           ..add(AiNewChat(promptId: data['_id'], langCode: langCode));
-        Future.delayed(Duration(seconds: 1), () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => AiChatScreen()),
-          );
-        });
       },
       child: Container(
         decoration: BoxDecoration(

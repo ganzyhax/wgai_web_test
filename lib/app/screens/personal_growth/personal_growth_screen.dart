@@ -15,7 +15,7 @@ import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
-import 'package:wg_app/utils/fcm_service.dart';
+
 
 class PersonalGrowthScreen extends StatefulWidget {
   const PersonalGrowthScreen({super.key});
@@ -25,19 +25,6 @@ class PersonalGrowthScreen extends StatefulWidget {
 }
 
 class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
-  final FCMService _fcmService = FCMService();
-
-  @override
-  void initState() {
-    super.initState();
-    _fcmService.initializeAfterLogin(context);
-    // Handle the case when the app is opened via a notification click
-    _fcmService.handleInitialMessage(context);
-
-    // Listen for notification taps when the app is in the background/foreground
-    _fcmService.configureNotificationActions(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     var mainCategories = {
