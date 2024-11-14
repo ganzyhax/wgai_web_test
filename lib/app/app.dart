@@ -14,12 +14,14 @@ import 'package:wg_app/app/screens/ent/bloc/ent_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/countries/bloc/country_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/programs/bloc/programs_bloc.dart';
 import 'package:wg_app/app/screens/foreign/pages/universities/bloc/foreign_university_bloc.dart';
+import 'package:wg_app/app/screens/forget_password/bloc/forget_password_bloc.dart';
 import 'package:wg_app/app/screens/login/bloc/login_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/profile/bloc/profile_bloc.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_career/bloc/profile_career_bloc.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_settings/pages/profile_change_email_and_pass/bloc/change_email_and_pass_bloc.dart';
 import 'package:wg_app/app/screens/profile_growth/bloc/profile_growth_bloc.dart';
 import 'package:wg_app/app/screens/psytest/bloc/test_bloc.dart';
 import 'package:wg_app/app/screens/psytest/screens/description_test_screen.dart';
@@ -102,6 +104,14 @@ class WeGlobalApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => AiBloc()..add(AiLoad()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ChangeEmailAndPassBloc()..add(ChangeEmailAndPassLoad()),
+          ),
+          BlocProvider(
+            create: (context) =>
+                ForgetPasswordBloc()..add(ForgetPasswordLoad()),
           ),
         ],
         child: MaterialApp(

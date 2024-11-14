@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/api/auth_utils.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/utils/fcm_service.dart';
 
 part 'login_event.dart';
@@ -38,13 +39,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             print('Token adding error: ' + e.toString());
           }
 
-          if (event.password == '12345678') {
+          if (event.password == event.login) {
             emit(LoginSuccess(mustChangePassword: true));
           } else {
             emit(LoginSuccess(mustChangePassword: false));
           }
-          // emit(LoginSuccess(mustChangePassword: false));
-
           isLoading = false;
         } else {
           emit(LoginError(message: attemp));

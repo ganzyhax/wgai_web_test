@@ -15,6 +15,24 @@ class LocalUtils {
     return lang;
   }
 
+  static Future<void> setPassword(String lang) async {
+    await storage.write(key: 'pass', value: lang.toString());
+  }
+
+  static Future<String> getPassword() async {
+    String lang = await storage.read(key: 'pass') ?? 'ru';
+    return lang;
+  }
+
+  static Future<void> setLogin(String lang) async {
+    await storage.write(key: 'login', value: lang.toString());
+  }
+
+  static Future<String> getLogin() async {
+    String lang = await storage.read(key: 'login') ?? 'ru';
+    return lang;
+  }
+
   static Future<String> getUserId() async {
     String lang = await storage.read(key: 'userId') ?? '';
     return lang;
