@@ -7,7 +7,8 @@ final class ChangeEmailAndPassLoad extends ChangeEmailAndPassEvent {}
 
 final class ChangeEmailAndPassChangePhone extends ChangeEmailAndPassEvent {
   final String phone;
-  ChangeEmailAndPassChangePhone({required this.phone});
+  final String otp;
+  ChangeEmailAndPassChangePhone({required this.phone, required this.otp});
 }
 
 final class ChangeEmailAndPassChangePass extends ChangeEmailAndPassEvent {
@@ -21,3 +22,5 @@ final class ChangeEmailAndPassSendOTP extends ChangeEmailAndPassEvent {
   final String phone;
   ChangeEmailAndPassSendOTP({required this.phone});
 }
+
+final class ChangeEnailAndPassSetOtherPhone extends ChangeEmailAndPassEvent {}

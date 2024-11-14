@@ -7,6 +7,10 @@ final class ForgetPasswordInitial extends ForgetPasswordState {}
 
 final class ForgetPasswordLoaded extends ForgetPasswordState {
   final int type;
-  final bool otpSended;
+  final String otpSended;
   ForgetPasswordLoaded({required this.type, required this.otpSended});
 }
+
+final class ForgetPasswordSuccess extends ForgetPasswordState {}
+
+final class ForgetPasswordOpenChangePasswordPage extends ForgetPasswordState {}

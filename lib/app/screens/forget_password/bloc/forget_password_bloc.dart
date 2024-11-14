@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
+import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:http/http.dart' as http;
 part 'forget_password_event.dart';
@@ -12,7 +13,8 @@ class ForgetPasswordBloc
     extends Bloc<ForgetPasswordEvent, ForgetPasswordState> {
   ForgetPasswordBloc() : super(ForgetPasswordInitial()) {
     int type = 0;
-    bool otpSended = false;
+    String otpSended = '';
+
     on<ForgetPasswordEvent>((event, emit) async {
       if (event is ForgetPasswordLoad) {
         emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
@@ -23,10 +25,10 @@ class ForgetPasswordBloc
         } else {
           type = 0;
         }
-        otpSended = false;
+        otpSended = '';
         emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
       }
-      if (event is ForgetPasswordSendSms) {
+      if (event is ForgetPasswordSendPhoneOTP) {
         String phone = event.phone;
         final random = Random();
         int randomNumber = 1000 + random.nextInt(9000);
@@ -39,7 +41,30 @@ class ForgetPasswordBloc
         });
 
         if (response.statusCode == 200 || response.statusCode == 201) {
+          otpSended = randomNumber.toString();
+
+          emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
         } else {}
+      }
+      if (event is ForgetPasswordSendEmailOTP) {
+        var data = await ApiClient.post('api/auth/sendVerificationEmail', {});
+        if (data['success']) {
+          otpSended = '1';
+          emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
+        }
+      }
+      if (event is ForgetPasswordCheckEmailVerify) {
+        var req = await ApiClient.get('api/auth/checkVerificationStatus');
+        if (req['success']) {
+          emit(ForgetPasswordSuccess());
+          emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
+        } else {
+          emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
+        }
+      }
+      if (event is ForgetPasswordChangeRegData) {
+        otpSended = '';
+        emit(ForgetPasswordLoaded(type: type, otpSended: otpSended));
       }
     });
   }

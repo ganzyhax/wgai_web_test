@@ -54,14 +54,9 @@ class _SplashScreenState extends State<SplashScreen> {
                   builder: (context) => ProfileSettingsChangePasswordScreen()),
             );
           } else {
-            // Navigator.of(context).pushAndRemoveUntil(
-            //   MaterialPageRoute(builder: (context) => CustomNavigationBar()),
-            //   (Route<dynamic> route) => false,
-            // );
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProfileSettingsChangePasswordScreen()),
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => CustomNavigationBar()),
+              (Route<dynamic> route) => false,
             );
           }
         } else {

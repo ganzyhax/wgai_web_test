@@ -17,8 +17,7 @@ class ChangeEmailAndPassBloc
     bool emailNeeds = false;
     bool phoneNeeds = false;
     int type = 0;
-    bool phoneDone = false;
-    bool passDone = false;
+
     on<ChangeEmailAndPassEvent>((event, emit) async {
       // TODO: implement event handler
       if (event is ChangeEmailAndPassLoad) {
@@ -45,19 +44,45 @@ class ChangeEmailAndPassBloc
             'api/user/updateUserProfile', {'phone': event.phone});
         if (req['success']) {
           await LocalUtils.setLogin(event.phone);
-          phoneDone = true;
+
+          emailNeeds = false;
+          emit(ChangeEmailAndPassLoaded(
+              emailNeeds: emailNeeds,
+              phoneNeeds: phoneNeeds,
+              type: type,
+              otp: otp));
+          if (phoneNeeds == false) {
+            emit(ChangeEmailAndPassSuccess());
+          }
         }
       }
       if (event is ChangeEmailAndPassChangePass) {
         var req = await ApiClient.put(
             'api/user/updatePassword', {'newPassword': event.pass});
         if (req['success']) {
-          passDone = true;
+          phoneNeeds = false;
           await LocalUtils.setPassword(event.pass);
+          emit(ChangeEmailAndPassLoaded(
+              emailNeeds: emailNeeds,
+              phoneNeeds: phoneNeeds,
+              type: type,
+              otp: otp));
+          if (emailNeeds == false) {
+            emit(ChangeEmailAndPassSuccess());
+          }
         }
       }
       if (event is ChangeEmailAndPassClose) {
         emit(ChangeEmailAndPassSuccess());
+      }
+      if (event is ChangeEnailAndPassSetOtherPhone) {
+        otp = '';
+        phoneNeeds = true;
+        emit(ChangeEmailAndPassLoaded(
+            emailNeeds: emailNeeds,
+            phoneNeeds: phoneNeeds,
+            type: type,
+            otp: otp));
       }
       if (event is ChangeEmailAndPassSendOTP) {
         final random = Random();
