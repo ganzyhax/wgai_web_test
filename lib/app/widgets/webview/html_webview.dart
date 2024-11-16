@@ -36,6 +36,8 @@ class HtmlWebView extends StatefulWidget {
 }
 
 class _HtmlWebViewState extends State<HtmlWebView> {
+  late DateTime _startTime; // To store the start time
+
   late final WebViewController _controller;
   bool isLoading = true;
   String? htmlContent;
@@ -45,6 +47,7 @@ class _HtmlWebViewState extends State<HtmlWebView> {
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now(); // Record the start time
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -106,6 +109,13 @@ class _HtmlWebViewState extends State<HtmlWebView> {
               if (widget.quizData != null && widget.quizData!.isNotEmpty) {
                 if (widget.completionStatus == "complete" || isTestFinished) {
                   Navigator.of(context).pop(true);
+                  final Duration elapsedTime =
+                      DateTime.now().difference(_startTime);
+                  String totalTime = elapsedTime.inSeconds.toString();
+                  final minutes = elapsedTime.inSeconds ~/ 60;
+                  final seconds = elapsedTime.inSeconds % 60;
+                  print(
+                      'Test completed in $minutes minutes and $seconds seconds');
                   // for (int i = 0; i < 3; i++) {
                   //   if (Navigator.canPop(context)) {
                   //     Navigator.pop(context);

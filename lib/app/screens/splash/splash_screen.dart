@@ -7,8 +7,10 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'package:wg_app/app/screens/login/login_screen.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
+import 'package:wg_app/app/screens/profile/pages/profile_settings/pages/profile_change_email_and_pass/profile_settings_change_password_screen.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
+import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,17 +42,28 @@ class _SplashScreenState extends State<SplashScreen> {
     isLogged = await LocalUtils.isLogged();
     isFirstTime = await LocalUtils.isFirstTime();
 
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 2), () async {
       if (!requiresUpdate) {
         if (isLogged) {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => CustomNavigationBar()),
-            (Route<dynamic> route) => false,
-          );
+          var login = await LocalUtils.getLogin();
+          var pass = await LocalUtils.getPassword();
+          if (login.toString() == pass.toString()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProfileSettingsChangePasswordScreen()),
+            );
+          } else {
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => CustomNavigationBar()),
+              (Route<dynamic> route) => false,
+            );
+          }
         } else {
           if (isFirstTime) {
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => SplashChooseLanguagePage()),
+              MaterialPageRoute(
+                  builder: (context) => SplashChooseLanguagePage()),
               (Route<dynamic> route) => false,
             );
           } else {
@@ -66,7 +79,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkForUpdate() async {
     try {
-      final response =  await http.get(Uri.parse('https://v2.api.weglobal.ai/api/app/version'));
+      final response = await http
+          .get(Uri.parse('https://v2.api.weglobal.ai/api/app/version'));
       if (response.statusCode == 200) {
         final versionInfo = jsonDecode(response.body);
         final latestVersion = versionInfo['latestVersion'];
@@ -106,8 +120,10 @@ class _SplashScreenState extends State<SplashScreen> {
           actions: [
             TextButton(
               onPressed: () async {
-                final Uri appStoreUrl = Uri.parse('https://apps.apple.com/app/id6670311689');
-                final Uri playStoreUrl = Uri.parse('https://play.google.com/store/apps/details?id=ai.weglobal.mobile');
+                final Uri appStoreUrl =
+                    Uri.parse('https://apps.apple.com/app/id6670311689');
+                final Uri playStoreUrl = Uri.parse(
+                    'https://play.google.com/store/apps/details?id=ai.weglobal.mobile');
 
                 final Uri url = Platform.isIOS ? appStoreUrl : playStoreUrl;
 

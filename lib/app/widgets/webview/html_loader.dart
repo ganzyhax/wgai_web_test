@@ -42,10 +42,12 @@ class _HtmlLoaderState extends State<HtmlLoader> {
   String htmlTitle = "";
   bool isTestFinished = false;
   String style = '';
+  late DateTime _startTime; // To store the start time
 
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now(); // Record the start time
 
     _loadContent();
   }
@@ -218,6 +220,10 @@ class _HtmlLoaderState extends State<HtmlLoader> {
     if (widget.quizData != null && widget.quizData!.isNotEmpty) {
       if (widget.completionStatus == "complete" || isTestFinished) {
         Navigator.of(context).pop(true);
+        final Duration elapsedTime = DateTime.now().difference(_startTime);
+        String totalTime = elapsedTime.inSeconds.toString();
+        final minutes = elapsedTime.inSeconds ~/ 60;
+        final seconds = elapsedTime.inSeconds % 60;
       } else {
         _showTestDialog(context);
       }

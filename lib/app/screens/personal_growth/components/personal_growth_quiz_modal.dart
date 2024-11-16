@@ -23,9 +23,12 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
   List<int?> userAnswers = [];
   bool showCorrectAnswer = false;
   bool isFinished = false;
+  late DateTime _startTime; // To store the start time
+
   @override
   void initState() {
     super.initState();
+    _startTime = DateTime.now(); // Record the start time
     userAnswers = List<int?>.filled(widget.quizData.length, null);
   }
 
@@ -78,7 +81,11 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
         ),
       ),
       builder: (context) {
-        return QuizResultModal(score: score, total: widget.quizData.length);
+        return QuizResultModal(
+          score: score,
+          total: widget.quizData.length,
+          startTime: _startTime,
+        );
       },
     );
   }
@@ -165,11 +172,12 @@ class _PersonalGrowthQuizModalState extends State<PersonalGrowthQuizModal> {
 class QuizResultModal extends StatelessWidget {
   final int score;
   final int total;
-
+  final startTime;
   const QuizResultModal({
     Key? key,
     required this.score,
     required this.total,
+    required this.startTime,
   }) : super(key: key);
 
   @override
@@ -199,7 +207,11 @@ class QuizResultModal extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop(true);
               Navigator.of(context).pop(true);
-
+              final Duration elapsedTime = DateTime.now().difference(startTime);
+              String totalTime = elapsedTime.inSeconds.toString();
+              final minutes = elapsedTime.inSeconds ~/ 60;
+              final seconds = elapsedTime.inSeconds % 60;
+              print('Test completed in $minutes minutes and $seconds seconds');
               // Navigator.pop(context, 'complete');
               // for (int i = 0; i < 3; i++) {
               //   if (Navigator.canPop(context)) {

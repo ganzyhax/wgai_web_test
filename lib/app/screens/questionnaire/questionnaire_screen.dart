@@ -24,9 +24,13 @@ class QuestionnaireScreen extends StatefulWidget {
 }
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
+  late DateTime _startTime; // To store the start time
+
   @override
   void initState() {
     super.initState();
+
+    _startTime = DateTime.now(); // Record the start time
     context
         .read<QuestionnaireBloc>()
         .add(LoadQuestionnaire(widget.testingCode));
@@ -36,7 +40,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     return BlocListener<QuestionnaireBloc, QuestionnaireState>(
       listener: (context, state) {
         if (state is QuestionnaireSubmittedState) {
+          final Duration elapsedTime = DateTime.now().difference(_startTime);
+          String totalTime = elapsedTime.inSeconds.toString();
+          final minutes = elapsedTime.inSeconds ~/ 60;
+          final seconds = elapsedTime.inSeconds % 60;
+          print('Test completed in $minutes minutes and $seconds seconds');
           Navigator.of(context).pop(true);
+          // here add pop(context, and time of how much time of test)
         }
       },
       child: Scaffold(
