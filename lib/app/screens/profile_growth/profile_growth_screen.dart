@@ -60,58 +60,20 @@ class ProfileGrowthScreen extends StatelessWidget {
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) {
-                                    return Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 8.0),
-                                        child: (state.data['personalGrowth']
-                                                    ['psytests'][index]
-                                                .containsKey('interpretationLink'))
-                                            ? GrowthTestCard(
-                                                interpretationLink:
-                                                    state.data['personalGrowth']
-                                                            ['psytests'][index]
-                                                        ['interpretationLink'],
-                                                icon:
-                                                    "starfour",
-                                                title:
-                                                    state.data['personalGrowth']
-                                                                ['psytests']
-                                                            [index]['title'][
-                                                        context.locale
-                                                            .languageCode],
-                                                subTitle: (state
-                                                        .data['personalGrowth']
-                                                            ['psytests'][index]
-                                                        .containsKey(
-                                                            'subtitle'))
-                                                    ? state.data['personalGrowth']
-                                                                ['psytests']
-                                                            [index]['subtitle'][
-                                                        context.locale
-                                                            .languageCode]
+                                    return (state.data['personalGrowth']['psytests'][index].containsKey('interpretationLink'))
+                                        ? Padding(
+                                            padding: const EdgeInsets.only(top: 8.0),
+                                            child: GrowthTestCard(
+                                                interpretationLink: state.data['personalGrowth']['psytests'][index]['interpretationLink'],
+                                                icon: "starfour",
+                                                title: state.data['personalGrowth']['psytests'][index]['title'][context.locale.languageCode],
+                                                subTitle: (state.data['personalGrowth']['psytests'][index].containsKey('subtitle'))
+                                                    ? state.data['personalGrowth']['psytests'][index]['subtitle'][context.locale.languageCode]
                                                     : '',
-                                                fullContent:
-                                                    state.data['personalGrowth']
-                                                                ['psytests']
-                                                            [index]['subtitle'][
-                                                        context.locale
-                                                            .languageCode],
-                                              )
-                                            : Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(15),
-                                                  color: Colors.white,
-                                                ),
-                                                padding:
-                                                    const EdgeInsets.all(15),
-                                                child: Text(
-                                                    state.data['personalGrowth']
-                                                                ['psytests']
-                                                            [index]['title'][
-                                                        context.locale
-                                                            .languageCode]),
-                                              ));
+                                                fullContent: state.data['personalGrowth']['psytests'][index]['subtitle'][context.locale.languageCode],
+                                            ),
+                                          )
+                                        : SizedBox.shrink();
                                   })
                             ],
                           )),

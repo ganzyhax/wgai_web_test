@@ -134,8 +134,8 @@ class _AiScreenState extends State<AiScreen> {
                       Center(
                         child: Image.asset(
                           'assets/images/splash_image.png',
-                          width: 140,
-                          height: 140,
+                          width: 90,
+                          height: 90,
                           fit: BoxFit.contain,
                         ),
                       ),
