@@ -10,6 +10,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:wg_app/app/app.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
 import 'package:wg_app/firebase_options.dart';
 import 'package:wg_app/generated/codegen_loader.g.dart';
@@ -26,7 +27,7 @@ void main() async {
     Hive.init(appDocumentDir.path);
     await FCMService().subscribeToAllTopicBeforeLogin();
   }
-
+  // await LocalUtils.clearStorage();
   await BookmarkData().init();
   // await BookmarkData().clearList(AppHiveConstants.kzUniversities);
   // await BookmarkData().clearList(AppHiveConstants.professions);

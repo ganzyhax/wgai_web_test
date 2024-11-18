@@ -29,52 +29,53 @@ class _ProfileCareerScreenState extends State<ProfileCareerScreen> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(55),
           child: CustomAppbar(
-              title: LocaleKeys.my_career_title.tr(),
-              withBackButton: true)),
+              title: LocaleKeys.my_career_title.tr(), withBackButton: true)),
       body: BlocBuilder<ProfileCareerBloc, ProfileCareerState>(
         builder: (context, state) {
           if (state is ProfileCareerLoaded) {
             var data = BookmarkData().getItems(AppHiveConstants.professions);
             return Padding(
               padding: const EdgeInsets.all(16.0),
-              child: Column(
-                children: [
-                  (data.length == 0)
-                      ? ProfileStorageContainer(
-                          title: LocaleKeys.my_professions.tr(),
-                          buttonTitle: LocaleKeys.professions_overview.tr(),
-                          isMyCareer: true,
-                          showLeftIcon: true,
-                          showRightIcon: true,
-                          description: LocaleKeys.my_professions_storage.tr(),
-                          onButtonTap: () async {
-                            final res = await Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AtlasScreen()),
-                            );
-                            setState(() {});
-                          },
-                          isForeignUni: false,
-                        )
-                      : CareerStorageContainer(
-                          title: LocaleKeys.my_professions.tr(),
-                          doNavigate: true,
-                          isRecommendation: false,
-                          professions: state.myCareers,
-                          isForeign: false,
-                        ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  CareerStorageContainer(
-                    title: LocaleKeys.recommended_profession_name.tr(),
-                    doNavigate: false,
-                    isRecommendation: true,
-                    professions: state.recCareers,
-                    isForeign: false,
-                  ),
-                ],
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    (data.length == 0)
+                        ? ProfileStorageContainer(
+                            title: LocaleKeys.my_professions.tr(),
+                            buttonTitle: LocaleKeys.professions_overview.tr(),
+                            isMyCareer: true,
+                            showLeftIcon: true,
+                            showRightIcon: true,
+                            description: LocaleKeys.my_professions_storage.tr(),
+                            onButtonTap: () async {
+                              final res = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AtlasScreen()),
+                              );
+                              setState(() {});
+                            },
+                            isForeignUni: false,
+                          )
+                        : CareerStorageContainer(
+                            title: LocaleKeys.my_professions.tr(),
+                            doNavigate: true,
+                            isRecommendation: false,
+                            professions: state.myCareers,
+                            isForeign: false,
+                          ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CareerStorageContainer(
+                      title: LocaleKeys.recommended_profession_name.tr(),
+                      doNavigate: false,
+                      isRecommendation: true,
+                      professions: state.recCareers,
+                      isForeign: false,
+                    ),
+                  ],
+                ),
               ),
             );
           }

@@ -8,9 +8,9 @@ final class AtlasInitial extends AtlasState {}
 final class AtlasLoading extends AtlasState {}
 
 final class AtlasLoaded extends AtlasState {
-  final List<Professions>? professions;
-
-  AtlasLoaded(this.professions);
+  final professions;
+  final clusters;
+  AtlasLoaded({required this.professions, required this.clusters});
 }
 
 class SpecialitiesError extends AtlasState {

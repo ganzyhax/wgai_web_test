@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -48,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
           var login = await LocalUtils.getLogin();
           var pass = await LocalUtils.getPassword();
           if (login.toString() == pass.toString()) {
+            log(login + pass);
             Navigator.push(
               context,
               MaterialPageRoute(

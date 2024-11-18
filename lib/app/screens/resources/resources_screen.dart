@@ -80,22 +80,22 @@ class ResourcesScreen extends StatelessWidget {
                   );
                 },
               ),
-              // const SizedBox(height: 8),
-              // ResourcesContainer(
-              //   title: LocaleKeys.specialities.tr(),
-              //   // subTitle: 'Различные тесты для познания самого себя'.tr(),
-              //   subTitle: '',
-              //   iconPath: 'assets/icons/specialties.svg',
-              //   height: 122,
-              //   onTap: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //         builder: (context) => SpecialitiesScreen(),
-              //       ),
-              //     );
-              //   },
-              // ),
+              const SizedBox(height: 8),
+              ResourcesContainer(
+                title: LocaleKeys.specialities.tr(),
+                // subTitle: 'Различные тесты для познания самого себя'.tr(),
+                subTitle: '',
+                iconPath: 'assets/icons/specialties.svg',
+                height: 122,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SpecialitiesScreen(),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 8),
               ResourcesContainer(
                 title: LocaleKeys.ent.tr(),

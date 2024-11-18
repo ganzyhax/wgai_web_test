@@ -25,8 +25,12 @@ import 'package:wg_app/generated/locale_keys.g.dart';
 class UniversitiesCompleteScreen extends StatefulWidget {
   final String universityId;
   final bool? isChooseUniversity;
+  final bool? dontShowSpecialities;
   const UniversitiesCompleteScreen(
-      {super.key, required this.universityId, this.isChooseUniversity});
+      {super.key,
+      required this.universityId,
+      this.isChooseUniversity,
+      this.dontShowSpecialities = false});
 
   @override
   State<UniversitiesCompleteScreen> createState() =>
@@ -109,14 +113,17 @@ class _UniversitiesCompleteScreenState
                           titleSite: "Сайт:",
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
-                      if (widget.isChooseUniversity == null)
+                      if (widget.isChooseUniversity == null &&
+                          widget.dontShowSpecialities != true)
                         Text(
                           LocaleKeys.specialities.tr(),
                           style: AppTextStyle.heading3,
                         ),
-                      if (widget.isChooseUniversity == null)
+                      if (widget.isChooseUniversity == null &&
+                          widget.dontShowSpecialities != true)
                         const SizedBox(height: 8),
-                      if (widget.isChooseUniversity == null)
+                      if (widget.isChooseUniversity == null &&
+                          widget.dontShowSpecialities != true)
                         BlocBuilder<SpecialitiesBloc, SpecialitiesState>(
                           builder: (context, state) {
                             if (state is SpecialitiesLoading) {
@@ -145,6 +152,8 @@ class _UniversitiesCompleteScreenState
                                                   MaterialPageRoute(
                                                       builder: (context) =>
                                                           SpecialitiesCompleteScreen(
+                                                              dontShowUniversities:
+                                                                  true,
                                                               data: spec!,
                                                               speciesId: specialty
                                                                       .code ??

@@ -23,10 +23,12 @@ class SpecialitiesCompleteScreen extends StatefulWidget {
   final String speciesId;
   final bool? isChooseUniversity;
   final Specialties data;
+  final bool? dontShowUniversities;
   const SpecialitiesCompleteScreen(
       {super.key,
       this.isChooseUniversity,
       required this.speciesId,
+      this.dontShowUniversities,
       required this.data});
 
   @override
@@ -145,68 +147,86 @@ class SpecialitiesCompleteScreenState
                       grantTotal: widget.data.grants?.rural?.grantsTotal ?? 0,
                     ),
                     const SizedBox(height: 16),
-                    Text(
-                      'universities'.tr(),
-                      style: AppTextStyle.titleHeading
-                          .copyWith(color: AppColors.calendarTextColor),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    BlocBuilder<UniversitiesBloc, UniversitiesState>(
-                      builder: (context, state) {
-                        if (state is UniversitiesLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        } else if (state is UniversitiesLoaded) {
-                          return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: widget.data.universities!.length,
-                            itemBuilder: (context, index) {
-                              final university =
-                                  widget.data.universities?[index];
-                              return Padding(
-                                padding: const EdgeInsets.only(bottom: 8),
-                                child: UniContainers(
-                                  codeNumber: university?.code ?? '',
-                                  title: university?.name
-                                          ?.getLocalizedString(context) ??
-                                      '',
-
-                                  // firstDescription: university?.regionName?.getLocalizedString(context) ?? '',
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            (widget.isChooseUniversity != null)
-                                                ? UniversitiesCompleteScreen(
-                                                    universityId:
-                                                        university?.code ?? '',
-                                                    isChooseUniversity: true,
-                                                  )
-                                                : UniversitiesCompleteScreen(
-                                                    universityId:
-                                                        university?.code ?? '',
-                                                  ),
-                                      ),
+                    (widget.dontShowUniversities == true)
+                        ? SizedBox()
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'universities'.tr(),
+                                style: AppTextStyle.titleHeading.copyWith(
+                                    color: AppColors.calendarTextColor),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              BlocBuilder<UniversitiesBloc, UniversitiesState>(
+                                builder: (context, state) {
+                                  if (state is UniversitiesLoading) {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
                                     );
-                                  },
-                                  isComplete: true,
-                                ),
-                              );
-                            },
-                          );
-                        } else if (state is UniversitiesError) {
-                          return Center(child: Text(state.message));
-                        } else {
-                          return Container();
-                        }
-                      },
-                    ),
+                                  } else if (state is UniversitiesLoaded) {
+                                    return ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          widget.data.universities!.length,
+                                      itemBuilder: (context, index) {
+                                        final university =
+                                            widget.data.universities?[index];
+                                        return Padding(
+                                          padding:
+                                              const EdgeInsets.only(bottom: 8),
+                                          child: UniContainers(
+                                            codeNumber: university?.code ?? '',
+                                            title: university?.name
+                                                    ?.getLocalizedString(
+                                                        context) ??
+                                                '',
+
+                                            // firstDescription: university?.regionName?.getLocalizedString(context) ?? '',
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => (widget
+                                                              .isChooseUniversity !=
+                                                          null)
+                                                      ? UniversitiesCompleteScreen(
+                                                          universityId:
+                                                              university
+                                                                      ?.code ??
+                                                                  '',
+                                                          isChooseUniversity:
+                                                              true,
+                                                        )
+                                                      : UniversitiesCompleteScreen(
+                                                          dontShowSpecialities:
+                                                              true,
+                                                          universityId:
+                                                              university
+                                                                      ?.code ??
+                                                                  '',
+                                                        ),
+                                                ),
+                                              );
+                                            },
+                                            isComplete: true,
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  } else if (state is UniversitiesError) {
+                                    return Center(child: Text(state.message));
+                                  } else {
+                                    return Container();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
                   ],
                 ),
               ),

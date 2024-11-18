@@ -38,7 +38,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           } catch (e) {
             print('Token adding error: ' + e.toString());
           }
-
+          await LocalUtils.setLogin(event.login);
+          await LocalUtils.setPassword(event.password);
           if (event.password == event.login) {
             emit(LoginSuccess(mustChangePassword: true));
           } else {

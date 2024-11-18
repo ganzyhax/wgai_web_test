@@ -35,16 +35,17 @@ class _LoginScreenState extends State<LoginScreen> {
             CustomSnackbar().showCustomSnackbar(context, state.message, false);
           }
           if (state is LoginSuccess) {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => CustomNavigationBar()),
-              (Route<dynamic> route) => false,
-            );
             if (state.mustChangePassword) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) =>
                         ProfileSettingsChangePasswordScreen()),
+              );
+            } else {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => CustomNavigationBar()),
+                (Route<dynamic> route) => false,
               );
             }
           }

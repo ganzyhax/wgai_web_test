@@ -112,7 +112,6 @@ class _AiScreenState extends State<AiScreen> {
       body: BlocListener<AiBloc, AiState>(
         listener: (context, state) {
           if (state is AiOpenChat) {
-            log('ASDASDASD');
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => AiChatScreen()),
