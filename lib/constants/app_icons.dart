@@ -21,4 +21,6 @@ final Map<String, dynamic> myIconMap = {
       PhosphorIcons.chalkboardTeacher((PhosphorIconsStyle.regular)),
   "storefront": PhosphorIcons.storefront((PhosphorIconsStyle.regular)),
   "starfour": PhosphorIcons.starFour((PhosphorIconsStyle.fill)),
+  "lineRegular": PhosphorIcons.lineVertical(((PhosphorIconsStyle.regular))),
+  "clipboardText": PhosphorIcons.clipboardText((PhosphorIconsStyle.regular)),
 };
