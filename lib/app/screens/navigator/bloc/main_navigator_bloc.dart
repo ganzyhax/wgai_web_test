@@ -15,7 +15,7 @@ part 'main_navigator_state.dart';
 class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
   MainNavigatorBloc() : super(MainNavigatorInitial()) {
     List screens = [
-      AiScreen(),
+      // AiScreen(),
       PersonalGrowthScreen(),
       CommunityScreen(),
       ResourcesScreen(),
@@ -28,12 +28,12 @@ class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
       }
 
       if (event is MainNavigatorChangePage) {
-        if (event.index == 2) {
+        if (event.index == 1) {
           index = event.index;
           if (event.newsScrollId != null) {
             index = event.index;
             screens = [
-              AiScreen(),
+              // AiScreen(),
               PersonalGrowthScreen(),
               CommunityScreen(
                 scrollId: event.newsScrollId,
@@ -46,7 +46,7 @@ class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
             log('Open counsleo');
             index = event.index;
             screens = [
-              AiScreen(),
+              // AiScreen(),
               PersonalGrowthScreen(),
               CommunityScreen(
                 isCounsulant: true,
@@ -61,7 +61,7 @@ class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
 
         emit(MainNavigatorLoaded(index: index, screens: screens));
         screens = [
-          AiScreen(),
+          // AiScreen(),
           PersonalGrowthScreen(),
           CommunityScreen(),
           ResourcesScreen(),

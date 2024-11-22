@@ -22,18 +22,6 @@ class AiScreen extends StatefulWidget {
 }
 
 class _AiScreenState extends State<AiScreen> {
-  final FCMService _fcmService = FCMService();
-
-  @override
-  void initState() {
-    super.initState();
-    _fcmService.initializeAfterLogin(context);
-    // Handle the case when the app is opened via a notification click
-    _fcmService.handleInitialMessage(context);
-
-    // Listen for notification taps when the app is in the background/foreground
-    _fcmService.configureNotificationActions(context);
-  }
 
   @override
   Widget build(BuildContext context) {

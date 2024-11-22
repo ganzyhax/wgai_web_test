@@ -29,13 +29,23 @@ class CustomNavigationBar extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      // InkWell(
+                      //   onTap: () {
+                      //     BlocProvider.of<MainNavigatorBloc>(context)
+                      //         .add(MainNavigatorChangePage(index: 0));
+                      //   },
+                      //   child: NavigationItem(
+                      //     assetImage: 'assets/icons/consultant.svg',
+                      //     isSelected: (state.index == 0) ? true : false,
+                      //   ),
+                      // ),
                       InkWell(
                         onTap: () {
                           BlocProvider.of<MainNavigatorBloc>(context)
                               .add(MainNavigatorChangePage(index: 0));
                         },
                         child: NavigationItem(
-                          assetImage: 'assets/icons/consultant.svg',
+                          assetImage: 'assets/icons/route.svg',
                           isSelected: (state.index == 0) ? true : false,
                         ),
                       ),
@@ -45,7 +55,7 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 1));
                         },
                         child: NavigationItem(
-                          assetImage: 'assets/icons/route.svg',
+                          assetImage: 'assets/icons/comunity.svg',
                           isSelected: (state.index == 1) ? true : false,
                         ),
                       ),
@@ -55,7 +65,7 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 2));
                         },
                         child: NavigationItem(
-                          assetImage: 'assets/icons/comunity.svg',
+                          assetImage: 'assets/icons/books.svg',
                           isSelected: (state.index == 2) ? true : false,
                         ),
                       ),
@@ -65,18 +75,8 @@ class CustomNavigationBar extends StatelessWidget {
                               .add(MainNavigatorChangePage(index: 3));
                         },
                         child: NavigationItem(
-                          assetImage: 'assets/icons/books.svg',
-                          isSelected: (state.index == 3) ? true : false,
-                        ),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          BlocProvider.of<MainNavigatorBloc>(context)
-                              .add(MainNavigatorChangePage(index: 4));
-                        },
-                        child: NavigationItem(
                           assetImage: 'assets/icons/profile.svg',
-                          isSelected: (state.index == 4) ? true : false,
+                          isSelected: (state.index == 3) ? true : false,
                         ),
                       ),
                     ],

@@ -152,7 +152,7 @@ class FCMService {
       BuildContext context, Map<String, dynamic> notificationBody) {
     if (notificationBody['type'] == 'counselor') {
       BlocProvider.of<MainNavigatorBloc>(context)
-        ..add(MainNavigatorChangePage(index: 2, notificationCounselor: true));
+        ..add(MainNavigatorChangePage(index: 1, notificationCounselor: true));
       // WeGlobalApp.navigatorKey.currentState?.push(
       //   MaterialPageRoute(
       //     builder: (context) => CommunityScreen(
@@ -162,7 +162,7 @@ class FCMService {
     } else if (notificationBody['type'] == 'news') {
       BlocProvider.of<MainNavigatorBloc>(context)
         ..add(MainNavigatorChangePage(
-            index: 2, newsScrollId: notificationBody['id']));
+            index: 1, newsScrollId: notificationBody['id']));
       // WeGlobalApp.navigatorKey.currentState?.push(
       //   MaterialPageRoute(
       //     builder: (context) => CommunityScreen(
@@ -173,7 +173,7 @@ class FCMService {
       // );
     } else if (notificationBody['type'] == 'growth') {
       BlocProvider.of<MainNavigatorBloc>(context)
-        ..add(MainNavigatorChangePage(index: 1));
+        ..add(MainNavigatorChangePage(index: 0));
       // WeGlobalApp.navigatorKey.currentState?.push(
       //   MaterialPageRoute(
       //     builder: (context) => const PersonalGrowthScreen(),
