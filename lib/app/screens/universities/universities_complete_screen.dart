@@ -61,7 +61,7 @@ class _UniversitiesCompleteScreenState
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(55),
           child: CustomAppbar(
-            title: 'ВУЗ',
+            title: LocaleKeys.universities.tr(),
             withBackButton: true,
           )),
       body: BlocBuilder<UniversitiesBloc, UniversitiesState>(
@@ -110,7 +110,7 @@ class _UniversitiesCompleteScreenState
                                   ?.map((social) => {'link': social.link ?? ''})
                                   .toList() ??
                               [],
-                          titleSite: "Сайт:",
+                          titleSite: LocaleKeys.website.tr(),
                           site: university.website ?? ''),
                       const SizedBox(height: 16),
                       if (widget.isChooseUniversity == null &&

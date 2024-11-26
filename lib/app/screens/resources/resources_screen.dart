@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/atlas/atlas_screen.dart';
+import 'package:wg_app/app/screens/colleges/colleges_screen.dart';
 import 'package:wg_app/app/screens/ent/ent_screen.dart';
 import 'package:wg_app/app/screens/foreign/foreign_screen.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
@@ -123,6 +124,20 @@ class ResourcesScreen extends StatelessWidget {
               //   },
               // ),
               const SizedBox(height: 8),
+              ResourcesContainer(
+                title: LocaleKeys.colleges.tr(),
+                subTitle: 'Различные тесты для познания самого себя',
+                iconPath: 'assets/icons/nazarbaev.svg',
+                height: 122,
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CollegesScreen(),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         )));

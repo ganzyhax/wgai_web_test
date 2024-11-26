@@ -243,5 +243,6 @@ abstract class  LocaleKeys {
   static const updateRequiredMessage = 'updateRequiredMessage';
   static const updateNow = 'updateNow';
   static const thinking = 'thinking';
+  static const colleges = 'colleges';
 
 }
