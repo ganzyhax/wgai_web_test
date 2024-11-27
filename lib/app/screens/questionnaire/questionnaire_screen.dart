@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wg_app/app/screens/questionnaire/model/testing_model.dart';
 import 'package:wg_app/app/screens/questionnaire/bloc/questionnaire_bloc.dart';
+import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
@@ -34,6 +35,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   bool _isTyping = false; // Typing indicator
   int? _lastShownQuestionIndex; // Track last shown question index
   bool _showLoading = false;
+  List<Map<String, dynamic>> _localMultipleChoice = []; // Chat message history
+
   @override
   void initState() {
     super.initState();
@@ -59,6 +62,29 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         );
       }
     });
+  }
+
+  void _showImage(Problems question, int index) async {
+    if (_lastShownQuestionIndex == index) return; // Prevent duplicate show
+    _lastShownQuestionIndex = index; // Update last shown question
+    setState(() {
+      _showLoading = true;
+      _isTyping = true;
+    });
+    await Future.delayed(const Duration(seconds: 1));
+
+    setState(() {
+      _chatMessages.add({
+        'isQuestion': true,
+        'image': question.image?.getLocalizedString(context)
+      });
+      _showLoading = false;
+      _scrollToBottom();
+    });
+    setState(() {
+      _isTyping = false;
+    });
+    _scrollToBottom();
   }
 
   void _showQuestion(Problems question, int index) async {
@@ -103,8 +129,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           print('Test completed in $minutes minutes and $seconds seconds');
           Navigator.of(context).pop(true);
         } else if (state is QuestionnaireSuccessState && !_isTyping) {
-          _showQuestion(
-              state.questions[state.currentIndex], state.currentIndex);
+          final question = state.questions[state.currentIndex];
+          if (question.problemType == 'poster') {
+            _showImage(question,
+                state.currentIndex); // Show the image if it's a poster
+          } else {
+            _showQuestion(question, state.currentIndex); // Show text otherwise
+          }
         }
       },
       child: Scaffold(
@@ -160,6 +191,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                           return _buildTypingIndicator();
                         }
                         final message = _chatMessages[index];
+
                         return _buildChatMessage(message);
                       },
                     ),
@@ -167,12 +199,25 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                   BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
                     builder: (context, state) {
                       if (state is QuestionnaireSuccessState) {
-                        log(state.questions[state.currentIndex].question!.kk
-                            .toString());
                         return (!_isTyping)
-                            ? _buildAnswerOptions(
-                                state.questions[state.currentIndex],
-                                state.selectedAnswerIndices,
+                            ? Column(
+                                children: [
+                                  _buildAnswerOptions(
+                                    state.questions[state.currentIndex],
+                                    state.selectedAnswerIndices,
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  (state.questions[state.currentIndex]
+                                              .problemType ==
+                                          'multiple-choice')
+                                      ? _buildNavigationButtons(context, state)
+                                      : SizedBox(),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                ],
                               )
                             : SizedBox();
                       }
@@ -199,6 +244,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
 
   Widget _buildChatMessage(Map<String, dynamic> message) {
     final bool isQuestion = message['isQuestion'];
+    final String? text = message['text'];
+    final String? imageUrl = message['image'];
+
     _scrollToBottom();
     return Align(
       alignment: isQuestion ? Alignment.centerLeft : Alignment.centerRight,
@@ -209,12 +257,14 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           color: isQuestion ? AppColors.grayProgressBar : AppColors.primary,
           borderRadius: BorderRadius.circular(16.0),
         ),
-        child: Text(
-          message['text'],
-          style: AppTextStyle.bodyText.copyWith(
-            color: isQuestion ? AppColors.blackForText : Colors.white,
-          ),
-        ),
+        child: imageUrl != null
+            ? Image.asset(imageUrl)
+            : Text(
+                text ?? '',
+                style: AppTextStyle.bodyText.copyWith(
+                  color: isQuestion ? AppColors.blackForText : Colors.white,
+                ),
+              ),
       ),
     );
   }
@@ -263,46 +313,88 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       padding: EdgeInsets.only(left: 15, right: 15),
       color: AppColors.background,
       child: Column(
-        // spacing: 8.0,
-        // runSpacing: 8.0,
         children: question.options!.asMap().entries.map((entry) {
           final index = entry.key;
           final option = entry.value;
-          log(option.answer!.kk.toString());
+          final isSelected =
+              selectedIndices.contains(index); // Check if selected
+          log(question.question!.kk.toString());
+
           return GestureDetector(
             onTap: () {
               setState(() {
-                _chatMessages.add({
-                  'isQuestion': false,
-                  'text': option.answer?.getLocalizedString(context) ?? '',
-                });
-                context.read<QuestionnaireBloc>().add(AnswerQuestion(
-                      index,
-                      question.problemType == 'multiple-choice',
-                      question.problemType == 'poster',
-                    ));
-                context.read<QuestionnaireBloc>().add(NextQuestion());
+                if (question.problemType != 'multiple-choice') {
+                  _chatMessages.add({
+                    'isQuestion': false,
+                    'text': option.answer?.getLocalizedString(context) ?? '',
+                  });
+                  context.read<QuestionnaireBloc>().add(AnswerQuestion(
+                        index,
+                        question.problemType == 'multiple-choice',
+                        question.problemType == 'poster',
+                      ));
+                  context.read<QuestionnaireBloc>().add(NextQuestion());
+                } else {
+                  _localMultipleChoice.add({
+                    'isQuestion': false,
+                    'text': option.answer?.getLocalizedString(context) ?? '',
+                  });
+                  context.read<QuestionnaireBloc>().add(AnswerQuestion(
+                        index,
+                        question.problemType == 'multiple-choice',
+                        question.problemType == 'poster',
+                      ));
+                }
               });
             },
             child: Container(
               margin: EdgeInsets.only(bottom: 5),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
-                  color: AppColors.primary),
+                  color: (question.problemType == 'multiple-choice')
+                      ? isSelected
+                          ? AppColors.primary
+                          : Colors.grey[350]
+                      : AppColors.primary),
               padding: EdgeInsets.all(15),
               child: Center(
                 child: Text(
                   option.answer?.getLocalizedString(context) ?? '',
                   style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15),
+                    color: Colors.white,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15,
+                  ),
                 ),
               ),
             ),
           );
         }).toList(),
       ),
+    );
+  }
+
+  Widget _buildNavigationButtons(
+      BuildContext context, QuestionnaireSuccessState state) {
+    return Row(
+      children: [
+        const SizedBox(width: 5),
+        Expanded(
+          child: CustomButton(
+            height: 44,
+            onTap: () {
+              setState(() {
+                _chatMessages.addAll(_localMultipleChoice);
+                _localMultipleChoice = [];
+              });
+              context.read<QuestionnaireBloc>().add(NextQuestion());
+            },
+            text: state.currentIndex == state.questions.length - 1
+                ? LocaleKeys.completion.tr()
+                : LocaleKeys.next.tr(),
+          ),
+        ),
+      ],
     );
   }
 }
