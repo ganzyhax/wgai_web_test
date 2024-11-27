@@ -55,6 +55,7 @@ dependencies:
   flutter_widget_from_html:
   flutter_otp_text_field: ^1.2.0
   package_info_plus: ^5.0.1
+  amplitude_flutter: ^3.13.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

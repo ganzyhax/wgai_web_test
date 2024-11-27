@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:webview_flutter/webview_flutter.dart';
-
+import 'package:amplitude_flutter/amplitude.dart';
+import 'package:amplitude_flutter/identify.dart';
 import 'package:wg_app/app/app.dart';
+import 'package:wg_app/app/utils/amplitude.dart';
 import 'package:wg_app/app/utils/bookmark_data.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_hive_constants.dart';
@@ -20,6 +22,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
+
+  AmplitudeFunc amplitudeFunc = AmplitudeFunc();
+  amplitudeFunc.initAmplitude();
   if (kIsWeb) {
   } else {
     final appDocumentDir =
