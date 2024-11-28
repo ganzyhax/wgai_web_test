@@ -10,6 +10,7 @@ import 'package:wg_app/app/screens/login/login_screen.dart';
 import 'package:wg_app/app/screens/navigator/main_navigator.dart';
 import 'package:wg_app/app/screens/profile/pages/profile_settings/pages/profile_change_email_and_pass/profile_settings_change_password_screen.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
+import 'package:wg_app/app/utils/amplitude.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/buttons/custom_button.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -56,6 +57,8 @@ class _SplashScreenState extends State<SplashScreen> {
                   builder: (context) => ProfileSettingsChangePasswordScreen()),
             );
           } else {
+            String userId = await LocalUtils.getUserId();
+            AmplitudeFunc().setUserProperties({'userId': userId});
             Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(builder: (context) => CustomNavigationBar()),
               (Route<dynamic> route) => false,

@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,8 @@ import 'package:wg_app/app/screens/specialities/bloc/specialities_bloc.dart';
 import 'package:wg_app/app/screens/splash/components/pages/splash_choose_language_screen.dart';
 import 'package:wg_app/app/screens/splash/splash_screen.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
+import 'package:wg_app/generated/locale_keys.g.dart';
 
 class WeGlobalApp extends StatelessWidget {
   static final GlobalKey<NavigatorState> navigatorKey =

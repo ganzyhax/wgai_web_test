@@ -9,12 +9,10 @@ class AmplitudeFunc {
     _amplitude.init('22c53704f4c2c4cca29ac95c94a12b01');
   }
 
-  // Example method to log an event
   void logEvent(String eventName, [Map<String, dynamic>? properties]) {
     _amplitude.logEvent(eventName, eventProperties: properties);
   }
 
-  // Example method to set user properties
   void setUserProperties(Map<String, dynamic> properties) {
     _amplitude.setUserProperties(properties);
   }

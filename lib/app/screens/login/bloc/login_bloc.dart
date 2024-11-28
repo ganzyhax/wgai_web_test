@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
 import 'package:wg_app/app/api/auth_utils.dart';
+import 'package:wg_app/app/utils/amplitude.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/utils/fcm_service.dart';
 
@@ -25,6 +26,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
         if (attemp is bool) {
           try {
+            String userId = await LocalUtils.getUserId();
+            AmplitudeFunc().setUserProperties({'userId': userId});
+            AmplitudeFunc().logEvent('Login', {});
             String token = await FCMService().getToken() ?? '';
 
             if (token != '') {
