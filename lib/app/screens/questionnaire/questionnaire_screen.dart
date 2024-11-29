@@ -29,7 +29,7 @@ class QuestionnaireScreen extends StatefulWidget {
 
 class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   late DateTime _startTime; // To store the start time
-  final List<Map<String, dynamic>> _chatMessages = []; // Chat message history
+  List<Map<String, dynamic>> _chatMessages = []; // Chat message history
   final ScrollController _scrollController =
       ScrollController(); // ScrollController
   bool _isTyping = false; // Typing indicator
@@ -128,6 +128,8 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           final seconds = elapsedTime.inSeconds % 60;
           print('Test completed in $minutes minutes and $seconds seconds');
           Navigator.of(context).pop(true);
+        } else if (state is QuestionnaireSetLocalData) {
+          _chatMessages = state.data;
         } else if (state is QuestionnaireSuccessState && !_isTyping) {
           final question = state.questions[state.currentIndex];
           if (question.problemType == 'poster') {

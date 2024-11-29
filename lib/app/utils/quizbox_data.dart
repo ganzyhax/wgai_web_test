@@ -13,9 +13,8 @@ class QuizBoxData {
     _quizBox = await Hive.openBox('quizBox');
   }
 
-  /// Save quiz progress (answers and current index)
   Future<void> saveQuizProgress(
-      String quizId, List<int> answers, int currentIndex) async {
+      String quizId, List<List<int>> answers, int currentIndex) async {
     final Map<String, dynamic> quizData = {
       'answers': answers,
       'currentIndex': currentIndex,

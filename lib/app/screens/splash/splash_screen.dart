@@ -49,21 +49,21 @@ class _SplashScreenState extends State<SplashScreen> {
         if (isLogged) {
           var login = await LocalUtils.getLogin();
           var pass = await LocalUtils.getPassword();
-          if (login.toString() == pass.toString()) {
-            log(login + pass);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProfileSettingsChangePasswordScreen()),
-            );
-          } else {
-            String userId = await LocalUtils.getUserId();
-            AmplitudeFunc().setUserProperties({'userId': userId});
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => CustomNavigationBar()),
-              (Route<dynamic> route) => false,
-            );
-          }
+          // if (login.toString() == pass.toString()) {
+          //   log(login + pass);
+          //   Navigator.push(
+          //     context,
+          //     MaterialPageRoute(
+          //         builder: (context) => ProfileSettingsChangePasswordScreen()),
+          //   );
+          // } else {
+          String userId = await LocalUtils.getUserId();
+          AmplitudeFunc().setUserProperties({'userId': userId});
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => CustomNavigationBar()),
+            (Route<dynamic> route) => false,
+          );
+          // }
         } else {
           if (isFirstTime) {
             Navigator.of(context).pushAndRemoveUntil(

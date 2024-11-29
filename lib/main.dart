@@ -36,6 +36,7 @@ void main() async {
   // await LocalUtils.clearStorage();
   await BookmarkData().init();
   await QuizBoxData().init();
+  // await QuizBoxData().clearAllQuizData();
   // await BookmarkData().clearList(AppHiveConstants.kzUniversities);
   // await BookmarkData().clearList(AppHiveConstants.professions);
   // await BookmarkData().clearList(AppHiveConstants.globalUniversities);

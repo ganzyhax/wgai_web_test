@@ -34,7 +34,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             if (token != '') {
               var resp = await ApiClient.post(
                   'api/user/addFcmToken', {"fcmToken": token});
-              log(token);
+
               if (resp['success']) {
                 print('Token added successfully');
               }
@@ -44,11 +44,12 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           }
           await LocalUtils.setLogin(event.login);
           await LocalUtils.setPassword(event.password);
-          if (event.password == event.login) {
-            emit(LoginSuccess(mustChangePassword: true));
-          } else {
-            emit(LoginSuccess(mustChangePassword: false));
-          }
+          // if (event.password == event.login) {
+          //   emit(LoginSuccess(mustChangePassword: true));
+          // } else {
+          //   emit(LoginSuccess(mustChangePassword: false));
+          // }
+          emit(LoginSuccess(mustChangePassword: false));
           isLoading = false;
         } else {
           emit(LoginError(message: attemp));
