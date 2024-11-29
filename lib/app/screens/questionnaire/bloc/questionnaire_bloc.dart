@@ -1,15 +1,19 @@
+import 'dart:developer';
 import 'package:bloc/bloc.dart';
+import 'package:hive/hive.dart'; // Import Hive
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/screens/questionnaire/model/testing_model.dart';
 import 'package:wg_app/app/screens/questionnaire/network/questionnaire_network.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
+import 'package:wg_app/app/utils/quizbox_data.dart';
 
 part 'questionnaire_event.dart';
 part 'questionnaire_state.dart';
 
 class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
-  // List<List<String>> _answers = [];
   List<List<int>> _answers = [];
+  late String _testingCode; // Store the current testingCode
+  final QuizBoxData quizBoxData = QuizBoxData();
 
   QuestionnaireBloc() : super(QuestionnaireInitial()) {
     on<LoadQuestionnaire>(_onLoadQuestionnaire);
@@ -22,7 +26,26 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
   Future<void> _onLoadQuestionnaire(
       LoadQuestionnaire event, Emitter<QuestionnaireState> emit) async {
     emit(QuestionnaireLoadingState());
+    _testingCode = event.testingCode; // Store the current testing code
+
+    if (quizBoxData.hasQuizProgress(event.testingCode)) {
+      // Retrieve saved data
+      final savedData = quizBoxData.getQuizProgress(event.testingCode);
+      _answers = List<List<int>>.from(savedData!['answers']);
+      final currentIndex = savedData!['currentIndex'];
+      emit(QuestionnaireSuccessState(
+        questions: savedData!['questions'],
+        currentIndex: currentIndex,
+        selectedAnswerIndices: _answers[currentIndex],
+        questionnaireTitle: savedData['title'],
+        portraitImage: savedData['portraitImage'],
+        isMultipleChoice: savedData['isMultipleChoice'],
+      ));
+      return;
+    }
+
     try {
+      // Fetch new questionnaire data from the network
       final TestingModel? data =
           await QuestionnaireNetwork().getQuestionnaire(event.testingCode);
 
@@ -32,15 +55,29 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
         if (localLang == 'kk') {
           testingTitle = data.testingMaterial?.title?.kk ?? '';
         }
+
         _answers = List.generate(
             data.testingMaterial?.problems?.length ?? 0, (_) => []);
+
+        final questions = data.testingMaterial?.problems ?? [];
+
+        // Save initial data in Hive
+        q.put(_testingCode, {
+          'answers': _answers,
+          'currentIndex': 0,
+          'questions': questions,
+          'title': testingTitle,
+          'portraitImage': questions,
+          'isMultipleChoice': questions,
+        });
+
         emit(QuestionnaireSuccessState(
-          questions: data.testingMaterial?.problems ?? [],
+          questions: questions,
           currentIndex: 0,
           selectedAnswerIndices: [],
           questionnaireTitle: testingTitle,
-          portraitImage: data.testingMaterial?.problems ?? [],
-          isMultipleChoice: data.testingMaterial?.problems ?? [],
+          portraitImage: questions,
+          isMultipleChoice: questions,
         ));
       }
     } catch (e) {
@@ -54,6 +91,7 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
     if (currentState is QuestionnaireSuccessState) {
       final selectedIndices =
           List<int>.from(currentState.selectedAnswerIndices);
+
       if (event.isMultipleChoice) {
         if (selectedIndices.contains(event.answerIndex)) {
           selectedIndices.remove(event.answerIndex);
@@ -64,65 +102,53 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
         selectedIndices.clear();
         selectedIndices.add(event.answerIndex);
       }
+
+      // Update answers and save to Hive
+      _answers[currentState.currentIndex] = selectedIndices;
+      quizBox.put(_testingCode, {
+        'answers': _answers,
+        'currentIndex': currentState.currentIndex,
+        'questions': currentState.questions,
+        'title': currentState.questionnaireTitle,
+        'portraitImage': currentState.portraitImage,
+        'isMultipleChoice': currentState.isMultipleChoice,
+      });
+
       emit(currentState.copyWith(selectedAnswerIndices: selectedIndices));
     }
   }
 
   void _onNextQuestion(NextQuestion event, Emitter<QuestionnaireState> emit) {
     final currentState = state;
-    if (currentState is QuestionnaireSuccessState) {
-      if (currentState.currentIndex <= currentState.questions.length - 1) {
-        final currentAnswers =
-            List<int>.from(currentState.selectedAnswerIndices);
-        _answers[currentState.currentIndex] = currentAnswers;
-        if (currentState.currentIndex == currentState.questions.length - 1) {
-          if (currentState.questions[currentState.currentIndex].problemType ==
-                  'poster' ||
-              currentState.selectedAnswerIndices.length > 0) {
-            emit(QuestionnaireCompletedState(_answers));
-          }
-        } else if (currentState.selectedAnswerIndices.length > 0 ||
-            currentState.questions[currentState.currentIndex].problemType ==
-                'poster') {
-          // next index is provided in the document unless the question is a poster, in which case just go to the next index
-          final nextIndex = currentState.selectedAnswerIndices.length > 0
-              ? currentState
-                  .questions[currentState.currentIndex]
-                  .options![currentState.selectedAnswerIndices[0]]
-                  .nextQuestionIndex
-              : currentState.currentIndex + 1;
-          emit(currentState.copyWith(
-            currentIndex: nextIndex,
-            selectedAnswerIndices: _answers[currentState.currentIndex + 1],
-          ));
-        }
-      }
+    if (currentState is QuestionnaireSuccessState &&
+        currentState.currentIndex < currentState.questions.length - 1) {
+      final nextIndex = currentState.currentIndex + 1;
+      emit(currentState.copyWith(
+        currentIndex: nextIndex,
+        selectedAnswerIndices: _answers[nextIndex],
+      ));
     }
   }
 
-  // left it out for now, will implement later
   void _onPreviousQuestion(
       PreviousQuestion event, Emitter<QuestionnaireState> emit) {
     final currentState = state;
-    if (currentState is QuestionnaireSuccessState) {
-      if (currentState.currentIndex > 0) {
-        final currentAnswers =
-            List<int>.from(currentState.selectedAnswerIndices);
-        _answers[currentState.currentIndex] = currentAnswers;
-        emit(currentState.copyWith(
-          currentIndex: currentState.currentIndex - 1,
-          selectedAnswerIndices: _answers[currentState.currentIndex - 1],
-        ));
-      }
+    if (currentState is QuestionnaireSuccessState &&
+        currentState.currentIndex > 0) {
+      final previousIndex = currentState.currentIndex - 1;
+      emit(currentState.copyWith(
+        currentIndex: previousIndex,
+        selectedAnswerIndices: _answers[previousIndex],
+      ));
     }
   }
 
   void _onCompleteQuestionnaire(
       CompleteQuestionnaire event, Emitter<QuestionnaireState> emit) async {
     try {
-      // upon completing the questionnaire, the answers are sent to the backend for processing
       await QuestionnaireNetwork()
           .submitAnswers(event.answers, event.taskId, event.isGuidanceTask);
+      quizBox.delete(_testingCode); // Clear saved data upon submission
       emit(QuestionnaireSubmittedState());
     } catch (e) {
       emit(QuestionnaireErrorState("Failed to submit questionnaire"));

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/bloc/personal_bloc.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_card.dart';
 import 'package:wg_app/app/screens/personal_growth/components/personal_growth_test_card.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/webview/html_loader.dart';
 import 'package:wg_app/app/widgets/webview/html_webview.dart';
 import 'package:wg_app/app/screens/questionnaire/questionnaire_screen.dart';
@@ -336,6 +337,8 @@ class _PersonalGrowthScreenState extends State<PersonalGrowthScreen> {
                                           }
                                           if (item['completionStatus'] ==
                                               'incomplete') {
+                                            await LocalUtils.setLanguage(
+                                                context.locale.languageCode);
                                             final res = await Navigator.push(
                                               context,
                                               MaterialPageRoute(

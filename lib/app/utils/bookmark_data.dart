@@ -16,6 +16,7 @@ class BookmarkData {
 
   Future<void> init() async {
     _box = await Hive.openBox('dataManager');
+    await Hive.openBox('quizBox');
   }
 
   Future<void> addItem(String listName, Map<String, dynamic> item) async {

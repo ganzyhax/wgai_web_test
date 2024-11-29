@@ -10,7 +10,7 @@ class LoadQuestionnaire extends QuestionnaireEvent {
 }
 
 class AnswerQuestion extends QuestionnaireEvent {
-  final int answerIndex;  // Changed from String answer to int answerIndex
+  final int answerIndex; // Changed from String answer to int answerIndex
   final bool isMultipleChoice;
   final bool isPoster;
 
