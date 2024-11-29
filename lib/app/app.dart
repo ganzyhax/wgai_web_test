@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:amplitude_flutter/amplitude.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -124,12 +125,32 @@ class WeGlobalApp extends StatelessWidget {
         child: MaterialApp(
           navigatorKey: navigatorKey,
           builder: (BuildContext context, Widget? child) {
-            return MediaQuery(
-              data: MediaQuery.of(context).copyWith(
-                textScaleFactor: 1.0,
-              ),
-              child: child!,
-            );
+            return (kIsWeb)
+                ? LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Center(
+                        child: Container(
+                          width: 400, // Fixed width for mobile-like experience
+                          height: constraints.maxHeight, // Full height
+                          child: MediaQuery(
+                            data: MediaQuery.of(context).copyWith(
+                              size: Size(400, constraints.maxHeight),
+                              textScaleFactor:
+                                  1.0, // Prevent text scaling issues
+                            ),
+                            child: child!,
+                          ),
+                        ),
+                      );
+                    },
+                  )
+                : MediaQuery(
+                    data: MediaQuery.of(context).copyWith(
+                      size: Size(375, MediaQuery.of(context).size.height),
+                      textScaleFactor: 1.0,
+                    ),
+                    child: child!,
+                  );
           },
           debugShowCheckedModeBanner: false,
           title: 'WeGlobal',
