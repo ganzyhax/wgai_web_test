@@ -117,40 +117,40 @@ class _CollegeFilterBottomSheetState extends State<CollegeFilterBottomSheet> {
                 true,
               ),
               const SizedBox(height: 16),
-              _buildFilterOption(
-                context,
-                LocaleKeys.specialities.tr(),
-                selectedSpecialitesString != null &&
-                        selectedSpecialitesString!.isNotEmpty
-                    ? selectedSpecialitesString!
-                    : 'choose'.tr(),
-                specialties
-                    .map((s) => s['name'][context.locale.languageCode])
-                    .toList(),
-                (selectedSpecialty) {
-                  setState(() {
-                    var specialtyObj = specialties.firstWhere((s) =>
-                        s['name'][context.locale.languageCode] ==
-                        selectedSpecialty);
+              // _buildFilterOption(
+              //   context,
+              //   LocaleKeys.specialities.tr(),
+              //   selectedSpecialitesString != null &&
+              //           selectedSpecialitesString!.isNotEmpty
+              //       ? selectedSpecialitesString!
+              //       : 'choose'.tr(),
+              //   specialties
+              //       .map((s) => s['name'][context.locale.languageCode])
+              //       .toList(),
+              //   (selectedSpecialty) {
+              //     setState(() {
+              //       var specialtyObj = specialties.firstWhere((s) =>
+              //           s['name'][context.locale.languageCode] ==
+              //           selectedSpecialty);
 
-                    selectedSpecialites = [specialtyObj];
-                    selectedSpecialitesString = selectedSpecialty;
-                  });
-                },
-                false,
-              ),
-              const SizedBox(height: 16),
-              _buildToggleOption(
-                context,
-                'Общежитие',
-                isDormitorySwitchOn,
-                (val) {
-                  setState(() {
-                    isDormitorySwitchOn = val;
-                  });
-                },
-              ),
-              const SizedBox(height: 16),
+              //       selectedSpecialites = [specialtyObj];
+              //       selectedSpecialitesString = selectedSpecialty;
+              //     });
+              //   },
+              //   false,
+              // ),
+              // const SizedBox(height: 16),
+              // _buildToggleOption(
+              //   context,
+              //   'Общежитие',
+              //   isDormitorySwitchOn,
+              //   (val) {
+              //     setState(() {
+              //       isDormitorySwitchOn = val;
+              //     });
+              //   },
+              // ),
+              // const SizedBox(height: 16),
               CustomButton(
                 text: 'apply'.tr(),
                 onTap: () {
