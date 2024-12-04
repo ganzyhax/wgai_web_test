@@ -48,8 +48,11 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
         if (quizBoxData.hasQuizProgress(event.testingCode)) {
           final savedData = quizBoxData.getQuizProgress(event.testingCode);
 
-          for (var i = 0; i < savedData!['currentIndex'] + 1; i++) {
+          for (var i = 0; i <= savedData!['currentIndex']; i++) {
             var quest = data.testingMaterial!.problems![i];
+            log(savedData['answers'].toString());
+            log(savedData['currentIndex'].toString());
+
             if (savedData['answers'][i].isNotEmpty) {
               if (quest.problemType == 'poster') {
                 chatMessage.add({
@@ -72,7 +75,7 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
                 'text': quest.options![answerIndex].answer!.kk
                     .toString(), // Get the answer text based on the index
               });
-            }
+            } else {}
           }
           emit(QuestionnaireSetLocalData(data: chatMessage));
 
@@ -83,7 +86,7 @@ class QuestionnaireBloc extends Bloc<QuestionnaireEvent, QuestionnaireState> {
                     e as List<dynamic>), // Casting each inner list
               ),
             );
-            final currentIndex = savedData['currentIndex'];
+            final currentIndex = savedData['currentIndex'] + 1;
             // log(_answers[currentIndex].toString());
             emit(QuestionnaireSuccessState(
               questions: data.testingMaterial?.problems ?? [],

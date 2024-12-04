@@ -105,7 +105,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     int messageIndex = _chatMessages.length - 1;
 
     for (int i = 0; i < fullText.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 50));
+      await Future.delayed(const Duration(milliseconds: 30));
       setState(() {
         _chatMessages[messageIndex]['text'] += fullText[i];
       });
@@ -310,7 +310,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   Widget _buildAnswerOptions(Problems question, List<int> selectedIndices) {
-    log(question.problemType.toString());
     return Container(
       padding: EdgeInsets.only(left: 15, right: 15),
       color: AppColors.background,
@@ -320,7 +319,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           final option = entry.value;
           final isSelected =
               selectedIndices.contains(index); // Check if selected
-          log(question.question!.kk.toString());
 
           return GestureDetector(
             onTap: () {

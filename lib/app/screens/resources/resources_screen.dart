@@ -126,8 +126,8 @@ class ResourcesScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ResourcesContainer(
                 title: LocaleKeys.colleges.tr(),
-                subTitle: 'Различные тесты для познания самого себя',
-                iconPath: 'assets/icons/nazarbaev.svg',
+                subTitle: '',
+                iconPath: 'assets/icons/universities.svg',
                 height: 122,
                 onTap: () {
                   Navigator.push(
