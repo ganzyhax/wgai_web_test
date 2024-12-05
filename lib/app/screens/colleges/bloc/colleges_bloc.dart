@@ -62,6 +62,7 @@ class CollegesBloc extends Bloc<CollegesEvent, CollegesState> {
       }
       if (event is CollegesResetFilter) {
         currentPage = 1;
+        regionId = '';
         add(CollegesLoad());
       }
       if (event is CollegesNextPage) {
