@@ -30,8 +30,8 @@ class ForeignUniversityBloc
         'feeStartRange': _feeStartRange?.toString(),
         'feeEndRange': _feeEndRange?.toString(),
         'countryCode': _countryCode,
-        'page': event.page?.toString() ?? '1', // Ensuring page is not null
-        'limit': event.limit?.toString() ?? '20', // Default limit to 20
+        'page': event.page?.toString() ?? '1',
+        'limit': event.limit?.toString() ?? '20',
       }..removeWhere((key, value) => value == null);
 
       final queryString = Uri(queryParameters: queryParams).query;

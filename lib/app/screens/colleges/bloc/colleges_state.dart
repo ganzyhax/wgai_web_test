@@ -9,8 +9,12 @@ final class CollegesLoaded extends CollegesState {
   final colleges;
   final filteredColleges;
   final specialities;
+  int maxPage;
+  int currentPage;
   CollegesLoaded(
       {required this.colleges,
       required this.specialities,
-      required this.filteredColleges});
+      required this.filteredColleges,
+      required this.currentPage,
+      required this.maxPage});
 }

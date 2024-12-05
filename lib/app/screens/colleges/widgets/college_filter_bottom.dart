@@ -178,8 +178,6 @@ class _CollegeFilterBottomSheetState extends State<CollegeFilterBottomSheet> {
                   context.read<CollegesBloc>().add(CollegesLoadByFilters(
                         universityCode: widget.collegeCode,
                         regionId: selectedRegionId,
-                        specialities: selectedSpecialites,
-                        hasDormitory: isDormitorySwitchOn,
                       ));
 
                   Navigator.pop(context);

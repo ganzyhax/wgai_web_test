@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wg_app/app/screens/colleges/bloc/colleges_bloc.dart';
 import 'package:wg_app/app/screens/colleges/colleges_complete_screen.dart';
 import 'package:wg_app/app/screens/colleges/widgets/college_filter_bottom.dart';
+import 'package:wg_app/app/screens/colleges/widgets/college_info_card.dart';
 import 'package:wg_app/app/screens/universities/bloc/universities_bloc.dart';
 import 'package:wg_app/app/screens/universities/filter_bottom_sheet.dart';
 import 'package:wg_app/app/screens/universities/universities_complete_screen.dart';
@@ -26,11 +27,31 @@ class CollegesScreen extends StatefulWidget {
 
 class _CollegesScreenState extends State<CollegesScreen> {
   List<dynamic> activeFilters = [];
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
+
     context.read<CollegesBloc>().add(CollegesLoad());
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+            _scrollController.position.maxScrollExtent &&
+        context.read<CollegesBloc>().state is CollegesLoaded) {
+      final state = context.read<CollegesBloc>().state as CollegesLoaded;
+      if (state.currentPage < state.maxPage) {
+        context.read<CollegesBloc>().add(CollegesNextPage());
+      }
+    }
   }
 
   @override
@@ -44,93 +65,91 @@ class _CollegesScreenState extends State<CollegesScreen> {
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
         ),
-        child: ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  LocaleKeys.colleges.tr(),
-                  style: AppTextStyle.titleHeading
-                      .copyWith(color: AppColors.blackForText),
-                ),
-                IconButton(
-                  onPressed: () async {
-                    await showModalBottomSheet(
-                      context: context,
-                      isScrollControlled: true,
-                      builder: (context) {
-                        return StatefulBuilder(
-                          builder:
-                              (BuildContext context, StateSetter setState) {
-                            final universityCode = '';
-                            return CollegeFilterBottomSheet(
-                              onFilterApplied: (filters) {
-                                setState(() {
-                                  activeFilters = filters;
-                                });
-                              },
-                              collegeCode: universityCode,
-                            );
-                          },
-                        );
-                      },
-                    );
-                    setState(() {});
-                  },
-                  icon: SvgPicture.asset('assets/icons/filter.svg'),
-                ),
-              ],
-            ),
-            const SizedBox(height: 12),
-            _buildActiveFilters(),
-            const SizedBox(height: 12),
-            BlocBuilder<CollegesBloc, CollegesState>(
-              builder: (context, state) {
-                if (state is CollegesLoaded) {
-                  return Column(
-                    children: List.generate(
-                      state.filteredColleges?.length ?? 0,
-                      (index) {
-                        if (index == 0) {
-                          log(state.colleges[0].toString());
-                        }
-                        final college = state.filteredColleges?[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: UniContainers(
-                            codeNumber: college['code'] ?? '',
-                            title: college['name']
-                                    [context.locale.languageCode] ??
-                                '',
-                            firstDescription: college['regionName']
-                                    [context.locale.languageCode] ??
-                                '',
-                            secondDescription:
-                                college['specialties']?.length ?? 0,
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => CollegesCompleteScreen(
-                                    college: college,
-                                  ),
-                                ),
+        child: SingleChildScrollView(
+          controller: _scrollController,
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    LocaleKeys.colleges.tr(),
+                    style: AppTextStyle.titleHeading
+                        .copyWith(color: AppColors.blackForText),
+                  ),
+                  IconButton(
+                    onPressed: () async {
+                      await showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) {
+                          return StatefulBuilder(
+                            builder:
+                                (BuildContext context, StateSetter setState) {
+                              final universityCode = '';
+                              return CollegeFilterBottomSheet(
+                                onFilterApplied: (filters) {
+                                  setState(() {
+                                    activeFilters = filters;
+                                  });
+                                },
+                                collegeCode: universityCode,
                               );
                             },
-                          ),
-                        );
+                          );
+                        },
+                      );
+                      setState(() {});
+                    },
+                    icon: SvgPicture.asset('assets/icons/filter.svg'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              _buildActiveFilters(),
+              const SizedBox(height: 12),
+              BlocBuilder<CollegesBloc, CollegesState>(
+                builder: (context, state) {
+                  if (state is CollegesLoaded) {
+                    return ListView.builder(
+                      itemCount: state.colleges.length,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final college = state.colleges[index];
+                        return Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: UniContainers(
+                              codeNumber: college['code'] ?? '',
+                              title: college['name']
+                                      [context.locale.languageCode] ??
+                                  '',
+                              firstDescription: college['regionName']
+                                      [context.locale.languageCode] ??
+                                  '',
+                              secondDescription:
+                                  college['specialties']?.length ?? 0,
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        CollegesCompleteScreen(
+                                      college: college,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ));
                       },
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          ],
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                },
+              )
+            ],
+          ),
         ),
       ),
     );

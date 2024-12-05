@@ -12,9 +12,17 @@ class CollegesBloc extends Bloc<CollegesEvent, CollegesState> {
     var colleges;
     var specialities;
     var filteredColleges;
+    String regionId = '';
+    int currentPage = 1;
+
     on<CollegesEvent>((event, emit) async {
       if (event is CollegesLoad) {
-        colleges = await ApiClient.get('api/resources/kazColleges');
+        colleges = await ApiClient.get(
+            'api/resources/kazColleges?page=' + currentPage.toString());
+        log(colleges['data']['currentPage'].toString());
+        log(colleges['data']['totalPages'].toString());
+        log(colleges['data']['totalCount'].toString());
+        int maxPage = int.parse(colleges['data']['totalPages'].toString());
         colleges = colleges['data']['data'];
         specialities =
             await ApiClient.get('api/resources/kazCollegeSpecialties');
@@ -22,61 +30,62 @@ class CollegesBloc extends Bloc<CollegesEvent, CollegesState> {
         emit(CollegesLoaded(
             colleges: colleges,
             filteredColleges: filteredColleges,
+            maxPage: maxPage,
+            currentPage: currentPage,
             specialities: specialities['data']['data']));
       }
       if (event is CollegesLoadByFilters) {
-        try {
-          var sortedColleges = [];
+        log('LOadededede');
+        regionId = event.regionId!;
+        currentPage = 1;
+        var res = await ApiClient.get('api/resources/kazColleges?page=' +
+            currentPage.toString() +
+            '&regionId=' +
+            regionId);
+        log('getting ' +
+            ' api/resources/kazColleges?page=' +
+            currentPage.toString() +
+            '?regionId=' +
+            regionId);
 
-          for (var collegeData in colleges) {
-            bool matchesRegion = event.regionId == null ||
-                collegeData['regionId'] == event.regionId;
-            bool matchesDormitory = event.hasDormitory == null ||
-                collegeData['hasDormitory'] == event.hasDormitory;
+        log(res.toString());
+        int maxPage = int.parse(res['data']['totalPages'].toString());
+        colleges = res['data']['data'];
 
-            bool matchesSpecialties = true;
-            if (event.specialities != null && event.specialities!.isNotEmpty) {
-              // Get the selected specialties' codes
-              List<String?> selectedSpecialtiesCodes =
-                  event.specialities!.map((s) => s.code).toList();
-
-              // Get the university's specialties' codes
-              List<String?> universitySpecialtyCodes =
-                  collegeData['specialties']?.map((s) => s.code).toList() ?? [];
-
-              // Ensure there's a match between selected and university specialties
-              matchesSpecialties = selectedSpecialtiesCodes.any(
-                  (selectedCode) =>
-                      universitySpecialtyCodes.contains(selectedCode));
-            }
-
-            if (matchesRegion && matchesSpecialties) {
-              sortedColleges.add(collegeData);
-            }
-          }
-
-          if (sortedColleges.isNotEmpty) {
-            filteredColleges = sortedColleges;
-            emit(CollegesLoaded(
-                specialities: specialities,
-                colleges: colleges,
-                filteredColleges: filteredColleges));
-          } else {
-            filteredColleges = sortedColleges;
-            emit(CollegesLoaded(
-                specialities: specialities,
-                colleges: colleges,
-                filteredColleges: filteredColleges));
-          }
-        } catch (e) {
-          log(e.toString());
-        }
+        filteredColleges = colleges;
+        emit(CollegesLoaded(
+            maxPage: maxPage,
+            specialities: specialities,
+            colleges: colleges,
+            currentPage: currentPage,
+            filteredColleges: filteredColleges));
       }
       if (event is CollegesResetFilter) {
         filteredColleges = colleges;
         emit(CollegesLoaded(
+            maxPage: colleges['data']['totalPages'],
             specialities: specialities,
             colleges: colleges,
+            currentPage: currentPage,
+            filteredColleges: filteredColleges));
+      }
+      if (event is CollegesNextPage) {
+        currentPage = currentPage + 1;
+        var res = await ApiClient.get((regionId == '')
+            ? 'api/resources/kazColleges?page=' + currentPage.toString()
+            : 'api/resources/kazColleges?page=' +
+                currentPage.toString() +
+                '&regionId=' +
+                regionId);
+        int maxPage = int.parse(res['data']['totalPages'].toString());
+
+        colleges.addAll(res['data']['data']);
+        filteredColleges = colleges;
+        emit(CollegesLoaded(
+            maxPage: maxPage,
+            specialities: specialities,
+            colleges: colleges,
+            currentPage: currentPage,
             filteredColleges: filteredColleges));
       }
     });

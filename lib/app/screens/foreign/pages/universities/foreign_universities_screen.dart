@@ -101,7 +101,7 @@ class _ForeignUniversitiesScreenState extends State<ForeignUniversitiesScreen> {
                                             feeEndRange: filters['feeValues']
                                                 [1],
                                             countryCode: filters['countryCode'],
-                                            page: 1, // Reset to page 1
+                                            page: 1,
                                             limit: 20,
                                           ),
                                         );
