@@ -61,13 +61,8 @@ class CollegesBloc extends Bloc<CollegesEvent, CollegesState> {
             filteredColleges: filteredColleges));
       }
       if (event is CollegesResetFilter) {
-        filteredColleges = colleges;
-        emit(CollegesLoaded(
-            maxPage: colleges['data']['totalPages'],
-            specialities: specialities,
-            colleges: colleges,
-            currentPage: currentPage,
-            filteredColleges: filteredColleges));
+        currentPage = 1;
+        add(CollegesLoad());
       }
       if (event is CollegesNextPage) {
         currentPage = currentPage + 1;
