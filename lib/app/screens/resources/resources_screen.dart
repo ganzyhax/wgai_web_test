@@ -8,6 +8,7 @@ import 'package:wg_app/app/screens/foreign/foreign_screen.dart';
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
+import 'package:wg_app/app/utils/amplitude.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
@@ -41,6 +42,8 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/atlas.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc()
+                      .logEvent('Page Viewed', {'page_name': 'Atlas Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -57,6 +60,8 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/universities.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc().logEvent(
+                      'Page Viewed', {'page_name': 'Universities Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -73,6 +78,8 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/global_unversities.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc().logEvent(
+                      'Page Viewed', {'page_name': 'Foreign university'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -89,6 +96,8 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/specialties.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc().logEvent(
+                      'Page Viewed', {'page_name': 'Specialities Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -105,6 +114,8 @@ class ResourcesScreen extends StatelessWidget {
                 iconPath: 'assets/icons/resources.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc()
+                      .logEvent('Page Viewed', {'page_name': 'Ent Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(

@@ -11,6 +11,7 @@ import 'package:wg_app/app/screens/profile/pages/profile_career/profile_career_s
 import 'package:wg_app/app/screens/profile/pages/profile_university/profile_university_screen.dart';
 import 'package:wg_app/app/screens/profile/widgets/profile_container.dart';
 import 'package:wg_app/app/screens/profile_growth/profile_growth_screen.dart';
+import 'package:wg_app/app/utils/amplitude.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/custom_snackbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
@@ -186,9 +187,8 @@ class ProfileScreen extends StatelessWidget {
                                 isUniversity: false,
                                 height: 144,
                                 onTap: () {
-                                  print(
-                                    LocaleKeys.your_career.tr(),
-                                  );
+                                  AmplitudeFunc().logEvent('Page Viewed',
+                                      {'page_name': 'Your career'});
 
                                   Navigator.push(
                                     context,
@@ -213,6 +213,8 @@ class ProfileScreen extends StatelessWidget {
                                 isUniversity: true,
                                 height: 144,
                                 onTap: () {
+                                  AmplitudeFunc().logEvent('Page Viewed',
+                                      {'page_name': 'Your university'});
                                   BlocProvider.of<ProfileBloc>(context)
                                     ..add(ProfileUniversitiesLoad());
                                   Navigator.push(
@@ -236,6 +238,8 @@ class ProfileScreen extends StatelessWidget {
                         isUniversity: false,
                         height: 144,
                         onTap: () {
+                          AmplitudeFunc().logEvent(
+                              'Page Viewed', {'page_name': 'Personal Growth'});
                           Navigator.push(
                             context,
                             MaterialPageRoute(

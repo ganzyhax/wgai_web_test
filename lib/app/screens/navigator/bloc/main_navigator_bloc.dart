@@ -45,7 +45,6 @@ class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
             ];
           }
           if (event.notificationCounselor == true) {
-            log('Open counsleo');
             index = event.index;
             screens = [
               // AiScreen(),

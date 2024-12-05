@@ -8,6 +8,7 @@ import 'package:wg_app/app/screens/foreign/pages/universities/foreign_universiti
 import 'package:wg_app/app/screens/resources/widgets/resources_container.dart';
 import 'package:wg_app/app/screens/specialities/specialities_screen.dart';
 import 'package:wg_app/app/screens/universities/universities_screen.dart';
+import 'package:wg_app/app/utils/amplitude.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_text_style.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
@@ -41,6 +42,8 @@ class ForeignScreen extends StatelessWidget {
                 iconPath: 'assets/icons/country.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc()
+                      .logEvent('Page Viewed', {'page_name': 'Country Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -57,6 +60,8 @@ class ForeignScreen extends StatelessWidget {
                 iconPath: 'assets/icons/universities.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc().logEvent(
+                      'Page Viewed', {'page_name': 'All foreign Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -73,6 +78,8 @@ class ForeignScreen extends StatelessWidget {
                 iconPath: 'assets/icons/program.svg',
                 height: 122,
                 onTap: () {
+                  AmplitudeFunc().logEvent(
+                      'Page Viewed', {'page_name': 'Foreign Programs Screen'});
                   Navigator.push(
                     context,
                     MaterialPageRoute(
