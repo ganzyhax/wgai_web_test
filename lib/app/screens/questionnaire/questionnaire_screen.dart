@@ -36,7 +36,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   int? _lastShownQuestionIndex; // Track last shown question index
   bool _showLoading = false;
   List<Map<String, dynamic>> _localMultipleChoice = []; // Chat message history
-
+  bool canScroll = false;
   @override
   void initState() {
     super.initState();
@@ -52,16 +52,33 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     super.dispose();
   }
 
-  void _scrollToBottom() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+  void _scrollToBottom(String text) {
+    if (text == 'a' && !_isTyping) {
       if (_scrollController.hasClients) {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+        // Check if the user is already at the bottom of the list
+        final maxScroll = _scrollController.position.maxScrollExtent;
+        final currentScroll = _scrollController.position.pixels;
+
+        // Scroll only if the user is already at the bottom
+        if (maxScroll - currentScroll < 50) {
+          _scrollController.animateTo(
+            maxScroll,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
       }
-    });
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
+      });
+    }
   }
 
   void _showImage(Problems question, int index) async {
@@ -79,12 +96,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         'image': question.image?.getLocalizedString(context)
       });
       _showLoading = false;
-      _scrollToBottom();
+      _scrollToBottom('h');
     });
     setState(() {
       _isTyping = false;
     });
-    _scrollToBottom();
+    _scrollToBottom('a');
   }
 
   void _showQuestion(Problems question, int index) async {
@@ -109,13 +126,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       setState(() {
         _chatMessages[messageIndex]['text'] += fullText[i];
       });
-      _scrollToBottom();
+      _scrollToBottom('i');
     }
 
     setState(() {
       _isTyping = false;
     });
-    _scrollToBottom();
+    _scrollToBottom('u');
   }
 
   @override
@@ -249,7 +266,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     final String? text = message['text'];
     final String? imageUrl = message['image'];
 
-    _scrollToBottom();
+    _scrollToBottom('a');
     return Align(
       alignment: isQuestion ? Alignment.centerLeft : Alignment.centerRight,
       child: Container(
@@ -272,7 +289,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   }
 
   Widget _buildTypingIndicator() {
-    _scrollToBottom();
+    _scrollToBottom('a');
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
@@ -354,14 +371,18 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                   color: (question.problemType == 'multiple-choice')
                       ? isSelected
                           ? AppColors.primary
-                          : Colors.grey[350]
+                          : AppColors.grayProgressBar
                       : AppColors.primary),
               padding: EdgeInsets.all(15),
               child: Center(
                 child: Text(
                   option.answer?.getLocalizedString(context) ?? '',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: (question.problemType == 'multiple-choice')
+                        ? (isSelected)
+                            ? Colors.white
+                            : Colors.black
+                        : Colors.white,
                     fontWeight: FontWeight.w600,
                     fontSize: 15,
                   ),
