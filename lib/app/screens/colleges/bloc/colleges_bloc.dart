@@ -55,7 +55,7 @@ class CollegesBloc extends Bloc<CollegesEvent, CollegesState> {
         filteredColleges = colleges;
         emit(CollegesLoaded(
             maxPage: maxPage,
-            specialities: specialities,
+            specialities: specialities['data']['data'],
             colleges: colleges,
             currentPage: currentPage,
             filteredColleges: filteredColleges));
@@ -77,9 +77,10 @@ class CollegesBloc extends Bloc<CollegesEvent, CollegesState> {
 
         colleges.addAll(res['data']['data']);
         filteredColleges = colleges;
+
         emit(CollegesLoaded(
             maxPage: maxPage,
-            specialities: specialities,
+            specialities: specialities['data']['data'],
             colleges: colleges,
             currentPage: currentPage,
             filteredColleges: filteredColleges));
