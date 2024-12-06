@@ -201,7 +201,7 @@ class _CollegeFilterBottomSheetState extends State<CollegeFilterBottomSheet> {
         TextButton(
           onPressed: () {
             context.read<CollegesBloc>().add(CollegesResetFilter());
-            Navigator.pop(context);
+            Navigator.pop(context, 'reset');
           },
           child: Text(
             'reset_filters'.tr(),

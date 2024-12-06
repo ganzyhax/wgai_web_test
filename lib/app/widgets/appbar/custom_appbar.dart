@@ -8,10 +8,12 @@ class CustomAppbar extends StatelessWidget {
   final Widget? titleWidget;
   final bool withBackButton;
   final List<Widget>? actions;
+  final Function()? onBackClicked;
   const CustomAppbar(
       {super.key,
       required this.title,
       this.titleWidget,
+      this.onBackClicked,
       required this.withBackButton,
       this.actions});
 
@@ -26,9 +28,11 @@ class CustomAppbar extends StatelessWidget {
           actions: (actions != null) ? actions : null,
           leading: (withBackButton)
               ? IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: (onBackClicked == null)
+                      ? () {
+                          Navigator.pop(context);
+                        }
+                      : onBackClicked,
                   icon: SvgPicture.asset('assets/icons/arrow-left.svg'),
                 )
               : null,

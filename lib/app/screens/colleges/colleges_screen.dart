@@ -60,7 +60,15 @@ class _CollegesScreenState extends State<CollegesScreen> {
       backgroundColor: AppColors.background,
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(55),
-          child: CustomAppbar(title: '', withBackButton: true)),
+          child: CustomAppbar(
+            title: '',
+            withBackButton: true,
+            onBackClicked: () {
+              BlocProvider.of<CollegesBloc>(context)
+                ..add(CollegesResetFilter());
+              Navigator.pop(context);
+            },
+          )),
       body: Padding(
         padding: const EdgeInsets.symmetric(
           horizontal: 16,
@@ -79,7 +87,7 @@ class _CollegesScreenState extends State<CollegesScreen> {
                   ),
                   IconButton(
                     onPressed: () async {
-                      await showModalBottomSheet(
+                      var data = await showModalBottomSheet(
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
@@ -99,6 +107,9 @@ class _CollegesScreenState extends State<CollegesScreen> {
                           );
                         },
                       );
+                      if (data == 'reset') {
+                        activeFilters.clear();
+                      }
                       setState(() {});
                     },
                     icon: SvgPicture.asset('assets/icons/filter.svg'),
