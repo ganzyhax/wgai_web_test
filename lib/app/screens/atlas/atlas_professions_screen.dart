@@ -48,6 +48,7 @@ class AtlasProfessionsScreen extends StatelessWidget {
                         itemCount: state.professions.length,
                         itemBuilder: (context, index) {
                           var profession = state.professions[index];
+
                           final areaIconCode = profession['areaIconCode'];
                           final icon = myIconMap[areaIconCode];
                           return Padding(

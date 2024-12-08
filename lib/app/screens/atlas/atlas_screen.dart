@@ -3,11 +3,13 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wg_app/app/api/auth_utils.dart';
 import 'package:wg_app/app/screens/atlas/atlas_complete_screen.dart';
 import 'package:wg_app/app/screens/atlas/atlas_professions_screen.dart';
 import 'package:wg_app/app/screens/atlas/bloc/atlas_bloc.dart';
 import 'package:wg_app/app/screens/atlas/widgets/cluster_container.dart';
 import 'package:wg_app/app/screens/universities/widgets/uni_containers.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/app/widgets/appbar/custom_appbar.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/constants/app_icons.dart';
@@ -44,7 +46,9 @@ class AtlasScreen extends StatelessWidget {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          await LocalUtils.setLanguage(
+                              context.locale.languageCode);
                           Navigator.push(
                               context,
                               MaterialPageRoute(

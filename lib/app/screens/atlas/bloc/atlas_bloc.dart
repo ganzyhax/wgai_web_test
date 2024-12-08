@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:wg_app/app/api/api.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 
 part 'atlas_event.dart';
 part 'atlas_state.dart';
@@ -27,11 +28,39 @@ class AtlasBloc extends Bloc<AtlasEvent, AtlasState> {
       if (event is AtlasLoadByClusterId) {
         emit(AtlasLoading());
         try {
+          // Fetch occupations data
           occupations = await ApiClient.get(
-              'api/occupations/clusters/' + event.clusterId);
+            'api/occupations/clusters/' + event.clusterId,
+          );
+
+          // Log initial data for debugging
+          log(occupations['data']['occupations'][0].toString());
+          log('---------------------------------------------------------------------------------------------------');
+          log(occupations['data']['occupations'][1].toString());
+
+          // Get the selected language
+          String localLang = await LocalUtils.getLanguage();
+
+          // Access and sort occupations by the localized title
+          final occupationsData =
+              occupations['data']['occupations'] as List<dynamic>;
+          occupationsData.sort((a, b) {
+            // Get titles based on the selected language
+            final titleA = (a['title'] as Map<String, dynamic>?)?[localLang]
+                    ?.toLowerCase() ??
+                '';
+            final titleB = (b['title'] as Map<String, dynamic>?)?[localLang]
+                    ?.toLowerCase() ??
+                '';
+
+            return titleA.compareTo(titleB);
+          });
+
+          // Emit the sorted occupations
           emit(AtlasLoaded(
-              professions: occupations['data']['occupations'],
-              clusters: clusters['data']['clusters']));
+            professions: occupationsData,
+            clusters: clusters['data']['clusters'],
+          ));
         } catch (e) {
           emit(SpecialitiesError('Failed to fetch atlas'));
         }
