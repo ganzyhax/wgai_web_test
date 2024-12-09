@@ -33,11 +33,6 @@ class AtlasBloc extends Bloc<AtlasEvent, AtlasState> {
             'api/occupations/clusters/' + event.clusterId,
           );
 
-          // Log initial data for debugging
-          log(occupations['data']['occupations'][0].toString());
-          log('---------------------------------------------------------------------------------------------------');
-          log(occupations['data']['occupations'][1].toString());
-
           // Get the selected language
           String localLang = await LocalUtils.getLanguage();
 

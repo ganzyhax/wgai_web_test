@@ -25,65 +25,93 @@ class ProfileGrowthScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(55),
             child: CustomAppbar(
                 title: LocaleKeys.personal_growth.tr(), withBackButton: true)),
-        body: SingleChildScrollView(
-          child: BlocListener<ProfileGrowthBloc, ProfileGrowthState>(
-            listener: (context, state) {
-              if (state is ProfileGrowthError) {
-                CustomSnackbar()
-                    .showCustomSnackbar(context, state.errorText, false);
-              }
-            },
-            child: BlocBuilder<ProfileGrowthBloc, ProfileGrowthState>(
-              builder: (context, state) {
-                if (state is ProfileGrowthLoaded) {
-                  return Column(
-                    children: [
-                      Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Column(
-                            children: [
-                              GrowthCard(
-                                resultText: state.data['personalGrowth']
-                                    ['nextItem'][context.locale.languageCode],
-                                percentage: state.data['personalGrowth']
-                                        ['progress']
-                                    .toString(),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              ListView.builder(
-                                  itemCount: state
-                                      .data['personalGrowth']['psytests']
-                                      .length,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return (state.data['personalGrowth']['psytests'][index].containsKey('interpretationLink'))
-                                        ? Padding(
-                                            padding: const EdgeInsets.only(top: 8.0),
-                                            child: GrowthTestCard(
-                                                interpretationLink: state.data['personalGrowth']['psytests'][index]['interpretationLink'],
-                                                icon: "starfour",
-                                                title: state.data['personalGrowth']['psytests'][index]['title'][context.locale.languageCode],
-                                                subTitle: (state.data['personalGrowth']['psytests'][index].containsKey('subtitle'))
-                                                    ? state.data['personalGrowth']['psytests'][index]['subtitle'][context.locale.languageCode]
-                                                    : '',
-                                                fullContent: state.data['personalGrowth']['psytests'][index]['subtitle'][context.locale.languageCode],
-                                            ),
-                                          )
-                                        : SizedBox.shrink();
-                                  })
-                            ],
-                          )),
-                    ],
-                  );
+        body: BlocProvider(
+          create: (context) => ProfileGrowthBloc()..add(ProfileGrowthLoad()),
+          child: SingleChildScrollView(
+            child: BlocListener<ProfileGrowthBloc, ProfileGrowthState>(
+              listener: (context, state) {
+                if (state is ProfileGrowthError) {
+                  CustomSnackbar()
+                      .showCustomSnackbar(context, state.errorText, false);
                 }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
               },
+              child: BlocBuilder<ProfileGrowthBloc, ProfileGrowthState>(
+                builder: (context, state) {
+                  if (state is ProfileGrowthLoaded) {
+                    return Column(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 16, vertical: 8),
+                            child: Column(
+                              children: [
+                                GrowthCard(
+                                  resultText: state.data['personalGrowth']
+                                      ['nextItem'][context.locale.languageCode],
+                                  percentage: state.data['personalGrowth']
+                                          ['progress']
+                                      .toString(),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                ListView.builder(
+                                    itemCount: state
+                                        .data['personalGrowth']['psytests']
+                                        .length,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      return (state.data['personalGrowth']
+                                                  ['psytests'][index]
+                                              .containsKey(
+                                                  'interpretationLink'))
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  top: 8.0),
+                                              child: GrowthTestCard(
+                                                interpretationLink:
+                                                    state.data['personalGrowth']
+                                                            ['psytests'][index]
+                                                        ['interpretationLink'],
+                                                icon: "starfour",
+                                                title:
+                                                    state.data['personalGrowth']
+                                                                ['psytests']
+                                                            [index]['title'][
+                                                        context.locale
+                                                            .languageCode],
+                                                subTitle: (state
+                                                        .data['personalGrowth']
+                                                            ['psytests'][index]
+                                                        .containsKey(
+                                                            'subtitle'))
+                                                    ? state.data['personalGrowth']
+                                                                ['psytests']
+                                                            [index]['subtitle'][
+                                                        context.locale
+                                                            .languageCode]
+                                                    : '',
+                                                fullContent:
+                                                    state.data['personalGrowth']
+                                                                ['psytests']
+                                                            [index]['subtitle'][
+                                                        context.locale
+                                                            .languageCode],
+                                              ),
+                                            )
+                                          : SizedBox.shrink();
+                                    })
+                              ],
+                            )),
+                      ],
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+              ),
             ),
           ),
         ));
