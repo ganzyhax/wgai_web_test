@@ -122,7 +122,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
     int messageIndex = _chatMessages.length - 1;
 
     for (int i = 0; i < fullText.length; i++) {
-      await Future.delayed(const Duration(milliseconds: 30));
+      await Future.delayed(const Duration(milliseconds: 25));
       setState(() {
         _chatMessages[messageIndex]['text'] += fullText[i];
       });
@@ -203,7 +203,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                   Expanded(
                     child: ListView.builder(
                       controller: _scrollController, // Attach ScrollController
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                       itemCount: _chatMessages.length + (_showLoading ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (index == _chatMessages.length && _showLoading) {
@@ -216,32 +216,29 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                     ),
                   ),
                   BlocBuilder<QuestionnaireBloc, QuestionnaireState>(
-                    builder: (context, state) {
-                      if (state is QuestionnaireSuccessState) {
-                        return (!_isTyping)
-                            ? Column(
+                  builder: (context, state) {
+                    if (state is QuestionnaireSuccessState) {
+                      return (!_isTyping)
+                          ? Padding(
+                              padding: const EdgeInsets.only(bottom: 24.0),
+                              child: Column(
                                 children: [
                                   _buildAnswerOptions(
                                     state.questions[state.currentIndex],
                                     state.selectedAnswerIndices,
                                   ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  (state.questions[state.currentIndex]
-                                              .problemType ==
-                                          'multiple-choice')
+                                  SizedBox(height: 5),
+                                  (state.questions[state.currentIndex].problemType == 'multiple-choice')
                                       ? _buildNavigationButtons(context, state)
                                       : SizedBox(),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
+                                  SizedBox(height: 5),
                                 ],
-                              )
-                            : SizedBox();
-                      }
-                      return const SizedBox();
-                    },
+                              ),
+                            )
+                          : SizedBox();
+                    }
+                    return const SizedBox();
+                  },
                   ),
                 ],
               );
@@ -274,7 +271,12 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           color: isQuestion ? AppColors.grayProgressBar : AppColors.primary,
-          borderRadius: BorderRadius.circular(16.0),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16.0),
+            topRight: Radius.circular(16.0), 
+            bottomLeft: isQuestion ? Radius.circular(0) : Radius.circular(16.0),
+            bottomRight: isQuestion ? Radius.circular(16.0) : Radius.circular(0),
+          ),
         ),
         child: imageUrl != null
             ? Image.asset(imageUrl)
