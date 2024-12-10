@@ -34,61 +34,60 @@ class _ConsultantPageState extends State<ConsultantPage> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: _loadConsultants, // Pull-to-refresh functionality
-      child: BlocBuilder<ConsultantBloc, ConsultantState>(
-        builder: (context, state) {
-          if (state is ConsultantLoaded) {
-            return ListView(
-              padding: const EdgeInsets.all(12),
-              children: [
-                if (state.appointmentData["hasBooking"])
-                AppointmentCard(
-                  slotDate: state.appointmentData["slotDate"], // Replace with actual time
-                  counselorName: state.appointmentData["counselorName"],
-                ),
-                if (!state.appointmentData["hasBooking"])
-                CustomButton(
-                    text: LocaleKeys.sign_up_consultation.tr(),
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(16.0)),
-                        ),
-                        builder: (BuildContext context) {
-                          return const FractionallySizedBox(
-                            heightFactor: 0.93,
-                            child: ConsultationRequestScreen(),
-                          );
-                        },
-                      ).then((_) {
-                        // Refresh the page after the modal is closed
-                        _loadConsultants();
-                      });
-                    }),
-                const SizedBox(
-                  height: 15,
-                ),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: state.counselorData.length,
-                  itemBuilder: (context, index) {
-                    final counselor = state.counselorData[index];
-                    return ConsultantCard(
-                        data: counselor, localLang: state.localLang);
-                  },
-                ),
-              ],
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      ),
-    );
+        onRefresh: _loadConsultants, // Pull-to-refresh functionality
+        child: BlocBuilder<ConsultantBloc, ConsultantState>(
+          builder: (context, state) {
+            if (state is ConsultantLoaded) {
+              final hasBooking = state.appointmentData?["hasBooking"] ?? false;
+              return ListView(
+                padding: const EdgeInsets.all(12),
+                children: [
+                  if (hasBooking)
+                    AppointmentCard(
+                      slotDate: state.appointmentData?["slotDate"],
+                      counselorName: state.appointmentData?["counselorName"],
+                    ),
+                  if (!hasBooking)
+                    CustomButton(
+                      text: LocaleKeys.sign_up_consultation.tr(),
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(16.0)),
+                          ),
+                          builder: (BuildContext context) {
+                            return const FractionallySizedBox(
+                              heightFactor: 0.93,
+                              child: ConsultationRequestScreen(),
+                            );
+                          },
+                        ).then((_) {
+                          // Refresh the page after the modal is closed
+                          _loadConsultants();
+                        });
+                      },
+                    ),
+                  const SizedBox(height: 15),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.counselorData.length,
+                    itemBuilder: (context, index) {
+                      final counselor = state.counselorData[index];
+                      return ConsultantCard(
+                        data: counselor,
+                        localLang: state.localLang,
+                      );
+                    },
+                  ),
+                ],
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+        ));
   }
 }

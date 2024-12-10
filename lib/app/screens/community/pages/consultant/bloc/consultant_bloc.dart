@@ -75,10 +75,13 @@ class ConsultantBloc extends Bloc<ConsultantEvent, ConsultantState> {
           sortTasksByCreatedAtDescending(tasks);
           var appointmentDataReq =
               await ApiClient.get('api/slots/upcomingAppointment');
+          var appointmentData = appointmentDataReq['data']?['data'] ?? {};
+
           emit(ConsultantLoaded(
-              localLang: localLang,
-              counselorData: counselorData['data']['counselorTasks'],
-              appointmentData: appointmentDataReq['data']['data']));
+            localLang: localLang,
+            counselorData: counselorData['data']['counselorTasks'],
+            appointmentData: appointmentData,
+          ));
         }
       }
       if (event is ConsultantUpdateStatus) {

@@ -7,7 +7,10 @@ final class ConsultantInitial extends ConsultantState {}
 
 final class ConsultantLoaded extends ConsultantState {
   final counselorData;
-  final appointmentData;
+  final Map<String, dynamic> appointmentData;
   final String localLang;
-  ConsultantLoaded({required this.counselorData, required this.localLang, required this.appointmentData});
+  ConsultantLoaded(
+      {required this.counselorData,
+      required this.localLang,
+      required this.appointmentData});
 }
