@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wg_app/app/screens/community/bloc/community_bloc.dart';
 import 'package:wg_app/app/screens/navigator/bloc/main_navigator_bloc.dart';
 import 'package:wg_app/app/screens/navigator/components/navigator_item.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_colors.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
@@ -48,7 +49,9 @@ class CustomNavigationBar extends StatelessWidget {
                         //   ),
                         // ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            await LocalUtils.setLanguage(
+                                context.locale.languageCode);
                             BlocProvider.of<MainNavigatorBloc>(context)
                                 .add(MainNavigatorChangePage(index: 0));
                           },
@@ -58,7 +61,9 @@ class CustomNavigationBar extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            await LocalUtils.setLanguage(
+                                context.locale.languageCode);
                             BlocProvider.of<MainNavigatorBloc>(context)
                                 .add(MainNavigatorChangePage(index: 1));
                           },
@@ -68,7 +73,9 @@ class CustomNavigationBar extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            await LocalUtils.setLanguage(
+                                context.locale.languageCode);
                             BlocProvider.of<MainNavigatorBloc>(context)
                                 .add(MainNavigatorChangePage(index: 2));
                           },
@@ -78,7 +85,9 @@ class CustomNavigationBar extends StatelessWidget {
                           ),
                         ),
                         InkWell(
-                          onTap: () {
+                          onTap: () async {
+                            await LocalUtils.setLanguage(
+                                context.locale.languageCode);
                             BlocProvider.of<MainNavigatorBloc>(context)
                                 .add(MainNavigatorChangePage(index: 3));
                           },
