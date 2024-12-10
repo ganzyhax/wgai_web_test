@@ -38,8 +38,6 @@ import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/generated/locale_keys.g.dart';
 
 class WeGlobalApp extends StatelessWidget {
-  static final GlobalKey<NavigatorState> navigatorKey =
-      GlobalKey<NavigatorState>();
   const WeGlobalApp({super.key});
 
   @override
@@ -123,7 +121,6 @@ class WeGlobalApp extends StatelessWidget {
           ),
         ],
         child: MaterialApp(
-          navigatorKey: navigatorKey,
           builder: (BuildContext context, Widget? child) {
             return (kIsWeb)
                 ? LayoutBuilder(

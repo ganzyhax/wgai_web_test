@@ -103,10 +103,14 @@ class ProfileScreen extends StatelessWidget {
                   }
                   if (value == 3) {
                     await LocalUtils.logout();
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                      (Route<dynamic> route) => false,
-                    );
+                    Future.delayed(Duration.zero, () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const WeGlobalApp()),
+                        (route) => false,
+                      );
+                    });
                   }
                 }
               });
@@ -126,7 +130,7 @@ class ProfileScreen extends StatelessWidget {
             await Future.delayed(Duration(seconds: 3));
             await LocalUtils.logout();
             Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => LoginScreen()),
+              MaterialPageRoute(builder: (context) => WeGlobalApp()),
               (Route<dynamic> route) => false,
             );
           }
