@@ -77,6 +77,7 @@ class _ConsultantPageState extends State<ConsultantPage> {
                     itemCount: state.counselorData.length,
                     itemBuilder: (context, index) {
                       final counselor = state.counselorData[index];
+                      log(counselor.toString());
                       return ConsultantCard(
                         data: counselor,
                         localLang: state.localLang,

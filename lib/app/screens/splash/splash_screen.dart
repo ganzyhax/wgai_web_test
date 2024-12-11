@@ -84,8 +84,14 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _checkForUpdate() async {
     try {
-      final response = await http
-          .get(Uri.parse('https://v2.api.weglobal.ai/api/app/version'));
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
+      final response = await http.get(
+          Uri.parse('https://v2.api.weglobal.ai/api/app/version'),
+          headers: {
+            'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
+            'appVersion': currentVersion
+          });
       if (response.statusCode == 200) {
         final versionInfo = jsonDecode(response.body);
         final latestVersion = versionInfo['latestVersion'];

@@ -10,6 +10,7 @@ import 'package:wg_app/app/screens/personal_growth/personal_growth_screen.dart';
 import 'package:wg_app/app/screens/profile/profile_screen.dart';
 import 'package:wg_app/app/screens/resources/resources_screen.dart';
 import 'package:wg_app/app/utils/amplitude.dart';
+import 'package:wg_app/app/utils/local_utils.dart';
 
 part 'main_navigator_event.dart';
 part 'main_navigator_state.dart';
@@ -62,10 +63,12 @@ class MainNavigatorBloc extends Bloc<MainNavigatorEvent, MainNavigatorState> {
         if (index == 0) {
           AmplitudeFunc()
               .logEvent('Page Viewed', {'page_name': 'Personal Growth'});
+          
         }
         if (index == 1) {
           AmplitudeFunc()
               .logEvent('Page Viewed', {'page_name': 'Counselor Growth'});
+          
         }
         if (index == 2) {
           AmplitudeFunc().logEvent('Page Viewed', {'page_name': 'Resources'});

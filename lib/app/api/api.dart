@@ -1,5 +1,7 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wg_app/app/api/auth_utils.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
 import 'package:wg_app/constants/app_constant.dart';
@@ -12,6 +14,8 @@ class ApiClient {
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makeGetRequest() async {
       String token = await LocalUtils.getAccessToken() ?? '';
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
 
       return await http.get(
         url,
@@ -20,6 +24,8 @@ class ApiClient {
           'Accept': 'application/json',
           'appLanguage': localLang,
           'Authorization': 'Bearer $token',
+          'appVersion': currentVersion,
+          'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
         },
       );
     }
@@ -69,6 +75,8 @@ class ApiClient {
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makePostRequest() async {
       String token = await LocalUtils.getAccessToken() ?? '';
+      final packageInfo = await PackageInfo.fromPlatform();
+      final currentVersion = packageInfo.version;
 
       return await http.post(
         url,
@@ -77,7 +85,8 @@ class ApiClient {
           'Accept': 'application/json',
           'appLanguage': localLang,
           'Authorization': 'Bearer $token',
-          // 'Mobapp-Version': mbVer
+          'appVersion': currentVersion,
+          'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
         },
         body: jsonEncode(data),
       );
