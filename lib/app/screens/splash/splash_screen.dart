@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:http/http.dart' as http;
@@ -36,10 +37,10 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _initializeState() async {
-    await _checkForUpdate();
-
-    // If an update is required, skip the navigation code
-    if (requiresUpdate) return;
+    if (!kIsWeb) {
+      await _checkForUpdate();
+      if (requiresUpdate) return;
+    }
 
     isLogged = await LocalUtils.isLogged();
     isFirstTime = await LocalUtils.isFirstTime();

@@ -59,8 +59,8 @@ class _ConsultantCardState extends State<ConsultantCard> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
                 child: FadeInImage(
-                  image:
-                      NetworkImage(widget.data['thumbnail'][widget.localLang]),
+                  image: NetworkImage(
+                      widget.data['thumbnail'][context.locale.languageCode]),
                   placeholder: AssetImage(
                       'assets/images/placeholder.png'), // Local placeholder image
                   fit: BoxFit.cover,

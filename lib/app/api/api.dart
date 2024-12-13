@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:wg_app/app/api/auth_utils.dart';
 import 'package:wg_app/app/utils/local_utils.dart';
@@ -14,20 +15,34 @@ class ApiClient {
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makeGetRequest() async {
       String token = await LocalUtils.getAccessToken() ?? '';
-      final packageInfo = await PackageInfo.fromPlatform();
-      final currentVersion = packageInfo.version;
+      if (kIsWeb) {
+        return await http.get(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'appLanguage': localLang,
+            'Authorization': 'Bearer $token',
+            'appVersion': 'null',
+            'appPlatform': 'web'
+          },
+        );
+      } else {
+        final packageInfo = await PackageInfo.fromPlatform();
+        final currentVersion = packageInfo.version;
 
-      return await http.get(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'appLanguage': localLang,
-          'Authorization': 'Bearer $token',
-          'appVersion': currentVersion,
-          'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
-        },
-      );
+        return await http.get(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'appLanguage': localLang,
+            'Authorization': 'Bearer $token',
+            'appVersion': currentVersion,
+            'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
+          },
+        );
+      }
     }
 
     http.Response response = await makeGetRequest();
@@ -75,21 +90,37 @@ class ApiClient {
     final url = Uri.parse(AppConstant.baseUrl.toString() + endpoint);
     Future<http.Response> makePostRequest() async {
       String token = await LocalUtils.getAccessToken() ?? '';
-      final packageInfo = await PackageInfo.fromPlatform();
-      final currentVersion = packageInfo.version;
 
-      return await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'appLanguage': localLang,
-          'Authorization': 'Bearer $token',
-          'appVersion': currentVersion,
-          'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
-        },
-        body: jsonEncode(data),
-      );
+      if (kIsWeb) {
+        return await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'appLanguage': localLang,
+            'Authorization': 'Bearer $token',
+            'appVersion': 'null',
+            'appPlatform': 'web',
+          },
+          body: jsonEncode(data),
+        );
+      } else {
+        final packageInfo = await PackageInfo.fromPlatform();
+        final currentVersion = packageInfo.version;
+
+        return await http.post(
+          url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'appLanguage': localLang,
+            'Authorization': 'Bearer $token',
+            'appVersion': currentVersion,
+            'appPlatform': (Platform.isAndroid) ? 'android' : 'ios',
+          },
+          body: jsonEncode(data),
+        );
+      }
     }
 
     http.Response response = await makePostRequest();
