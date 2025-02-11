@@ -296,12 +296,12 @@
   "consultation_with":"Кеңес беру",
   "no_slot_available":"Бос орын жоқ",
   "minimum_entrance_score": "Түсу үшін қажет ұпай",
-  "no_internet_connection":"Желіге қосылым жоқ...",
-    "connected_to_internet":"Желіге қосылды",
-    "terms":"Ережелер",
-    "conditions":"шарттар",
-    "and":"мен",
-    "i_am":"Мен",
-    "accept":"келісемін",
-    "terms_and_conditions":"Ережелер мен шарттар"
+  "no_internet_connection":"Интернет желісіне байланыс жоқ...",
+  "connected_to_internet":"Интернет желісіне қосылды",
+  "terms":"Ережелер",
+  "conditions":"шарттар",
+  "and":"мен",
+  "i_am":"Мен",
+  "accept":"келісемін",
+  "terms_and_conditions":"Ережелер мен шарттар"
 }
